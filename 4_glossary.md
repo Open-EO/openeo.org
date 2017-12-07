@@ -30,6 +30,7 @@ Further terms:
 * **simple** many end-users now use python or R to analyse data and javascript to develop web applications; analysing large amounts of EO imagery should be equally simple, and seamlessly integrate with existing workflows
 * **unified** current EO cloud back-ends all have [a different API](http://r-spatial.org/2016/11/29/openeo.html), making EO data analysis hard to validate,difficult to reproduce, and back-ends difficult to compare in terms of capability and costs, or to combine in a joint analysis across back-ends. A unified API can resolve many of these problems.
 
+<!--
 ## API endpoints
 
 The API developed by the openEO project uses [http
@@ -52,6 +53,7 @@ The openEO API defines the following enpoints, or paths: `/capabilities`, `/data
 
 In the following, we will point out how datasets and processes are
 being thought of.
+-->
 
 ## Datasets
 

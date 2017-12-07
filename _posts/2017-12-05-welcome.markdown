@@ -5,4 +5,13 @@ date:   2017-12-05 14:33:31 +0100
 categories: openEO news
 ---
 
-(some news)
+openEO is an H2020 project funded under call [EO-2-2017: EO Big Data
+Shift](https://ec.europa.eu/research/participants/portal/desktop/en/opportunities/h2020/topics/eo-2-2017.html), from Oct 2017 to Sept 2020.
+
+The project aims at making it easier to analyse large amounts of
+Earth observation data, and tries to do this by developing open
+source software solutions.  We develop an API to connect R, python
+and javascript clients to big Earth observation cloud back-ends in a
+simple and unified way. 
+
+We invite everyone interested to participate. Get in touch today!

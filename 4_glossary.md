@@ -10,7 +10,7 @@ permalink: /glossary/
 {:toc}
 -->
 
-This glossary introduces, and tries to define, the major technical terms used in the openEO project (_work in progress_).
+This glossary introduces, and tries to define, the major technical terms used in the openEO project (_work in progress, contribute by adding [issues](https://github.com/Open-EO/glossary/issues)_).
 
 openEO develops an open API that connects R, python and javascript
 clients to big Earth observation cloud back-ends in a simple and

@@ -19,7 +19,7 @@ unified way.
 The acronym _openEO_ contracts two concepts:
 
 * **open**: used here in the context of open source software; open source software is available in source code form, and can be freely modified and redistributed; the openEO project will create open source software, reusable under a liberal open source license (Apache 2.0)
-* **EO**: Eerth observation; openEO targets the processing and analysis of Earth observation data
+* **EO**: Earth observation; openEO targets the processing and analysis of Earth observation data
 
 Further terms:
 

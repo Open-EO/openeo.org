@@ -9,7 +9,7 @@ permalink: /about/
 Observation Data Infrastructures and Front-End Applications*
 is an H2020 project funded under call [EO-2-2017: EO Big Data
 Shift](https://ec.europa.eu/research/participants/portal/desktop/en/opportunities/h2020/topics/eo-2-2017.html),
-under proposal number 776242. The project runs from Oct 2017 to
+under grant number 776242. The project runs from Oct 2017 to
 Sept 2020.
 
 

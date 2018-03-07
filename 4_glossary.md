@@ -1,6 +1,6 @@
 ---
-title: Documentation
+title: Glossary
 permalink: /glossary/
 redirect_to:
-  - https://open-eo.github.io/openeo-api-poc/index.html
+  - https://open-eo.github.io/openeo-api-poc/glossary/index.html
 ---

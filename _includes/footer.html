@@ -27,7 +27,14 @@
           <li>
             {% include icon-twitter.html username=site.twitter_username %}
           </li>
-          {% endif %}
+		  {% endif %}
+
+          {% if site.youtube_channel %}
+          <li>
+            {% include icon-youtube.html channel=site.youtube_channel name=site.youtube_name %}
+          </li>
+		  {% endif %}
+
         </ul>
       </div>
 

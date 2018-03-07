@@ -15,4 +15,4 @@ Further information:
 Contact:
 
 * for coordination or administrative questions: Alexandra von Beringe, TU Wien, Department of Geodesy and Geoinformation, Research Groups Photogrammetry and Remote Sensing, E120.1+7, Gusshausstrasse 27-29, 1040 Vienna, Austria; Tel: +43-1-58801-12247
-* for science or technology questions: <a href="mailto:edzer.pebesma@uni-muenster.de">Edzer Pebesma</a>, Institute for Geoinformatics, Heisenbergstrasse 2, 48151 Muenster, Germany, Tel: +49 251 8333081
+* for science or technology questions: <a href="mailto:openeo@list.tuwien.ac.at">the openEO email contact address</a>, which reaches partners TUW, WWU, EURAC, WUR and Sinergise.

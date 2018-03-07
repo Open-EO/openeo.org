@@ -20,3 +20,7 @@ youtube_name: openEO
 
 # Build settings
 markdown: kramdown
+
+# Plugin for redirects
+plugins:
+  - jekyll-redirect-from

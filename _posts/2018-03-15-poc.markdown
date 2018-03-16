@@ -1,0 +1,152 @@
+---
+layout: post
+title:  "openEO proves its concept (draft)"
+date:   2018-03-15
+author: Edzer Pebesma, the openEO consortium
+categories: openEO news
+---
+
+* TOC
+{:toc}
+
+# The problem
+
+Earth Observation data are becoming too large to be downloaded
+locally for analysis. Also, the way they are organised (as tiles,
+or _granules_: files containing the imagery for a small part of
+the Earth and a single observation date) makes it unnecessary
+complicated to analyse them. The solution to this is to store these
+data in the cloud, on compute back-ends, process them there, and
+browse the results or download resulting figures or numbers. But
+how do we do that?
+
+The aim of openEO is to develop an open API to connect R, python
+and javascript clients to big Earth observation cloud back-ends in
+a simple and unified way.
+
+With such an API, 
+* each client can work with every back-end, and
+* it becomes possible to compare back-ends in terms of capacity,
+cost, and results (validation, reproducibility)
+
+
+# Why an API?
+
+An API is an application programming interface. It _defines_
+a _language_ that two computers (a client and a server) use to
+communicate.
+
+The following figure shows how many interfaces are needed to be able
+to compare back-ends from different clients, without an openEO API:
+
+<!--
+![](/images/api.png){: .center-image; width: 200px}
+-->
+
+<img src="/images/api.png" alt="api" style="width: 500px;"/>
+
+With an openEO API (dark blue), the situation becomes much easier:
+
+<img src="/images/api2.png" alt="api" style="width: 500px;"/>
+
+However, existing back-ends need to be taught to work with the new
+API, and clients that interact with back-ends need to be developed.
+
+The task of the openEO project is to design, develop, and evaluate
+an API for cloud-based Earth Observation data processing.
+
+# First results
+
+The openEO project started in Oct 2017. Now, within 6 months, we
+finished the first proof of concept, and demonstrate it. Three use
+cases were selected for this, three clients were developed pretty
+much from scratch (python, R, and a JavaScript web editor), and
+six back-ends were built or interfaced. Full information is available
+from the projects [github organisation](https://github.com/Open-EO/),
+and we point here to the
+
+* swagger-2.0 complient [API](https://github.com/Open-EO/openeo-api) and its [documentation](https://open-eo.github.io/openeo-api/)
+
+# The three use cases
+
+The three use cases comprise
+1. Derive minimum NDVI measurements over pixel time series of Sentinel 2 imagery
+2. Create a monthly aggregated Sentinel 1 product from a custom Python script
+3. Compute time series of zonal (regional) statistics of Sentinel 2 imagery over user-uploaded polygons
+
+The full description, including the consecutive interaction steps of the API, is found on the
+* proof-of-concept [use cases](https://open-eo.github.io/openeo-api/poc/index.html) site
+
+# Tested combinations of client, back-end and use case
+
+The following table shows which use-cases were successfully tested
+using combinations of clients and back-ends: (TBD)
+
+
+# Links to the client and back-end implementations
+
+Clients:
+
+* [Python client](https://github.com/Open-EO/openeo-python-client); [Example notebook](https://github.com/Open-EO/openeo-python-client/blob/master/examples/notebooks/Compositing.ipynb)
+* [R client](https://github.com/Open-EO/openeo-r-client)
+* [Javascript client](https://github.com/Open-EO/openeo-js-client) and [JavaScript web editor](https://github.com/Open-EO/openeo-web-editor)
+
+Back-ends
+
+* [openEO GRASS GIS driver](https://open-eo.github.io/openeo-grassgis-driver/)
+* [WCPS driver](https://github.com/Open-EO/openeo-wcps-driver)
+* [OpenShift driver](https://github.com/Open-EO/openeo-openshift-driver)
+* [Python GeoPySpark/GeoTrellis driver](https://github.com/Open-EO/openeo-geopyspark-driver)
+* [Sentinel Hub driver](https://github.com/Open-EO/openeo-sentinelhub-driver)
+* [R back-end](https://github.com/Open-EO/openeo-r-backend) (developed for testing purposes)
+
+With all this, you can install your own back-end of choice, install
+a client, and start analysing the data! (but do read "Next steps",
+below). Alternatively, we show a couple of videos of screen casts
+made while testing the various clients and back-ends.
+
+# Proof-of-concept videos
+
+## R client and WCPS back-end, use case 1:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NoD0nVGM3ww" frameborder="0" allowfullscreen></iframe>
+
+## Grass GIS back-end, use cases 1, 2 and 3
+<iframe width="560" height="315" src="https://www.youtube.com/embed/NgF1WgCtSiM" frameborder="0" allowfullscreen></iframe>
+
+## R client and R back-end, use-case 1:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Yb_QflO-ulE" frameborder="0" allowfullscreen></iframe>
+
+## R client and R back-end, use case 3:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/LYnad6KC_CU" frameborder="0" allowfullscreen></iframe>
+
+# Links to documents
+
+The following four documents (formal project deliverables) describe the proof-of-concept more extensively:
+* D3.1 (link: TBD)
+* D4.2 (link: TBD)
+* D5.1 (link: TBD)
+
+In addition, a document has been written that describes standards and interfaces used by the various back-ends, and the extent to which they are or will be useful for further developing the openEO API:
+* D4.1  (link: TBD)
+
+# Next steps
+
+During the proof-of-concept, intentionally a number of difficult issues were not addressed, including
+* billing (costs) of processes and account management and
+* authentification
+while others were defined rather vaguely, including
+* the description of data (end point `/data`)
+* the description of processes (end point `/processes`).
+
+The next steps will include:
+* discussing of the use-cases in the proof-of-concept
+* deciding whether to adopt existing standards and interfaces, e.g. for data descriptions
+* getting users involved outside the openEO consortium to define further requirements and priorities
+* designing a new iteration of the openEO API.
+
+# Getting involved
+
+As any API, the openAPI will only become good and useful if it is being used, and it needs testing by a wide audience. We are now at the stage of designing it, but at the point where large chunks are useful already. If you want to contribute to any of this, please do not hesitate and contact us e.g. by
+* expressing interest, for instance [here](https://github.com/Open-EO/discuss/issues)
+* writing GitHub issues wherever you think it is appropriate
+* sending an [email](openeo@list.tuwien.ac.at)

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "openEO proves its concept (draft)"
-date:   2018-03-16
+date:   2018-03-17
 author: Edzer Pebesma, the openEO consortium
 categories: openEO news
 ---
@@ -107,27 +107,39 @@ made while testing the various clients and back-ends.
 
 # Proof-of-concept videos
 
-## R client and WCPS back-end, use case 1:
+## R client and WCPS back-end, use case 1
 <iframe width="560" height="315" src="https://www.youtube.com/embed/NoD0nVGM3ww" frameborder="0" allowfullscreen></iframe>
 
 ## Grass GIS back-end, use cases 1, 2 and 3
 <iframe width="560" height="315" src="https://www.youtube.com/embed/NgF1WgCtSiM" frameborder="0" allowfullscreen></iframe>
 
-## R client and R back-end, use-case 1:
+## R client and R back-end, use-case 1
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Yb_QflO-ulE" frameborder="0" allowfullscreen></iframe>
 
-## R client and R back-end, use case 3:
+## R client and R back-end, use case 3
 <iframe width="560" height="315" src="https://www.youtube.com/embed/LYnad6KC_CU" frameborder="0" allowfullscreen></iframe>
+
+## openEO Web Editor (JS client) with three back-ends (use case 1)
+
+Demonstrates use of back-ends Sentinel Hub, WCPS EURAC, and OpenShift EODC
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/zDaQkw0NhpY" frameborder="0" allowfullscreen></iframe>
+
+## openEO Web Editor (JS client) with R back-end (use case 3)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/XsPbKypUuIE" frameborder="0" allowfullscreen></iframe>
+
+## Python client with GeoPySpark back-end (use case 1)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qtIp9OC0qHY" frameborder="0" allowfullscreen></iframe>
 
 # Links to documents
 
 The following four documents (formal project deliverables) describe the proof-of-concept more extensively:
-* D3.1 (link: TBD)
-* D4.2 (link: TBD)
-* D5.1 (link: TBD)
+* D3.1 (link: TBD; Zenodo)
+* D4.2 (link: TBD; Zenodo)
+* D5.1 (link: TBD; Zenodo)
 
 In addition, a document has been written that describes standards and interfaces used by the various back-ends, and the extent to which they are or will be useful for further developing the openEO API:
-* D4.1  (link: TBD)
+* D4.1  (link: TBD; Zenodo)
 
 # Next steps
 

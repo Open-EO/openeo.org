@@ -77,11 +77,6 @@ The three use cases comprise
 The full description, including the consecutive interaction steps of the API, is found on the
 * proof-of-concept [use cases](https://open-eo.github.io/openeo-api/poc/index.html) site
 
-# Tested combinations of client, back-end and use case
-
-The following table shows which use-cases were successfully tested
-using combinations of clients and back-ends: (TBD)
-
 
 # Links to the client and back-end implementations
 

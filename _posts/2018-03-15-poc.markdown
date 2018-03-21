@@ -103,9 +103,6 @@ made while testing the various clients and back-ends.
 
 # Proof-of-concept videos
 
-## openEO Web Editor (JS client) and Google Earth Engine back-end, use case 1
-<iframe width="560" height="315" src="https://www.youtube.com/embed/LmUlmsIGJrs" frameborder="0" allowfullscreen></iframe>
-
 ## R client and WCPS back-end, use case 1
 <iframe width="560" height="315" src="https://www.youtube.com/embed/NoD0nVGM3ww" frameborder="0" allowfullscreen></iframe>
 
@@ -130,7 +127,7 @@ Demonstrates use of back-ends Sentinel Hub, WCPS EURAC, and OpenShift EODC
 ## Python client with GeoPySpark back-end (use case 1)
 <iframe width="560" height="315" src="https://www.youtube.com/embed/qtIp9OC0qHY" frameborder="0" allowfullscreen></iframe>
 
-## openEO Web Editor (JS client) with Earth Engine back-end (use case 1)
+## openEO Web Editor (JS client) with Google Earth Engine back-end (use case 1)
 <iframe width="560" height="315" src="https://www.youtube.com/embed/LmUlmsIGJrs" frameborder="0" allowfullscreen></iframe>
 
 # Links to documents

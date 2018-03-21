@@ -60,8 +60,8 @@ an API for cloud-based Earth Observation data processing.
 The openEO project started in Oct 2017. Now, within 6 months, we
 finished the first proof of concept, and demonstrate it. Three use
 cases were selected for this, three clients were developed pretty
-much from scratch (python, R, and a JavaScript web editor), and
-six back-ends were built or interfaced. Full information is available
+much from scratch (Python, R, and JavaScript), and
+seven back-ends were built or interfaced. Full information is available
 from the projects [github organisation](https://github.com/Open-EO/),
 and we point here to the
 
@@ -88,11 +88,12 @@ Clients:
 
 Back-ends
 
-* [openEO GRASS GIS driver](https://open-eo.github.io/openeo-grassgis-driver/)
+* [GRASS GIS driver](https://open-eo.github.io/openeo-grassgis-driver/)
 * [WCPS driver](https://github.com/Open-EO/openeo-wcps-driver)
 * [OpenShift driver](https://github.com/Open-EO/openeo-openshift-driver)
 * [Python GeoPySpark/GeoTrellis driver](https://github.com/Open-EO/openeo-geopyspark-driver)
 * [Sentinel Hub driver](https://github.com/Open-EO/openeo-sentinelhub-driver)
+* [Google Earth Engine back-end](https://github.com/Open-EO/openeo-earthengine-driver)
 * [R back-end](https://github.com/Open-EO/openeo-r-backend) (developed for testing purposes)
 
 With all this, you can install your own back-end of choice, install
@@ -101,6 +102,9 @@ below). Alternatively, we show a couple of videos of screen casts
 made while testing the various clients and back-ends.
 
 # Proof-of-concept videos
+
+## openEO Web Editor (JS client) and Google Earth Engine back-end, use case 1
+<iframe width="560" height="315" src="https://www.youtube.com/embed/LmUlmsIGJrs" frameborder="0" allowfullscreen></iframe>
 
 ## R client and WCPS back-end, use case 1
 <iframe width="560" height="315" src="https://www.youtube.com/embed/NoD0nVGM3ww" frameborder="0" allowfullscreen></iframe>
@@ -156,4 +160,4 @@ The next steps will include:
 As any API, the openAPI will only become good and useful if it is being used, and it needs testing by a wide audience. We are now at the stage of designing it, but at the point where large chunks are useful already. If you want to contribute to any of this, please do not hesitate and contact us e.g. by
 * expressing interest, for instance [here](https://github.com/Open-EO/discuss/issues)
 * writing GitHub issues wherever you think it is appropriate
-* sending an [email](openeo@list.tuwien.ac.at)
+* sending an [email](mailto:openeo@list.tuwien.ac.at)

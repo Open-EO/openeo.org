@@ -126,6 +126,9 @@ Demonstrates use of back-ends Sentinel Hub, WCPS EURAC, and OpenShift EODC
 ## Python client with GeoPySpark back-end (use case 1)
 <iframe width="560" height="315" src="https://www.youtube.com/embed/qtIp9OC0qHY" frameborder="0" allowfullscreen></iframe>
 
+## openEO Web Editor (JS client) with Earth Engine back-end (use case 1)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/LmUlmsIGJrs" frameborder="0" allowfullscreen></iframe>
+
 # Links to documents
 
 The following four documents (formal project deliverables) describe the proof-of-concept more extensively:

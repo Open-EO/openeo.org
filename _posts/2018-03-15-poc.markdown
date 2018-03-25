@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "openEO proves its concept (draft)"
+title:  "openEO proves its concept"
 date:   2018-03-17
 author: Edzer Pebesma, the openEO consortium
 categories: openEO news

@@ -133,12 +133,15 @@ Demonstrates use of back-ends Sentinel Hub, WCPS EURAC, and OpenShift EODC
 # Links to documents
 
 The following four documents (formal project deliverables) describe the proof-of-concept more extensively:
-* D3.1 (link: TBD; Zenodo)
-* D4.2 (link: TBD; Zenodo)
-* D5.1 (link: TBD; Zenodo)
+* [openEO core API prototype including Proof of Concept](http://pebesma.staff.ifgi.de/openeo_del/openEO_D04_CoreAPIPrototype_v1.0.pdf)
+* [Two early prototype back-ends](http://pebesma.staff.ifgi.de/openeo_del/openEO_D06_PrototypeBackEnds_v1.0.pdf)
+* [Proof of Concept (Python)](http://pebesma.staff.ifgi.de/openeo_del/openEO_D07_ProofOfConcept_v1.0.pdf)
 
 In addition, a document has been written that describes standards and interfaces used by the various back-ends, and the extent to which they are or will be useful for further developing the openEO API:
-* D4.1  (link: TBD; Zenodo)
+* [Overview document about back offices metadata standards and interfaces](http://pebesma.staff.ifgi.de/openeo_del/openEO_D05_BackOfficeStandards_v1.0.pdf)
+
+These deliverables have been submitted, but have not been approved,
+and hence may not be final.
 
 # Next steps
 

@@ -45,6 +45,8 @@ for the adaptation of cloud computing technologies by a broad user
 community and paves the way for the federation of infrastructure
 capabilities.
 
+*Funding and disclaimer:*
+
 This project has received funding from the European Union's Horizon
 2020 research and innovation programme under grant agreement
 No 776242.

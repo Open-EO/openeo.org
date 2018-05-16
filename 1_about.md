@@ -12,7 +12,6 @@ Shift](https://ec.europa.eu/research/participants/portal/desktop/en/opportunitie
 under grant number 776242. The project runs from Oct 2017 to
 Sept 2020.
 
-
 *Proposal abstract:*
 
 The capabilities of the latest generation of Earth observation
@@ -45,6 +44,13 @@ observation science. Thereby, openEO reduces the entry barriers
 for the adaptation of cloud computing technologies by a broad user
 community and paves the way for the federation of infrastructure
 capabilities.
+
+This project has received funding from the European Union's Horizon
+2020 research and innovation programme under grant agreement
+No 776242.
+The contents of this website reflects only the authors' view; the
+European Commission is not responsible for any use that may be made
+of the information it provides.
 
 
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">openEO is kicking off in Vienna! <a href="https://twitter.com/hashtag/openeo?src=hash&amp;ref_src=twsrc%5Etfw">#openeo</a> <a href="https://twitter.com/EU_H2020?ref_src=twsrc%5Etfw">@EU_H2020</a>  <a href="https://twitter.com/CopernicusEU?ref_src=twsrc%5Etfw">@CopernicusEU</a> <a href="https://twitter.com/MarkusNeteler?ref_src=twsrc%5Etfw">@MarkusNeteler</a> <a href="https://twitter.com/appelmar?ref_src=twsrc%5Etfw">@appelmar</a> <a href="https://twitter.com/janverbesselt?ref_src=twsrc%5Etfw">@janverbesselt</a> <a href="https://twitter.com/EODC_GmbH?ref_src=twsrc%5Etfw">@EODC_GmbH</a> <a href="https://t.co/lT7NLz2qmw">https://t.co/lT7NLz2qmw</a> <a href="https://t.co/Yghi3WdavQ">pic.twitter.com/Yghi3WdavQ</a></p>&mdash; Edzer Pebesma (@edzerpebesma) <a href="https://twitter.com/edzerpebesma/status/918791701233389569?ref_src=twsrc%5Etfw">October 13, 2017</a></blockquote>

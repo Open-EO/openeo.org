@@ -11,6 +11,8 @@ email: edzer.pebesma@uni-muenster.de
 description: > # this means to ignore newlines until "baseurl:"
   openEO develops an open API to connect R, python and javascript clients 
   to big Earth observation cloud back-ends in a simple and unified way.
+  This project has received funding from the European Union's Horizon
+  2020 research and innovation programme under grant agreement No 776242.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://openeo.org/" # the base hostname & protocol for your site
 twitter_username: Open_EO

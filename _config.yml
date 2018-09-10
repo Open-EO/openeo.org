@@ -17,6 +17,7 @@ twitter_username: Open_EO
 github_username:  Open-EO
 youtube_channel: UCMJQil8j9sHBQkcSlSaEsvQ
 youtube_name: openEO
+chat: "https://openeo-chat.eodc.eu/channel/public"
 
 # Build settings
 markdown: kramdown

@@ -12,7 +12,7 @@ or _granules_: files containing the imagery for a small part of the Earth and a 
 complicated to analyse them. The solution to this is to store these data in the cloud, on compute back-ends, process them there, and
 browse the results or download resulting figures or numbers. But how do we do that?
 
-The aim of openEO is to develop an open API to connect various clients to big Earth observation cloud back-ends in a simple and unified way.
+The aim of openEO is to develop an open API to connect R, python, javascript and other clients to big Earth observation cloud back-ends in a simple and unified way.
 
 With such an API, 
 * each client can work with every back-end, and

@@ -1,26 +1,27 @@
 ---
+title: News
 layout: default
+order: 0
 ---
 
-<div class="home">
+<h1>openEO</h1>
 
-  <h1>openEO</h1>
+<p>
+  openEO develops an open API to connect R, python, javascript and other clients to big Earth observation cloud back-ends in a simple and unified way.
+  <a href="{{ "/about" | prepend: site.baseurl }}">Read more...</a>
+</p>
 
-  <p>openEO develops an open API to connect R, python and javascript clients to big Earth observation cloud back-ends in a simple and unified way.</p>
+<h2>News</h2>
 
-  <h2>News</h2>
+<ul class="news">
+  {% for post in site.posts %}
+    <li>
+      <span>{{ post.date | date: "%b %-d, %Y" }}</span>
+      <strong>
+        <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+      </strong>
+    </li>
+  {% endfor %}
+</ul>
 
-  <ul class="news">
-    {% for post in site.posts %}
-      <li>
-        <span>{{ post.date | date: "%b %-d, %Y" }}</span>
-        <strong>
-          <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </strong>
-      </li>
-    {% endfor %}
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-
-</div>
+<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>

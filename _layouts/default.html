@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="description" content="{{ site.description }}">
+    <title>{{ page.title }} - {{ site.title }}</title>
     <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
     <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -24,9 +25,16 @@
 
         {% assign sorted_pages = site.pages | sort:"order" %}
         <ul class="view menu">
-        {% for page in sorted_pages %}
-          {% if page.title %}
-          <li><a href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a></li>
+        {% for pg in sorted_pages %}
+          {% assign full_url = pg.url | prepend: site.baseurl %}
+          {% if pg.title %}
+          <li>
+          {% if full_url == page.url %}
+          <strong>{{ pg.title }}</strong>
+          {% else %}
+          <a href="{{ full_url }}">{{ pg.title }}</a>
+          {% endif %}
+          </li>
           {% endif %}
         {% endfor %}
         </ul>

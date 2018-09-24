@@ -20,7 +20,7 @@ header {
 	position: relative;
 }
 
-a:hover {
+a:hover, a:active, a:focus {
 	font-weight: inherit;
 	color: #8A684F;
 }

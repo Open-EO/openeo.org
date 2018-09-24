@@ -1,20 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ site.lang | default: "en-US" }}">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  {% include head.html %}
-
+    <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
   <body>
+    <div class="wrapper">
+      <header>
+        <h1><a href="{{ "/" | absolute_url }}">{{ site.title }}</a></h1>
+        
+        <a href="{{ "/" | absolute_url }}">
+          <img src="/images/openeo_logo.png" alt="{{ site.title }}" />
+        </a>
 
-    {% include header.html %}
+        <p>{{ site.description }}</p>
 
-    <div class="page-content">
-      <div class="wrapper">
-        {{ content }}
-      </div>
+        <ul class="view">
+          {% for my_page in site.pages %}
+            {% if my_page.title %}
+            <a class="page-link" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>
+            {% endif %}
+          {% endfor %}
+        </ul>
+
+        <p class="view">
+          <!-- Thankfully provided by https://simpleicons.org/ -->
+          <a href="https://github.com/Open-EO"><img height="32" width="32" src="https://unpkg.com/simple-icons@latest/icons/github.svg" alt="GitHub: Open-EO" title="GitHub: Open-EO" /></a>
+          <a href="https://twitter.com/Open_EO"><img height="32" width="32" src="https://unpkg.com/simple-icons@latest/icons/twitter.svg" alt="Twitter: Open_EO" title="Twitter: Open_EO" /></a>
+          <a href="https://www.youtube.com/channel/UCMJQil8j9sHBQkcSlSaEsvQ"><img height="32" width="32" src="https://unpkg.com/simple-icons@latest/icons/youtube.svg" alt="Twitter: openEO" title="Twitter: openEO" /></a>
+          <a href="https://openeo-chat.eodc.eu/channel/public"><img height="32" width="32" src="https://unpkg.com/simple-icons@latest/icons/wechat.svg" alt="Public chat" title="Public chat" /></a>
+        </p>
+
+      </header>
+      <section>
+
+      {{ content }}
+
+      </section>
+      <footer>
+        <p>
+          <img src="/images/eu.jpg" alt="EU flag"/><br />
+          <small>H2020 grant <a href="http://cordis.europa.eu/projects/776242">776242</a></small>
+        </p>
+      </footer>
     </div>
-
-    {% include footer.html %}
-    {% include google_analytics.html %}
+    <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>
   </body>
-
 </html>

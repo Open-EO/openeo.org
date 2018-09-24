@@ -1,7 +1,7 @@
 title: openEO
 description: openEO develops an open API to connect R, python and javascript clients to big Earth observation cloud back-ends in a simple and unified way.
-url: "http://openeo.org/"
 theme: jekyll-theme-minimal
 markdown: kramdown
+
 plugins:
   - jekyll-redirect-from

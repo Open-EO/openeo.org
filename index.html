@@ -4,16 +4,19 @@ layout: default
 
 <div class="home">
 
-  <h2 class="page-heading">News</h2>
+  <h1>openEO</h1>
 
-  <ul class="post-list">
+  <p>openEO develops an open API to connect R, python and javascript clients to big Earth observation cloud back-ends in a simple and unified way.</p>
+
+  <h2>News</h2>
+
+  <ul class="news">
     {% for post in site.posts %}
       <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
+        <span>{{ post.date | date: "%b %-d, %Y" }}</span>
+        <strong>
+          <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+        </strong>
       </li>
     {% endfor %}
   </ul>

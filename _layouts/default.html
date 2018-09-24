@@ -12,43 +12,44 @@
   </head>
   <body>
     <div class="wrapper">
-      <header>
-        <h1><a href="{{ "/" | absolute_url }}">{{ site.title }}</a></h1>
-        
-        <a href="{{ "/" | absolute_url }}">
-          <img src="/images/openeo_logo.png" alt="{{ site.title }}" />
-        </a>
+
+      <header>        
+        <h1>
+          <a href="{{ "/" | absolute_url }}">
+            <img src="/images/openeo_logo.png" alt="{{ site.title }}" />
+          </a>
+        </h1>
 
         <p>{{ site.description }}</p>
 
-        <ul class="view">
-          {% for my_page in site.pages %}
-            {% if my_page.title %}
-            <a class="page-link" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>
-            {% endif %}
-          {% endfor %}
+        {% assign sorted_pages = site.pages | sort:"order" %}
+        <ul class="view menu">
+        {% for page in sorted_pages %}
+          {% if page.title %}
+          <li><a href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a></li>
+          {% endif %}
+        {% endfor %}
         </ul>
 
-        <p class="view">
+        <p class="view channels">
           <!-- Thankfully provided by https://simpleicons.org/ -->
-          <a href="https://github.com/Open-EO"><img height="32" width="32" src="https://unpkg.com/simple-icons@latest/icons/github.svg" alt="GitHub: Open-EO" title="GitHub: Open-EO" /></a>
-          <a href="https://twitter.com/Open_EO"><img height="32" width="32" src="https://unpkg.com/simple-icons@latest/icons/twitter.svg" alt="Twitter: Open_EO" title="Twitter: Open_EO" /></a>
-          <a href="https://www.youtube.com/channel/UCMJQil8j9sHBQkcSlSaEsvQ"><img height="32" width="32" src="https://unpkg.com/simple-icons@latest/icons/youtube.svg" alt="Twitter: openEO" title="Twitter: openEO" /></a>
-          <a href="https://openeo-chat.eodc.eu/channel/public"><img height="32" width="32" src="https://unpkg.com/simple-icons@latest/icons/wechat.svg" alt="Public chat" title="Public chat" /></a>
+          <a href="https://github.com/Open-EO"><img height="24" width="24" src="https://unpkg.com/simple-icons@latest/icons/github.svg" alt="GitHub: Open-EO" title="GitHub: Open-EO" /></a>
+          <a href="https://twitter.com/Open_EO"><img height="24" width="24" src="https://unpkg.com/simple-icons@latest/icons/twitter.svg" alt="Twitter: Open_EO" title="Twitter: Open_EO" /></a>
+          <a href="https://www.youtube.com/channel/UCMJQil8j9sHBQkcSlSaEsvQ"><img height="24" width="24" src="https://unpkg.com/simple-icons@latest/icons/youtube.svg" alt="Twitter: openEO" title="Twitter: openEO" /></a>
+          <a href="https://openeo-chat.eodc.eu/channel/public"><img height="24" width="24" src="https://unpkg.com/simple-icons@latest/icons/wechat.svg" alt="Public chat" title="Public chat" /></a>
+        </p>
+
+        <p class="view eu">
+          <img src="/images/eu.jpg" alt="EU flag" width="100" /><br />
+          <small>H2020 grant <a href="http://cordis.europa.eu/projects/776242">776242</a></small>
         </p>
 
       </header>
+
       <section>
-
       {{ content }}
-
       </section>
-      <footer>
-        <p>
-          <img src="/images/eu.jpg" alt="EU flag"/><br />
-          <small>H2020 grant <a href="http://cordis.europa.eu/projects/776242">776242</a></small>
-        </p>
-      </footer>
+
     </div>
     <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>
   </body>

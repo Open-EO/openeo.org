@@ -15,12 +15,14 @@ order: 0
 
 <ul class="news">
   {% for post in site.posts %}
+    {% unless post.draft %}
     <li>
       <span>{{ post.date | date: "%b %-d, %Y" }}</span>
       <strong>
         <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
       </strong>
     </li>
+    {% endunless %}
   {% endfor %}
 </ul>
 

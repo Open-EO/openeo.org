@@ -39,11 +39,11 @@ communicate.
 The following figure shows how many interfaces are needed to be able
 to compare back-ends from different clients, without an openEO API:
 
-<img src="/images/api.png" alt="api" style="width: 500px;"/>
+![Current situation, without openEO API](/images/api.png)
 
 With an openEO API (dark blue), the situation becomes much easier:
 
-<img src="/images/api2.png" alt="api" style="width: 500px;"/>
+![Situation in the future, with openEO API](/images/api2.png)
 
 However, existing back-ends need to be taught to work with the new
 API, and clients that interact with back-ends need to be developed.

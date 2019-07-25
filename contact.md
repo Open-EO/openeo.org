@@ -2,7 +2,7 @@
 layout: page
 title: Contact
 permalink: /contact/
-order: 5
+order: 25
 ---
 
 For **coordination or administrative questions**:

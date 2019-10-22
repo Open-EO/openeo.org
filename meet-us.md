@@ -8,7 +8,7 @@ order: 7
 We are always happy to present and discuss the current state of the project. You can **meet us at the following events**:
 
 * STAC sprint #5 / [2019 OGC API - Features and Catalogues Sprint](https://www.opengeospatial.org/events/191105apisprint): November 5-7, 2019 in Arlington, VA, United States
-* H2020 [EO Big Data Hackathon](https://ec.europa.eu/info/events/h2020-eo-big-data-hackathon-2019-nov-07_en), Frascati, Italy, Nov 7-9, 2019.
+* H2020 [EO Big Data Hackathon](https://ec.europa.eu/info/events/h2020-eo-big-data-hackathon-2019-nov-07_en), Frascati, Italy, Nov 7-9, 2019. [Webinar](https://www.youtube.com/watch?v=E0wtDvm2SfA)
 * more to be announced soon.
 
 Interesting resources from **past events**:

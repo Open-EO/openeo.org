@@ -1,9 +1,4 @@
----
-layout: page
-title: Software
-permalink: /software/
-order: 10
----
+# Software
 
 All developed software is organized within the openEO [github organisation](https://github.com/open-eo/).
 
@@ -30,10 +25,10 @@ Data and infrastructure providers can host their own instance of the openEO API:
 * [Google Earth Engine](https://github.com/Open-EO/openeo-earthengine-driver) (by WWU)
 * [GRASS GIS](https://github.com/Open-EO/openeo-grassgis-driver) (by mundialis)
 * [JEODPP](https://github.com/Open-EO/openeo-jeodpp-driver) (by JRC)
-* [R back-end](https://github.com/Open-EO/openeo-r-backend) (by WWU) - discontinued until further notice (last version: 0.3)
 * [RedHat OpenShift Origin](https://github.com/Open-EO/openeo-openshift-driver) (by EODC)
-* [Sentinel Hub](https://github.com/Open-EO/openeo-sentinelhub-driver) (by Sinergise)
+* [Sentinel Hub](https://github.com/Open-EO/openeo-sentinelhub-python-driver) (by Sinergise)
 * [WCPS (rasdaman)](https://github.com/Open-EO/openeo-wcps-driver) (by EURAC)
+* [R back-end](https://github.com/Open-EO/openeo-r-backend) (by WWU) - discontinued until further notice (last version: 0.3)
 
 See the **[getting started guide for back-end providers](https://open-eo.github.io/openeo-api/gettingstarted-backends/)** for more information.
 

@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Meet us
-permalink: /meet-us/
-order: 7
+sidebar: false
 ---
+
+# Meet us
 
 We are always happy to present and discuss the current state of the project. You can **meet us at the following events**:
 

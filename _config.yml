@@ -1,7 +1,0 @@
-title: openEO
-description: openEO develops an open API to connect various clients to big EO cloud back-ends in a simple and unified way.
-theme: jekyll-theme-minimal
-markdown: kramdown
-
-plugins:
-  - jekyll-redirect-from

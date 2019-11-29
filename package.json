@@ -1,0 +1,23 @@
+{
+	"name": "openeo.org",
+	"version": "1.0.0",
+	"author": "openEO Consortium",
+	"description": "The openEO homepage, powered by VuePress.",
+	"license": "Apache-2.0",
+	"homepage": "http://openeo.org",
+	"bugs": {
+		"url": "https://github.com/Open-EO/openeo.org/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Open-EO/openeo.org.git"
+	},
+	"devDependencies": {
+		"@vuepress/plugin-active-header-links": "^1.2.0",
+		"dayjs": "^1.8.17",
+		"vuepress": "^1.2.0",
+		"vuepress-plugin-check-md": "0.0.2",
+		"vuepress-plugin-code-copy": "^1.0.4",
+		"vuepress-plugin-code-switcher": "^1.0.2"
+	}
+}

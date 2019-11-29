@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Contact
-permalink: /contact/
-order: 25
+sidebar: false
 ---
+
+# Contact
 
 For **coordination or administrative questions**:
 
@@ -17,6 +16,5 @@ Tel: +43-1-58801-12247
 
 
 For **science or technology questions**:
-* <a href="mailto:openeo@list.tuwien.ac.at">the openEO email contact address</a>, which reaches partners TUW, WWU, EURAC, WUR and Sinergise
-* the [public chat room](https://openeo-chat.eodc.eu/channel/public)
-* a GitHub [discussion forum](https://github.com/Open-EO/discuss/issues)
+
+<Channels :youtube="false" :code="false" />

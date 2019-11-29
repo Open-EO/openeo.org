@@ -1,0 +1,25 @@
+a:hover, .theme-default-content:not(.custom) a:hover
+  color #8A684F
+  text-decoration none
+
+.page
+  padding-bottom 0
+  display block
+
+.dropdown-wrapper .nav-dropdown .dropdown-subitem-wrapper .dropdown-subitem a
+  padding-left 2.2rem
+
+@media (max-width: $MQNarrow)
+  .navbar .nav-links .nav-item:first-of-type
+    display none
+  .navbar .site-name
+    display none
+
+@media (max-width: $MQMobile)
+  .navbar .site-name.can-hide
+    display inline-block
+    width auto
+
+@media (max-width: 300px)
+  .navbar .site-name.can-hide
+    display none

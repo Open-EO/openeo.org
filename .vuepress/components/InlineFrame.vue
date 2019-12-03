@@ -5,10 +5,10 @@
 <script>
 export default {
 	name: 'InlineFrame',
-	props: ['src'],
+	props: ['url', 'version'],
 	computed: {
 		frameUrl() {
-			var url = this.src;
+			var url = this.url.replace('{apiTag}', this.version.apiTag).replace('{processesTag}', this.version.processesTag);
 			if (window.location.hash) {
 				url += window.location.hash;
 			}

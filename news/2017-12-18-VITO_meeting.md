@@ -25,7 +25,7 @@ We worked on the following back-ends:
 * GRASS
 * GeoTrellis
 
-and on the R and python clients, and started working on a [glossary](/documentation/glossary.md).
+and on the R and python clients, and started working on a <a :href="$site.themeConfig.docPath + 'glossary.html'">glossary</a>.
 
 Among the many insights we gathered by sitting together and talk, we found that
 

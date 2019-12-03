@@ -1,35 +1,20 @@
 <template>
-  <div
-    class="theme-container"
-    :class="pageClasses"
-    @touchstart="onTouchStart"
-    @touchend="onTouchEnd"
-  >
-    <Navbar
-      v-if="shouldShowNavbar"
-      @toggle-sidebar="toggleSidebar"
-    />
+  <div class="theme-container" :class="pageClasses" @touchstart="onTouchStart" @touchend="onTouchEnd">
+    <Navbar v-if="shouldShowNavbar" @toggle-sidebar="toggleSidebar" />
 
-    <div
-      class="sidebar-mask"
-      @click="toggleSidebar(false)"
-    ></div>
+    <div class="sidebar-mask" @click="toggleSidebar(false)"></div>
 
-    <Sidebar
-      :items="sidebarItems"
-      @toggle-sidebar="toggleSidebar"
-    >
-      <slot
-        name="sidebar-top"
-        #top
-      />
-      <slot
-        name="sidebar-bottom"
-        #bottom
-      />
+    <Sidebar :items="sidebarItems" @toggle-sidebar="toggleSidebar">
+      <template #top>
+        <VersionChooser :sidebar="true" />
+        <slot name="sidebar-top" />
+      </template>
+      <slot name="sidebar-bottom" #bottom />
     </Sidebar>
 
-    <Home v-if="$page.frontmatter.home" />
+    <VersionChooser />
+
+    <Home v-if="$page.frontmatter.home" :defaultVersion="defaultVersion" />
 
     <main v-else-if="$page.frontmatter.news" class="page">
       <div class="theme-default-content news">
@@ -42,7 +27,7 @@
       </div>
     </main>
 
-    <InlineFrame v-else-if="$page.frontmatter.iframe" :src="$page.frontmatter.iframe" />
+    <InlineFrame v-else-if="$page.frontmatter.iframe" :url="$page.frontmatter.iframe" :version="version" />
 
     <main v-else-if="$page.frontmatter.custom" class="page">
       <Content class="theme-default-content custom" />
@@ -62,10 +47,13 @@ import Home from '@theme/components/Home.vue'
 import Navbar from '@vuepress/theme-default/components/Navbar.vue'
 import Page from '@vuepress/theme-default/components/Page.vue'
 import Sidebar from '@vuepress/theme-default/components/Sidebar.vue'
+import VersioningMixin from '@theme/components/VersioningMixin.vue'
+import VersionChooser from '@theme/components/VersionChooser.vue'
 import { resolveSidebarItems } from '@vuepress/theme-default/util'
 
 export default {
-  components: { Home, Page, Sidebar, Navbar },
+  components: { Home, Page, Sidebar, Navbar, VersionChooser },
+  mixins: [VersioningMixin],
 
   data () {
     return {
@@ -87,7 +75,6 @@ export default {
         || themeConfig.logo
         || themeConfig.repo
         || themeConfig.nav
-        || this.$themeLocaleConfig.nav
       )
     },
 
@@ -127,7 +114,7 @@ export default {
   mounted () {
     this.$router.afterEach(() => {
       this.isSidebarOpen = false
-    })
+    });
   },
 
   filters: {

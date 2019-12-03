@@ -23,7 +23,7 @@ Jointly, the openEO targets the processing and analysis of Earth observation dat
 - **Simplicity**: nowadays, many end-users use Python or R to analyse data and JavaScript to develop web applications; analysing large amounts of EO imagery should be equally simple, and seamlessly integrate with existing workflows
 - **Unification**: current EO cloud back-ends all have [a different API](https://www.r-spatial.org/2016/11/29/openeo.html), making EO data analysis hard to validate and reproduce and back-ends difficult to compare in terms of capability and costs, or to combine them in a joint analysis across back-ends. A unified API can resolve many of these problems.
 
-The following pages introduce the core concepts of the project. Make sure to introduce yourself to the major technical terms used in the openEO project by reading the [glossary](/documentation/glossary.md).
+The following pages introduce the core concepts of the project. Make sure to introduce yourself to the major technical terms used in the openEO project by reading the <a :href="$site.themeConfig.docPath + 'glossary.html'">glossary</a>.
 
 ## Why an API?
 

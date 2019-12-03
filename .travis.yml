@@ -8,15 +8,17 @@ sudo: false
 install:
 - npm install
 
-script:
-- cp .api/errors.json .vuepress/public/assets/errors.json
+#script:
 #- vuepress check-md
+
+before_deploy:
+- npm run build
 
 deploy:
   provider: pages
-  skip-cleanup: true
+  skip-cleanup: false
   github-token: $GITHUB_TOKEN
-  local-dir: gh-pages
+  local-dir: .vuepress/dist
   keep-history: true
   committer-from-gh: true
   on:

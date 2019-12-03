@@ -9,7 +9,7 @@
 
       <p class="action">
         <NavLink class="action-button" :item="{link: '/about/', text: 'Why?'}"/>
-        <NavLink class="action-button" :item="{link: '/documentation/getting-started.html', text: 'Get Started!'}"/>
+        <NavLink class="action-button" :item="{link: this.$site.themeConfig.docPath + 'getting-started.html', text: 'Get Started!'}"/>
       </p>
     </header>
 
@@ -43,7 +43,7 @@ import NavLink from '@vuepress/theme-default/components/NavLink.vue'
 export default {
   components: { NavLink },
 
-  props: ['blog'],
+  props: ['blog', 'defaultVersion'],
 
   computed: {
     data () {

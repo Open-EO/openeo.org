@@ -16,7 +16,7 @@ before_deploy:
 
 deploy:
   provider: pages
-  skip-cleanup: false
+  skip-cleanup: true
   github-token: $GITHUB_TOKEN
   local-dir: .vuepress/dist
   keep-history: true

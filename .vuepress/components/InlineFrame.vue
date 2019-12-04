@@ -6,13 +6,15 @@
 export default {
 	name: 'InlineFrame',
 	props: ['url', 'version'],
-	computed: {
-		frameUrl() {
-			var url = this.url.replace('{apiTag}', this.version.apiTag).replace('{processesTag}', this.version.processesTag);
-			if (window.location.hash) {
-				url += window.location.hash;
-			}
-			return url;
+	data() {
+		return {
+			frameUrl: null
+		};
+	},
+	beforeMount() {
+		this.frameUrl = this.url.replace('{apiTag}', this.version.apiTag).replace('{processesTag}', this.version.processesTag);
+		if (window.location.hash) {
+			this.frameUrl += window.location.hash;
 		}
 	}
 };

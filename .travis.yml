@@ -13,6 +13,7 @@ install:
 
 before_deploy:
 - npm run build
+- cp CNAME .vuepress/dist/CNAME
 
 deploy:
   provider: pages

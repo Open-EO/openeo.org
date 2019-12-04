@@ -94,7 +94,7 @@ module.exports = {
     docsRepo: 'Open-EO/openeo.org',
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'About', link: '/about/' },
+      { text: 'About', link: '/about.html' },
       { text: 'News', link: '/news/' },
       { text: 'Meet us', link: '/meet-us.html' },
       { text: 'Software', items: [

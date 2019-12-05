@@ -1,19 +1,20 @@
 <template>
   <div class="channels">
-    <ul v-if="contact" class="contect">
+    <ul v-if="contact" class="contact">
         <!-- Thankfully provided by https://simpleicons.org/ -->
-      <li><a v-if="email" href="mailto:openeo@list.tuwien.ac.at" target="_blank" class="mail"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.9/icons/mail-dot-ru.svg" alt="Public chat" title="Public chat" /> Email</a></li>
-      <li><a v-if="chat" href="https://openeo-chat.eodc.eu/channel/public" target="_blank" class="chat"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.9/icons/hipchat.svg" alt="Public chat" title="Public chat" /> Chat</a></li>
-      <li><a v-if="github && !code" href="https://github.com/Open-EO" target="_blank" class="github"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.9/icons/github.svg" alt="GitHub: Open-EO" title="GitHub: Open-EO" /> GitHub</a></li>
-      <li><a v-if="twitter" href="https://twitter.com/Open_EO" target="_blank" class="twitter"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.9/icons/twitter.svg" alt="Twitter: Open_EO" title="Twitter: Open_EO" /> Twitter</a></li>
-      <li><a v-if="linkedin" href="https://www.linkedin.com/groups/8694624/" target="_blank" class="linkedin"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.9/icons/linkedin.svg" alt="LinkedIn" title="LinkedIn" /> LinkedIn</a></li>
-      <li><a v-if="youtube" href="https://www.youtube.com/channel/UCMJQil8j9sHBQkcSlSaEsvQ" target="_blank" class="youtube"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.9/icons/youtube.svg" alt="YouTube: openEO" title="YouTube: openEO" /> YouTube</a></li>
+      <li><a v-if="email" href="mailto:openeo@list.tuwien.ac.at" target="_blank" class="mail"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/mail-dot-ru.svg" alt="Public chat" title="Public chat" /> Email</a></li>
+      <li><a v-if="chat" href="https://openeo-chat.eodc.eu/channel/public" target="_blank" class="chat"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/hipchat.svg" alt="Public chat" title="Public chat" /> Chat</a></li>
+      <li><a v-if="github && !code" href="https://github.com/Open-EO" target="_blank" class="github"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/github.svg" alt="GitHub: Open-EO" title="GitHub: Open-EO" /> GitHub</a></li>
+      <li><a v-if="twitter" href="https://twitter.com/Open_EO" target="_blank" class="twitter"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/twitter.svg" alt="Twitter: Open_EO" title="Twitter: Open_EO" /> Twitter</a></li>
+      <li><a v-if="linkedin" href="https://www.linkedin.com/groups/8694624/" target="_blank" class="linkedin"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/linkedin.svg" alt="LinkedIn" title="LinkedIn" /> LinkedIn</a></li>
+      <li><a v-if="youtube" href="https://www.youtube.com/channel/UCMJQil8j9sHBQkcSlSaEsvQ" target="_blank" class="youtube"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/youtube.svg" alt="YouTube: openEO" title="YouTube: openEO" /> YouTube</a></li>
     </ul>
     <ul v-if="code" class="code">
-      <li><a v-if="github" href="https://github.com/Open-EO" target="_blank" class="github"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.9/icons/github.svg" alt="GitHub: Open-EO" title="GitHub: Open-EO" /> GitHub</a></li>
-      <li><a v-if="cran" href="https://github.com/Open-EO/openeo-r-client" target="_blank" class="r"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.9/icons/r.svg" alt="CRAN" title="CRAN" /> CRAN / R</a></li>
-      <li><a v-if="npm" href="https://www.npmjs.com/search?q=%40openeo%2F" target="_blank" class="npm"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.9/icons/npm.svg" alt="npm: @openeo" title="npm: @openeo" /> npm / JS</a></li>
-      <li><a v-if="pypi" href="https://pypi.org/project/openeo/" target="_blank" class="pypi"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.9/icons/pypi.svg" alt="PyPI" title="PyPI" /> PyPI / Python</a></li>
+      <li><a v-if="github" href="https://github.com/Open-EO" target="_blank" class="github"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/github.svg" alt="GitHub: Open-EO" title="GitHub: Open-EO" /> GitHub</a></li>
+      <li><a v-if="cran" href="https://github.com/Open-EO/openeo-r-client" target="_blank" class="r"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/r.svg" alt="CRAN" title="CRAN" /> CRAN / R</a></li>
+      <li><a v-if="npm" href="https://www.npmjs.com/search?q=%40openeo%2F" target="_blank" class="npm"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/npm.svg" alt="npm: @openeo" title="npm: @openeo" /> npm / JS</a></li>
+      <li><a v-if="pypi" href="https://pypi.org/project/openeo/" target="_blank" class="pypi"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/pypi.svg" alt="PyPI" title="PyPI" /> PyPI / Python</a></li>
+      <li><a v-if="qgis" href="https://plugins.qgis.org/plugins/openeo-qgis-plugin-master/" target="_blank" class="qgis"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/qgis.svg" alt="QGIS" title="QGIS" /> QGIS</a></li>
     </ul>
   </div>
 </template>
@@ -69,6 +70,10 @@ export default {
     npm: {
       type: Boolean,
       default: true
+    },
+    qgis: {
+      type: Boolean,
+      default: true
     }
   }
 }
@@ -95,6 +100,7 @@ export default {
 .channels a:hover
   text-decoration none
 
+// The colors below are all inverted due to the use of "filter invert(1)."
 .channels img 
   vertical-align middle
   height 20px
@@ -125,4 +131,7 @@ export default {
 
 .channels .npm img 
   background-color #34C7C8
+
+.channels .qgis img 
+  background-color #A769CD
 </style>

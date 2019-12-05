@@ -2,7 +2,7 @@
 export default {
   computed: {
     versioned() {
-      return this.$page.regularPath.startsWith('/documentation/');
+      return this.$page.regularPath.match(/\/documentation\/([^\/]+)\//) !== null;
     },
 
     otherVersions() {

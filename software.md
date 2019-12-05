@@ -1,21 +1,21 @@
 # Software
 
-All developed software is organized within the openEO [github organisation](https://github.com/open-eo/).
-
-The API specification and project documentation is available in the **[openEO API repository](https://github.com/Open-EO/openeo-api)**. The process definitions are available in the [openEO processes repository](https://github.com/Open-EO/openeo-processes).
+All developed software is organized within the [openEO GitHub organization](https://github.com/open-eo/).
 
 ## Clients
 
 Software that allows remote sensers and other users to access the openEO back-ends:
 
-* [JavaScript library](https://github.com/Open-EO/openeo-js-client)
-* [Python library](https://github.com/Open-EO/openeo-python-client)
-* [QGIS plugin](https://github.com/Open-EO/openeo-qgis-plugin)
-* [R library](https://github.com/Open-EO/openeo-r-client)
-* [Web Editor](https://github.com/Open-EO/openeo-web-editor) - check out the [demo](https://editor.openeo.org).
+| Client software    | Package Manager / Hosted Version                             | GitHub                                                       |
+| ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| JavaScript library | npm: [@openeo/js-client](https://www.npmjs.com/package/@openeo/js-client) | [openeo-js-client](https://github.com/Open-EO/openeo-js-client) |
+| Python library     | PyPI: [openeo](https://pypi.org/project/openeo/)             | [openeo-python-client](https://github.com/Open-EO/openeo-python-client) |
+| QGIS plugin        | QGIS plugin repository: [openeo-qgis-plugin-master](https://plugins.qgis.org/plugins/openeo-qgis-plugin-master/) | [openeo-qgis-plugin](https://github.com/Open-EO/openeo-qgis-plugin) |
+| R library          | CRAN: Not available yet                                      | [openeo-r-client](https://github.com/Open-EO/openeo-r-client) |
+| Web Editor         | [Hosted Version](https://editor.openeo.org)                  | [openeo-web-editor](https://github.com/Open-EO/openeo-web-editor) |
 
-See the **[getting started guide for users](https://open-eo.github.io/openeo-api/gettingstarted-users/)** for more information.
-Users considering to implement a new client library should read the **[getting started guide for client developers](https://open-eo.github.io/openeo-api/gettingstarted-users/)**.
+See the <a :href="$site.themeConfig.docPath + 'getting-started.html'">**getting started guide for users**</a> for more information.
+Users considering to implement a new client library should read the <a :href="$site.themeConfig.docPath + 'developers/clients/getting-started.html'">**getting started guide for client developers**</a>.
 
 ## Back-ends
 
@@ -38,7 +38,15 @@ To start developing a new back-end driver, you may start with any of the common 
 * [Python Process Graph Parser](https://github.com/Open-EO/openeo-pg-parser-python)
 * [JavaScript Process Graph Parser](https://github.com/Open-EO/openeo-js-commons)
 
-Our approach to tackle language-agnostic user-defined functions can be found in the **[UDF repository](https://github.com/Open-EO/openeo-udf)**.
+Our approach to tackle language-agnostic user-defined functions can be found in the following repositories:
+
+* [UDF Python reference implementation](https://github.com/Open-EO/openeo-udf)
+* [UDF R reference implementation](https://github.com/Open-EO/openeo-r-udf)
+
+## Specification
+
+The API specification is available in the **[openEO API repository](https://github.com/Open-EO/openeo-api)**.
+The process definitions are available in the **[openEO processes repository](https://github.com/Open-EO/openeo-processes)**.
 
 ## Ecosystem
 

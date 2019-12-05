@@ -97,14 +97,7 @@ module.exports = {
       { text: 'About', link: '/about.html' },
       { text: 'News', link: '/news/' },
       { text: 'Meet us', link: '/meet-us.html' },
-      { text: 'Software', items: [
-          {text: 'Overview', link: '/software.html'},
-          {text: 'JavaScript Client', link: 'https://js.openeo.org'},
-          {text: 'Python Client', link: 'https://python.openeo.org'},
-          {text: 'QGIS Plug-in', link: 'https://github.com/Open-EO/openeo-qgis-plugin'},
-          {text: 'R Client', link: 'https://r.openeo.org'},
-          {text: 'Web Editor', link: 'https://editor.openeo.org'}
-      ] },
+      { text: 'Software', link: '/software.html' },
       { text: 'Hub', link: 'https://hub.openeo.org' },
       { text: 'User Documentation', userNav: true, items: [] },
       { text: 'Developers', devNav: true, items: [] },

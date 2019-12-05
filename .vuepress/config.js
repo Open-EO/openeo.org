@@ -8,7 +8,6 @@ const versions = [
     processesTag: 'draft',
     apiVersions: [],
     userNav: [
-      {text: 'Introduction', link: 'index.html'},
       {text: 'Getting Started', link: 'getting-started.html'},
       {text: 'Glossary', link: 'glossary.html'},
       {text: 'Processes', link: 'processes.html'},
@@ -44,16 +43,30 @@ const versions = [
       '0.4.0'
     ],
     userNav: [
-      {text: 'Introduction', link: 'index.html'},
       {text: 'Getting Started', link: 'getting-started.html'},
       {text: 'Glossary', link: 'glossary.html'},
-      {text: 'Processes', link: 'processes.html'}
+      {text: 'Processes', link: 'processes.html'},
+      {text: 'UDFs', link: 'udfs.html'}
     ],
     devNav: [
       {text: 'Introduction', link: 'developers/index.html'},
       {text: 'Glossary', link: 'glossary.html'},
-      {text: 'Documentation', link: 'developers/api/index.html'},
-      {text: 'Processes', link: 'processes.html'}
+      {text: 'Architecture', link: 'developers/arch.html'},
+      {text: 'Service Providers', items: [
+          {text: 'Getting Started', link: 'developers/backends/getting-started.html'},
+          {text: 'UDFs', link: 'developers/backends/udfs.html'}
+      ]},
+      {text: 'Client Developers', items: [
+          {text: 'Getting Started', link: 'developers/clients/getting-started.html'},
+          {text: 'Library Guidelines', link: 'developers/clients/library-guidelines.html'}
+      ]},
+      {text: 'API', items: [
+          {text: 'Specification', link: 'developers/api/reference.html'},
+          {text: 'Further documentation', link: 'developers/api/index.html'}
+      ]},
+      {text: 'Processes', link: 'processes.html'},
+      {text: 'Error Codes', link: 'developers/api/errors.html'},
+      {text: 'Examples', link: 'developers/examples/'}
     ]
   },
   {
@@ -67,7 +80,6 @@ const versions = [
       '0.3.1'
     ],
     userNav: [
-      {text: 'Introduction', link: 'index.html'},
       {text: 'Getting Started', link: 'getting-started.html'},
       {text: 'Glossary', link: 'glossary.html'}
     ],

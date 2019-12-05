@@ -1,5 +1,5 @@
 <template>
-	<iframe :src="frameUrl" class="fullpage"></iframe>
+	<iframe :src="frameUrl" class="stretch"></iframe>
 </template>
 
 <script>
@@ -21,9 +21,8 @@ export default {
 </script>
 
 <style lang="stylus">
-iframe.fullpage
+iframe.stretch
 	width 100%
-	padding-top 3.6rem
-	height calc(100vh - 3.6rem - 4px)
+	height 100%
 	border 0
 </style>

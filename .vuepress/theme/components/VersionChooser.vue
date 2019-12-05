@@ -57,7 +57,7 @@
 
 
 <script>
-import NavLink from '@vuepress/theme-default/components/NavLink.vue';
+import NavLink from '@parent-theme/components/NavLink.vue';
 import VersioningMixin from '@theme/components/VersioningMixin.vue';
 
 export default {

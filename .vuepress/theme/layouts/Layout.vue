@@ -27,7 +27,10 @@
       </div>
     </main>
 
-    <InlineFrame v-else-if="$page.frontmatter.iframe" :url="$page.frontmatter.iframe" :version="version" :key="$page.frontmatter.iframe" />
+    <main v-else-if="shouldShowFullpage" class="fullpage">
+      <InlineFrame v-if="$page.frontmatter.iframe" :url="$page.frontmatter.iframe" :version="version" :key="$page.key" />
+      <Content v-else />
+    </main>
 
     <main v-else-if="$page.frontmatter.custom" class="page">
       <Content class="theme-default-content custom" />
@@ -44,12 +47,12 @@
 <script>
 import dayjs from 'dayjs';
 import Home from '@theme/components/Home.vue'
-import Navbar from '@vuepress/theme-default/components/Navbar.vue'
-import Page from '@vuepress/theme-default/components/Page.vue'
-import Sidebar from '@vuepress/theme-default/components/Sidebar.vue'
+import Navbar from '@parent-theme/components/Navbar.vue'
+import Page from '@parent-theme/components/Page.vue'
+import Sidebar from '@parent-theme/components/Sidebar.vue'
 import VersioningMixin from '@theme/components/VersioningMixin.vue'
 import VersionChooser from '@theme/components/VersionChooser.vue'
-import { resolveSidebarItems } from '@vuepress/theme-default/util'
+import { resolveSidebarItems } from '@parent-theme/util'
 
 export default {
   components: { Home, Page, Sidebar, Navbar, VersionChooser },
@@ -62,6 +65,11 @@ export default {
   },
 
   computed: {
+
+    shouldShowFullpage() {
+      return (this.$page.frontmatter.iframe || this.$page.frontmatter.fullpage);
+    },
+
     shouldShowNavbar () {
       const { themeConfig } = this.$site
       const { frontmatter } = this.$page
@@ -82,7 +90,7 @@ export default {
       const { frontmatter } = this.$page
       return (
         !frontmatter.home
-        && !frontmatter.iframe
+        && !this.shouldShowFullpage
         && !frontmatter.news
         && frontmatter.sidebar !== false
         && this.sidebarItems.length
@@ -156,4 +164,10 @@ export default {
 .news-meta
   margin-bottom 2em
   display block
+
+.fullpage
+	width 100%
+	padding-top 3.6rem
+	height calc(100vh - 3.6rem)
+	border 0
 </style>

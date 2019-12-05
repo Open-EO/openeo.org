@@ -27,7 +27,7 @@
       </div>
     </main>
 
-    <InlineFrame v-else-if="$page.frontmatter.iframe" :url="$page.frontmatter.iframe" :version="version" />
+    <InlineFrame v-else-if="$page.frontmatter.iframe" :url="$page.frontmatter.iframe" :version="version" :key="$page.frontmatter.iframe" />
 
     <main v-else-if="$page.frontmatter.custom" class="page">
       <Content class="theme-default-content custom" />

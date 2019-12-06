@@ -1,3 +1,5 @@
 ---
-iframe: https://api.openeo.org/{apiTag}/
+fullpage: true
+stripCSS: true
 ---
+<ApiSpec />

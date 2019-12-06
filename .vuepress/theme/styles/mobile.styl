@@ -1,0 +1,52 @@
+@require './config'
+
+$mobileSidebarWidth = $sidebarWidth * 0.82
+
+// narrow desktop / iPad
+@media (max-width: $MQNarrow)
+  .sidebar
+    font-size 15px
+    width $mobileSidebarWidth
+  .page
+    padding-left $mobileSidebarWidth
+  .navbar
+    .nav-links .nav-item:first-of-type
+      display none
+    .site-name
+      display none
+
+// wide mobile
+@media (max-width: $MQMobile)
+  .sidebar
+    top 0
+    padding-top $navbarHeight
+    transform translateX(-100%)
+    transition transform .2s ease
+  .page
+    padding-left 0
+  .theme-container
+    &.sidebar-open
+      .sidebar
+        transform translateX(0)
+    &.no-navbar
+      .sidebar
+        padding-top: 0
+  .navbar .site-name.can-hide
+    display inline-block
+    width auto
+  .nav-links .nav-item:first-child
+    margin-left 1.5rem !important
+
+// narrow mobile
+@media (max-width: $MQMobileNarrow)
+  .page h1
+    font-size 1.9rem
+  {$contentClass}
+    div[class*="language-"]
+      margin 0.85rem -1.5rem
+      border-radius 0
+
+// even more narrow mobile
+@media (max-width: 300px)
+  .navbar .site-name.can-hide
+    display none

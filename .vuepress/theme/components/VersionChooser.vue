@@ -8,7 +8,7 @@
 				<li class="dropdown-item">
 					<h4>Applicable API Versions</h4>
 					<ul class="dropdown-subitem-wrapper">
-						<template v-if="version.apiVersions.length">
+						<template v-if="!unreleased">
 							<li class="dropdown-subitem" v-for="v in version.apiVersions" :key="v">
 								<span>{{ v }}</span>
 							</li>
@@ -57,7 +57,7 @@
 
 
 <script>
-import NavLink from '@parent-theme/components/NavLink.vue';
+import NavLink from '@theme/components/NavLink.vue';
 import VersioningMixin from '@theme/components/VersioningMixin.vue';
 
 export default {

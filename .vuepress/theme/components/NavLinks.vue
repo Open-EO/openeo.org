@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import DropdownLink from '@parent-theme/components/DropdownLink.vue'
-import NavLink from '@parent-theme/components/NavLink.vue'
+import DropdownLink from '@theme/components/DropdownLink.vue'
+import NavLink from '@theme/components/NavLink.vue'
 
 export default {
   components: { NavLink, DropdownLink },

@@ -1,3 +1,5 @@
 ---
-iframe: https://processes.openeo.org/{processesTag}/
+fullpage: true
+stripCSS: true
 ---
+<ProcessesSpec />

@@ -27,9 +27,9 @@
       </div>
     </main>
 
-    <main v-else-if="shouldShowFullpage" class="fullpage">
+    <main v-else-if="shouldShowFullpage" class="fullpage" :class="{page: !$page.frontmatter.stripCSS}">
       <InlineFrame v-if="$page.frontmatter.iframe" :url="$page.frontmatter.iframe" :version="version" :key="$page.key" />
-      <Content v-else />
+      <Content v-else class="fullpage-content" />
     </main>
 
     <main v-else-if="$page.frontmatter.custom" class="page">
@@ -47,12 +47,12 @@
 <script>
 import dayjs from 'dayjs';
 import Home from '@theme/components/Home.vue'
-import Navbar from '@parent-theme/components/Navbar.vue'
-import Page from '@parent-theme/components/Page.vue'
-import Sidebar from '@parent-theme/components/Sidebar.vue'
+import Navbar from '@theme/components/Navbar.vue'
+import Page from '@theme/components/Page.vue'
+import Sidebar from '@theme/components/Sidebar.vue'
 import VersioningMixin from '@theme/components/VersioningMixin.vue'
 import VersionChooser from '@theme/components/VersionChooser.vue'
-import { resolveSidebarItems } from '@parent-theme/util'
+import { resolveSidebarItems } from '@theme/util'
 
 export default {
   components: { Home, Page, Sidebar, Navbar, VersionChooser },

@@ -2,7 +2,11 @@ const config = require('./config.js');
 
 const defaultVersion = config.themeConfig.versions[config.themeConfig.defaultVersion];
 
-export default ({ router }) => {
+export default ({ router, Vue }) => {
+	Vue.config.ignoredElements = [
+		'redoc'
+	];
+
 	router.addRoutes([
 		// Redirect to latest docs
 		{ path: '/documentation', redirect: defaultVersion.path },

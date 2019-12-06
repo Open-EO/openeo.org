@@ -1,6 +1,10 @@
 <script>
 export default {
   computed: {
+    unreleased() {
+      return (this.apiVersion.match(/-(draft|alpha|beta)/i) !== null);
+    },
+
     versioned() {
       return this.$page.regularPath.match(/\/documentation\/([^\/]+)\//) !== null;
     },
@@ -14,6 +18,13 @@ export default {
           return v;
         })
         .filter((v, vix) => (vix !== this.versionIndex && this.$site.pages.findIndex(p => p.regularPath == v.regularPath) >= 0));
+    },
+
+    apiVersion() {
+      if (this.version.apiVersions.length) {
+        return this.version.apiVersions[this.version.apiVersions.length-1];
+      }
+      return null;
     },
 
     version() {

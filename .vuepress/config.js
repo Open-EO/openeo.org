@@ -6,7 +6,9 @@ const versions = [
     title: 'Draft',
     apiTag: 'draft',
     processesTag: 'draft',
-    apiVersions: [],
+    apiVersions: [
+      '1.0.0-draft'
+    ],
     userNav: [
       {text: 'Getting Started', link: 'getting-started.html'},
       {text: 'Glossary', link: 'glossary.html'},
@@ -36,11 +38,12 @@ const versions = [
     path: '/documentation/0.4/',
     title: 'v0.4.x',
     apiTag: '0.4.2',
+    apiFormat: 'json',
     processesTag: '0.4.2',
     apiVersions: [
-      '0.4.2',
+      '0.4.0',
       '0.4.1',
-      '0.4.0'
+      '0.4.2'
     ],
     userNav: [
       {text: 'Getting Started', link: 'getting-started.html'},
@@ -74,6 +77,7 @@ const versions = [
     path: '/documentation/0.3/',
     title: 'v0.3.x',
     apiTag: '0.3.1',
+    apiFormat: 'json',
     processesTag: null,
     apiVersions: [
       '0.3.0',
@@ -125,5 +129,17 @@ module.exports = {
     'code-switcher',
     ['vuepress-plugin-code-copy', true]
   ],
-  serviceWorker: true
+  serviceWorker: true,
+  chainWebpack: (config, isServer) => {
+    config.module
+      .rule('js')
+        .test(/\.js$/)
+        .exclude.add(filePath => {
+          // transpile js-commons
+          if (/@openeo\/js-commons/.test(filePath)) {
+            return false
+          }
+          return true;
+        }).end()
+  }
 };

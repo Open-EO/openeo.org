@@ -6,7 +6,7 @@ sidebar: false
 
 We are always happy to present and discuss the current state of the project. You can **meet us at the following events**:
 
-* None planned at the moment, more to be announced soon.
+* FOSDEM 2020 (February, 2 in Brussels, Belgium): [Talks on OpenEO and STAC](https://fosdem.org/2020/schedule/track/geospatial/)
 
 Interesting resources from **past events**:
 

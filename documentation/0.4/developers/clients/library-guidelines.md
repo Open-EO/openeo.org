@@ -175,14 +175,14 @@ The `Job` scope internally knows the `job_id`.
 | Modify a job at the back-end.              | `PATCH /jobs/{job_id}`             | `updateJob(?processGraph, ?title, ?description, ?plan, ?budget, ?additional)` |
 | Delete a job                               | `DELETE /jobs/{job_id}`            | `deleteJob()` |
 | Calculate an time/cost estimate for a job. | `GET /jobs/{job_id}/estimate`      | `estimateJob()` |
+| Get log file for job.                      | `GET /jobs/{job_id}/logs`          | `debugJob()` |
 | Start / queue a job for processing.        | `POST /jobs/{job_id}/results`      | `startJob()` |
 | Stop / cancel job processing.              | `DELETE /jobs/{job_id}/results`    | `stopJob()` |
-| Get document with download links.          | `GET /jobs/{job_id}/results`       | `listResults(?type)` |
+| Get document with download links.          | `GET /jobs/{job_id}/results`       | `listResults()` |
 | Download job results.                      | `GET /jobs/{job_id}/results` > ... | `downloadResults(target)` |
 
 #### Parameters
 
-* **type** in `listResult`: Either `json` or `metalink` (non-exclusive). Defaults to `json`.
 * **target** in `downloadResults`: Path to a local folder.
 
 ### Scope: `ProcessGraph` (API category)
@@ -199,11 +199,12 @@ The `ProcessGraph` scope internally knows the `process_graph_id`.
 
 The `Service` scope internally knows the `service_id`.
 
-| Description                                        | API Request                     | Client method |
-| -------------------------------------------------- | ------------------------------- | ------------- |
-| Get (and update on client-side) all information about a secondary web service. | `GET /services/{service_id}`    | `describeService()` |
-| Modify a secondary web service at the back-end.    | `PATCH /services/{service_id}`  | `updateService(?processGraph, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget)` |
-| Delete a secondary web service.                    | `DELETE /services/{service_id}` | `deleteService()` |
+| Description                                        | API Request                       | Client method |
+| -------------------------------------------------- | --------------------------------- | ------------- |
+| Get (and update on client-side) all information about a secondary web service. | `GET /services/{service_id}` | `describeService()` |
+| Modify a secondary web service at the back-end.    | `PATCH /services/{service_id}`    | `updateService(?processGraph, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget)` |
+| Delete a secondary web service.                    | `DELETE /services/{service_id}`   | `deleteService()` |
+| Get log file for web service.                      | `GET /services/{service_id}/logs` | `debugService()` |
 
 ## Processes
 

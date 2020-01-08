@@ -95,8 +95,7 @@ const versions = [
   }
 ];
 
-const defaultVersionIndex = 1;
-const defaultVersionPath = versions[defaultVersionIndex].path;
+const defaultVersion = 1;
 
 module.exports = {
   title: 'openEO',
@@ -104,8 +103,8 @@ module.exports = {
   themeConfig: {
     apiVersion: apiVersion,
     versions: versions,
-    defaultVersion: defaultVersionIndex,
-    docPath: defaultVersionPath,
+    defaultVersion: defaultVersion,
+    docPath: versions[defaultVersion].path,
     logo: '/images/openeo_navbar_logo.png',
     editLinks: true,
     docsRepo: 'Open-EO/openeo.org',
@@ -120,18 +119,7 @@ module.exports = {
       { text: 'Developers', devNav: true, items: [] },
       { text: 'Contact', link: '/contact.html' }
     ],
-    sidebar: 'auto',
-    redirects: [
-      // Redirect to latest docs
-      { path: '/documentation', redirect: defaultVersionPath },
-      // Redirect from old openeo.org links to new links
-      { path: '/about', redirect: '/about.html' },
-      { path: '/meet-us', redirect: '/meet-us.html' },
-      { path: '/software', redirect: '/software.html' },
-      { path: '/contact', redirect: '/contact.html' },
-      { path: '/x', redirect: '/y' },
-      { path: '/glossary', redirect: defaultVersionPath + 'glossary.html' }
-    ],
+    sidebar: 'auto'
   },
   plugins: [
     '@vuepress/register-components',

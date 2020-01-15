@@ -105,7 +105,7 @@ Another example is taking the `sum` or `max` along the band dimension.
 
 ### `aggregate`: reducing resolution
 
-Aggregation computes new values from sets of values that are _uniquely_ assigned to groups. It involves a grouping predicate (e.g. monthly, 100 m x 100 m grid cells, or a set of non-overlapping spatial polygons), and an reducer (e.g., `mean`) that computes one or more new values from the original ones.
+Aggregation computes new values from sets of values that are assigned to groups. The assignment to the groups is not necessarily unique. It involves a grouping predicate (e.g. monthly, 100 m x 100 m grid cells, or a set of non-overlapping spatial polygons), and an reducer (e.g., `mean`) that computes one or more new values from the original ones.
 
 In effect, `aggregate` combines the following three steps:
 

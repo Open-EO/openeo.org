@@ -29,7 +29,7 @@ info:
 
     Unless otherwise stated the API works **case sensitive**.
 
-    All names SHOULD be written in snake case, i.e. words are separated with one underscore character (_) and no spaces, with all letters lowercased. Example: `hello_world`. This applies particularly to endpoints and JSON property names. HTTP header fields follow their respective casing conventions, e.g. `Content-Type` or `OpenEO-Costs`, despite being case-insensitive according to [RFC 7230](https://tools.ietf.org/html/rfc7230#section-3.2).
+    All names SHOULD be written in snake case, i.e. words are separated with one underscore character (_) and no spaces, with all letters lower-cased. Example: `hello_world`. This applies particularly to endpoints and JSON property names. HTTP header fields follow their respective casing conventions, e.g. `Content-Type` or `OpenEO-Costs`, despite being case-insensitive according to [RFC 7230](https://tools.ietf.org/html/rfc7230#section-3.2).
 
     ## Temporal data
 
@@ -222,14 +222,14 @@ tags:
       
       # Provide data for download
       
-      If you'd like to provide your data for download in addition to offering the cloud processing service, you can implement the full STAC API. Therefore you can implement the endpoints  `GET /collections/{collectionId}/items` and `GET /collections/{collection-name}/items/{featureId}` to support retrieval of individual items. To benefit from the STAC ecosystem and allow searching for items you can also implement `POST /search` and `GET /search`. Further information can be found in the [STAC API respository](https://github.com/radiantearth/stac-spec/tree/v0.9.0/api-spec) and in the corresponding [OpenAPI specification](https://stacspec.org/STAC-api.html).
+      If you'd like to provide your data for download in addition to offering the cloud processing service, you can implement the full STAC API. Therefore you can implement the endpoints  `GET /collections/{collectionId}/items` and `GET /collections/{collection-name}/items/{featureId}` to support retrieval of individual items. To benefit from the STAC ecosystem and allow searching for items you can also implement `POST /search` and `GET /search`. Further information can be found in the [STAC API repository](https://github.com/radiantearth/stac-spec/tree/v0.9.0/api-spec) and in the corresponding [OpenAPI specification](https://stacspec.org/STAC-api.html).
   - name: Process Discovery
     description: |-
       These endpoints allow to the processes that are available at the back-end.
 
       A process is an operation that performs a specific task, see the [glossary](glossary.md) for a detailed definition. It consists of an id (the identifying name of the process), a set of parameters, a return type and may throw errors or exceptions. In openEO, processes are used to build a chain of processes ([process graph](#tag/Process-Graphs)), which can be applied to EO data to derive your own findings from the data.
 
-      There are some processes that we define to be core processes that are pre-defined and back-ends SHOULD follow these specifications to be interoperable. Not all processes need to be implemented by all back-ends. See the **[process reference](processreference.md)** for pre-defined processes.
+      There are some processes that we define to be core processes that are pre-defined and back-ends SHOULD follow these specifications to be interoperable. Not all processes need to be implemented by all back-ends. See the **[process reference](https://processes.openeo.org)** for pre-defined processes.
 
       In addition, back-ends MAY define new proprietary processes for their domain. To define new processes, back-end providers MUST follow the `process` schema in the API specification. This includes:
 
@@ -1174,7 +1174,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/collection'
                   links:
-                    $ref: '#/components/schemas/links_pagination'
+                    $ref: '#/components/schemas/links_discovery'
                 example:
                   collections:
                     - stac_version: 0.9.0
@@ -1786,7 +1786,7 @@ paths:
                     items:
                       $ref: '#/components/schemas/process'
                   links:
-                    $ref: '#/components/schemas/links_pagination'
+                    $ref: '#/components/schemas/links_discovery'
                 example:
                   processes:
                     - id: round
@@ -1807,22 +1807,19 @@ paths:
                         single direction.
 
 
-                        The nodata value `null` is passed through and therefore
+                        The no-data value `null` is passed through and therefore
                         gets propagated.
                       categories:
                         - math
-                      parameter_order:
-                        - x
-                        - p
                       parameters:
-                        x:
+                        - name: x
                           description: A number to round.
                           schema:
                             type:
                               - number
                               - 'null'
                           required: true
-                        p:
+                        - name: p
                           description: >-
                             A positive number specifies the number of digits
                             after the decimal point to round to. A negative
@@ -1875,7 +1872,7 @@ paths:
                         The numerical value is approximately *2.71828*.
                       categories:
                         - math > constants
-                      parameters: {}
+                      parameters: []
                       returns:
                         description: >-
                           Returns the numerical value of Euler's number.
@@ -2051,7 +2048,7 @@ paths:
                       - href: 'https://hub.docker.com/openeo/udf-php7/'
                         rel: about
                   R:
-                    description: R programming language with Rcpp and rmarkdown.
+                    description: R programming language with `Rcpp` and `rmarkdown` extensions installed.
                     default: 3.5.2
                     versions:
                       3.1.0:
@@ -2125,7 +2122,7 @@ paths:
         Provider does not always provide information about the issuer (i.e. the
         OpenID provider) and therefore a prefix MUST be added to the Bearer
         Token sent in subsequent API calls to protected endpoints. The Bearer
-        Token sent to protected endpoints MUST consist of the authentification
+        Token sent to protected endpoints MUST consist of the authentication
         method (here `oidc`), the provider ID and the access token itself. All
         separated by a forward slash `/`. The provider ID corresponds to the
         value specified for `id` for each provider in the response body of this
@@ -2241,7 +2238,7 @@ paths:
 
         The credentials (username and password) must be sent in the HTTP header
         `Authorization` with type `Basic` and the Base64 encoded string
-        consiting of username and password separated by a double colon `:`. The
+        consisting of username and password separated by a double colon `:`. The
         header would look as follows for username `user` and password `pw`:
         `Authorization: Basic dXNlcjpwdw==`.
 
@@ -2428,6 +2425,8 @@ paths:
         - Process Graphs
       security:
         - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/pagination_limit'
       responses:
         '200':
           description: JSON array with stored process graph meta data
@@ -2741,6 +2740,8 @@ paths:
         - Secondary Services
       security:
         - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/pagination_limit'
       responses:
         '200':
           description: Array of service descriptions
@@ -2982,8 +2983,7 @@ paths:
         - Bearer: []
       parameters:
         - $ref: '#/components/parameters/service_id'
-        - $ref: '#/components/parameters/log_offset'
-        - $ref: '#/components/parameters/log_limit'
+        - $ref: '#/components/parameters/pagination_limit'
       responses:
         '200':
           $ref: '#/components/responses/logs'
@@ -3002,6 +3002,8 @@ paths:
         - Batch Jobs
       security:
         - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/pagination_limit'
       responses:
         '200':
           description: Array of job descriptions
@@ -3177,7 +3179,7 @@ paths:
                     description: >-
                       Indicates the process of a running batch job in percent.
 
-                      Can also be set for a job which errored out or was
+                      Can also be set for a job which stopped due to an error or was
                       canceled by the user. In this case, the value indicates
                       the progress at which the job stopped. Property may not be
                       available for the status codes `created` and `queued`.
@@ -3295,8 +3297,7 @@ paths:
         - Bearer: []
       parameters:
         - $ref: '#/components/parameters/job_id'
-        - $ref: '#/components/parameters/log_offset'
-        - $ref: '#/components/parameters/log_limit'
+        - $ref: '#/components/parameters/pagination_limit'
       responses:
         '200':
           $ref: '#/components/responses/logs'
@@ -3451,6 +3452,8 @@ paths:
         - File Storage
       security:
         - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/pagination_limit'
       responses:
         '200':
           description: >-
@@ -3560,7 +3563,7 @@ paths:
 
 
         Back-ends MAY support deleting folders including its files and
-        subfolders.  If not supported by the back-end a
+        sub-folders. If not supported by the back-end a
         `FileOperationUnsupported` error MUST be sent as response.
       tags:
         - File Storage
@@ -3902,23 +3905,37 @@ components:
         Clients SHOULD only connect to non-production implementations if the
         user explicitly confirmed to use a non-production implementation.
       default: true
+    links_discovery:
+      description: |-
+        Links related to this set of resources, for example links to alternative
+        formats such as a human-readable HTML version.
+
+        It is RECOMMENDED to provide links with the following
+        `rel` (relation) types:
+
+        1. `alternate`: An alternative representation. For example, a
+        human-readable HTML version or another catalog service.
+
+        For additional relation types see also the lists of
+        [common relation types in openEO](#section/Web-Linking).
+      type: array
+      items:
+        $ref: '#/components/schemas/link'
     links_pagination:
       description: |-
         Links related to this list of resources, for example links for pagination
         or alternative formats such as a human-readable HTML version.
+        The links array MUST NOT be paginated.
 
-        Pagination is currently OPTIONAL and back-ends and clients may not support it.
-        Therefore it MUST be implemented in a way that clients not supporting
-        pagination get all resources regardless. The links array MUST NOT be paginated.
         If pagination is implemented, the following `rel` (relation) types apply:
 
-        1. `next` (REQUIRED): A link to the next page.
+        1. `next` (REQUIRED): A link to the next page, except on the last page.
 
-        2. `prev` (OPTIONAL): A link to the previous page.
+        2. `prev` (OPTIONAL): A link to the previous page, except on the first page.
 
-        3. `first` (OPTIONAL): A link to the first page.
+        3. `first` (OPTIONAL): A link to the first page, except on the first page.
 
-        4. `last` (OPTIONAL): A link to the last page.
+        4. `last` (OPTIONAL): A link to the last page, except on the last page.
 
         For additional relation types see also the lists of
         [common relation types in openEO](#section/Web-Linking).
@@ -4170,7 +4187,7 @@ components:
                     of the dataset.
 
                     The value `null` is supported and indicates an open time
-                    intervall.
+                    interval.
 
                     In the Core only a single time interval is supported.
                     Extensions may support
@@ -4677,48 +4694,8 @@ components:
           items:
             type: string
             description: Name of the category.
-        parameter_order:
-          type: array
-          description: >-
-            Describes the order or the parameter for any environments that don't
-            support named parameters. This property MUST be present for all
-            processes with two or more parameters.
-          items:
-            type: string
-            description: Each item MUST correspond to a key in the `parameters` object.
-            pattern: '^[A-Za-z0-9_]+$'
         parameters:
-          type: object
-          title: Process Parameters
-          description: >-
-            A list of parameters that are applicable for this process. The keys
-            of the object are the names of the parameters. They keys MUST match
-            the following pattern: `^[A-Za-z0-9_]+$`
-          additionalProperties:
-            x-additionalPropertiesName: Parameter Name
-            title: Process Parameter
-            type: object
-            required:
-              - description
-              - schema
-            properties:
-              description:
-                $ref: '#/components/schemas/process_description'
-              required:
-                type: boolean
-                description: Determines whether this parameter is mandatory.
-                default: false
-              deprecated:
-                $ref: '#/components/schemas/process_deprecated'
-              experimental:
-                $ref: '#/components/schemas/process_experimental'
-              default:
-                description: >-
-                  The default value for this parameter.
-                  Required parameters SHOULD NOT specify a default value. Optional parameters SHOULD always specify a default value.
-                nullable: true
-              schema:
-                $ref: '#/components/schemas/process_schema'
+          $ref: '#/components/schemas/process_parameters'
         returns:
           type: object
           title: Process Return Value
@@ -4864,6 +4841,42 @@ components:
         added to the `links` and MUST refer to the process that can be used
         instead.
       default: false
+    process_parameters:
+      type: array
+      description: |-
+        A list of parameters.
+
+        The order in the array corresponds to the parameter order to
+        be used in clients that don't support named parameters.
+      items:
+        title: Process Parameter
+        type: object
+        required:
+          - name
+          - description
+          - schema
+        properties:
+          name:
+            type: string
+            description: A unique name for the parameter.
+            pattern: '^[A-Za-z0-9_]+$'
+          description:
+            $ref: '#/components/schemas/process_description'
+          required:
+            type: boolean
+            description: Determines whether this parameter is mandatory.
+            default: false
+          deprecated:
+            $ref: '#/components/schemas/process_deprecated'
+          experimental:
+            $ref: '#/components/schemas/process_experimental'
+          default:
+            description: >-
+              The default value for this parameter.
+              Required parameters SHOULD NOT specify a default value. Optional parameters SHOULD always specify a default value.
+            nullable: true
+          schema:
+            $ref: '#/components/schemas/process_schema'
     process_graph_id:
       type: string
       description: >-
@@ -5125,7 +5138,7 @@ components:
         See the chapter [Schemas in Process Discovery](#section/Schemas) for more information.
 
         It is discouraged to specify JSON Schemas with `default`, `anyOf`, `oneOf`, `allOf` or `not` at the top-level of the schema.
-        Instead specify each data type in a seperate array element.
+        Instead specify each data type in a separate array element.
 
         It is recommended to refrain from using the following more complex JSON Schema keywords:
         `if`, `then`, `else`, `readOnly`, `writeOnly`, `dependencies`, `minProperties`, `maxProperties`, `patternProperties`, `multipleOf`.
@@ -5145,9 +5158,7 @@ components:
         subtype:
           type: string
         parameters:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/process_json_schema'
+          $ref: '#/components/schemas/process_parameters'
         pattern:
           type: "string"
           format: "regex"
@@ -5414,7 +5425,7 @@ components:
           nullable: true
         path:
           description: >-
-            Describes where the log entry has occured.
+            Describes where the log entry has occurred.
             
             
             The first element of the array is the process that has triggered the log entry, the second element is the parent of the process that has triggered the log entry, etc. This pattern is followed until the root of the process graph.
@@ -5452,16 +5463,7 @@ components:
                 items:
                   $ref: '#/components/schemas/log_entry'
               links:
-                type: array
-                description: |-
-                  Links related to this log file, e.g. a link to the
-                  customer support, external documentation or an
-                  alternative version of the log file.
-
-                  For relation types see the lists of
-                  [common relation types in openEO](#section/Web-Linking).
-                items:
-                  $ref: '#/components/schemas/link'
+                $ref: '#/components/schemas/links_pagination'
     created:
       description: >-
         The resource has been created successfully and the location of the newly
@@ -5531,23 +5533,33 @@ components:
           schema:
             $ref: '#/components/schemas/error'
   parameters:
-    log_limit:
+    pagination_limit:
       name: limit
-      description: The maximum amount of log entries to include in the response. If not provided or empty, return all log entries.
+      description: |-
+        This parameter enables pagination for the endpoint and specifies the maximum number of
+        elements that arrays in the top-level object (e.g. jobs, log entries, secondary services,
+        files etc.) are allowed to contain. The only exception is the `links` array, which
+        MUST NOT be paginated as otherwise the pagination links may be missing ins responses.
+        If the parameter is not provided or empty, all elements are returned.
+        
+        Pagination is OPTIONAL and back-ends and clients may not support it.
+        Therefore it MUST be implemented in a way that clients not supporting
+        pagination get all resources regardless.
+        
+        If the response is paginated, the links array MUST be used to propagate the 
+        links for pagination with pre-defined `rel` types. See the links array schema
+        for supported `rel` types.
+
+        *Note:* Implementations can use all kind of pagination techniques, depending on what is
+        supported best by their infrastructure. So it doesn't care whether it is page-based,
+        offset-based or uses tokens for pagination. The clients will use whatever is specified
+        in the links with the corresponding `rel` types.
       in: query
       allowEmptyValue: true
       example: 10
       schema:
         type: integer
         minimum: 1
-    log_offset:
-      name: offset
-      description: The last identifier (property `id` of a log entry) the client has received. If provided, the back-ends only sends the entries that occured after the specified identifier. If not provided or empty, start with the first entry.
-      in: query
-      allowEmptyValue: true
-      example: "log1234"
-      schema:
-        type: string
     process_graph_id:
       name: process_graph_id
       in: path
@@ -5600,7 +5612,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: >-
-        The Bearer Token MUST consist of the authentification method, a provider
+        The Bearer Token MUST consist of the authentication method, a provider
         ID (if available) and the token itself. All separated by a forward slash
         `/`. Examples (replace `TOKEN` with the actual access token): (1) Basic
         authentication (no provider ID available): `basic//TOKEN` (2) OpenID

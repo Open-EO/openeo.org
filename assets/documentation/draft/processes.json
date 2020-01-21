@@ -6,8 +6,9 @@
     "categories": [
       "math"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number.",
         "schema": {
           "type": [
@@ -17,7 +18,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed absolute value.",
       "schema": {
@@ -69,14 +70,9 @@
     "categories": [
       "cubes"
     ],
-    "parameter_order": [
-      "data",
-      "name",
-      "label",
-      "type"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A data cube to add the dimension to.",
         "schema": {
           "type": "object",
@@ -84,14 +80,16 @@
         },
         "required": true
       },
-      "name": {
+      {
+        "name": "name",
         "description": "Name for the dimension.",
         "schema": {
           "type": "string"
         },
         "required": true
       },
-      "label": {
+      {
+        "name": "label",
         "description": "A dimension label.",
         "schema": [
           {
@@ -118,7 +116,8 @@
         ],
         "required": true
       },
-      "type": {
+      {
+        "name": "type",
         "description": "The type of dimension, defaults to `other`.",
         "schema": {
           "type": "string",
@@ -131,7 +130,7 @@
         },
         "default": "other"
       }
-    },
+    ],
     "returns": {
       "description": "The data cube with a newly added dimension.",
       "schema": {
@@ -152,12 +151,9 @@
     "categories": [
       "math"
     ],
-    "parameter_order": [
-      "x",
-      "y"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "The first summand.",
         "schema": {
           "type": [
@@ -167,7 +163,8 @@
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "The second summand.",
         "schema": {
           "type": [
@@ -177,7 +174,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed sum of the two numbers.",
       "schema": {
@@ -224,23 +221,17 @@
     ]
   },
   {
-    "id": "aggregate_polygon",
-    "summary": "Compute zonal statistics for polygons",
-    "description": "Aggregates zonal statistics for one or multiple polygons over the spatial dimensions.\n\nThe process considers all pixels for which the point at the pixel center intersects with the corresponding polygon (as defined in the Simple Features standard by the OGC).\n\nThe data cube must have been reduced to only contain two raster dimensions and a third dimension the values are aggregated for, for example the temporal dimension to get a time series. Otherwise this process fails with the `TooManyDimensions` error.\n\nThe number of total and valid pixels is returned together with the calculated values.",
+    "id": "aggregate_polygon_binary",
+    "summary": "Zonal statistics for polygons using binary aggregation",
+    "description": "Aggregates zonal statistics for one or multiple polygons over the spatial dimensions. This process passes two values to the reducer. In contrast, ``aggregate_polygon()`` passes a list of values.\n\nThe process considers all pixels for which the point at the pixel center intersects with the corresponding polygon (as defined in the Simple Features standard by the OGC).\n\nThe data cube must have been reduced to only contain two raster dimensions and a third dimension the values are aggregated for, for example the temporal dimension to get a time series. Otherwise this process fails with the `TooManyDimensions` error.\n\nThe number of total and valid pixels is returned together with the calculated values.",
     "categories": [
       "cubes",
       "aggregate & resample"
     ],
     "experimental": true,
-    "parameter_order": [
-      "data",
-      "polygons",
-      "reducer",
-      "name",
-      "binary"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A data cube.",
         "schema": {
           "type": "object",
@@ -248,7 +239,8 @@
         },
         "required": true
       },
-      "polygons": {
+      {
+        "name": "polygons",
         "description": "One or more polygons to calculate zonal statistics for. Either specified as GeoJSON or vector data cube.\n\nFor GeoJSON this can be one of the following GeoJSON types:\n\n* A `Polygon` geometry,\n* a `GeometryCollection` containing Polygons,\n* a `Feature` with a `Polygon` geometry or\n* a `FeatureCollection` containing `Feature`s with a `Polygon` geometry.",
         "schema": [
           {
@@ -262,56 +254,42 @@
         ],
         "required": true
       },
-      "reducer": {
-        "description": "A reducer to be applied on all values of each geometry. The reducer may be a single process such as ``mean()`` or consist of multiple sub-processes. By default, a reducer must accept an array as input. The process can also work on two values by setting the parameter `binary` to `true`.",
-        "schema": [
-          {
-            "title": "Unary behaviour",
-            "description": "Passes an array to the reducer.",
-            "type": "object",
-            "subtype": "process-graph",
-            "parameters": {
-              "data": {
-                "description": "An array with elements of any data type.",
-                "type": "array",
-                "items": {
-                  "description": "Any data type."
-                }
+      {
+        "name": "reducer",
+        "description": "A reduction operator to be applied consecutively on tuples of values. It must be both associative and commutative as the execution may be executed in parallel and therefore the order of execution is arbitrary. The reduction operator may be a single process such as ``multiply()`` or consist of multiple sub-processes.",
+        "schema": {
+          "type": "object",
+          "subtype": "process-graph",
+          "parameters": [
+            {
+              "name": "x",
+              "description": "The first value.",
+              "required": true,
+              "schema": {
+                "description": "Any data type."
+              }
+            },
+            {
+              "name": "y",
+              "description": "The second value.",
+              "required": true,
+              "schema": {
+                "description": "Any data type."
               }
             }
-          },
-          {
-            "title": "Binary behaviour",
-            "description": "Passes two values to the reducer.",
-            "type": "object",
-            "subtype": "process-graph",
-            "parameters": {
-              "x": {
-                "description": "The first value. Any data type could be passed."
-              },
-              "y": {
-                "description": "The second value. Any data type could be passed."
-              }
-            }
-          }
-        ],
+          ]
+        },
         "required": true
       },
-      "name": {
+      {
+        "name": "name",
         "description": "The new dimension name to be used for storing the results. Defaults to `result`.",
         "schema": {
           "type": "string"
         },
         "default": "result"
-      },
-      "binary": {
-        "description": "Specifies whether the process should pass two values to the reducer or a list of values (default).\n\nIf the process passes two values, the reducer must be both associative and commutative as the execution may be executed in parallel and therefore the order of execution is arbitrary.\n\nThis parameter is especially useful for UDFs passed as reducers. Back-ends may still optimize and parallelize processes that work on list of values.",
-        "schema": {
-          "type": "boolean"
-        },
-        "default": false
       }
-    },
+    ],
     "returns": {
       "description": "A vector data cube with the computed results. The vector data cube implicitly gets restricted to the bounds of the polygons as if ``filter_polygon()`` would have been used with the same values for the corresponding parameters immediately before this process.\n\nThe computed value is stored in dimension with the name that was specified in the parameter `name`.\n\nThe computation also stores information about the total count of pixels (valid + invalid pixels) and the number of valid pixels (see ``is_valid()``) in each geometry. These values are stored as attributes of the result value with the attribute names `total_count` and `valid_count`.",
       "schema": {
@@ -325,11 +303,6 @@
       }
     },
     "links": [
-      {
-        "href": "https://github.com/Open-EO/openeo-processes/issues/2",
-        "rel": "experimental",
-        "title": "More information about the experimental status of the process"
-      },
       {
         "href": "https://open-eo.github.io/openeo-api/glossary/#aggregation-and-resampling",
         "rel": "about",
@@ -348,6 +321,95 @@
     ]
   },
   {
+    "id": "aggregate_polygon",
+    "summary": "Zonal statistics for polygons",
+    "description": "Aggregates zonal statistics for one or multiple polygons over the spatial dimensions. This process passes a list of values to the reducer. In contrast, ``aggregate_polygon_binary()`` passes two values, which may be better suited for UDFs.\n\nThe process considers all pixels for which the point at the pixel center intersects with the corresponding polygon (as defined in the Simple Features standard by the OGC).\n\nThe data cube must have been reduced to only contain two spatial dimensions and a third dimension the values are aggregated for, for example the temporal dimension to get a time series. Otherwise this process fails with the `TooManyDimensions` error.\n\nThe number of total and valid pixels is returned together with the calculated values.",
+    "categories": [
+      "cubes",
+      "aggregate & resample"
+    ],
+    "parameters": [
+      {
+        "name": "data",
+        "description": "A data cube.",
+        "schema": {
+          "type": "object",
+          "subtype": "raster-cube"
+        },
+        "required": true
+      },
+      {
+        "name": "polygons",
+        "description": "One or more polygons to calculate zonal statistics for. Either specified as GeoJSON or vector data cube.\n\nFor GeoJSON this can be one of the following GeoJSON types:\n\n* A `Polygon` geometry,\n* a `GeometryCollection` containing Polygons,\n* a `Feature` with a `Polygon` geometry or\n* a `FeatureCollection` containing `Feature`s with a `Polygon` geometry.",
+        "schema": [
+          {
+            "type": "object",
+            "subtype": "geojson"
+          },
+          {
+            "type": "object",
+            "subtype": "vector-cube"
+          }
+        ],
+        "required": true
+      },
+      {
+        "name": "reducer",
+        "description": "A reducer to be applied on all values of each geometry. A reducer is a single process such as ``mean()`` or a set of processes, which computes a single value for a list of values, see the category 'reducer' for such processes.",
+        "schema": {
+          "type": "object",
+          "subtype": "process-graph",
+          "parameters": [
+            {
+              "name": "data",
+              "description": "An array with elements of any type.",
+              "required": true,
+              "schema": {
+                "type": "array",
+                "items": {
+                  "description": "Any data type."
+                }
+              }
+            }
+          ]
+        },
+        "required": true
+      },
+      {
+        "name": "name",
+        "description": "The new dimension name to be used for storing the results. Defaults to `result`.",
+        "schema": {
+          "type": "string"
+        },
+        "default": "result"
+      }
+    ],
+    "returns": {
+      "description": "A vector data cube with the computed results. The vector data cube implicitly gets restricted to the bounds of the polygons as if ``filter_polygon()`` would have been used with the same values for the corresponding parameters immediately before this process.\n\nThe computed value is stored in dimension with the name that was specified in the parameter `name`.\n\nThe computation also stores information about the total count of pixels (valid + invalid pixels) and the number of valid pixels (see ``is_valid()``) in each geometry. These values are stored as attributes of the result value with the attribute names `total_count` and `valid_count`.",
+      "schema": {
+        "type": "object",
+        "subtype": "vector-cube"
+      }
+    },
+    "exceptions": {
+      "TooManyDimensions": {
+        "message": "The number of dimensions must be reduced to three for 'aggregate_polygon'."
+      }
+    },
+    "links": [
+      {
+        "href": "https://open-eo.github.io/openeo-api/glossary/#aggregation-and-resampling",
+        "rel": "about",
+        "title": "Aggregation explained in the openEO glossary"
+      },
+      {
+        "href": "http://www.opengeospatial.org/standards/sfa",
+        "rel": "about",
+        "title": "Simple Features standard by the OGC"
+      }
+    ]
+  },
+  {
     "id": "aggregate_temporal",
     "summary": "Temporal aggregations",
     "description": "Computes a temporal aggregation based on an array of temporal intervals.\n\nCalendar hierarchies such as year, month, week etc. must be transformed into specific intervals by the clients. For each interval, all data along the dimension will be passed through the reducer.\n\nThe computed values will be projected to the labels. If no labels are specified, the start of the temporal interval will be used as label for the corresponding values. In case of a conflict (i.e. the user-specified values for the start times of the temporal intervals are not distinct), the user-defined labels must be specified in the parameter `labels` as otherwise a `DistinctDimensionLabelsRequired` error would be thrown. The number of user-defined labels and the number of intervals need to be equal.\n\nIf the dimension is not set or is set to `null`, the data cube is expected to only have one temporal dimension.",
@@ -356,16 +418,9 @@
       "aggregate & resample"
     ],
     "experimental": true,
-    "parameter_order": [
-      "data",
-      "intervals",
-      "reducer",
-      "labels",
-      "dimension",
-      "binary"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A data cube.",
         "schema": {
           "type": "object",
@@ -373,7 +428,8 @@
         },
         "required": true
       },
-      "intervals": {
+      {
+        "name": "intervals",
         "description": "Left-closed temporal intervals, which are allowed to overlap. Each temporal interval in the array has exactly two elements:\n\n1. The first element is the start of the temporal interval. The specified instance in time is **included** in the interval.\n2. The second element is the end of the temporal interval. The specified instance in time is **excluded** from the interval.\n\nThe specified temporal strings follow [RFC 3339](https://tools.ietf.org/html/rfc3339). Although [RFC 3339 prohibits the hour to be '24'](https://tools.ietf.org/html/rfc3339#section-5.7), **this process allows the value '24' for the hour** of an end time in order to make it possible that left-closed time intervals can fully cover the day.",
         "schema": {
           "type": "array",
@@ -435,42 +491,30 @@
         },
         "required": true
       },
-      "reducer": {
-        "description": "A reducer to be applied on all values along the specified dimension. The reducer may be a single process such as ``mean()`` or consist of multiple sub-processes. By default, a reducer must accept an array as input. The process can also work on two values by setting the parameter `binary` to `true`.",
-        "schema": [
-          {
-            "title": "Unary behaviour",
-            "description": "Passes an array to the reducer.",
-            "type": "object",
-            "subtype": "process-graph",
-            "parameters": {
-              "data": {
-                "description": "An array with elements of any data type.",
+      {
+        "name": "reducer",
+        "description": "A reducer to be applied on all values along the specified dimension. A reducer is a single process such as ``mean()`` or a set of processes, which computes a single value for a list of values, see the category 'reducer' for such processes.",
+        "schema": {
+          "type": "object",
+          "subtype": "process-graph",
+          "parameters": [
+            {
+              "name": "data",
+              "description": "An array with elements of any type.",
+              "required": true,
+              "schema": {
                 "type": "array",
                 "items": {
                   "description": "Any data type."
                 }
               }
             }
-          },
-          {
-            "title": "Binary behaviour",
-            "description": "Passes two values to the reducer.",
-            "type": "object",
-            "subtype": "process-graph",
-            "parameters": {
-              "x": {
-                "description": "The first value. Any data type could be passed."
-              },
-              "y": {
-                "description": "The second value. Any data type could be passed."
-              }
-            }
-          }
-        ],
+          ]
+        },
         "required": true
       },
-      "labels": {
+      {
+        "name": "labels",
         "description": "Distinct labels for the intervals, which can contain dates and/or times. Is only required to be specified if the values for the start of the temporal intervals are not distinct and thus the default labels would not be unique. The number of labels and the number of groups need to be equal.",
         "schema": {
           "type": "array",
@@ -499,7 +543,8 @@
         },
         "default": []
       },
-      "dimension": {
+      {
+        "name": "dimension",
         "description": "The name of the temporal dimension for aggregation. All data along the dimension will be passed through the specified reducer. If the dimension is not set or set to `null`, the data cube is expected to only have one temporal dimension. Fails with a `TooManyDimensions` error if it has more dimensions. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.\n\n**Note:** The default dimensions a data cube provides are described in the collection's metadata field `cube:dimensions`.",
         "schema": {
           "type": [
@@ -508,15 +553,8 @@
           ]
         },
         "default": null
-      },
-      "binary": {
-        "description": "Specifies whether the process should pass two values to the reducer or a list of values (default).\n\nIf the process passes two values, the reducer must be both associative and commutative as the execution may be executed in parallel and therefore the order of execution is arbitrary.\n\nThis parameter is especially useful for UDFs passed as reducers. Back-ends may still optimize and parallelize processes that work on list of values.",
-        "schema": {
-          "type": "boolean"
-        },
-        "default": false
       }
-    },
+    ],
     "returns": {
       "description": "A data cube with potentially lower resolution and potentially lower cardinality, but the same number of dimensions as the original data cube.",
       "schema": {
@@ -608,28 +646,20 @@
         "href": "https://open-eo.github.io/openeo-api/glossary/#aggregation-and-resampling",
         "rel": "about",
         "title": "Aggregation explained in the openEO glossary"
-      },
-      {
-        "rel": "about",
-        "href": "https://en.wikipedia.org/wiki/Reduction_Operator",
-        "title": "Background information on reduction operators (binary reducers) by Wikipedia"
       }
     ]
   },
   {
     "id": "all",
     "summary": "Are all of the values true?",
-    "description": "Checks if **all** of the values are true. Evaluates each expression from the first to the last element and stops once the outcome is unambiguous.\n\nIf only one value is given, the process evaluates to the given value. If no value is given (i.e. the array is empty) the process returns `null`.\n\nBy default all no-data values are ignored so that the process returns `null` if all values are no-data, `true` if all other values are true and `false` otherwise. Setting the `ignore_nodata` flag to `false` considers no-data values so that `null` is a valid logical object. If a component is `null`, the result will be `null` if the outcome is ambiguous. See the following truth table:\n\n```\n      || null  | false | true\n----- || ----- | ----- | -----\nnull  || null  | false | null\nfalse || false | false | false\ntrue  || null  | false | true\n```",
+    "description": "Checks if **all** of the values are true. Evaluates all values from the first to the last element and stops once the outcome is unambiguous.\n\nIf only one value is given, the process evaluates to the given value. If no value is given (i.e. the array is empty) the process returns `null`.\n\nBy default all no-data values are ignored so that the process returns `null` if all values are no-data, `true` if all other values are true and `false` otherwise. Setting the `ignore_nodata` flag to `false` considers no-data values so that `null` is a valid logical object. If a component is `null`, the result will be `null` if the outcome is ambiguous. See the following truth table:\n\n```\n      || null  | false | true\n----- || ----- | ----- | -----\nnull  || null  | false | null\nfalse || false | false | false\ntrue  || null  | false | true\n```",
     "categories": [
       "logic",
       "reducer"
     ],
-    "parameter_order": [
-      "expressions",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "expressions": {
+    "parameters": [
+      {
+        "name": "values",
         "description": "A set of boolean values.",
         "schema": {
           "type": "array",
@@ -642,16 +672,17 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not and ignores them by default.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
-      "description": "Boolean result of the logical expressions.",
+      "description": "Boolean result of the logical operation.",
       "schema": {
         "type": [
           "boolean",
@@ -662,7 +693,7 @@
     "examples": [
       {
         "arguments": {
-          "expressions": [
+          "values": [
             false,
             null
           ]
@@ -671,7 +702,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             true,
             null
           ]
@@ -680,7 +711,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             false,
             null
           ],
@@ -690,7 +721,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             true,
             null
           ],
@@ -700,7 +731,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             true,
             false,
             true,
@@ -711,7 +742,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             true,
             false
           ]
@@ -720,7 +751,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             true,
             true
           ]
@@ -729,7 +760,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             true
           ]
         },
@@ -737,7 +768,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             null
           ],
           "ignore_nodata": false
@@ -746,7 +777,7 @@
       },
       {
         "arguments": {
-          "expressions": []
+          "values": []
         },
         "returns": null
       }
@@ -759,12 +790,9 @@
     "categories": [
       "logic"
     ],
-    "parameter_order": [
-      "x",
-      "y"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A boolean value.",
         "schema": {
           "type": [
@@ -774,7 +802,8 @@
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "A boolean value.",
         "schema": {
           "type": [
@@ -784,7 +813,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "Boolean result of the logical AND.",
       "schema": {
@@ -835,17 +864,14 @@
   {
     "id": "any",
     "summary": "Is at least one value true?",
-    "description": "Checks if **any** (i.e. at least one) value is `true`. Evaluates each expression from the first to the last element and stops once the outcome is unambiguous.\n\nIf only one value is given, the process evaluates to the given value. If no value is given (i.e. the array is empty) the process returns `null`.\n\nBy default all no-data values are ignored so that the process returns `null` if all values are no-data, `true` if at least one of the other values is true and `false` otherwise. Setting the `ignore_nodata` flag to `false` considers no-data values so that `null` is a valid logical object. If a component is `null`, the result will be `null` if the outcome is ambiguous. See the following truth table:\n\n```\n      || null | false | true\n----- || ---- | ----- | ----\nnull  || null | null  | true\nfalse || null | false | true\ntrue  || true | true  | true\n```",
+    "description": "Checks if **any** (i.e. at least one) value is `true`. Evaluates all values from the first to the last element and stops once the outcome is unambiguous.\n\nIf only one value is given, the process evaluates to the given value. If no value is given (i.e. the array is empty) the process returns `null`.\n\nBy default all no-data values are ignored so that the process returns `null` if all values are no-data, `true` if at least one of the other values is true and `false` otherwise. Setting the `ignore_nodata` flag to `false` considers no-data values so that `null` is a valid logical object. If a component is `null`, the result will be `null` if the outcome is ambiguous. See the following truth table:\n\n```\n      || null | false | true\n----- || ---- | ----- | ----\nnull  || null | null  | true\nfalse || null | false | true\ntrue  || true | true  | true\n```",
     "categories": [
       "logic",
       "reducer"
     ],
-    "parameter_order": [
-      "expressions",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "expressions": {
+    "parameters": [
+      {
+        "name": "values",
         "description": "A set of boolean values.",
         "schema": {
           "type": "array",
@@ -858,16 +884,17 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not and ignores them by default.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
-      "description": "Boolean result of the logical expressions.",
+      "description": "Boolean result of the logical operation.",
       "schema": {
         "type": [
           "boolean",
@@ -878,7 +905,7 @@
     "examples": [
       {
         "arguments": {
-          "expressions": [
+          "values": [
             false,
             null
           ]
@@ -887,7 +914,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             true,
             null
           ]
@@ -896,7 +923,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             false,
             null
           ],
@@ -906,7 +933,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             true,
             null
           ],
@@ -916,7 +943,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             true,
             false,
             true,
@@ -927,7 +954,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             true,
             false
           ]
@@ -936,7 +963,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             false,
             false
           ]
@@ -945,7 +972,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             true
           ]
         },
@@ -953,7 +980,7 @@
       },
       {
         "arguments": {
-          "expressions": [
+          "values": [
             null
           ],
           "ignore_nodata": false
@@ -962,7 +989,7 @@
       },
       {
         "arguments": {
-          "expressions": []
+          "values": []
         },
         "returns": null
       }
@@ -971,18 +998,13 @@
   {
     "id": "apply_dimension",
     "summary": "Apply a process to pixels along a dimension",
-    "description": "Applies a process to all pixel values along a dimension of a raster data cube. For example, if the temporal dimension is specified the process will work on a time series of pixel values.\n\nThe process ``reduce_dimension()`` also applies a process to pixel values along a dimension, but removes the dimension afterwards. The process ``apply()`` applies a process to each pixel value in the data cube.\n\nThe target dimension is the source dimension if not specified otherwise in the `target_dimension` parameter. The pixel values in the target dimension get replaced by the computed pixel values. The name, type and reference system are preserved.\n\nThe dimension labels are preserved when the target dimension is the source dimension and the number of pixel values in the source dimension is equal to the number of values computed by the process. Otherwise, the dimension labels will be incrementing integers starting from zero, which can be changed using ``rename_labels()`` afterwards. The number of labels will equal to the number of values computed by the process.",
+    "description": "Applies a process to all pixel values along a dimension of a raster data cube. For example, if the temporal dimension is specified the process will work on a time series of pixel values.\n\nThe process ``reduce_dimension()`` also applies a process to pixel values along a dimension, but drops the dimension afterwards. The process ``apply()`` applies a process to each pixel value in the data cube.\n\nThe target dimension is the source dimension if not specified otherwise in the `target_dimension` parameter. The pixel values in the target dimension get replaced by the computed pixel values. The name, type and reference system are preserved.\n\nThe dimension labels are preserved when the target dimension is the source dimension and the number of pixel values in the source dimension is equal to the number of values computed by the process. Otherwise, the dimension labels will be incrementing integers starting from zero, which can be changed using ``rename_labels()`` afterwards. The number of labels will equal to the number of values computed by the process.",
     "categories": [
       "cubes"
     ],
-    "parameter_order": [
-      "data",
-      "process",
-      "dimension",
-      "target_dimension"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A data cube.",
         "schema": {
           "type": "object",
@@ -990,31 +1012,38 @@
         },
         "required": true
       },
-      "process": {
+      {
+        "name": "process",
         "description": "Process to be applied on all pixel values. The specified process needs to accept an array as parameter and must return an array with least one element. A process may consist of multiple sub-processes.",
         "schema": {
           "type": "object",
           "subtype": "process-graph",
-          "parameters": {
-            "data": {
-              "description": "An array with elements of any data type.",
-              "type": "array",
-              "items": {
-                "description": "Any data type."
+          "parameters": [
+            {
+              "name": "data",
+              "description": "An array with elements of any type.",
+              "required": true,
+              "schema": {
+                "type": "array",
+                "items": {
+                  "description": "Any data type."
+                }
               }
             }
-          }
+          ]
         },
         "required": true
       },
-      "dimension": {
+      {
+        "name": "dimension",
         "description": "The name of the source dimension to apply the process on. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.",
         "schema": {
           "type": "string"
         },
         "required": true
       },
-      "target_dimension": {
+      {
+        "name": "target_dimension",
         "description": "The name of the target dimension or `null` (the default) to use the source dimension specified in the parameter `dimension`.\n\nBy specifying a target dimension, the source dimension is removed. The target dimension with the specified name and the type `other` (see ``add_dimension()``) is created, if if doesn't exist yet.",
         "schema": {
           "type": [
@@ -1024,7 +1053,7 @@
         },
         "default": null
       }
-    },
+    ],
     "returns": {
       "description": "A data cube with the newly computed values for the specified. The resolution and the number of dimensions are the same as for the original data cube.",
       "schema": {
@@ -1041,18 +1070,14 @@
   {
     "id": "apply_kernel",
     "summary": "Apply a kernel to compute pixel-wise values",
-    "description": "Applies a focal operation based on a weighted kernel to each value of the specified dimensions in the data cube.",
+    "description": "Applies a 2D convolution (i.e. a focal operation with a weighted kernel) on the horizontal spatial dimensions (axes `x` and `y`) of the data cube.\n\nEach value in the kernel is multiplied with the corresponding pixel value and all products are summed up afterwards. The sum is then multiplied with the factor.",
     "categories": [
       "cubes",
       "math > image filter"
     ],
-    "parameter_order": [
-      "data",
-      "kernel",
-      "factor"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A data cube.",
         "schema": {
           "type": "object",
@@ -1060,32 +1085,55 @@
         },
         "required": true
       },
-      "kernel": {
-        "description": "The kernel to be applied on the data cube. The kernel has to be as many dimensions as the data cube has dimensions.",
+      {
+        "name": "kernel",
+        "description": "A two-dimensional weighted kernel. Each dimension of the kernel must have an uneven number of elements, otherwise the process throws a `KernelDimensionsUneven` error.",
         "schema": {
+          "description": "A two-dimensional array of numbers.",
           "type": "array",
           "subtype": "kernel",
           "items": {
-            "description": "Usually a multi-dimensional array of numbers."
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
           }
         },
         "required": true
       },
-      "factor": {
-        "description": "A factor that is multiplied to each value computed by the focal operation.\n\nThis is basically a shortcut for explicitly multiplying each value by a factor afterwards, which is often required for some kernel-based algorithms such as the Gaussian blur.",
+      {
+        "name": "factor",
+        "description": "A factor that is multiplied to each value after the kernel has been applied.\n\nThis is basically a shortcut for explicitly multiplying each value by a factor afterwards, which is often required for some kernel-based algorithms such as the Gaussian blur.",
         "schema": {
           "type": "number"
         },
         "default": 1
       }
-    },
+    ],
     "returns": {
       "description": "A data cube with the newly computed values. The resolution, cardinality and the number of dimensions are the same as for the original data cube.",
       "schema": {
         "type": "object",
         "subtype": "raster-cube"
       }
-    }
+    },
+    "exceptions": {
+      "KernelDimensionsUneven": {
+        "message": "Each dimension of the kernel must have an uneven number of elements."
+      }
+    },
+    "links": [
+      {
+        "rel": "about",
+        "href": "http://www.songho.ca/dsp/convolution/convolution.html",
+        "title": "Convolutions explained"
+      },
+      {
+        "rel": "about",
+        "href": "http://www.songho.ca/dsp/convolution/convolution2d_example.html",
+        "title": "Example of 2D Convolution"
+      }
+    ]
   },
   {
     "id": "apply",
@@ -1094,12 +1142,9 @@
     "categories": [
       "cubes"
     ],
-    "parameter_order": [
-      "data",
-      "process"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A data cube.",
         "schema": {
           "type": "object",
@@ -1107,20 +1152,26 @@
         },
         "required": true
       },
-      "process": {
+      {
+        "name": "process",
         "description": "A unary process to be applied on each value, may consist of multiple sub-processes.",
         "schema": {
           "type": "object",
           "subtype": "process-graph",
-          "parameters": {
-            "x": {
-              "description": "A value of any type could be passed."
+          "parameters": [
+            {
+              "name": "x",
+              "description": "The value to process.",
+              "required": true,
+              "schema": {
+                "description": "Any data type."
+              }
             }
-          }
+          ]
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "A data cube with the newly computed values. The resolution, cardinality and the number of dimensions are the same as for the original data cube.",
       "schema": {
@@ -1136,8 +1187,9 @@
     "categories": [
       "math > trigonometric"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number.",
         "schema": {
           "type": [
@@ -1147,7 +1199,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed angle in radians.",
       "schema": {
@@ -1200,8 +1252,9 @@
     "categories": [
       "math > trigonometric"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number.",
         "schema": {
           "type": [
@@ -1211,7 +1264,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed angle in radians.",
       "schema": {
@@ -1264,8 +1317,9 @@
     "categories": [
       "math > trigonometric"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number.",
         "schema": {
           "type": [
@@ -1275,7 +1329,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed angle in radians.",
       "schema": {
@@ -1328,8 +1382,9 @@
     "categories": [
       "math > trigonometric"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number.",
         "schema": {
           "type": [
@@ -1339,7 +1394,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed angle in radians.",
       "schema": {
@@ -1392,12 +1447,9 @@
     "categories": [
       "math > trigonometric"
     ],
-    "parameter_order": [
-      "y",
-      "x"
-    ],
-    "parameters": {
-      "y": {
+    "parameters": [
+      {
+        "name": "y",
         "description": "A number to be used as dividend.",
         "schema": {
           "type": [
@@ -1407,7 +1459,8 @@
         },
         "required": true
       },
-      "x": {
+      {
+        "name": "x",
         "description": "A number to be used as divisor.",
         "schema": {
           "type": [
@@ -1417,7 +1470,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed angle in radians.",
       "schema": {
@@ -1452,19 +1505,73 @@
     ]
   },
   {
+    "id": "array_apply",
+    "summary": "Applies a unary process to each array element",
+    "description": "Applies a **unary** process which takes a single value such as `abs` or `sqrt` to each value in the array. This is basically what other languages call either a `for each` loop or a `map` function.",
+    "categories": [
+      "arrays"
+    ],
+    "parameters": [
+      {
+        "name": "data",
+        "description": "An array.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "description": "Any data type is allowed."
+          }
+        },
+        "required": true
+      },
+      {
+        "name": "process",
+        "description": "A process to be applied on each value, may consist of multiple sub-processes. The specified process must be unary meaning that it must work on a single value.",
+        "schema": {
+          "type": "object",
+          "subtype": "process-graph",
+          "parameters": [
+            {
+              "name": "x",
+              "description": "The value of the current element being processed.",
+              "required": true,
+              "schema": {
+                "description": "Any data type."
+              }
+            },
+            {
+              "name": "index",
+              "description": "The zero-based index of the current element being processed.",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ]
+        },
+        "required": true
+      }
+    ],
+    "returns": {
+      "description": "An array with the newly computed values. The number of elements are the same as for the original array.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "description": "Any data type is allowed."
+        }
+      }
+    }
+  },
+  {
     "id": "array_contains",
-    "summary": "List contains an element",
-    "description": "Checks whether the array specified for `data` contains the value specified in `value`. Returns `true` if there's a match, otherwise `false`.\n\n**Remarks:**\n\n* To get the index of the element found, use ``array_find()``.\n* All definitions for the process ``eq()`` regarding the comparison of values apply here as well. This includes that data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*.\n* An integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`. Still, this process may return unexpectedly `false` when comparing floating point numbers due to floating point inaccuracy in machine-based computation.\n* Temporal strings are treated as normal strings and MUST NOT be interpreted.",
+    "summary": "Check whether the array contains a given value",
+    "description": "Checks whether the array specified for `data` contains the value specified in `value`. Returns `true` if there's a match, otherwise `false`.\n\n**Remarks:**\n\n* To get the index of the value found, use ``array_find()``.\n* All definitions for the process ``eq()`` regarding the comparison of values apply here as well. This includes that data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*.\n* An integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`. Still, this process may return unexpectedly `false` when comparing floating point numbers due to floating point inaccuracy in machine-based computation.\n* Temporal strings are treated as normal strings and MUST NOT be interpreted.",
     "categories": [
       "arrays",
       "comparison"
     ],
-    "parameter_order": [
-      "data",
-      "element"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "List to find the value in.",
         "schema": {
           "type": "array",
@@ -1474,14 +1581,15 @@
         },
         "required": true
       },
-      "element": {
+      {
+        "name": "value",
         "description": "Value to find in `data`.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "Returns `true` if the list contains the value, false` otherwise.",
       "schema": {
@@ -1496,7 +1604,7 @@
             2,
             3
           ],
-          "element": 2
+          "value": 2
         },
         "returns": true
       },
@@ -1507,7 +1615,7 @@
             "B",
             "C"
           ],
-          "element": "b"
+          "value": "b"
         },
         "returns": false
       },
@@ -1518,7 +1626,7 @@
             2,
             3
           ],
-          "element": "2"
+          "value": "2"
         },
         "returns": false
       },
@@ -1529,7 +1637,7 @@
             2,
             3
           ],
-          "element": 2
+          "value": 2
         },
         "returns": true
       },
@@ -1540,7 +1648,7 @@
             2,
             null
           ],
-          "element": null
+          "value": null
         },
         "returns": true
       },
@@ -1556,7 +1664,7 @@
               4
             ]
           ],
-          "element": [
+          "value": [
             1,
             2
           ]
@@ -1575,7 +1683,7 @@
               4
             ]
           ],
-          "element": 2
+          "value": 2
         },
         "returns": false
       },
@@ -1589,7 +1697,7 @@
               "c": "d"
             }
           ],
-          "element": {
+          "value": {
             "a": "b"
           }
         },
@@ -1604,13 +1712,9 @@
     "categories": [
       "arrays"
     ],
-    "parameter_order": [
-      "data",
-      "index",
-      "return_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array.",
         "schema": {
           "type": "array",
@@ -1620,21 +1724,23 @@
         },
         "required": true
       },
-      "index": {
+      {
+        "name": "index",
         "description": "The zero-based index of the element to retrieve.",
         "schema": {
           "type": "integer"
         },
         "required": true
       },
-      "return_nodata": {
+      {
+        "name": "return_nodata",
         "description": "By default this process throws an `IndexOutOfBounds` exception if the index is invalid. If you want to return `null` instead, set this flag to `true`.",
         "schema": {
           "type": "boolean"
         },
         "default": false
       }
-    },
+    ],
     "returns": {
       "description": "The value of the requested element.",
       "schema": {
@@ -1682,18 +1788,73 @@
     ]
   },
   {
+    "id": "array_filter",
+    "summary": "Filter an array based on a condition",
+    "description": "Filters the array elements based on a logical expression so that afterwards an array is returned that only contains the values conforming to the condition.",
+    "categories": [
+      "arrays",
+      "filter"
+    ],
+    "parameters": [
+      {
+        "name": "data",
+        "description": "An array.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "description": "Any data type is allowed."
+          }
+        },
+        "required": true
+      },
+      {
+        "name": "condition",
+        "description": "A condition that is evaluated against each value in the array. Only the array elements where the condition returns `true` are preserved.",
+        "schema": {
+          "type": "object",
+          "subtype": "process-graph",
+          "parameters": [
+            {
+              "name": "x",
+              "description": "The value of the current element being processed.",
+              "required": true,
+              "schema": {
+                "description": "Any data type."
+              }
+            },
+            {
+              "name": "index",
+              "description": "The zero-based index of the current element being processed.",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ]
+        },
+        "required": true
+      }
+    ],
+    "returns": {
+      "description": "An array filtered by the specified condition. The number of elements are less than or equal compared to the original array.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "description": "Any data type is allowed."
+        }
+      }
+    }
+  },
+  {
     "id": "array_find",
-    "summary": "Get the index of an element in an array",
+    "summary": "Get the index for a value in an array",
     "description": "Checks whether the array specified for `data` contains the value specified in `value` and returns the zero-based index for the first match. If there's no match, `-1` is returned.\n\n**Remarks:**\n\n* To get a boolean value returned use ``array_contains()``.\n* All definitions for the process ``eq()`` regarding the comparison of values apply here as well. This includes that data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*.\n* An integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`. Still, this process may return unexpectedly `false` when comparing floating point numbers due to floating point inaccuracy in machine-based computation.\n* Temporal strings are treated as normal strings and MUST NOT be interpreted.",
     "categories": [
       "arrays"
     ],
-    "parameter_order": [
-      "data",
-      "value"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "List to find the value in.",
         "schema": {
           "type": "array",
@@ -1703,14 +1864,15 @@
         },
         "required": true
       },
-      "value": {
+      {
+        "name": "value",
         "description": "Value to find in `data`.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "Returns the index of the first element with the specified value. If no element was found, `-1` is returned.",
       "schema": {
@@ -1824,8 +1986,9 @@
     "categories": [
       "math > trigonometric"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number.",
         "schema": {
           "type": [
@@ -1835,7 +1998,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed angle in radians.",
       "schema": {
@@ -1888,8 +2051,9 @@
     "categories": [
       "math > trigonometric"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number.",
         "schema": {
           "type": [
@@ -1899,7 +2063,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed angle in radians.",
       "schema": {
@@ -1952,21 +2116,17 @@
     "categories": [
       "comparison"
     ],
-    "parameter_order": [
-      "x",
-      "min",
-      "max",
-      "exclude_max"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "The value to check.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       },
-      "min": {
+      {
+        "name": "min",
         "description": "Lower boundary (inclusive) to check against.",
         "schema": [
           {
@@ -1990,7 +2150,8 @@
         ],
         "required": true
       },
-      "max": {
+      {
+        "name": "max",
         "description": "Upper boundary (inclusive) to check against.",
         "schema": [
           {
@@ -2014,14 +2175,15 @@
         ],
         "required": true
       },
-      "exclude_max": {
+      {
+        "name": "exclude_max",
         "description": "Exclude the upper boundary `max` if set to `true`. Defaults to `false`.",
         "schema": {
           "type": "boolean"
         },
         "default": false
       }
-    },
+    ],
     "returns": {
       "description": "`true` if `x` is between the specified bounds, otherwise `false`.",
       "schema": {
@@ -2124,8 +2286,9 @@
     "categories": [
       "math > rounding"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number to round up.",
         "schema": {
           "type": [
@@ -2135,7 +2298,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The number rounded up.",
       "schema": {
@@ -2186,13 +2349,9 @@
     "categories": [
       "math"
     ],
-    "parameter_order": [
-      "x",
-      "min",
-      "max"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number.",
         "schema": {
           "type": [
@@ -2202,21 +2361,23 @@
         },
         "required": true
       },
-      "min": {
+      {
+        "name": "min",
         "description": "Minimum value. If the value is lower than this value, the process will return the value of this parameter.",
         "schema": {
           "type": "number"
         },
         "required": true
       },
-      "max": {
+      {
+        "name": "max",
         "description": "Maximum value. If the value is greater than this value, the process will return the value of this parameter.",
         "schema": {
           "type": "number"
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The value clipped to the specified range.",
       "schema": {
@@ -2268,8 +2429,9 @@
     "categories": [
       "math > trigonometric"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "An angle in radians.",
         "schema": {
           "type": [
@@ -2279,7 +2441,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed cosine of `x`.",
       "schema": {
@@ -2312,8 +2474,9 @@
     "categories": [
       "math > trigonometric"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "An angle in radians.",
         "schema": {
           "type": [
@@ -2323,7 +2486,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed hyperbolic cosine of `x`.",
       "schema": {
@@ -2352,17 +2515,14 @@
   {
     "id": "count",
     "summary": "Count the number of elements",
-    "description": "Gives the number of elements in an array that matches a certain criterion / expression.\n\n**Remarks:**\n\n* By default counts the number of valid elements. A valid element is every element for which ``is_valid()`` returns `true`.\n* To count all elements in a list set the `expression` parameter to boolean `true`.",
+    "description": "Gives the number of elements in an array that matches the specified condition.\n\n**Remarks:**\n\n* Counts the number of valid elements by default (`condition` is set to `null`). A valid element is every element for which ``is_valid()`` returns `true`.\n* To count all elements in a list set the `condition` parameter to boolean `true`.",
     "categories": [
       "arrays",
       "reducer"
     ],
-    "parameter_order": [
-      "data",
-      "expression"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array with elements of any data type.",
         "schema": {
           "type": "array",
@@ -2372,34 +2532,41 @@
         },
         "required": true
       },
-      "expression": {
-        "description": "An expression consists of one ore more processes, which in the end return a boolean value. It is evaluated against each element in the array. An element is counted only if the expression returns `true`. Defaults to count valid elements in a list (see ``is_valid()``). Setting this parameter to boolean `true` counts all elements in the list.",
+      {
+        "name": "condition",
+        "description": "A condition consists of one ore more processes, which in the end return a boolean value. It is evaluated against each element in the array. An element is counted only if the condition returns `true`. Defaults to count valid elements in a list (see ``is_valid()``). Setting this parameter to boolean `true` counts all elements in the list.",
         "schema": [
           {
-            "description": "An expression that is evaluated against each element in the array.",
+            "title": "Condition",
+            "description": "A logical expression that is evaluated against each element in the array.",
             "type": "object",
             "subtype": "process-graph",
-            "parameters": {
-              "x": {
-                "description": "A single value from the array. Any data type could be passed."
+            "parameters": [
+              {
+                "name": "x",
+                "description": "The value of the current element being processed.",
+                "required": true,
+                "schema": {
+                  "description": "Any data type."
+                }
               }
-            }
+            ]
           },
           {
-            "title": "Count all elements",
+            "title": "All elements",
             "description": "Boolean `true` counts all elements in the list.",
             "type": "boolean",
             "const": true
           },
           {
-            "title": "Count valid elements",
+            "title": "Valid elements",
             "description": "`null` counts valid elements in the list.",
             "type": "null"
           }
         ],
         "default": null
       }
-    },
+    ],
     "returns": {
       "description": "The counted number of elements.",
       "schema": {
@@ -2439,7 +2606,7 @@
             false,
             null
           ],
-          "expression": true
+          "condition": true
         },
         "returns": 2
       },
@@ -2454,7 +2621,7 @@
             5,
             null
           ],
-          "expression": {
+          "condition": {
             "gt": {
               "process_id": "gt",
               "arguments": {
@@ -2478,7 +2645,7 @@
     "categories": [
       "cubes"
     ],
-    "parameters": {},
+    "parameters": [],
     "returns": {
       "description": "An empty raster data cube.",
       "schema": {
@@ -2494,12 +2661,9 @@
     "categories": [
       "math > cumulative"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array of numbers.",
         "schema": {
           "type": "array",
@@ -2512,14 +2676,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that `null` is set for all the following elements.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "An array with the computed cumulative maxima.",
       "schema": {
@@ -2597,12 +2762,9 @@
     "categories": [
       "math > cumulative"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array of numbers.",
         "schema": {
           "type": "array",
@@ -2615,14 +2777,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that `null` is set for all the following elements.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "An array with the computed cumulative minima.",
       "schema": {
@@ -2700,12 +2863,9 @@
     "categories": [
       "math > cumulative"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array of numbers.",
         "schema": {
           "type": "array",
@@ -2718,14 +2878,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that `null` is set for all the following elements.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "An array with the computed cumulative products.",
       "schema": {
@@ -2807,12 +2968,9 @@
     "categories": [
       "math > cumulative"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array of numbers.",
         "schema": {
           "type": "array",
@@ -2825,14 +2983,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that `null` is set for all the following elements.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "An array with the computed cumulative sums.",
       "schema": {
@@ -2910,29 +3069,25 @@
     "categories": [
       "development"
     ],
-    "experimental": true,
-    "parameter_order": [
-      "data",
-      "code",
-      "level",
-      "message"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "Data to publish.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       },
-      "code": {
+      {
+        "name": "code",
         "description": "An identifier to help identify the log entry in a bunch of other log entries.",
         "schema": {
           "type": "string"
         },
         "default": ""
       },
-      "level": {
+      {
+        "name": "level",
         "description": "The severity level of this message, defaults to `info`. Note that the level `error` forces the computation to be stopped!",
         "schema": {
           "type": "string",
@@ -2945,14 +3100,15 @@
         },
         "default": "info"
       },
-      "message": {
+      {
+        "name": "message",
         "description": "A message to send in addition to the data.",
         "schema": {
           "type": "string"
         },
         "default": ""
       }
-    },
+    ],
     "returns": {
       "description": "Returns the data as passed to the `data` parameter.",
       "schema": {
@@ -2967,12 +3123,9 @@
     "categories": [
       "math"
     ],
-    "parameter_order": [
-      "x",
-      "y"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "The dividend.",
         "schema": {
           "type": [
@@ -2982,7 +3135,8 @@
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "The divisor.",
         "schema": {
           "type": [
@@ -2992,7 +3146,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed result.",
       "schema": {
@@ -3050,12 +3204,9 @@
     "categories": [
       "cubes"
     ],
-    "parameter_order": [
-      "data",
-      "name"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "The data cube to drop a dimension from.",
         "schema": {
           "type": "object",
@@ -3063,14 +3214,15 @@
         },
         "required": true
       },
-      "name": {
+      {
+        "name": "name",
         "description": "Name of the dimension to drop.",
         "schema": {
           "type": "string"
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The data cube with one dimension less.",
       "schema": {
@@ -3095,7 +3247,7 @@
       "math > constants",
       "math > exponential & logarithmic"
     ],
-    "parameters": {},
+    "parameters": [],
     "returns": {
       "description": "The numerical value of Euler's number.",
       "schema": {
@@ -3139,28 +3291,25 @@
       "texts",
       "comparison"
     ],
-    "parameter_order": [
-      "x",
-      "y",
-      "delta",
-      "case_sensitive"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "First operand.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "Second operand.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       },
-      "delta": {
+      {
+        "name": "delta",
         "description": "Only applicable for comparing two numbers. If this optional parameter is set to a positive non-zero number the equality of two numbers is checked against a delta value. This is especially useful to circumvent problems with floating point inaccuracy in machine-based computation.\n\nThis option is basically an alias for the following computation: `lte(abs(minus([x, y]), delta)`",
         "schema": {
           "type": [
@@ -3170,14 +3319,15 @@
         },
         "default": null
       },
-      "case_sensitive": {
+      {
+        "name": "case_sensitive",
         "description": "Only applicable for comparing two strings. Case sensitive comparison can be disabled by setting this parameter to `false`.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "Returns `true` if `x` is equal to `y`, `null` if any operand is `null`, otherwise `false`.",
       "schema": {
@@ -3310,8 +3460,9 @@
     "categories": [
       "math > exponential & logarithmic"
     ],
-    "parameters": {
-      "p": {
+    "parameters": [
+      {
+        "name": "p",
         "description": "The numerical exponent.",
         "schema": {
           "type": [
@@ -3321,7 +3472,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed value for *e* raised to the power of `p`.",
       "schema": {
@@ -3360,12 +3511,9 @@
     "categories": [
       "math"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array of numbers.",
         "schema": {
           "type": "array",
@@ -3378,14 +3526,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that an array with two `null` values is returned if any value is such a value.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "An array containing the minimum and maximum values for the specified numbers. The first element is the minimum, the second element is the maximum. If the input array is empty both elements are set to `null`.",
       "schema": [
@@ -3475,13 +3624,9 @@
     "categories": [
       "filter"
     ],
-    "parameter_order": [
-      "data",
-      "bands",
-      "wavelengths"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A data cube with bands.",
         "schema": {
           "type": "object",
@@ -3489,7 +3634,8 @@
         },
         "required": true
       },
-      "bands": {
+      {
+        "name": "bands",
         "description": "A list of band names. Either the unique band name (metadata field `name` in bands) or one of the common band names (metadata field `common_name` in bands). If unique band name and common name conflict, the unique band name has higher priority.\n\nThe order of the specified array defines the order of the bands in the data cube. If multiple bands match a common name, all matched bands are included in the original order.",
         "schema": {
           "type": "array",
@@ -3500,7 +3646,8 @@
         },
         "default": []
       },
-      "wavelengths": {
+      {
+        "name": "wavelengths",
         "description": "A list of sub-lists with each sub-list consisting of two elements. The first element is the minimum wavelength and the second element is the maximum wavelength. Wavelengths are specified in micrometres (μm).\n\nThe order of the specified array defines the order of the bands in the data cube. If multiple bands match the wavelengths, all matched bands are included in the original order.",
         "schema": {
           "type": "array",
@@ -3527,7 +3674,7 @@
         },
         "default": []
       }
-    },
+    ],
     "returns": {
       "description": "A data cube limited to a subset of its original bands. Therefore, the cardinality is potentially lower, but the resolution and the number of dimensions are the same as for the original data cube.",
       "schema": {
@@ -3558,12 +3705,9 @@
     "categories": [
       "filter"
     ],
-    "parameter_order": [
-      "data",
-      "extent"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A data cube.",
         "schema": {
           "type": "object",
@@ -3571,7 +3715,8 @@
         },
         "required": true
       },
-      "extent": {
+      {
+        "name": "extent",
         "description": "A bounding box, which may include a vertical axis (see `base` and `height`).",
         "required": true,
         "schema": {
@@ -3649,7 +3794,7 @@
           }
         }
       }
-    },
+    ],
     "returns": {
       "description": "A data cube restricted to the bounding box. Therefore, the cardinality is potentially lower, but the resolution and the number of dimensions are the same as for the original data cube.",
       "schema": {
@@ -3683,18 +3828,14 @@
   {
     "id": "filter_labels",
     "summary": "Filter dimension labels based on a condition",
-    "description": "Filters the dimension labels based on a logical expression so that afterwards each dimension label in the data cube conforms to the expression.",
+    "description": "Filters the dimension labels in the data cube for the given dimension. Only the dimension labels that match the specified condition are preserved, all other labels with their corresponding data get removed.",
     "categories": [
       "cubes",
       "filter"
     ],
-    "parameter_order": [
-      "data",
-      "expression",
-      "dimension"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A data cube.",
         "schema": {
           "type": "object",
@@ -3702,52 +3843,36 @@
         },
         "required": true
       },
-      "expression": {
-        "description": "An expression that is evaluated against each dimension label in the specified dimension. A dimension label is dropped from the data cube if the expression returns `false`. The data type of the parameter depends on the dimension labels stored for the dimension.",
+      {
+        "name": "condition",
+        "description": "A condition that is evaluated against each dimension label in the specified dimension. A dimension label and the corresponding data is preserved for the given dimension, if the condition returns `true`.",
         "schema": {
           "type": "object",
           "subtype": "process-graph",
-          "parameters": {
-            "value": {
-              "description": "A single dimension label to compare against.",
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "string",
-                  "format": "date-time",
-                  "subtype": "date-time"
-                },
-                {
-                  "type": "string",
-                  "format": "date",
-                  "subtype": "date"
-                },
-                {
-                  "type": "string",
-                  "format": "time",
-                  "subtype": "time"
-                }
-              ]
+          "parameters": [
+            {
+              "name": "value",
+              "description": "A single dimension label to compare against. The data type of the parameter depends on the dimension labels stored for the dimension.",
+              "required": true,
+              "schema": {
+                "description": "Any data type."
+              }
             }
-          }
+          ]
         },
         "required": true
       },
-      "dimension": {
+      {
+        "name": "dimension",
         "description": "The name of the dimension to filter on. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.\n\n**Remarks:**\n\n* The default dimensions a data cube provides are described in the collection's metadata field `cube:dimensions`.\n* There could be multiple spatial dimensions such as `x`, `y` or `z`.\n* For multi-spectral imagery there is usually a separate dimension of type `bands` for the bands.",
         "schema": {
           "type": "string"
         },
         "required": true
       }
-    },
+    ],
     "returns": {
-      "description": "A data cube restricted by the specified expression. Therefore, the cardinality is potentially lower, but the resolution and the number of dimensions are the same as for the original data cube.",
+      "description": "The filtered data cube. Therefore, the cardinality of the dimension is potentially lower, but the resolution and the number of dimensions are the same as for the original data cube.",
       "schema": {
         "type": "object",
         "subtype": "raster-cube"
@@ -3757,7 +3882,47 @@
       "DimensionNotAvailable": {
         "message": "A dimension with the specified name does not exist."
       }
-    }
+    },
+    "examples": [
+      {
+        "description": "This example is loading the Sentinel-2 collection into a data cube and filters the data cube to only contain data from platform Sentinel-2A. This example assumes that the data cube has a dimension `platform` so that computations can distinguish between Sentinel-2A and Sentinel-2B data.",
+        "process_graph": {
+          "load": {
+            "process_id": "load_collection",
+            "arguments": {
+              "id": "Sentinel-2",
+              "spatial_extent": null,
+              "temporal_extent": null
+            }
+          },
+          "filter": {
+            "process_id": "filter_labels",
+            "arguments": {
+              "data": {
+                "from_node": "load"
+              },
+              "condition": {
+                "callback": {
+                  "eq": {
+                    "process_id": "eq",
+                    "arguments": {
+                      "x": {
+                        "from_argument": "value"
+                      },
+                      "y": "Sentinel-2A",
+                      "case_sensitive": false
+                    },
+                    "result": true
+                  }
+                }
+              },
+              "dimension": "platform"
+            },
+            "result": true
+          }
+        }
+      }
+    ]
   },
   {
     "id": "filter_polygon",
@@ -3766,12 +3931,9 @@
     "categories": [
       "filter"
     ],
-    "parameter_order": [
-      "data",
-      "polygons"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A data cube.",
         "schema": {
           "type": "object",
@@ -3779,21 +3941,16 @@
         },
         "required": true
       },
-      "polygons": {
+      {
+        "name": "polygons",
         "description": "One or more polygons used for filtering, either specified as GeoJSON or vector data cube.\n\nFor GeoJSON this can be one of the following GeoJSON types:\n\n* A `Polygon` geometry,\n* a `GeometryCollection` containing Polygons,\n* a `Feature` with a `Polygon` geometry or\n* a `FeatureCollection` containing `Feature`s with a `Polygon` geometry.",
-        "schema": [
-          {
-            "type": "object",
-            "subtype": "geojson"
-          },
-          {
-            "type": "object",
-            "subtype": "vector-cube"
-          }
-        ],
+        "schema": {
+          "type": "object",
+          "subtype": "geojson"
+        },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "A data cube restricted to the specified polygons. Therefore, the cardinality is potentially lower, but the resolution and the number of dimensions are the same as for the original data cube.",
       "schema": {
@@ -3816,13 +3973,9 @@
     "categories": [
       "filter"
     ],
-    "parameter_order": [
-      "data",
-      "extent",
-      "dimension"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A data cube.",
         "schema": {
           "type": "object",
@@ -3830,8 +3983,9 @@
         },
         "required": true
       },
-      "extent": {
-        "description": "Left-closed temporal interval, i.e. an array with exactly two elements:\n\n1. The first element is the start of the temporal interval. The specified instance in time is **included** in the interval.\n2. The second element is the end of the temporal interval. The specified instance in time is **excluded** from the interval.\n\nThe specified temporal strings follow [RFC 3339](https://tools.ietf.org/html/rfc3339). Although [RFC 3339 prohibits the hour to be '24'](https://tools.ietf.org/html/rfc3339#section-5.7), **this process allows the value '24' for the hour** of an end time in order to make it possible that left-closed time intervals can fully cover the day.\n\nAlso supports open intervals by setting one of the boundaries to `null`, but never both.",
+      {
+        "name": "extent",
+        "description": "Left-closed temporal interval, i.e. an array with exactly two elements:\n\n1. The first element is the start of the temporal interval. The specified instance in time is **included** in the interval.\n2. The second element is the end of the temporal interval. The specified instance in time is **excluded** from the interval.\n\nThe specified temporal strings follow [RFC 3339](https://tools.ietf.org/html/rfc3339). Also supports open intervals by setting one of the boundaries to `null`, but never both.",
         "schema": {
           "type": "array",
           "subtype": "temporal-interval",
@@ -3850,30 +4004,26 @@
                 "subtype": "date"
               },
               {
-                "type": "string",
-                "format": "time",
-                "subtype": "time"
-              },
-              {
                 "type": "null"
               }
             ]
           },
           "examples": [
             [
-              "2015-01-01",
-              "2016-01-01"
+              "2015-01-01T00:00:00Z",
+              "2016-01-01T00:00:00Z"
             ],
             [
-              "12:00:00Z",
-              "24:00:00Z"
+              "2015-01-01",
+              "2016-01-01"
             ]
           ]
         },
         "required": true
       },
-      "dimension": {
-        "description": "The name of the temporal dimension to filter on. If the dimension is not set or is set to `null`, the data cube is expected to only have one temporal dimension. Fails with a `TooManyDimensions` error if it has more dimensions. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.\n\n**Note:** The default dimensions a data cube provides are described in the collection's metadata field `cube:dimensions`.",
+      {
+        "name": "dimension",
+        "description": "The name of the temporal dimension to filter on. If the dimension is not set or is set to `null`, the filter applies to all temporal dimensions. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.\n\n**Note:** The default dimensions a data cube provides are described in the collection's metadata field `cube:dimensions`.",
         "schema": {
           "type": [
             "string",
@@ -3882,7 +4032,7 @@
         },
         "default": null
       }
-    },
+    ],
     "returns": {
       "description": "A data cube restricted to the specified temporal extent. Therefore, the cardinality is potentially lower, but the resolution and the number of dimensions are the same as for the original data cube.",
       "schema": {
@@ -3893,9 +4043,6 @@
     "exceptions": {
       "DimensionNotAvailable": {
         "message": "A dimension with the specified name does not exist."
-      },
-      "TooManyDimensions": {
-        "message": "The number of temporal dimensions must be reduced to one for 'filter_temporal'."
       }
     }
   },
@@ -3907,12 +4054,9 @@
       "arrays",
       "reducer"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array with elements of any data type. An empty array resolves always with `null`.",
         "schema": {
           "type": "array",
@@ -3922,14 +4066,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that `null` is returned if the first value is such a value.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "The first element of the input array.",
       "schema": {
@@ -3985,8 +4130,9 @@
     "categories": [
       "math > rounding"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number to round down.",
         "schema": {
           "type": [
@@ -3996,7 +4142,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The number rounded down.",
       "schema": {
@@ -4047,26 +4193,24 @@
     "categories": [
       "comparison"
     ],
-    "parameter_order": [
-      "x",
-      "y"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "First operand.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "Second operand.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "`true` if `x` is strictly greater than `y` or `null` if any operand is `null`, otherwise `false`.",
       "schema": {
@@ -4149,26 +4293,24 @@
     "categories": [
       "comparison"
     ],
-    "parameter_order": [
-      "x",
-      "y"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "First operand.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "Second operand.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "`true` if `x` is greater than or equal to `y`, `null` if any operand is `null`, otherwise `false`.",
       "schema": {
@@ -4255,19 +4397,15 @@
   {
     "id": "if",
     "summary": "If-Then-Else conditional",
-    "description": "Returns the value of the `accept` parameter if the expression is `true` or the value of the `reject` parameter if the expression is `false`. This works similar to an if-then-else construct.\n\nThe no-data value `null` is passed through and therefore gets propagated.",
+    "description": "If the value passed is `true`, returns the value of the `accept` parameter, otherwise returns the value of the `reject` parameter.\n\nThis is basically an if-then-else construct as in other programming languages.",
     "categories": [
       "logic",
       "comparison",
       "masks"
     ],
-    "parameter_order": [
-      "expression",
-      "accept",
-      "reject"
-    ],
-    "parameters": {
-      "expression": {
+    "parameters": [
+      {
+        "name": "value",
         "description": "A boolean value.",
         "schema": {
           "type": [
@@ -4277,23 +4415,25 @@
         },
         "required": true
       },
-      "accept": {
-        "description": "A value that is returned if the boolean expression is `true`. Defaults to `true`.",
+      {
+        "name": "accept",
+        "description": "A value that is returned if the boolean value is `true`.",
         "schema": {
           "description": "Any data type is allowed."
         },
-        "default": true
+        "required": true
       },
-      "reject": {
-        "description": "A value that is returned if the boolean expression is `false`. Defaults to `false`.",
+      {
+        "name": "reject",
+        "description": "A value that is returned if the boolean value is **not** `true`. Defaults to `null`.",
         "schema": {
           "description": "Any data type is allowed."
         },
-        "default": false
+        "default": null
       }
-    },
+    ],
     "returns": {
-      "description": "Either the `accept` or `reject` argument depending on the given boolean expression.",
+      "description": "Either the `accept` or `reject` argument depending on the given boolean value.",
       "schema": {
         "description": "Any data type is allowed."
       }
@@ -4301,32 +4441,23 @@
     "examples": [
       {
         "arguments": {
-          "expression": true
-        },
-        "returns": true
-      },
-      {
-        "arguments": {
-          "expression": null
-        },
-        "returns": null
-      },
-      {
-        "arguments": {
-          "expression": false
-        },
-        "returns": false
-      },
-      {
-        "arguments": {
-          "expression": true,
-          "accept": "A"
+          "value": true,
+          "accept": "A",
+          "reject": "B"
         },
         "returns": "A"
       },
       {
         "arguments": {
-          "expression": false,
+          "value": null,
+          "accept": "A",
+          "reject": "B"
+        },
+        "returns": "B"
+      },
+      {
+        "arguments": {
+          "value": false,
           "accept": [
             1,
             2,
@@ -4343,6 +4474,20 @@
           5,
           6
         ]
+      },
+      {
+        "arguments": {
+          "value": true,
+          "accept": 123
+        },
+        "returns": 123
+      },
+      {
+        "arguments": {
+          "value": false,
+          "accept": 1
+        },
+        "returns": null
       }
     ]
   },
@@ -4354,8 +4499,9 @@
       "math",
       "math > rounding"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number.",
         "schema": {
           "type": [
@@ -4365,7 +4511,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "Integer part of the number.",
       "schema": {
@@ -4416,15 +4562,16 @@
     "categories": [
       "comparison"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "The data to check.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "`true` if the data is not a number, otherwise `false`",
       "schema": {
@@ -4460,15 +4607,16 @@
     "categories": [
       "comparison"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "The data to check.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "`true` if the data is a no-data value, otherwise `false`",
       "schema": {
@@ -4503,15 +4651,16 @@
     "categories": [
       "comparison"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "The data to check.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "`true` if the data is valid, otherwise `false`.",
       "schema": {
@@ -4553,12 +4702,9 @@
     "categories": [
       "cubes"
     ],
-    "parameter_order": [
-      "data",
-      "dimension"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "The data cube.",
         "schema": {
           "type": "object",
@@ -4566,14 +4712,15 @@
         },
         "required": true
       },
-      "dimension": {
+      {
+        "name": "dimension",
         "description": "The name of the dimension to get the labels for.",
         "schema": {
           "type": "string"
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The labels as array.",
       "schema": {
@@ -4592,12 +4739,9 @@
       "arrays",
       "reducer"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array with elements of any data type. An empty array resolves always with `null`.",
         "schema": {
           "type": "array",
@@ -4607,14 +4751,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that `null` is returned if the last value is such a value.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "The last element of the input array.",
       "schema": {
@@ -4670,15 +4815,9 @@
     "categories": [
       "math"
     ],
-    "parameter_order": [
-      "x",
-      "inputMin",
-      "inputMax",
-      "outputMin",
-      "outputMax"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number to transform.",
         "schema": {
           "type": [
@@ -4688,35 +4827,39 @@
         },
         "required": true
       },
-      "inputMin": {
+      {
+        "name": "inputMin",
         "description": "Minimum value the input can obtain.",
         "schema": {
           "type": "number"
         },
         "required": true
       },
-      "inputMax": {
+      {
+        "name": "inputMax",
         "description": "Maximum value the input can obtain.",
         "schema": {
           "type": "number"
         },
         "required": true
       },
-      "outputMin": {
+      {
+        "name": "outputMin",
         "description": "Minimum value of the desired output range.",
         "schema": {
           "type": "number"
         },
         "default": 0
       },
-      "outputMax": {
+      {
+        "name": "outputMax",
         "description": "Maximum value of the desired output range.",
         "schema": {
           "type": "number"
         },
         "default": 1
       }
-    },
+    ],
     "returns": {
       "description": "The transformed number.",
       "schema": {
@@ -4762,8 +4905,9 @@
     "categories": [
       "math > exponential & logarithmic"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number to compute the natural logarithm for.",
         "schema": {
           "type": [
@@ -4773,7 +4917,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed natural logarithm.",
       "schema": {
@@ -4831,15 +4975,9 @@
       "cubes",
       "import"
     ],
-    "parameter_order": [
-      "id",
-      "spatial_extent",
-      "temporal_extent",
-      "bands",
-      "properties"
-    ],
-    "parameters": {
-      "id": {
+    "parameters": [
+      {
+        "name": "id",
         "description": "The collection id.",
         "schema": {
           "type": "string",
@@ -4848,7 +4986,8 @@
         },
         "required": true
       },
-      "spatial_extent": {
+      {
+        "name": "spatial_extent",
         "description": "Limits the data to load from the collection to the specified bounding box or polygons.\n\nThe process puts a pixel into the data cube if the point at the pixel center intersects with the bounding box or any of the polygons (as defined in the Simple Features standard by the OGC).\n\nThe GeoJSON can be one of the following GeoJSON types:\n\n* A `Polygon` geometry,\n* a `GeometryCollection` containing Polygons,\n* a `Feature` with a `Polygon` geometry or\n* a `FeatureCollection` containing `Feature`s with a `Polygon` geometry.\n\nSet this parameter to `null` to set no limit for the spatial extent. Be careful with this when loading large datasets!",
         "schema": [
           {
@@ -4939,8 +5078,9 @@
         ],
         "required": true
       },
-      "temporal_extent": {
-        "description": "Limits the data to load from the collection to the specified left-closed temporal interval. Applies to all temporal dimensions. The interval has to be specified as an array with exactly two elements:\n\n1. The first element is the start of the temporal interval. The specified instance in time is **included** in the interval.\n2. The second element is the end of the temporal interval. The specified instance in time is **excluded** from the interval.\n\nThe specified temporal strings follow [RFC 3339](https://tools.ietf.org/html/rfc3339). Although [RFC 3339 prohibits the hour to be '24'](https://tools.ietf.org/html/rfc3339#section-5.7), **this process allows the value '24' for the hour** of an end time in order to make it possible that left-closed time intervals can fully cover the day.\n\nAlso supports open intervals by setting one of the boundaries to `null`, but never both.\n\nSet this parameter to `null` to set no limit for the spatial extent. Be careful with this when loading large datasets!",
+      {
+        "name": "temporal_extent",
+        "description": "Limits the data to load from the collection to the specified left-closed temporal interval. Applies to all temporal dimensions. The interval has to be specified as an array with exactly two elements:\n\n1. The first element is the start of the temporal interval. The specified instance in time is **included** in the interval.\n2. The second element is the end of the temporal interval. The specified instance in time is **excluded** from the interval.\n\nThe specified temporal strings follow [RFC 3339](https://tools.ietf.org/html/rfc3339). Also supports open intervals by setting one of the boundaries to `null`, but never both.\n\nSet this parameter to `null` to set no limit for the spatial extent. Be careful with this when loading large datasets!",
         "schema": [
           {
             "type": "array",
@@ -4960,23 +5100,18 @@
                   "subtype": "date"
                 },
                 {
-                  "type": "string",
-                  "format": "time",
-                  "subtype": "time"
-                },
-                {
                   "type": "null"
                 }
               ]
             },
             "examples": [
               [
-                "2015-01-01",
-                "2016-01-01"
+                "2015-01-01T00:00:00Z",
+                "2016-01-01T00:00:00Z"
               ],
               [
-                "12:00:00Z",
-                "24:00:00Z"
+                "2015-01-01",
+                "2016-01-01"
               ]
             ]
           },
@@ -4988,7 +5123,8 @@
         ],
         "required": true
       },
-      "bands": {
+      {
+        "name": "bands",
         "description": "Only adds the specified bands into the data cube so that bands that don't match the list of band names are not available. Applies to all dimensions of type `bands`.\n\nEither the unique band name (metadata field `name` in bands) or one of the common band names (metadata field `common_name` in bands) can be specified. If unique band name and common name conflict, the unique band name has higher priority.\n\nThe order of the specified array defines the order of the bands in the data cube. f multiple bands match a common name, all matched bands are included in the original order.",
         "schema": [
           {
@@ -5006,20 +5142,25 @@
         ],
         "default": null
       },
-      "properties": {
-        "description": "Limits the data by metadata properties to include only data in the data cube which all given expressions return `true` for (AND operation).\n\nSpecify key-value-pairs with the keys being the name of the metadata property, which can be retrieved with the openEO Data Discovery for Collections. The values must be expressions to be evaluated against the collection metadata, see the example.\n\n**Note:** Back-ends may not pass the actual value to the expressions, but pass a proprietary index or a placeholder so that they can use the expressions to query against another data source. So debugging on the process parameter `value` may lead to unexpected results.",
-        "experimental": true,
+      {
+        "name": "properties",
+        "description": "Limits the data by metadata properties to include only data in the data cube which all given conditions return `true` for (AND operation).\n\nSpecify key-value-pairs with the keys being the name of the metadata property, which can be retrieved with the openEO Data Discovery for Collections. The values must be conditions to be evaluated against the collection metadata, see the example.",
         "schema": [
           {
             "type": "object",
             "additionalProperties": {
               "type": "object",
               "subtype": "process-graph",
-              "parameters": {
-                "value": {
-                  "description": "The property value. Any data type could be passed."
+              "parameters": [
+                {
+                  "name": "value",
+                  "description": "The property value to be checked against.",
+                  "required": true,
+                  "schema": {
+                    "description": "Any data type."
+                  }
                 }
-              }
+              ]
             }
           },
           {
@@ -5030,23 +5171,17 @@
         ],
         "default": null
       }
-    },
+    ],
     "returns": {
       "description": "A data cube for further processing.",
-      "schema": [
-        {
-          "type": "object",
-          "subtype": "raster-cube"
-        },
-        {
-          "type": "object",
-          "subtype": "vector-cube"
-        }
-      ]
+      "schema": {
+        "type": "object",
+        "subtype": "raster-cube"
+      }
     },
     "examples": [
       {
-        "description": "Loading `Sentinel-2B` data from a `Sentinel-2` collection for 2018, but only with cloud cover between 0 and 10%.",
+        "description": "Loading `Sentinel-2B` data from a `Sentinel-2` collection for 2018, but only with cloud cover between 0 and 50%.",
         "process_graph": {
           "loadco1": {
             "process_id": "load_collection",
@@ -5072,13 +5207,13 @@
                           "from_argument": "value"
                         },
                         "min": 0,
-                        "max": 10
+                        "max": 50
                       },
                       "result": true
                     }
                   }
                 },
-                "eo:platform": {
+                "platform": {
                   "callback": {
                     "pf": {
                       "process_id": "eq",
@@ -5136,8 +5271,9 @@
       "cubes",
       "import"
     ],
-    "parameters": {
-      "id": {
+    "parameters": [
+      {
+        "name": "id",
         "description": "The id of a batch job with results.",
         "schema": {
           "type": "string",
@@ -5146,19 +5282,13 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "A data cube for further processing.",
-      "schema": [
-        {
-          "type": "object",
-          "subtype": "raster-cube"
-        },
-        {
-          "type": "object",
-          "subtype": "vector-cube"
-        }
-      ]
+      "schema": {
+        "type": "object",
+        "subtype": "raster-cube"
+      }
     }
   },
   {
@@ -5169,13 +5299,9 @@
       "cubes",
       "import"
     ],
-    "parameter_order": [
-      "paths",
-      "format",
-      "options"
-    ],
-    "parameters": {
-      "paths": {
+    "parameters": [
+      {
+        "name": "paths",
         "description": "The files to read. Folders can't be specified, instead specify all files. An error is thrown if a file can't be read.",
         "schema": {
           "type": "array",
@@ -5187,7 +5313,8 @@
         },
         "required": true
       },
-      "format": {
+      {
+        "name": "format",
         "description": "The file format to read from. It must be one of the values that the server reports as supported input file formats, which usually correspond to the short GDAL/OGR codes. This parameter is *case insensitive*.",
         "schema": {
           "type": "string",
@@ -5195,7 +5322,8 @@
         },
         "required": true
       },
-      "options": {
+      {
+        "name": "options",
         "description": "The file format options to be used to read the files. Must correspond to the options that the server reports as supported options for the chosen `format`. The option names and valid values usually correspond to the GDAL/OGR format options.",
         "schema": {
           "type": "object",
@@ -5203,19 +5331,13 @@
         },
         "default": {}
       }
-    },
+    ],
     "returns": {
       "description": "A data cube for further processing.",
-      "schema": [
-        {
-          "type": "object",
-          "subtype": "raster-cube"
-        },
-        {
-          "type": "object",
-          "subtype": "vector-cube"
-        }
-      ]
+      "schema": {
+        "type": "object",
+        "subtype": "raster-cube"
+      }
     }
   },
   {
@@ -5225,12 +5347,9 @@
     "categories": [
       "math > exponential & logarithmic"
     ],
-    "parameter_order": [
-      "x",
-      "base"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number to compute the logarithm for.",
         "schema": {
           "type": [
@@ -5240,7 +5359,8 @@
         },
         "required": true
       },
-      "base": {
+      {
+        "name": "base",
         "description": "The numerical base.",
         "schema": {
           "type": [
@@ -5250,7 +5370,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed logarithm.",
       "schema": {
@@ -5310,26 +5430,24 @@
     "categories": [
       "comparison"
     ],
-    "parameter_order": [
-      "x",
-      "y"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "First operand.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "Second operand.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "`true` if `x` is strictly less than `y`, `null` if any operand is `null`, otherwise `false`.",
       "schema": {
@@ -5412,26 +5530,24 @@
     "categories": [
       "comparison"
     ],
-    "parameter_order": [
-      "x",
-      "y"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "First operand.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "Second operand.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "`true` if `x` is less than or equal to `y`, `null` if any operand is `null`, otherwise `false`.",
       "schema": {
@@ -5522,14 +5638,9 @@
     "categories": [
       "masks"
     ],
-    "parameter_order": [
-      "data",
-      "mask",
-      "replacement",
-      "inside"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A raster data cube.",
         "schema": {
           "type": "object",
@@ -5537,21 +5648,17 @@
         },
         "required": true
       },
-      "mask": {
-        "description": "A GeoJSON object or a vector data cube containing a polygon. The provided feature types can be one of the following:\n\n* A `Polygon` geometry,\n* a `GeometryCollection` containing Polygons,\n* a `Feature` with a `Polygon` geometry or\n* a `FeatureCollection` containing `Feature`s with a `Polygon` geometry.",
-        "schema": [
-          {
-            "type": "object",
-            "subtype": "geojson"
-          },
-          {
-            "type": "object",
-            "subtype": "vector-cube"
-          }
-        ],
+      {
+        "name": "mask",
+        "description": "A GeoJSON object containing a polygon. The provided feature types can be one of the following:\n\n* A `Polygon` geometry,\n* a `GeometryCollection` containing Polygons,\n* a `Feature` with a `Polygon` geometry or\n* a `FeatureCollection` containing `Feature`s with a `Polygon` geometry.",
+        "schema": {
+          "type": "object",
+          "subtype": "geojson"
+        },
         "required": true
       },
-      "replacement": {
+      {
+        "name": "replacement",
         "description": "The value used to replace masked values with.",
         "schema": {
           "type": [
@@ -5563,14 +5670,15 @@
         },
         "default": null
       },
-      "inside": {
+      {
+        "name": "inside",
         "description": "If set to `true` all pixels for which the point at the pixel center **does** intersect with any polygon are replaced.",
         "schema": {
           "type": "boolean"
         },
         "default": false
       }
-    },
+    ],
     "returns": {
       "description": "The masked raster data cube.",
       "schema": {
@@ -5589,17 +5697,13 @@
   {
     "id": "mask",
     "summary": "Apply a raster mask",
-    "description": "Applies a mask to a raster data cube. To apply a vector mask use ``mask_polygon()``.\n\nA mask is a raster data cube for which parallel pixels among `data` and `mask` are compared and those pixels in `data` are replaced which are non-zero (for numbers) or `true` (for boolean values). The pixel values are replaced with the value specified for `replacement`, which defaults to `null` (no data).",
+    "description": "Applies a mask to a raster data cube. To apply a vector mask use ``mask_polygon()``.\n\nA mask is a raster data cube for which corresponding pixels among `data` and `mask` are compared and those pixels in `data` are replaced whose pixels in `mask` are non-zero (for numbers) or `true` (for boolean values). The pixel values are replaced with the value specified for `replacement`, which defaults to `null` (no data).\n\nThe data cubes have to be compatible so that each dimension in mask must also be available in the raster data cube with the same name, type, reference system, resolution and labels. Dimensions can be missing in the mask with the result that the mask is applied for each label of the missing dimension in the data cube. The process fails if there's an incompatibility found between the raster data cube and the mask.",
     "categories": [
       "masks"
     ],
-    "parameter_order": [
-      "data",
-      "mask",
-      "replacement"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A raster data cube.",
         "schema": {
           "type": "object",
@@ -5607,15 +5711,17 @@
         },
         "required": true
       },
-      "mask": {
-        "description": "A mask as raster data cube. Every pixel in `data` must have a parallel element in `mask`.",
+      {
+        "name": "mask",
+        "description": "A mask as raster data cube. Every pixel in `data` must have a corresponding element in `mask`.",
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
         },
         "required": true
       },
-      "replacement": {
+      {
+        "name": "replacement",
         "description": "The value used to replace masked values with.",
         "schema": {
           "type": [
@@ -5627,7 +5733,7 @@
         },
         "default": null
       }
-    },
+    ],
     "returns": {
       "description": "The masked raster data cube.",
       "schema": {
@@ -5644,12 +5750,9 @@
       "math",
       "reducer"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array of numbers. An empty array resolves always with `null`.",
         "schema": {
           "type": "array",
@@ -5662,14 +5765,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that `null` is returned if any value is such a value.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "The maximum value.",
       "schema": {
@@ -5739,12 +5843,9 @@
       "math",
       "reducer"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array of numbers. An empty array resolves always with `null`.",
         "schema": {
           "type": "array",
@@ -5757,14 +5858,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that `null` is returned if any value is such a value.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed arithmetic mean.",
       "schema": {
@@ -5831,12 +5933,9 @@
       "math",
       "reducer"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array of numbers. An empty array resolves always with `null`.",
         "schema": {
           "type": "array",
@@ -5849,14 +5948,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that `null` is returned if any value is such a value.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed statistical median.",
       "schema": {
@@ -5942,14 +6042,9 @@
     "categories": [
       "cubes"
     ],
-    "parameter_order": [
-      "cube1",
-      "cube2",
-      "overlap_resolver",
-      "binary"
-    ],
-    "parameters": {
-      "cube1": {
+    "parameters": [
+      {
+        "name": "cube1",
         "description": "The first data cube.",
         "schema": {
           "type": "object",
@@ -5957,7 +6052,8 @@
         },
         "required": true
       },
-      "cube2": {
+      {
+        "name": "cube2",
         "description": "The second data cube.",
         "schema": {
           "type": "object",
@@ -5965,53 +6061,34 @@
         },
         "required": true
       },
-      "overlap_resolver": {
-        "description": "A reducer that resolves the conflict if the data overlaps. The reducer may be a single process such as ``mean()`` or consist of multiple sub-processes. By default, a reducer must accept an array as input. The process can also work on two values by setting the parameter `binary` to `true`. The reducer must return a value of the same data type as the input values in the array. `null` (default) can be specified if no overlap resolver is required.",
-        "schema": [
-          {
-            "title": "Unary behaviour",
-            "description": "Passes an array to the reducer.",
-            "type": "object",
-            "subtype": "process-graph",
-            "parameters": {
-              "data": {
-                "description": "An array with elements of any data type.",
-                "type": "array",
-                "items": {
-                  "description": "Any data type."
-                }
-              }
-            }
-          },
-          {
-            "title": "Binary behaviour",
-            "description": "Passes two values to the reducer.",
-            "type": "object",
-            "subtype": "process-graph",
-            "parameters": {
-              "x": {
-                "description": "The first value. Any data type could be passed."
-              },
-              "y": {
-                "description": "The second value. Any data type could be passed."
-              }
-            }
-          },
-          {
-            "title": "No overlap resolver",
-            "type": "null"
-          }
-        ],
-        "default": null
-      },
-      "binary": {
-        "description": "Specifies whether the process should pass two values to the reducer or a list of values (default).\n\nIf the process passes two values, the reducer must be both associative and commutative as the execution may be executed in parallel and therefore the order of execution is arbitrary.\n\nThis parameter is especially useful for UDFs passed as reducers. Back-ends may still optimize and parallelize processes that work on list of values.",
+      {
+        "name": "overlap_resolver",
+        "description": "A reduction operator that resolves the conflict if the data overlaps. The reducer must return a value of the same data type as the input values are. The reduction operator may be a single process such as ``multiply()`` or consist of multiple sub-processes. `null` (the default) can be specified if no overlap resolver is required.",
         "schema": {
-          "type": "boolean"
+          "type": "object",
+          "subtype": "process-graph",
+          "parameters": [
+            {
+              "name": "x",
+              "description": "The first value.",
+              "required": true,
+              "schema": {
+                "description": "Any data type."
+              }
+            },
+            {
+              "name": "y",
+              "description": "The second value.",
+              "required": true,
+              "schema": {
+                "description": "Any data type."
+              }
+            }
+          ]
         },
-        "default": false
+        "default": null
       }
-    },
+    ],
     "returns": {
       "description": "The merged data cube.",
       "schema": {
@@ -6040,12 +6117,9 @@
       "math",
       "reducer"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array of numbers. An empty array resolves always with `null`.",
         "schema": {
           "type": "array",
@@ -6058,14 +6132,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that `null` is returned if any value is such a value.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "The minimum value.",
       "schema": {
@@ -6133,12 +6208,9 @@
     "categories": [
       "math"
     ],
-    "parameter_order": [
-      "x",
-      "y"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number to be used as dividend.",
         "schema": {
           "type": [
@@ -6148,7 +6220,8 @@
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "A number to be used as divisor.",
         "schema": {
           "type": [
@@ -6158,7 +6231,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The remainder after division.",
       "schema": {
@@ -6227,12 +6300,9 @@
     "categories": [
       "math"
     ],
-    "parameter_order": [
-      "x",
-      "y"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "The multiplier.",
         "schema": {
           "type": [
@@ -6242,7 +6312,8 @@
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "The multiplicand.",
         "schema": {
           "type": [
@@ -6252,7 +6323,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed product of the two numbers.",
       "schema": {
@@ -6311,14 +6382,9 @@
       "math > indices",
       "vegetation indices"
     ],
-    "parameter_order": [
-      "data",
-      "nir",
-      "red",
-      "target_band"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A raster data cube with two bands that have the common names `red` and `nir` assigned.",
         "schema": {
           "type": "object",
@@ -6326,7 +6392,8 @@
         },
         "required": true
       },
-      "nir": {
+      {
+        "name": "nir",
         "description": "The name of the NIR band. Defaults to the band that has the common name `nir` assigned.\n\nEither the unique band name (metadata field `name` in bands) or one of the common band names (metadata field `common_name` in bands) can be specified. If unique band name and common name conflict, the unique band name has higher priority.",
         "schema": {
           "type": "string",
@@ -6334,7 +6401,8 @@
         },
         "default": "nir"
       },
-      "red": {
+      {
+        "name": "red",
         "description": "The name of the red band. Defaults to the band that has the common name `red` assigned.\n\nEither the unique band name (metadata field `name` in bands) or one of the common band names (metadata field `common_name` in bands) can be specified. If unique band name and common name conflict, the unique band name has higher priority.",
         "schema": {
           "type": "string",
@@ -6342,7 +6410,8 @@
         },
         "default": "red"
       },
-      "target_band": {
+      {
+        "name": "target_band",
         "description": "By default, the dimension of type `bands` is dropped. To keep the dimension specify a new band name in this parameter so that a new dimension label with the specified name will be added for the computed values.",
         "schema": [
           {
@@ -6355,7 +6424,7 @@
         ],
         "default": null
       }
-    },
+    ],
     "returns": {
       "description": "A raster data cube containing the computed NDVI values.",
       "schema": {
@@ -6403,28 +6472,25 @@
       "texts",
       "comparison"
     ],
-    "parameter_order": [
-      "x",
-      "y",
-      "delta",
-      "case_sensitive"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "First operand.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "Second operand.",
         "schema": {
           "description": "Any data type is allowed."
         },
         "required": true
       },
-      "delta": {
+      {
+        "name": "delta",
         "description": "Only applicable for comparing two numbers. If this optional parameter is set to a positive non-zero number the non-equality of two numbers is checked against a delta value. This is especially useful to circumvent problems with floating point inaccuracy in machine-based computation.\n\nThis option is basically an alias for the following computation: `gt(abs(minus([x, y]), delta)`",
         "schema": {
           "type": [
@@ -6434,14 +6500,15 @@
         },
         "default": null
       },
-      "case_sensitive": {
+      {
+        "name": "case_sensitive",
         "description": "Only applicable for comparing two strings. Case sensitive comparison can be disabled by setting this parameter to `false`.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "Returns `true` if `x` is *not* equal to `y`, `null` if any operand is `null`, otherwise `false`.",
       "schema": {
@@ -6575,26 +6642,24 @@
       "math > indices",
       "vegetation indices"
     ],
-    "parameter_order": [
-      "x",
-      "y"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "The value for the first band.",
         "schema": {
           "type": "number"
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "The value for the second band.",
         "schema": {
           "type": "number"
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed normalized difference.",
       "schema": {
@@ -6628,8 +6693,9 @@
     "categories": [
       "logic"
     ],
-    "parameters": {
-      "expression": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "Boolean value to invert.",
         "schema": {
           "type": [
@@ -6639,7 +6705,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "Inverted boolean value.",
       "schema": {
@@ -6652,19 +6718,19 @@
     "examples": [
       {
         "arguments": {
-          "expression": null
+          "x": null
         },
         "returns": null
       },
       {
         "arguments": {
-          "expression": false
+          "x": false
         },
         "returns": true
       },
       {
         "arguments": {
-          "expression": true
+          "x": true
         },
         "returns": false
       }
@@ -6677,12 +6743,9 @@
     "categories": [
       "logic"
     ],
-    "parameter_order": [
-      "x",
-      "y"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A boolean value.",
         "schema": {
           "type": [
@@ -6692,7 +6755,8 @@
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "A boolean value.",
         "schema": {
           "type": [
@@ -6702,7 +6766,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "Boolean result of the logical OR.",
       "schema": {
@@ -6758,13 +6822,9 @@
       "arrays",
       "sorting"
     ],
-    "parameter_order": [
-      "data",
-      "asc",
-      "nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array to compute the order for.",
         "schema": {
           "type": "array",
@@ -6796,14 +6856,16 @@
         },
         "required": true
       },
-      "asc": {
+      {
+        "name": "asc",
         "description": "The default sort order is ascending, with smallest values first. To sort in reverse (descending) order, set this parameter to `false`.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       },
-      "nodata": {
+      {
+        "name": "nodata",
         "description": "Controls the handling of no-data values (`null`). By default they are removed. If `true`, missing values in the data are put last; if `false`, they are put first.",
         "schema": {
           "type": [
@@ -6813,7 +6875,7 @@
         },
         "default": null
       }
-    },
+    ],
     "returns": {
       "description": "The computed permutation.",
       "schema": {
@@ -6965,7 +7027,7 @@
       "math > constants",
       "math > trigonometric"
     ],
-    "parameters": {},
+    "parameters": [],
     "returns": {
       "description": "The numerical value of Pi.",
       "schema": {
@@ -7009,12 +7071,9 @@
       "math",
       "math > exponential & logarithmic"
     ],
-    "parameter_order": [
-      "base",
-      "p"
-    ],
-    "parameters": {
-      "base": {
+    "parameters": [
+      {
+        "name": "base",
         "description": "The numerical base.",
         "schema": {
           "type": [
@@ -7024,7 +7083,8 @@
         },
         "required": true
       },
-      "p": {
+      {
+        "name": "p",
         "description": "The numerical exponent.",
         "schema": {
           "type": [
@@ -7034,7 +7094,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed value for `base` raised to the power of `p`.",
       "schema": {
@@ -7111,12 +7171,9 @@
       "math",
       "reducer"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array of numbers.",
         "schema": {
           "type": "array",
@@ -7129,14 +7186,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that `null` is returned if any value is such a value.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed product of the sequence of numbers.",
       "schema": {
@@ -7214,83 +7272,15 @@
     ]
   },
   {
-    "id": "property",
-    "summary": "Get metadata for data cubes or collections",
-    "description": "Retrieves metadata properties for a data cube (if a `raster-cube` or `vector-cube` is passed) or a collection (if a collection id is passed). Properties for a single dimension can be queried with the `dimension` parameter.\n\nAvailable metadata properties can be retrieved with the openEO Data Discovery for Collections, but for data cubes only a subset may be available after processing.",
-    "categories": [
-      "cubes"
-    ],
-    "parameter_order": [
-      "data",
-      "name",
-      "dimension"
-    ],
-    "parameters": {
-      "data": {
-        "description": "A data cube.",
-        "schema": [
-          {
-            "type": "object",
-            "subtype": "raster-cube"
-          },
-          {
-            "type": "object",
-            "subtype": "vector-cube"
-          },
-          {
-            "description": "A collection id.",
-            "type": "string",
-            "subtype": "collection-id",
-            "pattern": "^[A-Za-z0-9_\\-\\.~/]+$"
-          }
-        ],
-        "required": true
-      },
-      "name": {
-        "description": "Name of the metadata property.",
-        "schema": {
-          "type": "string"
-        },
-        "required": true
-      },
-      "dimension": {
-        "description": "Optionally, the name of a dimension to get the property for. `null` by default, which gets a property globally for the collection/data cube. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.",
-        "schema": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "default": null
-      }
-    },
-    "returns": {
-      "description": "The value for the metadata property or `null` if no information are available.",
-      "schema": {
-        "description": "Any data type is allowed."
-      }
-    },
-    "exceptions": {
-      "DimensionNotAvailable": {
-        "message": "A dimension with the specified name does not exist."
-      }
-    }
-  },
-  {
     "id": "quantiles",
     "summary": "Quantiles",
     "description": "Calculates quantiles, which are cut points dividing the range of a probability distribution into either\n\n* intervals corresponding to the given `probabilities` or\n* (nearly) equal-sized intervals (q-quantiles based on the parameter `q`).\n\nEither the parameter `probabilites` or `q` must be specified, otherwise the `QuantilesParameterMissing` exception must be thrown. If both parameters are set the `QuantilesParameterConflict` exception must be thrown.",
     "categories": [
       "math"
     ],
-    "parameter_order": [
-      "data",
-      "probabilities",
-      "q",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array of numbers.",
         "schema": {
           "type": "array",
@@ -7303,7 +7293,8 @@
         },
         "required": true
       },
-      "probabilities": {
+      {
+        "name": "probabilities",
         "description": "A list of probabilities to calculate quantiles for. The probabilities must be between 0 and 1.",
         "schema": {
           "type": "array",
@@ -7314,21 +7305,23 @@
           }
         }
       },
-      "q": {
+      {
+        "name": "q",
         "description": "A number of intervals to calculate quantiles for. Calculates q-quantiles with (nearly) equal-sized intervals.",
         "schema": {
           "type": "integer",
           "minimum": 2
         }
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that an array with `null` values is returned if any element is such a value.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "An array with the computed quantiles. The list has either\n\n* as many elements as the given list of `probabilities` had or\n* *`q`-1* elements.\n\nIf the input array is empty the resulting array is filled with as many `null` values as required according to the list above. For an example, see the 'Empty array example'.",
       "schema": {
@@ -7462,12 +7455,9 @@
       "arrays",
       "sorting"
     ],
-    "parameter_order": [
-      "data",
-      "order"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "The array to rearrange.",
         "schema": {
           "type": "array",
@@ -7477,7 +7467,8 @@
         },
         "required": true
       },
-      "order": {
+      {
+        "name": "order",
         "description": "The permutation used for rearranging.",
         "schema": {
           "type": "array",
@@ -7488,7 +7479,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The rearranged array.",
       "schema": {
@@ -7571,21 +7562,17 @@
     ]
   },
   {
-    "id": "reduce_dimension",
-    "summary": "Reduce dimensions",
-    "description": "Applies a reducer to a data cube dimension by collapsing all the pixel values along the specified dimension into an output value computed by the reducer. The dimension is dropped. To avoid dropping the dimension, use ``apply_dimension()`` instead.\n\nA reducer is a single process or a set of processes, which computes a single value for a list of values, see the category 'reducer' for such processes.\n\nThe process can also work on two values by setting the parameter `binary` to `true`. In this case, the reducer doesn't get executed on a single value.",
+    "id": "reduce_dimension_binary",
+    "summary": "Reduce dimensions using binary reduction",
+    "description": "Applies a binary reducer to a data cube dimension by collapsing all the pixel values along the specified dimension into an output value computed by the reducer. This process consecutively passes a pair of values to the reducer. In contrast, ``reduce_dimension()`` passes a list of values.\n\nThe dimension is dropped. To avoid this, use ``apply_dimension()`` instead.",
     "categories": [
       "cubes",
       "reducer"
     ],
-    "parameter_order": [
-      "data",
-      "reducer",
-      "dimension",
-      "binary"
-    ],
-    "parameters": {
-      "data": {
+    "experimental": true,
+    "parameters": [
+      {
+        "name": "data",
         "description": "A data cube.",
         "schema": {
           "type": "object",
@@ -7593,56 +7580,42 @@
         },
         "required": true
       },
-      "reducer": {
-        "description": "A reducer to apply on the specified dimension.\n\nThe reducer may be a single process such as ``mean()`` or consist of multiple sub-processes. By default, a reducer must accept an array as input, but the reducer can also work on two values by setting the parameter `binary` to `true`.\n\nThe reducer must compute a single value.",
-        "required": true,
-        "schema": [
-          {
-            "title": "Unary behaviour",
-            "description": "Passes an array to the reducer.",
-            "type": "object",
-            "subtype": "process-graph",
-            "parameters": {
-              "data": {
-                "description": "An array with elements of any data type.",
-                "type": "array",
-                "items": {
-                  "description": "Any data type."
-                }
+      {
+        "name": "reducer",
+        "description": "A reduction operator to be applied consecutively on pairs of values. It must be both associative and commutative as the execution may be executed in parallel and therefore the order of execution is arbitrary. The reduction operator may be a single process such as ``multiply()`` or consist of multiple sub-processes.",
+        "schema": {
+          "type": "object",
+          "subtype": "process-graph",
+          "parameters": [
+            {
+              "name": "x",
+              "description": "The first value.",
+              "required": true,
+              "schema": {
+                "description": "Any data type."
+              }
+            },
+            {
+              "name": "y",
+              "description": "The second value.",
+              "required": true,
+              "schema": {
+                "description": "Any data type."
               }
             }
-          },
-          {
-            "title": "Binary behaviour",
-            "description": "Passes two values to the reducer.",
-            "type": "object",
-            "subtype": "process-graph",
-            "parameters": {
-              "x": {
-                "description": "The first value. Any data type could be passed."
-              },
-              "y": {
-                "description": "The second value. Any data type could be passed."
-              }
-            }
-          }
-        ]
+          ]
+        },
+        "required": true
       },
-      "dimension": {
+      {
+        "name": "dimension",
         "description": "The name of the dimension over which to reduce. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.\n\n**Remarks:**\n\n* The default dimensions a data cube provides are described in the collection's metadata field `cube:dimensions`.\n* There could be multiple spatial dimensions such as `x`, `y` or `z`.\n* For multi-spectral imagery there is usually a separate dimension of type `bands` for the bands.",
         "schema": {
           "type": "string"
         },
         "required": true
-      },
-      "binary": {
-        "description": "Specifies whether the process should pass two values to the reducer (binary mode) or a list of values (default).\n\nIf the process passes two values to the reducer, the reducer must be both associative and commutative as the execution may be executed in parallel and therefore the order of execution is arbitrary.\n\nThis parameter is especially useful for UDFs passed as reducers. Back-ends may still optimize and parallelize processes that work on list of values.",
-        "schema": {
-          "type": "boolean"
-        },
-        "default": false
       }
-    },
+    ],
     "returns": {
       "description": "A data cube with the newly computed values. It has one dimension less than the original data cube, but the remaining dimensions have their resolution and cardinality preserved.",
       "schema": {
@@ -7664,59 +7637,107 @@
     ]
   },
   {
+    "id": "reduce_dimension",
+    "summary": "Reduce dimensions",
+    "description": "Applies a unary reducer to a data cube dimension by collapsing all the pixel values along the specified dimension into an output value computed by the reducer. This process passes a list of values to the reducer. In contrast, ``reduce_dimension_binary()`` passes two values, which may be better suited for UDFs.\n\nThe dimension is dropped. To avoid this, use ``apply_dimension()`` instead.",
+    "categories": [
+      "cubes",
+      "reducer"
+    ],
+    "parameters": [
+      {
+        "name": "data",
+        "description": "A data cube.",
+        "schema": {
+          "type": "object",
+          "subtype": "raster-cube"
+        },
+        "required": true
+      },
+      {
+        "name": "reducer",
+        "description": "A reducer to apply on the specified dimension. A reducer is a single process such as ``mean()`` or a set of processes, which computes a single value for a list of values, see the category 'reducer' for such processes.",
+        "schema": {
+          "type": "object",
+          "subtype": "process-graph",
+          "parameters": [
+            {
+              "name": "data",
+              "description": "An array with elements of any type.",
+              "required": true,
+              "schema": {
+                "type": "array",
+                "items": {
+                  "description": "Any data type."
+                }
+              }
+            }
+          ]
+        },
+        "required": true
+      },
+      {
+        "name": "dimension",
+        "description": "The name of the dimension over which to reduce. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.\n\n**Remarks:**\n\n* The default dimensions a data cube provides are described in the collection's metadata field `cube:dimensions`.\n* There could be multiple spatial dimensions such as `x`, `y` or `z`.\n* For multi-spectral imagery there is usually a separate dimension of type `bands` for the bands.",
+        "schema": {
+          "type": "string"
+        },
+        "required": true
+      }
+    ],
+    "returns": {
+      "description": "A data cube with the newly computed values. It has one dimension less than the original data cube, but the remaining dimensions have their resolution and cardinality preserved.",
+      "schema": {
+        "type": "object",
+        "subtype": "raster-cube"
+      }
+    },
+    "exceptions": {
+      "DimensionNotAvailable": {
+        "message": "A dimension with the specified name does not exist."
+      }
+    }
+  },
+  {
     "id": "rename_dimension",
     "summary": "Rename a dimension",
     "description": "Renames a dimension in the data cube while preserving all other properties.",
     "categories": [
       "cubes"
     ],
-    "parameter_order": [
-      "data",
-      "old",
-      "new"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "The data cube.",
-        "schema": [
-          {
-            "type": "object",
-            "subtype": "raster-cube"
-          },
-          {
-            "type": "object",
-            "subtype": "vector-cube"
-          }
-        ],
+        "schema": {
+          "type": "object",
+          "subtype": "raster-cube"
+        },
         "required": true
       },
-      "old": {
+      {
+        "name": "old",
         "description": "The current name of the dimension. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.",
         "schema": {
           "type": "string"
         },
         "required": true
       },
-      "new": {
+      {
+        "name": "new",
         "description": "A new Name for the dimension. Fails with a `DimensionExists` error if a dimension with the specified name exists.",
         "schema": {
           "type": "string"
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The data cube with the renamed dimension. The old name can not be referenced any longer.",
-      "schema": [
-        {
-          "type": "object",
-          "subtype": "raster-cube"
-        },
-        {
-          "type": "object",
-          "subtype": "vector-cube"
-        }
-      ]
+      "schema": {
+        "type": "object",
+        "subtype": "raster-cube"
+      }
     },
     "exceptions": {
       "DimensionNotAvailable": {
@@ -7734,13 +7755,9 @@
     "categories": [
       "cubes"
     ],
-    "parameter_order": [
-      "data",
-      "dimension",
-      "labels"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "The data cube.",
         "schema": {
           "type": "object",
@@ -7748,14 +7765,16 @@
         },
         "required": true
       },
-      "dimension": {
+      {
+        "name": "dimension",
         "description": "The name of the dimension to rename the labels for.",
         "schema": {
           "type": "string"
         },
         "required": true
       },
-      "labels": {
+      {
+        "name": "labels",
         "description": "The new names for the labels.\n\nIf an **array** is passed, the dimension labels in the data cube are expected to be enumerated with zero-based numbering (0,1,2,3,...) so that the dimension labels map to the array indices and get replaced. If the dimension labels are not enumerated, a `LabelsNotEnumerated` is thrown. The number of dimension labels must be equal to the number of array elements, otherwise the error `LabelMismatch` is thrown.\n\nIf an **object** is passed, the object defines an unsorted and potentially incomplete mapping of the source dimension labels to the target dimension labels. If one of the source dimension labels doesn't exist, a `LabelNotAvailable` error is thrown. If a target dimension label already exists in the data cube, a `LabelExists` error is thrown.",
         "schema": [
           {
@@ -7773,7 +7792,7 @@
         ],
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The data cube with the renamed labels. The old labels can not be referenced any longer.",
       "schema": {
@@ -7892,13 +7911,9 @@
       "cubes",
       "aggregate & resample"
     ],
-    "parameter_order": [
-      "data",
-      "target",
-      "method"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A data cube.",
         "schema": {
           "type": "object",
@@ -7906,7 +7921,8 @@
         },
         "required": true
       },
-      "target": {
+      {
+        "name": "target",
         "description": "A data cube that describes the spatial target resolution.",
         "schema": {
           "type": "object",
@@ -7914,7 +7930,8 @@
         },
         "required": true
       },
-      "method": {
+      {
+        "name": "method",
         "description": "Resampling method. Methods are inspired by GDAL, see [gdalwarp](https://www.gdal.org/gdalwarp.html) for more information.",
         "schema": {
           "type": "string",
@@ -7935,7 +7952,7 @@
         },
         "default": "near"
       }
-    },
+    ],
     "returns": {
       "description": "A data cube with potentially lower spatial resolution and potentially lower cardinality, but the same number of dimensions as the original data cube.",
       "schema": {
@@ -7959,15 +7976,9 @@
       "cubes",
       "aggregate & resample"
     ],
-    "parameter_order": [
-      "data",
-      "target",
-      "method",
-      "dimension",
-      "binary"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A data cube.",
         "schema": {
           "type": "object",
@@ -7975,7 +7986,8 @@
         },
         "required": true
       },
-      "target": {
+      {
+        "name": "target",
         "description": "A data cube that describes the temporal target resolution.",
         "schema": {
           "type": "object",
@@ -7983,42 +7995,30 @@
         },
         "required": true
       },
-      "method": {
-        "description": "A resampling method to be applied, could be a reducer for downsampling or other methods for upsampling. The reducer may be a single process such as ``mean()`` or consist of multiple sub-processes. By default, a reducer must accept an array as input. The process can also work on two values by setting the parameter `binary` to `true`.",
-        "schema": [
-          {
-            "title": "Unary behaviour",
-            "description": "Passes an array to the reducer.",
-            "type": "object",
-            "subtype": "process-graph",
-            "parameters": {
-              "data": {
-                "description": "An array with elements of any data type.",
+      {
+        "name": "method",
+        "description": "A resampling method to be applied, could be a reducer for downsampling or other methods for upsampling. A reducer is a single process such as ``mean()`` or a set of processes, which computes a single value for a list of values, see the category 'reducer' for such processes.",
+        "schema": {
+          "type": "object",
+          "subtype": "process-graph",
+          "parameters": [
+            {
+              "name": "data",
+              "description": "An array with elements of any type.",
+              "required": true,
+              "schema": {
                 "type": "array",
                 "items": {
                   "description": "Any data type."
                 }
               }
             }
-          },
-          {
-            "title": "Binary behaviour",
-            "description": "Passes two values to the reducer.",
-            "type": "object",
-            "subtype": "process-graph",
-            "parameters": {
-              "x": {
-                "description": "The first value. Any data type could be passed."
-              },
-              "y": {
-                "description": "The second value. Any data type could be passed."
-              }
-            }
-          }
-        ],
+          ]
+        },
         "required": true
       },
-      "dimension": {
+      {
+        "name": "dimension",
         "description": "The name of the temporal dimension to resample, which must exist with this name in both data cubes. If the dimension is not set or is set to `null`, the data cube is expected to only have one temporal dimension. Fails with a `TooManyDimensions` error if it has more dimensions. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.\n\n**Note:** The default dimensions a data cube provides are described in the collection's metadata field `cube:dimensions`.",
         "schema": {
           "type": [
@@ -8027,15 +8027,8 @@
           ]
         },
         "default": null
-      },
-      "binary": {
-        "description": "Specifies whether the process should pass two values to the reducer specified as resampling method or a list of values (default).\n\nIf the process passes two values, the reducer must be both associative and commutative as the execution may be executed in parallel and therefore the order of execution is arbitrary.\n\nThis parameter is especially useful for UDFs passed as reducers. Back-ends may still optimize and parallelize processes that work on list of values.",
-        "schema": {
-          "type": "boolean"
-        },
-        "default": false
       }
-    },
+    ],
     "returns": {
       "description": "A data cube with potentially lower temporal resolution and potentially lower cardinality, but the same number of dimensions as the original data cube.",
       "schema": {
@@ -8056,11 +8049,6 @@
         "href": "https://open-eo.github.io/openeo-api/glossary/#aggregation-and-resampling",
         "rel": "about",
         "title": "Resampling explained in the openEO glossary"
-      },
-      {
-        "rel": "about",
-        "href": "https://en.wikipedia.org/wiki/Reduction_Operator",
-        "title": "Background information on reduction operators (binary reducers) by Wikipedia"
       }
     ]
   },
@@ -8072,15 +8060,9 @@
       "cubes",
       "aggregate & resample"
     ],
-    "parameter_order": [
-      "data",
-      "resolution",
-      "projection",
-      "method",
-      "align"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A raster data cube.",
         "schema": {
           "type": "object",
@@ -8088,7 +8070,8 @@
         },
         "required": true
       },
-      "resolution": {
+      {
+        "name": "resolution",
         "description": "Resamples the data cube to the target resolution, which can be specified either as separate values for x and y or as a single value for both axes. Specified in the units of the target projection. Doesn't change the resolution by default (`0`).",
         "schema": [
           {
@@ -8109,7 +8092,8 @@
         ],
         "default": 0
       },
-      "projection": {
+      {
+        "name": "projection",
         "description": "Warps the data cube to the target projection, specified as as [EPSG code](http://www.epsg-registry.org/), [WKT2 (ISO 19162) string](http://docs.opengeospatial.org/is/18-010r7/18-010r7.html), [PROJJSON](https://proj.org/projjson.html) or [PROJ definition (deprecated)](https://proj.org/usage/quickstart.html). By default (`null`), the projection is not changed.",
         "schema": [
           {
@@ -8143,7 +8127,8 @@
         ],
         "default": null
       },
-      "method": {
+      {
+        "name": "method",
         "description": "Resampling method. Methods are inspired by GDAL, see [gdalwarp](https://www.gdal.org/gdalwarp.html) for more information.",
         "schema": {
           "type": "string",
@@ -8164,7 +8149,8 @@
         },
         "default": "near"
       },
-      "align": {
+      {
+        "name": "align",
         "description": "Specifies to which corner of the spatial extent the new resampled data is aligned to.",
         "schema": {
           "type": "string",
@@ -8177,7 +8163,7 @@
         },
         "default": "upper-left"
       }
-    },
+    ],
     "returns": {
       "description": "A raster data cube with values warped onto the new projection.",
       "schema": {
@@ -8210,12 +8196,9 @@
     "categories": [
       "math > rounding"
     ],
-    "parameter_order": [
-      "x",
-      "p"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number to round.",
         "schema": {
           "type": [
@@ -8225,14 +8208,15 @@
         },
         "required": true
       },
-      "p": {
+      {
+        "name": "p",
         "description": "A positive number specifies the number of digits after the decimal point to round to. A negative number means rounding to a power of ten, so for example *-2* rounds to the nearest hundred. Defaults to *0*.",
         "schema": {
           "type": "integer"
         },
         "default": 0
       }
-    },
+    ],
     "returns": {
       "description": "The rounded number.",
       "schema": {
@@ -8304,12 +8288,9 @@
       "import"
     ],
     "experimental": true,
-    "parameter_order": [
-      "id",
-      "variables"
-    ],
-    "parameters": {
-      "id": {
+    "parameters": [
+      {
+        "name": "id",
         "description": "A process graph id or an absolute URI to an externally hosted process graph.",
         "schema": [
           {
@@ -8327,7 +8308,8 @@
         ],
         "required": true
       },
-      "variables": {
+      {
+        "name": "variables",
         "description": "Key-value-pairs with values for variables that are defined by the process graph. The key of the pair has to be the corresponding `variable_id` for the value specified. The replacement for the variable is the value of the pair.",
         "schema": {
           "type": "object",
@@ -8335,7 +8317,7 @@
         },
         "default": {}
       }
-    },
+    ],
     "returns": {
       "description": "The result of processing the process graph.",
       "schema": {
@@ -8359,13 +8341,9 @@
       "udf"
     ],
     "experimental": true,
-    "parameter_order": [
-      "data",
-      "url",
-      "context"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "The data to be passed to the UDF as array or raster data cube.",
         "schema": [
           {
@@ -8388,7 +8366,8 @@
         ],
         "required": true
       },
-      "url": {
+      {
+        "name": "url",
         "description": "URL to a remote UDF service.",
         "schema": {
           "type": "string",
@@ -8397,14 +8376,15 @@
         },
         "required": true
       },
-      "context": {
+      {
+        "name": "context",
         "description": "Additional data such as configuration options that should be passed to the UDF.",
         "schema": {
           "type": "object"
         },
         "default": {}
       }
-    },
+    ],
     "returns": {
       "description": "The data processed by the UDF service. Returns a raster data cube if a raster data cube was passed for `data`. If an array was passed for `data`, the returned value is defined by the context and is exactly what the UDF returned.",
       "schema": [
@@ -8440,15 +8420,9 @@
       "import",
       "udf"
     ],
-    "parameter_order": [
-      "data",
-      "udf",
-      "runtime",
-      "version",
-      "context"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "The data to be passed to the UDF as array or raster data cube.",
         "schema": [
           {
@@ -8471,7 +8445,8 @@
         ],
         "required": true
       },
-      "udf": {
+      {
+        "name": "udf",
         "description": "Either source code, an absolute URL or a path to an UDF script.",
         "schema": [
           {
@@ -8493,7 +8468,8 @@
         ],
         "required": true
       },
-      "runtime": {
+      {
+        "name": "runtime",
         "description": "An UDF runtime identifier available at the back-end.",
         "schema": {
           "type": "string",
@@ -8501,7 +8477,8 @@
         },
         "required": true
       },
-      "version": {
+      {
+        "name": "version",
         "description": "An UDF runtime version. If set to `null`, the default runtime version specified for each runtime is used.",
         "schema": [
           {
@@ -8515,14 +8492,15 @@
         ],
         "default": null
       },
-      "context": {
+      {
+        "name": "context",
         "description": "Additional data such as configuration options that should be passed to the UDF.",
         "schema": {
           "type": "object"
         },
         "default": {}
       }
-    },
+    ],
     "exceptions": {
       "InvalidVersion": {
         "message": "The specified UDF runtime version is not supported."
@@ -8551,13 +8529,9 @@
       "cubes",
       "export"
     ],
-    "parameter_order": [
-      "data",
-      "format",
-      "options"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "The data to save.",
         "schema": [
           {
@@ -8571,7 +8545,8 @@
         ],
         "required": true
       },
-      "format": {
+      {
+        "name": "format",
         "description": "The file format to save to. It must be one of the values that the server reports as supported output file formats, which usually correspond to the short GDAL/OGR codes. This parameter is *case insensitive*.",
         "schema": {
           "type": "string",
@@ -8579,7 +8554,8 @@
         },
         "required": true
       },
-      "options": {
+      {
+        "name": "options",
         "description": "The file format options to be used to create the file(s). Must correspond to the options that the server reports as supported options for the chosen `format`. The option names and valid values usually correspond to the GDAL/OGR format options.",
         "schema": {
           "type": "object",
@@ -8587,7 +8563,7 @@
         },
         "default": {}
       }
-    },
+    ],
     "returns": {
       "description": "`false` if saving failed, `true` otherwise.",
       "schema": {
@@ -8615,12 +8591,9 @@
       "math",
       "reducer"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array of numbers. An empty array resolves always with `null`.",
         "schema": {
           "type": "array",
@@ -8633,14 +8606,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that `null` is returned if any value is such a value.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed sample standard deviation.",
       "schema": {
@@ -8697,8 +8671,9 @@
     "categories": [
       "math"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number.",
         "schema": {
           "type": [
@@ -8708,7 +8683,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed signum value of `x`.",
       "schema": {
@@ -8759,8 +8734,9 @@
     "categories": [
       "math > trigonometric"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "An angle in radians.",
         "schema": {
           "type": [
@@ -8770,7 +8746,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed sine of `x`.",
       "schema": {
@@ -8803,8 +8779,9 @@
     "categories": [
       "math > trigonometric"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "An angle in radians.",
         "schema": {
           "type": [
@@ -8814,7 +8791,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed hyperbolic sine of `x`.",
       "schema": {
@@ -8848,13 +8825,9 @@
       "arrays",
       "sorting"
     ],
-    "parameter_order": [
-      "data",
-      "asc",
-      "nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array with data to sort.",
         "schema": {
           "type": "array",
@@ -8886,14 +8859,16 @@
         },
         "required": true
       },
-      "asc": {
+      {
+        "name": "asc",
         "description": "The default sort order is ascending, with smallest values first. To sort in reverse (descending) order, set this parameter to `false`.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       },
-      "nodata": {
+      {
+        "name": "nodata",
         "description": "Controls the handling of no-data values (`null`). By default they are removed. If `true`, missing values in the data are put last; if `false`, they are put first.",
         "schema": {
           "type": [
@@ -8903,7 +8878,7 @@
         },
         "default": null
       }
-    },
+    ],
     "returns": {
       "description": "The sorted array.",
       "schema": {
@@ -9006,8 +8981,9 @@
       "math",
       "math > exponential & logarithmic"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A number.",
         "schema": {
           "type": [
@@ -9017,7 +8993,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed square root.",
       "schema": {
@@ -9068,12 +9044,9 @@
     "categories": [
       "math"
     ],
-    "parameter_order": [
-      "x",
-      "y"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "The minuend.",
         "schema": {
           "type": [
@@ -9083,7 +9056,8 @@
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "The subtrahend.",
         "schema": {
           "type": [
@@ -9093,7 +9067,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed result.",
       "schema": {
@@ -9147,12 +9121,9 @@
       "math",
       "reducer"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array of numbers.",
         "schema": {
           "type": "array",
@@ -9165,14 +9136,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that `null` is returned if any value is such a value.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed sum of the sequence of numbers.",
       "schema": {
@@ -9256,8 +9228,9 @@
     "categories": [
       "math > trigonometric"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "An angle in radians.",
         "schema": {
           "type": [
@@ -9267,7 +9240,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed tangent of `x`.",
       "schema": {
@@ -9300,8 +9273,9 @@
     "categories": [
       "math > trigonometric"
     ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "An angle in radians.",
         "schema": {
           "type": [
@@ -9311,7 +9285,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed hyperbolic tangent of `x`.",
       "schema": {
@@ -9345,13 +9319,9 @@
       "texts",
       "comparison"
     ],
-    "parameter_order": [
-      "data",
-      "pattern",
-      "case_sensitive"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "Text in which to find something at the beginning.",
         "schema": {
           "type": [
@@ -9361,21 +9331,23 @@
         },
         "required": true
       },
-      "pattern": {
+      {
+        "name": "pattern",
         "description": "Text to find at the beginning of `data`. Regular expressions are not supported.",
         "schema": {
           "type": "string"
         },
         "required": true
       },
-      "case_sensitive": {
+      {
+        "name": "case_sensitive",
         "description": "Case sensitive comparison can be disabled by setting this parameter to `false`.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "`true` if `data` begins with `pattern`, false` otherwise.",
       "schema": {
@@ -9440,13 +9412,9 @@
       "texts",
       "comparison"
     ],
-    "parameter_order": [
-      "data",
-      "pattern",
-      "case_sensitive"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "Text in which to find something in.",
         "schema": {
           "type": [
@@ -9456,21 +9424,23 @@
         },
         "required": true
       },
-      "pattern": {
+      {
+        "name": "pattern",
         "description": "Text to find in `data`. Regular expressions are not supported.",
         "schema": {
           "type": "string"
         },
         "required": true
       },
-      "case_sensitive": {
+      {
+        "name": "case_sensitive",
         "description": "Case sensitive comparison can be disabled by setting this parameter to `false`.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "`true` if `data` contains the `pattern`, false` otherwise.",
       "schema": {
@@ -9535,13 +9505,9 @@
       "texts",
       "comparison"
     ],
-    "parameter_order": [
-      "data",
-      "pattern",
-      "case_sensitive"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "Text in which to find something at the end.",
         "schema": {
           "type": [
@@ -9551,21 +9517,23 @@
         },
         "required": true
       },
-      "pattern": {
+      {
+        "name": "pattern",
         "description": "Text to find at the end of `data`. Regular expressions are not supported.",
         "schema": {
           "type": "string"
         },
         "required": true
       },
-      "case_sensitive": {
+      {
+        "name": "case_sensitive",
         "description": "Case sensitive comparison can be disabled by setting this parameter to `false`.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "`true` if `data` ends with `pattern`, false` otherwise.",
       "schema": {
@@ -9629,12 +9597,9 @@
     "categories": [
       "texts"
     ],
-    "parameter_order": [
-      "data",
-      "separator"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A set of elements. Numbers, boolean values and null values get converted to their (lower case) string representation. For example: `1` (integer), `-1.5` (number), `true` / `false` (boolean values)",
         "schema": {
           "type": "array",
@@ -9649,7 +9614,8 @@
         },
         "required": true
       },
-      "separator": {
+      {
+        "name": "separator",
         "description": "A separator to put between each of the individual texts. Defaults to an empty string.",
         "schema": {
           "type": [
@@ -9661,7 +9627,7 @@
         },
         "default": ""
       }
-    },
+    ],
     "returns": {
       "description": "Returns a string containing a string representation of all the array elements in the same order, with the separator between each element.",
       "schema": {
@@ -9735,8 +9701,9 @@
     "categories": [
       "cubes"
     ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "A raster data cube to trim.",
         "schema": {
           "type": "object",
@@ -9744,7 +9711,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "A trimmed raster data cube.",
       "schema": {
@@ -9761,12 +9728,9 @@
       "math",
       "reducer"
     ],
-    "parameter_order": [
-      "data",
-      "ignore_nodata"
-    ],
-    "parameters": {
-      "data": {
+    "parameters": [
+      {
+        "name": "data",
         "description": "An array of numbers. An empty array resolves always with `null`.",
         "schema": {
           "type": "array",
@@ -9779,14 +9743,15 @@
         },
         "required": true
       },
-      "ignore_nodata": {
+      {
+        "name": "ignore_nodata",
         "description": "Indicates whether no-data values are ignored or not. Ignores them by default. Setting this flag to `false` considers no-data values so that `null` is returned if any value is such a value.",
         "schema": {
           "type": "boolean"
         },
         "default": true
       }
-    },
+    ],
     "returns": {
       "description": "The computed sample variance.",
       "schema": {
@@ -9856,12 +9821,9 @@
     "categories": [
       "logic"
     ],
-    "parameter_order": [
-      "x",
-      "y"
-    ],
-    "parameters": {
-      "x": {
+    "parameters": [
+      {
+        "name": "x",
         "description": "A boolean value.",
         "schema": {
           "type": [
@@ -9871,7 +9833,8 @@
         },
         "required": true
       },
-      "y": {
+      {
+        "name": "y",
         "description": "A boolean value.",
         "schema": {
           "type": [
@@ -9881,7 +9844,7 @@
         },
         "required": true
       }
-    },
+    ],
     "returns": {
       "description": "Boolean result of the logical XOR.",
       "schema": {

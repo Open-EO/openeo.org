@@ -73,6 +73,8 @@ A data cube stores some additional properties per dimension such as:
 
 Having these properties available allows to easily resample from one data cube to another for example.
 
+Dimension labels are either of type number or string, including all sub types such as integers or temporal strings. Additional data types may be allowed in the future.
+
 ### `apply`: processes that do not change dimensions
 
 Math process that does not reduce or change anything to the array

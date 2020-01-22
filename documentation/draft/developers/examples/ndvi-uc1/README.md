@@ -59,7 +59,7 @@ Process Graph #1 computes the NDVI based on the common band names in the metadat
             "process_id": "max",
             "arguments": {
               "data": {
-                "from_argument": "data"
+                "from_parameter": "data"
               }
             },
             "result": true
@@ -144,7 +144,7 @@ Process Graph #1 computes the NDVI based on the common band names in the metadat
           "max": {
             "arguments": {
               "data": {
-                "from_argument": "data"
+                "from_parameter": "data"
               }
             },
             "process_id": "max",

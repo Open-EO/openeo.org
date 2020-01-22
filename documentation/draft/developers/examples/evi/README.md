@@ -40,21 +40,21 @@ This process graph assumes the dataset is called `Sentinel-2`. The temporal exte
           "nir": {
             "process_id": "array_element",
             "arguments": {
-              "data": {"from_argument": "data"},
+              "data": {"from_parameter": "data"},
               "index": 0
             }
           },
           "red": {
             "process_id": "array_element",
             "arguments": {
-              "data": {"from_argument": "data"},
+              "data": {"from_parameter": "data"},
               "index": 1
             }
           },
           "blue": {
             "process_id": "array_element",
             "arguments": {
-              "data": {"from_argument": "data"},
+              "data": {"from_parameter": "data"},
               "index": 2
             }
           },
@@ -110,7 +110,7 @@ This process graph assumes the dataset is called `Sentinel-2`. The temporal exte
           "min": {
             "process_id": "min",
             "arguments": {
-              "data": {"from_argument": "data"}
+              "data": {"from_parameter": "data"}
             },
             "result": true
           }

@@ -10,13 +10,15 @@ This glossary introduces the major technical terms used in the openEO project.
 - **(cloud) back-end**: server; computer infrastructure (one or more physical computers or virtual machines) used for storing EO data and processing it
 - **big Earth observation cloud back-end**: server infrastructure where industry and researchers analyse large amounts of EO data
 
-## Processes and process graphs
+## Processes
 
-The terms _process_ and _process graph_ have specific meanings in the openEO API specification.
+A **process** is an operation that performs a specific task on a set of parameters and returns a result. An example is computing a statistical operation, such as mean or median, on selected EO data. A process is similar to a function or method in programming languages.
 
-A **process** is an operation provided by the back end that performs a specific task on a set of parameters and returns a result. An example is computing a statistical operation, such as mean or median, on selected EO data. A process is similar to a function or method in programming languages. 
+A **pre-defined process** is a process provided by the *back-end*, often one of the [ones centrally defined by openEO](processes.md).
 
-A **process graph** chains specific process calls together. Similarly to scripts in the context of programming, process graphs organize and automate the execution of one or more processes that could alternatively be executed individually. In a process graph, processes need to be specific, i.e. concrete values for input parameters need to be specified. These arguments can again be process graphs, scalar values, arrays or objects.
+A **user-defined process** is a process defined by the *user* and stored as custom process the back-end. Internally it is a *process graph*.
+
+A **process graph** chains specific process calls from the set of pre-defined and user-defined processes together. A process graph itself is a (user-defined) process again. Similarly to scripts in the context of programming, process graphs organize and automate the execution of one or more processes that could alternatively be executed individually. In a process graph, processes need to be specific, i.e. concrete values for input parameters need to be specified. These arguments can again be process graphs, scalar values, arrays or objects.
 
 ## EO data (Collections)
 
@@ -134,8 +136,8 @@ The abbreviation **UDF** stands for **user-defined function**. With this concept
 
 ## Data Processing modes
 
-Process graphs can be processed in three different ways:
+Processes can run in three different ways:
 
-1. Results can be pre-computed by creating a ***batch job*** using  `POST /jobs`.  They are submitted to the back-end's processing system, but will remain inactive until `POST /jobs/{job_id}/results` has been called. They will run only once and store results after execution. Results can be downloaded. Batch jobs are typically time consuming and user interaction is not possible. This is the only mode that allows to get an estimate about time, volume and costs beforehand.
+1. Results can be pre-computed by creating a ***batch job***.  They are submitted to the back-end's processing system, but will remain inactive until explicitly put into the processing queue. They will run only once and store results after execution. Results can be downloaded. Batch jobs are typically time consuming and user interaction is not possible although log files are generated for them. This is the only mode that allows to get an estimate about time, volume and costs beforehand.
 2. A more dynamic way of processing and accessing data is to create a **secondary web service**. They allow web-based access using different protocols such as [OGC WMS](http://www.opengeospatial.org/standards/wms) (Open Geospatial Consortium Web Map Service), [OGC WCS](http://www.opengeospatial.org/standards/wcs) (Web Coverage Service) or [XYZ tiles](https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames). These protocols usually allow users to change the viewing extent or level of detail (zoom level). Therefore, computations often run *on demand* so that the requested data is calculated during the request. Back-ends should make sure to cache processed data to avoid additional/high costs and reduce waiting times for the user.
-3. Process graphs can also be executed **on-demand** (i.e. synchronously) by sending the process graph to `POST /result`. Results are delivered with the request itself and no job is created. Only lightweight computations, for example small previews, should be executed using this approach as timeouts or errors are to be expected for [long-polling HTTP requests](https://www.pubnub.com/blog/2014-12-01-http-long-polling/).
+3. Processes can also be executed **on-demand** (i.e. synchronously). Results are delivered with the request itself and no job is created. Only lightweight computations, for example previews, should be executed using this approach as timeouts are to be expected for [long-polling HTTP requests](https://www.pubnub.com/blog/2014-12-01-http-long-polling/).

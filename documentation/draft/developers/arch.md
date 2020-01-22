@@ -16,14 +16,14 @@ The openEO API defines a language how clients communicate to back-ends in order 
 
 To simplify and structure the development, the API is divided into a few microservices.
 
-| Microservice                  | Description |
-| ----------------------------- | ----------- |
-| Capabilities                  | This microservice reports on the capabilities of the back-end, i.e. which API endpoints are implemented, which authentication methods are supported, and whether and how UDFs can be executed at the back-end. |
-| EO Data Discovery             | Describes which collections are available at the back-end. |
-| Process Discovery             | Provides services to find out which processes a back-end provides, i.e., what users can do with the available data. |
-| UDF                           | Discovery and execution of user-defined functions. |
-| Batch Job Management          | Organizes and manages batch jobs that run processes on back-ends. |
-| File Management               | Organizes and manages user-uploaded files. |
-| Process Graph Management      | Organizes and manages user-defined process graphs. |
-| Secondary Services Management | External web services to access data and job results such as a OGC WMTS service. |
-| Account Management            | User management, accounting and authentication. |
+| Microservice           | Description |
+| ---------------------- | ----------- |
+| Capabilities           | This microservice reports on the capabilities of the back-end, i.e. which API endpoints are implemented, which authentication methods are supported, and whether and how UDFs can be executed at the back-end. |
+| EO Data Discovery      | Describes which collections are available at the back-end. |
+| Process Discovery      | Provides services to find out which processes a back-end provides, i.e., what users can do with the available data. |
+| Data Processing        | Organizes and manages data processing on the back-end, either as synchronous on-demand computation or batch jobs. |
+| File Storage           | Organizes and manages user-uploaded files. |
+| User-Defined Processes | Organizes and manages user-defined processes (process graphs). |
+| Secondary Services     | External web services to access data and job results such as a OGC WMTS service. |
+| Account Management     | User management, accounting and authentication. |
+| UDF Runtime            | Execution of user-defined functions, not part of the Core API. See the [../udf.md](UDF documentation) for more information. |

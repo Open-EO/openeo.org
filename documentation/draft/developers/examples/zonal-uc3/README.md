@@ -79,7 +79,7 @@ Only a single GeoJSON polygon is specified, which fully covers the spatial exten
             "process_id": "mean",
             "arguments": {
               "data": {
-                "from_argument": "data"
+                "from_parameter": "data"
               }
             },
             "result": true

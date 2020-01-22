@@ -47,7 +47,7 @@ Example:
 Each scope is assigned to a scope category, of which there are three:
 
 * *Root* category: Contains only the scope `openEO`.
-* *API* category: Mostly methods hiding API calls to the back-ends. Methods may be implemented asynchronously. Contains the scopes `Connection`, `File`, `Job`, `ProcessGraph`, `Service`.
+* *API* category: Mostly methods hiding API calls to the back-ends. Methods may be implemented asynchronously. Contains the scopes `Connection`, `File`, `Job`, `CustomProcess`, `Service`.
 * *Content*: Mostly methods hiding the complexity of response content. Methods are usually implemented synchronously. Currently contains only the scope `Capabilities`. Method names should be prefixed if name collisions are likely.
 
 Method names across ALL the scopes that belong to the *root* or *API* categories MUST be unique. This is the case because the parameter in `hasFeature(method_name)` must be unambiguous.
@@ -101,32 +101,32 @@ Parameters with a leading `?` are optional.
 
 ### Scope: `Connection` (API category)
 
-| Description                                                  | API Request                              | Client method |
-| ------------------------------------------------------------ | ---------------------------------------- | ------------- |
-| Get the capabilities of the back-end. Returns `Capabilities`. | `GET /`                                 | `capabilities()` |
-| List the supported output file formats.                      | `GET /file_formats`                      | `listFileTypes()` |
-| List the supported secondary service types.                  | `GET /service_types`                     | `listServiceTypes()` |
-| List the supported UDF runtimes.                             | `GET /udf_runtimes`                      | `listUdfRuntimes()` |
-| List all collections available on the back-end.              | `GET /collections`                       | `listCollections()` |
-| Get information about a single collection.                   | `GET /collections/{collection_id}`       | `describeCollection(collection_id)` |
-| List all processes available on the back-end.                | `GET /processes`                         | `listProcesses()` |
-| Authenticate with OpenID Connect (if not specified in `connect`). | `GET /credentials/oidc`             | `authenticateOIDC(?options)` |
-| Authenticate with HTTP Basic (if not specified in `connect`). | `GET /credentials/basic`                | `authenticateBasic(username, password)` |
-| Logout / Close session for the authenticated user            | *Depends on authentication method*       | `logout()` |
-| Get information about the authenticated user.                | `GET /me`                                | `describeAccount()` |
-| Lists all files from a user. Returns a list of `File`.       | `GET /files`                             | `listFiles()` |
-| Opens a (existing or non-existing) file without reading any information. Returns a `File`. | *None*     | `openFile(path)` |
-| Validates a process graph.                                   | `POST /validation`                       | `validateProcessGraph(processGraph)` |
-| Lists all process graphs of the authenticated user. Returns a list of `ProcessGraph`. | `GET /process_graphs` | `listProcessGraphs()` |
-| Creates a new stored process graph. Returns a `ProcessGraph`. | `POST /process_graphs`                  | `createProcessGraph(processGraph, ?title, ?description)` |
-| Get all information about a stored process graph. Returns a `ProcessGraph`. | `GET /process_graphs/{process_graph_id}` | `getProcessGraphById(id)` |
-| Executes a process graph synchronously.                      | `POST /result`                           | `computeResult(processGraph, ?plan, ?budget)` |
-| Lists all jobs of the authenticated user. Returns a list of `Job`. | `GET /jobs`                        | `listJobs()` |
-| Creates a new job. Returns a `Job`.                          | `POST /jobs`                             | `createJob(processGraph, ?title, ?description, ?plan, ?budget, ?additional)` |
-| Get all information about a job. Returns a `Job`.            | `GET /jobs/{job_id}`                     | `getJobById(id)` |
-| Lists all secondary services of the authenticated user. Returns a list of `Service`. | `GET /services`  | `listServices()` |
-| Creates a new secondary service. Returns  a `Service`.       | `POST /services`                         | `createService(processGraph, type, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget)` |
-| Get all information about a service. Returns a `Service`.    | `GET /services/{service_id}`             | `getServiceById(id)` |
+| Description                                                        | API Request                              | Client method |
+| ------------------------------------------------------------------ | ---------------------------------------- | ------------- |
+| Get the capabilities of the back-end. Returns `Capabilities`.      | `GET /`                                  | `capabilities()` |
+| List the supported output file formats.                            | `GET /file_formats`                      | `listFileTypes()` |
+| List the supported secondary service types.                        | `GET /service_types`                     | `listServiceTypes()` |
+| List the supported UDF runtimes.                                   | `GET /udf_runtimes`                      | `listUdfRuntimes()` |
+| List all collections available on the back-end.                    | `GET /collections`                       | `listCollections()` |
+| Get information about a single collection.                         | `GET /collections/{collection_id}`       | `describeCollection(collection_id)` |
+| List all pre-defined processes available on the back-end.          | `GET /processes`                         | `listProcesses()` |
+| Authenticate with OpenID Connect (if not specified in `connect`).  | `GET /credentials/oidc`                  | `authenticateOIDC(?options)` |
+| Authenticate with HTTP Basic (if not specified in `connect`).      | `GET /credentials/basic`                 | `authenticateBasic(username, password)` |
+| Logout / Close session for the authenticated user                  | *Depends on authentication method*       | `logout()` |
+| Get information about the authenticated user.                      | `GET /me`                                | `describeAccount()` |
+| Lists all files from a user. Returns a list of `File`.             | `GET /files`                             | `listFiles()` |
+| Opens an (existing or non-existing) file without reading it. Returns a `File`. | *None*                       | `openFile(path)` |
+| Validates a process graph.                                         | `POST /validation`                       | `validateCustomProcess(process)` |
+| Lists all user-defined processes of the authenticated user. Returns a list of `CustomProcess`. | `GET /process_graphs` | `listCustomProcesses()` |
+| Creates a new user-defined process. Returns a `CustomProcess`.     | `POST /process_graphs`                   | `createCustomProcess(name, process, ?summary, ?description)` |
+| Get all information about a user-defined process. Returns a `CustomProcess`. | `GET /process_graphs/{process_graph_id}` | `getCustomProcess(name)` |
+| Executes a process graph synchronously.                            | `POST /result`                           | `computeResult(process, ?plan, ?budget)` |
+| Lists all jobs of the authenticated user. Returns a list of `Job`. | `GET /jobs`                              | `listJobs()` |
+| Creates a new job. Returns a `Job`.                                | `POST /jobs`                             | `createJob(process, ?title, ?description, ?plan, ?budget, ?additional)` |
+| Get all information about a job. Returns a `Job`.                  | `GET /jobs/{job_id}`                     | `getJob(id)` |
+| Lists all secondary services of the authenticated user. Returns a list of `Service`. | `GET /services`        | `listServices()` |
+| Creates a new secondary service. Returns  a `Service`.             | `POST /services`                         | `createService(process, type, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget)` |
+| Get all information about a service. Returns a `Service`.          | `GET /services/{service_id}`             | `getService(id)` |
 
 #### Parameters
 
@@ -172,7 +172,7 @@ The `Job` scope internally knows the `job_id`.
 | Description                                | API Request                        | Client method |
 | ------------------------------------------ | ---------------------------------- | ------------- |
 | Get (and update on client-side) all job information. | `GET /jobs/{job_id}`     | `describeJob()` |
-| Modify a job at the back-end.              | `PATCH /jobs/{job_id}`             | `updateJob(?processGraph, ?title, ?description, ?plan, ?budget, ?additional)` |
+| Modify a job at the back-end.              | `PATCH /jobs/{job_id}`             | `updateJob(?process, ?title, ?description, ?plan, ?budget, ?additional)` |
 | Delete a job                               | `DELETE /jobs/{job_id}`            | `deleteJob()` |
 | Calculate an time/cost estimate for a job. | `GET /jobs/{job_id}/estimate`      | `estimateJob()` |
 | Start / queue a job for processing.        | `POST /jobs/{job_id}/results`      | `startJob()` |
@@ -184,15 +184,15 @@ The `Job` scope internally knows the `job_id`.
 
 * **target** in `downloadResults`: Path to a local folder.
 
-### Scope: `ProcessGraph` (API category)
+### Scope: `CustomProcess` (API category)
 
-The `ProcessGraph` scope internally knows the `process_graph_id`.
+The `CustomProcess` scope manages the process graphs and internally knows the `process_graph_id`.
 
 | Description                                       | API Request                      | Client method |
 | ------------------------------------------------- | -------------------------------- | ------------- |
-| Get (and update on client-side) all information about a stored process graph. | `GET /process_graphs/{process_graph_id}` | `describeProcessGraph()` |
-| Modify a stored process graph at the back-end.    | `PATCH /process_graphs/{process_graph_id}` | `updateProcessGraph(?processGraph, ?title, ?description)` |
-| Delete a stored process graph.                    | `DELETE /process_graphs/{process_graph_id}` | `deleteProcessGraph()` |
+| Get (and update on client-side) all information about a stored process graph. | `GET /process_graphs/{process_graph_id}` | `describeCustomProcess()` |
+| Modify a stored process graph at the back-end.    | `PATCH /process_graphs/{process_graph_id}` | `updateCustomProcess(?process, ?name, ?summary, ?description)` |
+| Delete a stored process graph.                    | `DELETE /process_graphs/{process_graph_id}` | `deleteCustomProcess()` |
 
 ### Scope: `Service` (API category)
 
@@ -201,7 +201,7 @@ The `Service` scope internally knows the `service_id`.
 | Description                                        | API Request                     | Client method |
 | -------------------------------------------------- | ------------------------------- | ------------- |
 | Get (and update on client-side) all information about a secondary web service. | `GET /services/{service_id}`    | `describeService()` |
-| Modify a secondary web service at the back-end.    | `PATCH /services/{service_id}`  | `updateService(?processGraph, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget)` |
+| Modify a secondary web service at the back-end.    | `PATCH /services/{service_id}`  | `updateService(?process, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget)` |
 | Delete a secondary web service.                    | `DELETE /services/{service_id}` | `deleteService()` |
 
 ## Processes
@@ -259,12 +259,12 @@ print(cap.api_version())
 print(con.describe_collection("Sentinel-2A"))
 print(con.list_processes())
 
-processes = con.get_processes()
-pg = processes.load_collection(id="Sentinel-2A")
-pg = processes.filter_bbox(pg, west=672000, south=5181000, east=652000, north=5161000, crs="EPSG:32632")
-pg = processes.filter_temporal(pg, extent=["2017-01-01T00:00:00Z", "2017-01-31T23:59:59Z"])
-pg = processes.ndvi(pg, nir="B4", red="B8A")
-pg = processes.min_time(pg)
+datacube = con.create_datacube()
+pg = datacube.load_collection(id="Sentinel-2A")
+pg = datacube.filter_bbox(pg, west=672000, south=5181000, east=652000, north=5161000, crs="EPSG:32632")
+pg = datacube.filter_temporal(pg, extent=["2017-01-01T00:00:00Z", "2017-01-31T23:59:59Z"])
+pg = datacube.ndvi(pg, nir="B4", red="B8A")
+pg = datacube.min_time(pg)
 
 job = con.create_job(pg.graph)
 job.start_job()
@@ -284,11 +284,10 @@ System.out.println(cap.apiVersion());
 System.out.println(con.describeCollection("Sentinel-2A"));
 System.out.println(con.listProcesses());
 
-ProcessGraphBuilder pgb = con.getProcessGraphBuilder()
+DataCube cube = con.createDataCube()
 // Chain processes...
-ProcessGraph processGraph = pgb.buildProcessGraph();
 
-Job job = con.createJob(processGraph);
+Job job = con.createJob(cube);
 job.startJob();
 System.out.println(job.describeJob());
 job.downloadResults("/tmp/job_results/");
@@ -305,7 +304,7 @@ echo openeo_api_version($capabilites);
 echo openeo_describe_collection($connection, "Sentinel-2A");
 echo openeo_list_processes($connection);
 
-$pg = openeo_process($pg, "load_collection", ["id" => "Sentinel-2A"]);
+$pg = openeo_process(null, "load_collection", ["id" => "Sentinel-2A"]);
 $pg = openeo_process($pg, "filter_bbox", ["west" => 672000, "south" => 5181000, "east" => 652000, "north" => 5161000, "crs" => "EPSG:32632"]);
 $pg = openeo_process($pg, "filter_temporal", ["extent" => ["2017-01-01T00:00:00Z", "2017-01-31T23:59:59Z"]]);
 $pg = openeo_process($pg, "ndvi", ["red" => "B4", "nir" => "B8A"]);

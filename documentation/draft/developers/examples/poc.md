@@ -108,7 +108,7 @@ Deriving minimum NDVI measurements over pixel time series of Sentinel 2 imagery.
                 "min1": {
                   "process_id": "min",
                   "arguments": {
-                    "data": {"from_argument": "data"}
+                    "data": {"from_parameter": "data"}
                   },
                   "result": true
                 }
@@ -196,8 +196,8 @@ Create a monthly aggregated Sentinel 1 product from a custom Python script.
                   "process_id": "run_udf",
                   "arguments": {
                     "data": [
-                      {"from_argument": "x"},
-                      {"from_argument": "y"}
+                      {"from_parameter": "x"},
+                      {"from_parameter": "y"}
                     ],
                     "udf": "s1_aggregate.py",
                     "runtime": "Python"
@@ -332,7 +332,7 @@ Compute time series of zonal (regional) statistics of Sentinel 2 imagery over us
                 "mean1": {
                   "process_id": "mean",
                   "arguments": {
-                    "data": {"from_argument": "data"}
+                    "data": {"from_parameter": "data"}
                   },
                   "result": true
                 }

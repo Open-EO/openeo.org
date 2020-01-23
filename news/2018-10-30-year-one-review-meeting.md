@@ -17,7 +17,7 @@ A process catalogue is under development, describing a set of functionalities to
 
 For using arbitrary code to process EO data with the openEO API, first User-Defined Functions (UDF) are currently implemented and added to openEO-compatible workflows. The UDFs are running in specific dockers at the EO data service providers.
 
-openEO is published in its version [0.3.0](https://api.openeo.org/0.3.0), providing a HTTP communication between the users and service providers specified by OpenAPI 3.0 JSON files. The JSON data entails process graphs, sent as a job to the back-ends, which can be executed in three different ways.
+openEO is published in its version [0.3.0](https://api.openeo.org/v/0.3.0/), providing a HTTP communication between the users and service providers specified by OpenAPI 3.0 JSON files. The JSON data entails process graphs, sent as a job to the back-ends, which can be executed in three different ways.
 
 1. A batch job can be submitted, which stays inactive until processing is requested. It will run only once and stores its results after execution.
 2. Secondary web services allow web-based access using different protocols such as OGC WMS, OGC WCS or XYZ tiles. The computation runs on demand to allow users to change e.g. the result's viewing extent or level of detail.

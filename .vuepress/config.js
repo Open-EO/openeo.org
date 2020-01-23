@@ -1,13 +1,13 @@
 const apiVersion = '0.4.2';
 const versions = [
   {
-    folder: 'draft',
-    path: '/documentation/draft/',
+    folder: '1.0',
+    path: '/documentation/1.0/',
     title: 'Draft',
     apiTag: 'draft',
     processesTag: 'draft',
     apiVersions: [
-      '1.0.0-draft'
+      '1.0.0-rc.1'
     ],
     userNav: [
       {text: 'Getting Started', link: 'getting-started.html'},
@@ -70,27 +70,6 @@ const versions = [
       {text: 'Processes', link: 'processes.html'},
       {text: 'Error Codes', link: 'developers/api/errors.html'},
       {text: 'Examples', link: 'developers/examples/'}
-    ]
-  },
-  {
-    folder: '0.3',
-    path: '/documentation/0.3/',
-    title: 'v0.3.x',
-    apiTag: '0.3.1',
-    apiFormat: 'json',
-    processesTag: null,
-    apiVersions: [
-      '0.3.0',
-      '0.3.1'
-    ],
-    userNav: [
-      {text: 'Getting Started', link: 'getting-started.html'},
-      {text: 'Glossary', link: 'glossary.html'}
-    ],
-    devNav: [
-      {text: 'Introduction', link: 'developers/index.html'},
-      {text: 'Glossary', link: 'glossary.html'},
-      {text: 'Documentation', link: 'developers/api/index.html'}
     ]
   }
 ];

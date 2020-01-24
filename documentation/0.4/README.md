@@ -1,6 +1,6 @@
 # openEO Documentation
 
-This is the openEO Documentation for API versions 0.4.
+This is the openEO Documentation for **API versions 0.4**. This version is **outdated** and got replaced by **[API version 1.0](../1.0/)**.
 
 Some useful links to get started:
 * [Getting started for users](getting-started.md)

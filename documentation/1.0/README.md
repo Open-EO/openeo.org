@@ -1,6 +1,6 @@
 # openEO Documentation
 
-This is the openEO Documentation for the API version 1.0.
+This is the openEO Documentation for the **API version 1.0**.
 
 Some useful links to get started:
 * [Getting started for users](getting-started.md)

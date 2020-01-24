@@ -14,7 +14,7 @@ install:
 before_deploy:
 - npm run build
 - cp CNAME .vuepress/dist/CNAME
-- cp -a redirects .vuepress/dist
+- cp -ap redirects/. .vuepress/dist
 
 deploy:
   provider: pages

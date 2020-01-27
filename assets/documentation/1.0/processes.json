@@ -15,8 +15,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -77,16 +76,14 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "name",
         "description": "Name for the dimension.",
         "schema": {
           "type": "string"
-        },
-        "required": true
+        }
       },
       {
         "name": "label",
@@ -98,8 +95,7 @@
           {
             "type": "string"
           }
-        ],
-        "required": true
+        ]
       },
       {
         "name": "type",
@@ -113,7 +109,8 @@
             "other"
           ]
         },
-        "default": "other"
+        "default": "other",
+        "optional": true
       }
     ],
     "returns": {
@@ -145,8 +142,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
@@ -156,8 +152,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -221,8 +216,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "polygons",
@@ -236,8 +230,7 @@
             "type": "object",
             "subtype": "vector-cube"
           }
-        ],
-        "required": true
+        ]
       },
       {
         "name": "reducer",
@@ -249,7 +242,6 @@
             {
               "name": "x",
               "description": "The first value.",
-              "required": true,
               "schema": {
                 "description": "Any data type."
               }
@@ -257,14 +249,12 @@
             {
               "name": "y",
               "description": "The second value.",
-              "required": true,
               "schema": {
                 "description": "Any data type."
               }
             }
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "name",
@@ -272,7 +262,8 @@
         "schema": {
           "type": "string"
         },
-        "default": "result"
+        "default": "result",
+        "optional": true
       }
     ],
     "returns": {
@@ -320,8 +311,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "polygons",
@@ -335,8 +325,7 @@
             "type": "object",
             "subtype": "vector-cube"
           }
-        ],
-        "required": true
+        ]
       },
       {
         "name": "reducer",
@@ -347,18 +336,17 @@
           "parameters": [
             {
               "name": "data",
-              "description": "An array with elements of any type.",
-              "required": true,
+              "description": "A labeled array with values of any type.",
               "schema": {
                 "type": "array",
+                "subtype": "labeled-array",
                 "items": {
                   "description": "Any data type."
                 }
               }
             }
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "name",
@@ -366,7 +354,8 @@
         "schema": {
           "type": "string"
         },
-        "default": "result"
+        "default": "result",
+        "optional": true
       }
     ],
     "returns": {
@@ -410,8 +399,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "intervals",
@@ -474,8 +462,7 @@
               ]
             ]
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "reducer",
@@ -486,18 +473,17 @@
           "parameters": [
             {
               "name": "data",
-              "description": "An array with elements of any type.",
-              "required": true,
+              "description": "A labeled array with elements of any type.",
               "schema": {
                 "type": "array",
+                "subtype": "labeled-array",
                 "items": {
                   "description": "Any data type."
                 }
               }
             }
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "labels",
@@ -515,7 +501,8 @@
             ]
           }
         },
-        "default": []
+        "default": [],
+        "optional": true
       },
       {
         "name": "dimension",
@@ -526,7 +513,8 @@
             "null"
           ]
         },
-        "default": null
+        "default": null,
+        "optional": true
       }
     ],
     "returns": {
@@ -586,12 +574,12 @@
                 ]
               ],
               "reducer": {
-                "callback": {
+                "process_graph": {
                   "median1": {
                     "process_id": "median",
                     "arguments": {
                       "data": {
-                        "from_argument": "data"
+                        "from_parameter": "data"
                       }
                     },
                     "result": true
@@ -643,8 +631,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -652,7 +639,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -773,8 +761,7 @@
             "boolean",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
@@ -784,8 +771,7 @@
             "boolean",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -855,8 +841,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -864,7 +849,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -983,8 +969,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "process",
@@ -995,26 +980,24 @@
           "parameters": [
             {
               "name": "data",
-              "description": "An array with elements of any type.",
-              "required": true,
+              "description": "A labeled array with elements of any type.",
               "schema": {
                 "type": "array",
+                "subtype": "labeled-array",
                 "items": {
                   "description": "Any data type."
                 }
               }
             }
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "dimension",
         "description": "The name of the source dimension to apply the process on. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.",
         "schema": {
           "type": "string"
-        },
-        "required": true
+        }
       },
       {
         "name": "target_dimension",
@@ -1025,7 +1008,8 @@
             "null"
           ]
         },
-        "default": null
+        "default": null,
+        "optional": true
       }
     ],
     "returns": {
@@ -1056,8 +1040,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "kernel",
@@ -1072,8 +1055,7 @@
               "type": "number"
             }
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "factor",
@@ -1081,7 +1063,8 @@
         "schema": {
           "type": "number"
         },
-        "default": 1
+        "default": 1,
+        "optional": true
       }
     ],
     "returns": {
@@ -1123,8 +1106,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "process",
@@ -1136,14 +1118,12 @@
             {
               "name": "x",
               "description": "The value to process.",
-              "required": true,
               "schema": {
                 "description": "Any data type."
               }
             }
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -1170,8 +1150,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -1235,8 +1214,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -1300,8 +1278,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -1365,8 +1342,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -1430,8 +1406,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "x",
@@ -1441,8 +1416,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -1494,8 +1468,7 @@
           "items": {
             "description": "Any data type is allowed."
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "process",
@@ -1507,7 +1480,6 @@
             {
               "name": "x",
               "description": "The value of the current element being processed.",
-              "required": true,
               "schema": {
                 "description": "Any data type."
               }
@@ -1515,14 +1487,29 @@
             {
               "name": "index",
               "description": "The zero-based index of the current element being processed.",
-              "required": true,
               "schema": {
                 "type": "integer"
               }
+            },
+            {
+              "name": "label",
+              "description": "The label of the current element being processed. Only populated for labeled arrays.",
+              "schema": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "optional": true
             }
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -1538,7 +1525,7 @@
   {
     "id": "array_contains",
     "summary": "Check whether the array contains a given value",
-    "description": "Checks whether the array specified for `data` contains the value specified in `value`. Returns `true` if there's a match, otherwise `false`.\n\n**Remarks:**\n\n* To get the index of the value found, use ``array_find()``.\n* All definitions for the process ``eq()`` regarding the comparison of values apply here as well. This includes that data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*.\n* An integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`. Still, this process may return unexpectedly `false` when comparing floating point numbers due to floating point inaccuracy in machine-based computation.\n* Temporal strings are treated as normal strings and MUST NOT be interpreted.",
+    "description": "Checks whether the array specified for `data` contains the value specified in `value`. Returns `true` if there's a match, otherwise `false`.\n\n**Remarks:**\n\n* To get the index or the label of the value found, use ``array_find()``.\n* All definitions for the process ``eq()`` regarding the comparison of values apply here as well. This includes that data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*.\n* An integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`. Still, this process may return unexpectedly `false` when comparing floating point numbers due to floating point inaccuracy in machine-based computation.\n* Temporal strings are treated as normal strings and MUST NOT be interpreted.",
     "categories": [
       "arrays",
       "comparison"
@@ -1552,16 +1539,14 @@
           "items": {
             "description": "Any data type is allowed."
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "value",
         "description": "Value to find in `data`.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -1682,7 +1667,7 @@
   {
     "id": "array_element",
     "summary": "Get an element from an array",
-    "description": "Returns the element at the specified zero-based index from the array.",
+    "description": "Returns the element with the specified index or label from the array.\n\nEither the parameter `index` or `label` must be specified, otherwise the `ArrayElementParameterMissing` exception is thrown. If both parameters are set the `ArrayElementParameterConflict` exception is thrown.",
     "categories": [
       "arrays"
     ],
@@ -1695,8 +1680,7 @@
           "items": {
             "description": "Any data type is allowed."
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "index",
@@ -1704,15 +1688,29 @@
         "schema": {
           "type": "integer"
         },
-        "required": true
+        "optional": true
+      },
+      {
+        "name": "label",
+        "description": "The label of the element to retrieve.",
+        "schema": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          }
+        ],
+        "optional": true
       },
       {
         "name": "return_nodata",
-        "description": "By default this process throws an `IndexOutOfBounds` exception if the index is invalid. If you want to return `null` instead, set this flag to `true`.",
+        "description": "By default this process throws an `ArrayElementNotAvailable` exception if the index or label is invalid. If you want to return `null` instead, set this flag to `true`.",
         "schema": {
           "type": "boolean"
         },
-        "default": false
+        "default": false,
+        "optional": true
       }
     ],
     "returns": {
@@ -1722,8 +1720,14 @@
       }
     },
     "exceptions": {
-      "IndexOutOfBounds": {
-        "message": "The array has no element with the specified index."
+      "ArrayElementNotAvailable": {
+        "message": "The array has no element with the specified index or label."
+      },
+      "ArrayElementParameterMissing": {
+        "message": "The process 'array_element' requires either the 'index' or 'labels' parameter to be set."
+      },
+      "ArrayElementParameterConflict": {
+        "message": "The process 'array_element' only allows that either the 'index' or the 'labels' parameter is set."
       }
     },
     "examples": [
@@ -1778,8 +1782,7 @@
           "items": {
             "description": "Any data type is allowed."
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "condition",
@@ -1791,7 +1794,6 @@
             {
               "name": "x",
               "description": "The value of the current element being processed.",
-              "required": true,
               "schema": {
                 "description": "Any data type."
               }
@@ -1799,14 +1801,29 @@
             {
               "name": "index",
               "description": "The zero-based index of the current element being processed.",
-              "required": true,
               "schema": {
                 "type": "integer"
               }
+            },
+            {
+              "name": "label",
+              "description": "The label of the current element being processed. Only populated for labeled arrays.",
+              "schema": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "optional": true
             }
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -1822,7 +1839,7 @@
   {
     "id": "array_find",
     "summary": "Get the index for a value in an array",
-    "description": "Checks whether the array specified for `data` contains the value specified in `value` and returns the zero-based index for the first match. If there's no match, `-1` is returned.\n\n**Remarks:**\n\n* To get a boolean value returned use ``array_contains()``.\n* All definitions for the process ``eq()`` regarding the comparison of values apply here as well. This includes that data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*.\n* An integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`. Still, this process may return unexpectedly `false` when comparing floating point numbers due to floating point inaccuracy in machine-based computation.\n* Temporal strings are treated as normal strings and MUST NOT be interpreted.",
+    "description": "Checks whether the array specified for `data` contains the value specified in `value` and returns the zero-based index for the first match. If there's no match, `null` is returned.\n\n**Remarks:**\n\n* To get a boolean value returned use ``array_contains()``.\n* All definitions for the process ``eq()`` regarding the comparison of values apply here as well. This includes that data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*.\n* An integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`. Still, this process may return unexpectedly `false` when comparing floating point numbers due to floating point inaccuracy in machine-based computation.\n* Temporal strings are treated as normal strings and MUST NOT be interpreted.",
     "categories": [
       "arrays"
     ],
@@ -1835,24 +1852,27 @@
           "items": {
             "description": "Any data type is allowed."
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "value",
         "description": "Value to find in `data`.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
-      "description": "Returns the index of the first element with the specified value. If no element was found, `-1` is returned.",
-      "schema": {
-        "type": "integer",
-        "minimum": -1
-      }
+      "description": "Returns the index of the first element with the specified value. If no element was found, `null` is returned.",
+      "schema": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "integer",
+          "minimum": 0
+        }
+      ]
     },
     "examples": [
       {
@@ -1875,7 +1895,7 @@
           ],
           "value": "b"
         },
-        "returns": -1
+        "returns": null
       },
       {
         "arguments": {
@@ -1886,7 +1906,7 @@
           ],
           "value": "2"
         },
-        "returns": -1
+        "returns": null
       },
       {
         "arguments": {
@@ -1917,7 +1937,7 @@
             2
           ]
         },
-        "returns": -1
+        "returns": null
       },
       {
         "arguments": {
@@ -1933,7 +1953,7 @@
           ],
           "value": 2
         },
-        "returns": -1
+        "returns": null
       },
       {
         "arguments": {
@@ -1949,9 +1969,43 @@
             "a": "b"
           }
         },
-        "returns": -1
+        "returns": null
       }
     ]
+  },
+  {
+    "id": "array_labels",
+    "summary": "Get the labels for an array",
+    "description": "Returns all labels for a labeled array in the data cube. The labels have the same order as in the array.",
+    "categories": [
+      "arrays"
+    ],
+    "parameters": [
+      {
+        "name": "data",
+        "description": "An array with labels.",
+        "schema": {
+          "type": "array",
+          "subtype": "labeled-array"
+        }
+      }
+    ],
+    "returns": {
+      "description": "The labels as array.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
   },
   {
     "id": "arsinh",
@@ -1969,8 +2023,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -2034,8 +2087,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -2096,8 +2148,7 @@
         "description": "The value to check.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       },
       {
         "name": "min",
@@ -2121,8 +2172,7 @@
             "format": "time",
             "subtype": "time"
           }
-        ],
-        "required": true
+        ]
       },
       {
         "name": "max",
@@ -2146,8 +2196,7 @@
             "format": "time",
             "subtype": "time"
           }
-        ],
-        "required": true
+        ]
       },
       {
         "name": "exclude_max",
@@ -2155,7 +2204,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": false
+        "default": false,
+        "optional": true
       }
     ],
     "returns": {
@@ -2269,8 +2319,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -2332,24 +2381,21 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "min",
         "description": "Minimum value. If the value is lower than this value, the process will return the value of this parameter.",
         "schema": {
           "type": "number"
-        },
-        "required": true
+        }
       },
       {
         "name": "max",
         "description": "Maximum value. If the value is greater than this value, the process will return the value of this parameter.",
         "schema": {
           "type": "number"
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -2412,8 +2458,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -2457,8 +2502,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -2503,8 +2547,7 @@
           "items": {
             "description": "Any data type is allowed."
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "condition",
@@ -2519,7 +2562,6 @@
               {
                 "name": "x",
                 "description": "The value of the current element being processed.",
-                "required": true,
                 "schema": {
                   "description": "Any data type."
                 }
@@ -2538,7 +2580,8 @@
             "type": "null"
           }
         ],
-        "default": null
+        "default": null,
+        "optional": true
       }
     ],
     "returns": {
@@ -2600,7 +2643,7 @@
               "process_id": "gt",
               "arguments": {
                 "x": {
-                  "from_argument": "element"
+                  "from_parameter": "element"
                 },
                 "y": 2
               },
@@ -2647,8 +2690,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -2656,7 +2698,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -2748,8 +2791,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -2757,7 +2799,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -2849,8 +2892,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -2858,7 +2900,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -2954,8 +2997,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -2963,7 +3005,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -3049,8 +3092,7 @@
         "description": "Data to publish.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       },
       {
         "name": "code",
@@ -3058,7 +3100,8 @@
         "schema": {
           "type": "string"
         },
-        "default": ""
+        "default": "",
+        "optional": true
       },
       {
         "name": "level",
@@ -3072,7 +3115,8 @@
             "debug"
           ]
         },
-        "default": "info"
+        "default": "info",
+        "optional": true
       },
       {
         "name": "message",
@@ -3080,13 +3124,55 @@
         "schema": {
           "type": "string"
         },
-        "default": ""
+        "default": "",
+        "optional": true
       }
     ],
     "returns": {
       "description": "Returns the data as passed to the `data` parameter.",
       "schema": {
         "description": "Any data type is allowed."
+      }
+    }
+  },
+  {
+    "id": "dimension_labels",
+    "summary": "Get the dimension labels",
+    "description": "Returns all labels for a dimension in the data cube. The labels have the same order as in the data cube.",
+    "categories": [
+      "cubes"
+    ],
+    "parameters": [
+      {
+        "name": "data",
+        "description": "The data cube.",
+        "schema": {
+          "type": "object",
+          "subtype": "raster-cube"
+        }
+      },
+      {
+        "name": "dimension",
+        "description": "The name of the dimension to get the labels for.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "returns": {
+      "description": "The labels as array.",
+      "schema": {
+        "type": "array",
+        "items": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
       }
     }
   },
@@ -3106,8 +3192,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
@@ -3117,8 +3202,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -3185,16 +3269,14 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "name",
         "description": "Name of the dimension to drop.",
         "schema": {
           "type": "string"
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -3271,16 +3353,14 @@
         "description": "First operand.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
         "description": "Second operand.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       },
       {
         "name": "delta",
@@ -3291,7 +3371,8 @@
             "null"
           ]
         },
-        "default": null
+        "default": null,
+        "optional": true
       },
       {
         "name": "case_sensitive",
@@ -3299,7 +3380,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -3443,8 +3525,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -3497,8 +3578,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -3506,7 +3586,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -3605,8 +3686,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "bands",
@@ -3618,7 +3698,8 @@
             "subtype": "band-name"
           }
         },
-        "default": []
+        "default": [],
+        "optional": true
       },
       {
         "name": "wavelengths",
@@ -3646,7 +3727,8 @@
             ]
           }
         },
-        "default": []
+        "default": [],
+        "optional": true
       }
     ],
     "returns": {
@@ -3686,13 +3768,11 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "extent",
         "description": "A bounding box, which may include a vertical axis (see `base` and `height`).",
-        "required": true,
         "schema": {
           "type": "object",
           "subtype": "bounding-box",
@@ -3810,8 +3890,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "condition",
@@ -3823,7 +3902,6 @@
             {
               "name": "value",
               "description": "A single dimension label to compare against. The data type of the parameter depends on the dimension labels stored for the dimension.",
-              "required": true,
               "schema": [
                 {
                   "type": "number"
@@ -3834,16 +3912,14 @@
               ]
             }
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "dimension",
         "description": "The name of the dimension to filter on. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.\n\n**Remarks:**\n\n* The default dimensions a data cube provides are described in the collection's metadata field `cube:dimensions`.\n* There could be multiple spatial dimensions such as `x`, `y` or `z`.\n* For multi-spectral imagery there is usually a separate dimension of type `bands` for the bands.",
         "schema": {
           "type": "string"
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -3877,12 +3953,12 @@
                 "from_node": "load"
               },
               "condition": {
-                "callback": {
+                "process_graph": {
                   "eq": {
                     "process_id": "eq",
                     "arguments": {
                       "x": {
-                        "from_argument": "value"
+                        "from_parameter": "value"
                       },
                       "y": "Sentinel-2A",
                       "case_sensitive": false
@@ -3913,8 +3989,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "polygons",
@@ -3922,8 +3997,7 @@
         "schema": {
           "type": "object",
           "subtype": "geojson"
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -3955,8 +4029,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "extent",
@@ -3993,8 +4066,7 @@
               "2016-01-01"
             ]
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "dimension",
@@ -4005,7 +4077,8 @@
             "null"
           ]
         },
-        "default": null
+        "default": null,
+        "optional": true
       }
     ],
     "returns": {
@@ -4038,8 +4111,7 @@
           "items": {
             "description": "Any data type is allowed."
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -4047,7 +4119,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -4114,8 +4187,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -4174,16 +4246,14 @@
         "description": "First operand.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
         "description": "Second operand.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -4274,16 +4344,14 @@
         "description": "First operand.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
         "description": "Second operand.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -4387,16 +4455,14 @@
             "boolean",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "accept",
         "description": "A value that is returned if the boolean value is `true`.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       },
       {
         "name": "reject",
@@ -4404,7 +4470,8 @@
         "schema": {
           "description": "Any data type is allowed."
         },
-        "default": null
+        "default": null,
+        "optional": true
       }
     ],
     "returns": {
@@ -4483,8 +4550,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -4543,8 +4609,7 @@
         "description": "The data to check.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -4588,8 +4653,7 @@
         "description": "The data to check.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -4632,8 +4696,7 @@
         "description": "The data to check.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -4671,49 +4734,6 @@
     ]
   },
   {
-    "id": "labels",
-    "summary": "Get the dimension labels",
-    "description": "Returns all labels for a dimension in the data cube. The labels have the same order as in the data cube.",
-    "categories": [
-      "cubes"
-    ],
-    "parameters": [
-      {
-        "name": "data",
-        "description": "The data cube.",
-        "schema": {
-          "type": "object",
-          "subtype": "raster-cube"
-        },
-        "required": true
-      },
-      {
-        "name": "dimension",
-        "description": "The name of the dimension to get the labels for.",
-        "schema": {
-          "type": "string"
-        },
-        "required": true
-      }
-    ],
-    "returns": {
-      "description": "The labels as array.",
-      "schema": {
-        "type": "array",
-        "items": {
-          "anyOf": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "string"
-            }
-          ]
-        }
-      }
-    }
-  },
-  {
     "id": "last",
     "summary": "Last element",
     "description": "Gives the last element of an array. For an empty array `null` is returned.",
@@ -4730,8 +4750,7 @@
           "items": {
             "description": "Any data type is allowed."
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -4739,7 +4758,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -4806,24 +4826,21 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "inputMin",
         "description": "Minimum value the input can obtain.",
         "schema": {
           "type": "number"
-        },
-        "required": true
+        }
       },
       {
         "name": "inputMax",
         "description": "Maximum value the input can obtain.",
         "schema": {
           "type": "number"
-        },
-        "required": true
+        }
       },
       {
         "name": "outputMin",
@@ -4831,7 +4848,8 @@
         "schema": {
           "type": "number"
         },
-        "default": 0
+        "default": 0,
+        "optional": true
       },
       {
         "name": "outputMax",
@@ -4839,7 +4857,8 @@
         "schema": {
           "type": "number"
         },
-        "default": 1
+        "default": 1,
+        "optional": true
       }
     ],
     "returns": {
@@ -4896,8 +4915,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -4965,8 +4983,7 @@
           "type": "string",
           "subtype": "collection-id",
           "pattern": "^[A-Za-z0-9_\\-\\.~/]+$"
-        },
-        "required": true
+        }
       },
       {
         "name": "spatial_extent",
@@ -5053,8 +5070,7 @@
             "description": "Don't filter spatially. All data is included in the data cube.",
             "type": "null"
           }
-        ],
-        "required": true
+        ]
       },
       {
         "name": "temporal_extent",
@@ -5098,8 +5114,7 @@
             "description": "Don't filter temporally. All data is included in the data cube.",
             "type": "null"
           }
-        ],
-        "required": true
+        ]
       },
       {
         "name": "bands",
@@ -5118,7 +5133,8 @@
             "type": "null"
           }
         ],
-        "default": null
+        "default": null,
+        "optional": true
       },
       {
         "name": "properties",
@@ -5147,7 +5163,8 @@
             "type": "null"
           }
         ],
-        "default": null
+        "default": null,
+        "optional": true
       }
     ],
     "returns": {
@@ -5177,12 +5194,12 @@
               ],
               "properties": {
                 "eo:cloud_cover": {
-                  "callback": {
+                  "process_graph": {
                     "cc": {
                       "process_id": "between",
                       "arguments": {
                         "x": {
-                          "from_argument": "value"
+                          "from_parameter": "value"
                         },
                         "min": 0,
                         "max": 50
@@ -5192,12 +5209,12 @@
                   }
                 },
                 "platform": {
-                  "callback": {
+                  "process_graph": {
                     "pf": {
                       "process_id": "eq",
                       "arguments": {
                         "x": {
-                          "from_argument": "value"
+                          "from_parameter": "value"
                         },
                         "y": "Sentinel-2B",
                         "case_sensitive": false
@@ -5257,8 +5274,7 @@
           "type": "string",
           "subtype": "job-id",
           "pattern": "^[A-Za-z0-9_\\-\\.~]+$"
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -5288,8 +5304,7 @@
             "type": "string",
             "subtype": "file-path"
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "format",
@@ -5297,8 +5312,7 @@
         "schema": {
           "type": "string",
           "subtype": "input-format"
-        },
-        "required": true
+        }
       },
       {
         "name": "options",
@@ -5307,7 +5321,8 @@
           "type": "object",
           "subtype": "input-format-options"
         },
-        "default": {}
+        "default": {},
+        "optional": true
       }
     ],
     "returns": {
@@ -5334,8 +5349,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "base",
@@ -5345,8 +5359,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -5414,16 +5427,14 @@
         "description": "First operand.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
         "description": "Second operand.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -5514,16 +5525,14 @@
         "description": "First operand.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
         "description": "Second operand.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -5623,8 +5632,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "mask",
@@ -5632,8 +5640,7 @@
         "schema": {
           "type": "object",
           "subtype": "geojson"
-        },
-        "required": true
+        }
       },
       {
         "name": "replacement",
@@ -5646,7 +5653,8 @@
             "null"
           ]
         },
-        "default": null
+        "default": null,
+        "optional": true
       },
       {
         "name": "inside",
@@ -5654,7 +5662,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": false
+        "default": false,
+        "optional": true
       }
     ],
     "returns": {
@@ -5686,8 +5695,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "mask",
@@ -5695,8 +5703,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "replacement",
@@ -5709,7 +5716,8 @@
             "null"
           ]
         },
-        "default": null
+        "default": null,
+        "optional": true
       }
     ],
     "returns": {
@@ -5740,8 +5748,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -5749,7 +5756,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -5833,8 +5841,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -5842,7 +5849,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -5923,8 +5931,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -5932,7 +5939,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -6027,8 +6035,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "cube2",
@@ -6036,8 +6043,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "overlap_resolver",
@@ -6049,7 +6055,6 @@
             {
               "name": "x",
               "description": "The first value.",
-              "required": true,
               "schema": {
                 "description": "Any data type."
               }
@@ -6057,14 +6062,14 @@
             {
               "name": "y",
               "description": "The second value.",
-              "required": true,
               "schema": {
                 "description": "Any data type."
               }
             }
           ]
         },
-        "default": null
+        "default": null,
+        "optional": true
       }
     ],
     "returns": {
@@ -6107,8 +6112,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -6116,7 +6120,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -6195,8 +6200,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
@@ -6206,8 +6210,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -6287,8 +6290,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
@@ -6298,8 +6300,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -6367,8 +6368,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "nir",
@@ -6377,7 +6377,8 @@
           "type": "string",
           "subtype": "band-name"
         },
-        "default": "nir"
+        "default": "nir",
+        "optional": true
       },
       {
         "name": "red",
@@ -6386,7 +6387,8 @@
           "type": "string",
           "subtype": "band-name"
         },
-        "default": "red"
+        "default": "red",
+        "optional": true
       },
       {
         "name": "target_band",
@@ -6400,7 +6402,8 @@
             "type": "null"
           }
         ],
-        "default": null
+        "default": null,
+        "optional": true
       }
     ],
     "returns": {
@@ -6456,16 +6459,14 @@
         "description": "First operand.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
         "description": "Second operand.",
         "schema": {
           "description": "Any data type is allowed."
-        },
-        "required": true
+        }
       },
       {
         "name": "delta",
@@ -6476,7 +6477,8 @@
             "null"
           ]
         },
-        "default": null
+        "default": null,
+        "optional": true
       },
       {
         "name": "case_sensitive",
@@ -6484,7 +6486,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -6626,16 +6629,14 @@
         "description": "The value for the first band.",
         "schema": {
           "type": "number"
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
         "description": "The value for the second band.",
         "schema": {
           "type": "number"
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -6680,8 +6681,7 @@
             "boolean",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -6730,8 +6730,7 @@
             "boolean",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
@@ -6741,8 +6740,7 @@
             "boolean",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -6831,8 +6829,7 @@
               }
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "asc",
@@ -6840,7 +6837,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       },
       {
         "name": "nodata",
@@ -6851,7 +6849,8 @@
             "null"
           ]
         },
-        "default": null
+        "default": null,
+        "optional": true
       }
     ],
     "returns": {
@@ -7058,8 +7057,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "p",
@@ -7069,8 +7067,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -7161,8 +7158,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -7170,7 +7166,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -7252,7 +7249,7 @@
   {
     "id": "quantiles",
     "summary": "Quantiles",
-    "description": "Calculates quantiles, which are cut points dividing the range of a probability distribution into either\n\n* intervals corresponding to the given `probabilities` or\n* (nearly) equal-sized intervals (q-quantiles based on the parameter `q`).\n\nEither the parameter `probabilites` or `q` must be specified, otherwise the `QuantilesParameterMissing` exception must be thrown. If both parameters are set the `QuantilesParameterConflict` exception must be thrown.",
+    "description": "Calculates quantiles, which are cut points dividing the range of a probability distribution into either\n\n* intervals corresponding to the given `probabilities` or\n* (nearly) equal-sized intervals (q-quantiles based on the parameter `q`).\n\nEither the parameter `probabilites` or `q` must be specified, otherwise the `QuantilesParameterMissing` exception is thrown. If both parameters are set the `QuantilesParameterConflict` exception is thrown.",
     "categories": [
       "math"
     ],
@@ -7268,8 +7265,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "probabilities",
@@ -7281,7 +7277,8 @@
             "minimum": 0,
             "maximum": 1
           }
-        }
+        },
+        "optional": true
       },
       {
         "name": "q",
@@ -7289,7 +7286,8 @@
         "schema": {
           "type": "integer",
           "minimum": 2
-        }
+        },
+        "optional": true
       },
       {
         "name": "ignore_nodata",
@@ -7297,7 +7295,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -7442,8 +7441,7 @@
           "items": {
             "description": "Any data type is allowed."
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "order",
@@ -7454,8 +7452,7 @@
             "type": "integer",
             "minimum": 0
           }
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -7555,8 +7552,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "reducer",
@@ -7568,7 +7564,6 @@
             {
               "name": "x",
               "description": "The first value.",
-              "required": true,
               "schema": {
                 "description": "Any data type."
               }
@@ -7576,22 +7571,19 @@
             {
               "name": "y",
               "description": "The second value.",
-              "required": true,
               "schema": {
                 "description": "Any data type."
               }
             }
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "dimension",
         "description": "The name of the dimension over which to reduce. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.\n\n**Remarks:**\n\n* The default dimensions a data cube provides are described in the collection's metadata field `cube:dimensions`.\n* There could be multiple spatial dimensions such as `x`, `y` or `z`.\n* For multi-spectral imagery there is usually a separate dimension of type `bands` for the bands.",
         "schema": {
           "type": "string"
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -7629,8 +7621,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "reducer",
@@ -7641,26 +7632,24 @@
           "parameters": [
             {
               "name": "data",
-              "description": "An array with elements of any type.",
-              "required": true,
+              "description": "A labeled array with elements of any type.",
               "schema": {
                 "type": "array",
+                "subtype": "labeled-array",
                 "items": {
                   "description": "Any data type."
                 }
               }
             }
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "dimension",
         "description": "The name of the dimension over which to reduce. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.\n\n**Remarks:**\n\n* The default dimensions a data cube provides are described in the collection's metadata field `cube:dimensions`.\n* There could be multiple spatial dimensions such as `x`, `y` or `z`.\n* For multi-spectral imagery there is usually a separate dimension of type `bands` for the bands.",
         "schema": {
           "type": "string"
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -7690,24 +7679,21 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "source",
         "description": "The current name of the dimension. Fails with a `DimensionNotAvailable` error if the specified dimension does not exist.",
         "schema": {
           "type": "string"
-        },
-        "required": true
+        }
       },
       {
         "name": "target",
         "description": "A new Name for the dimension. Fails with a `DimensionExists` error if a dimension with the specified name exists.",
         "schema": {
           "type": "string"
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -7740,16 +7726,14 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "dimension",
         "description": "The name of the dimension to rename the labels for.",
         "schema": {
           "type": "string"
-        },
-        "required": true
+        }
       },
       {
         "name": "target",
@@ -7766,8 +7750,7 @@
               }
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "source",
@@ -7785,7 +7768,8 @@
             ]
           }
         },
-        "default": []
+        "default": [],
+        "optional": true
       }
     ],
     "returns": {
@@ -7869,12 +7853,12 @@
                 "from_node": "loadco1"
               },
               "reducer": {
-                "callback": {
+                "process_graph": {
                   "extrem1": {
                     "process_id": "extrema",
                     "arguments": {
                       "data": {
-                        "from_argument": "data"
+                        "from_parameter": "data"
                       }
                     },
                     "result": true
@@ -7918,8 +7902,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "target",
@@ -7927,8 +7910,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "method",
@@ -7950,7 +7932,8 @@
             "q3"
           ]
         },
-        "default": "near"
+        "default": "near",
+        "optional": true
       }
     ],
     "returns": {
@@ -7983,8 +7966,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "target",
@@ -7992,8 +7974,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "method",
@@ -8004,18 +7985,17 @@
           "parameters": [
             {
               "name": "data",
-              "description": "An array with elements of any type.",
-              "required": true,
+              "description": "A labeled array with elements of any type.",
               "schema": {
                 "type": "array",
+                "subtype": "labeled-array",
                 "items": {
                   "description": "Any data type."
                 }
               }
             }
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "dimension",
@@ -8026,7 +8006,8 @@
             "null"
           ]
         },
-        "default": null
+        "default": null,
+        "optional": true
       }
     ],
     "returns": {
@@ -8067,8 +8048,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       },
       {
         "name": "resolution",
@@ -8090,7 +8070,8 @@
             }
           }
         ],
-        "default": 0
+        "default": 0,
+        "optional": true
       },
       {
         "name": "projection",
@@ -8121,7 +8102,8 @@
             "type": "null"
           }
         ],
-        "default": null
+        "default": null,
+        "optional": true
       },
       {
         "name": "method",
@@ -8143,7 +8125,8 @@
             "q3"
           ]
         },
-        "default": "near"
+        "default": "near",
+        "optional": true
       },
       {
         "name": "align",
@@ -8157,7 +8140,8 @@
             "upper-right"
           ]
         },
-        "default": "upper-left"
+        "default": "upper-left",
+        "optional": true
       }
     ],
     "returns": {
@@ -8201,8 +8185,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "p",
@@ -8210,7 +8193,8 @@
         "schema": {
           "type": "integer"
         },
-        "default": 0
+        "default": 0,
+        "optional": true
       }
     ],
     "returns": {
@@ -8277,58 +8261,6 @@
     ]
   },
   {
-    "id": "run_process_graph",
-    "summary": "Load and run a stored process graph",
-    "description": "Loads and executes a stored process graph.\n\nThe process can either load\n\n* a locally stored process graph by id, which is stored by the authenticated user on the back-end currently connected to or\n* a remotely stored and published process graph by absolute URI, for example from [openEO Hub](https://hub.openeo.org).",
-    "categories": [
-      "import"
-    ],
-    "experimental": true,
-    "parameters": [
-      {
-        "name": "id",
-        "description": "A process graph id or an absolute URI to an externally hosted process graph.",
-        "schema": [
-          {
-            "description": "URI",
-            "type": "string",
-            "format": "uri",
-            "subtype": "uri"
-          },
-          {
-            "description": "Process graph id",
-            "type": "string",
-            "subtype": "process-graph-id",
-            "pattern": "^[A-Za-z0-9_\\-\\.~]+$"
-          }
-        ],
-        "required": true
-      },
-      {
-        "name": "variables",
-        "description": "Key-value-pairs with values for variables that are defined by the process graph. The key of the pair has to be the corresponding `variable_id` for the value specified. The replacement for the variable is the value of the pair.",
-        "schema": {
-          "type": "object",
-          "subtype": "process-graph-variables"
-        },
-        "default": {}
-      }
-    ],
-    "returns": {
-      "description": "The result of processing the process graph.",
-      "schema": {
-        "description": "Any data type."
-      }
-    },
-    "links": [
-      {
-        "href": "https://github.com/Open-EO/openeo-processes/issues/5",
-        "rel": "experimental",
-        "title": "More information about the experimental status of the process"
-      }
-    ]
-  },
-  {
     "id": "run_udf_externally",
     "summary": "Run an externally hosted UDF container",
     "description": "Runs a compatible UDF container that is either externally hosted by a service provider or running on a local machine of the user. The UDF container must follow the [openEO UDF specification](https://open-eo.github.io/openeo-udf/).\n\nThe referenced UDF service can be executed in several processes such as ``aggregate_polygon()``, ``apply()``, ``apply_dimension()`` and ``reduce_dimension()``. In this case an array is passed instead of a raster data cube. The user must ensure that the data is properly passed as an array so that the UDF can make sense of it.",
@@ -8359,8 +8291,7 @@
             "title": "Single Value",
             "description": "A single value of any data type."
           }
-        ],
-        "required": true
+        ]
       },
       {
         "name": "url",
@@ -8369,8 +8300,7 @@
           "type": "string",
           "format": "uri",
           "subtype": "uri"
-        },
-        "required": true
+        }
       },
       {
         "name": "context",
@@ -8378,7 +8308,8 @@
         "schema": {
           "type": "object"
         },
-        "default": {}
+        "default": {},
+        "optional": true
       }
     ],
     "returns": {
@@ -8438,8 +8369,7 @@
             "title": "Single Value",
             "description": "A single value of any data type."
           }
-        ],
-        "required": true
+        ]
       },
       {
         "name": "udf",
@@ -8461,8 +8391,7 @@
             "type": "string",
             "subtype": "udf-code"
           }
-        ],
-        "required": true
+        ]
       },
       {
         "name": "runtime",
@@ -8470,8 +8399,7 @@
         "schema": {
           "type": "string",
           "subtype": "udf-runtime"
-        },
-        "required": true
+        }
       },
       {
         "name": "version",
@@ -8486,7 +8414,8 @@
             "type": "null"
           }
         ],
-        "default": null
+        "default": null,
+        "optional": true
       },
       {
         "name": "context",
@@ -8494,7 +8423,8 @@
         "schema": {
           "type": "object"
         },
-        "default": {}
+        "default": {},
+        "optional": true
       }
     ],
     "exceptions": {
@@ -8538,8 +8468,7 @@
             "type": "object",
             "subtype": "vector-cube"
           }
-        ],
-        "required": true
+        ]
       },
       {
         "name": "format",
@@ -8547,8 +8476,7 @@
         "schema": {
           "type": "string",
           "subtype": "output-format"
-        },
-        "required": true
+        }
       },
       {
         "name": "options",
@@ -8557,7 +8485,8 @@
           "type": "object",
           "subtype": "output-format-options"
         },
-        "default": {}
+        "default": {},
+        "optional": true
       }
     ],
     "returns": {
@@ -8599,8 +8528,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -8608,7 +8536,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -8676,8 +8605,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -8739,8 +8667,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -8784,8 +8711,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -8852,8 +8778,7 @@
               }
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "asc",
@@ -8861,7 +8786,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       },
       {
         "name": "nodata",
@@ -8872,7 +8798,8 @@
             "null"
           ]
         },
-        "default": null
+        "default": null,
+        "optional": true
       }
     ],
     "returns": {
@@ -8986,8 +8913,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -9049,8 +8975,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
@@ -9060,8 +8985,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -9129,8 +9053,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -9138,7 +9061,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -9233,8 +9157,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -9278,8 +9201,7 @@
             "number",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -9324,16 +9246,14 @@
             "string",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "pattern",
         "description": "Text to find at the beginning of `data`. Regular expressions are not supported.",
         "schema": {
           "type": "string"
-        },
-        "required": true
+        }
       },
       {
         "name": "case_sensitive",
@@ -9341,7 +9261,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -9417,16 +9338,14 @@
             "string",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "pattern",
         "description": "Text to find in `data`. Regular expressions are not supported.",
         "schema": {
           "type": "string"
-        },
-        "required": true
+        }
       },
       {
         "name": "case_sensitive",
@@ -9434,7 +9353,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -9510,16 +9430,14 @@
             "string",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "pattern",
         "description": "Text to find at the end of `data`. Regular expressions are not supported.",
         "schema": {
           "type": "string"
-        },
-        "required": true
+        }
       },
       {
         "name": "case_sensitive",
@@ -9527,7 +9445,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -9607,8 +9526,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "separator",
@@ -9621,7 +9539,8 @@
             "null"
           ]
         },
-        "default": ""
+        "default": "",
+        "optional": true
       }
     ],
     "returns": {
@@ -9691,7 +9610,7 @@
     ]
   },
   {
-    "id": "trim",
+    "id": "trim_cube",
     "summary": "Remove slices with no-data values",
     "description": "Removes slices solely containing no-data values. If the dimension is irregular categorical then slices in the middle can be removed.",
     "categories": [
@@ -9704,8 +9623,7 @@
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
-        },
-        "required": true
+        }
       }
     ],
     "returns": {
@@ -9736,8 +9654,7 @@
               "null"
             ]
           }
-        },
-        "required": true
+        }
       },
       {
         "name": "ignore_nodata",
@@ -9745,7 +9662,8 @@
         "schema": {
           "type": "boolean"
         },
-        "default": true
+        "default": true,
+        "optional": true
       }
     ],
     "returns": {
@@ -9826,8 +9744,7 @@
             "boolean",
             "null"
           ]
-        },
-        "required": true
+        }
       },
       {
         "name": "y",
@@ -9837,8 +9754,7 @@
             "boolean",
             "null"
           ]
-        },
-        "required": true
+        }
       }
     ],
     "returns": {

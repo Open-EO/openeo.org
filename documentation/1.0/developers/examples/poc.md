@@ -13,7 +13,7 @@ Repeating calls are also not included as it would not make much sense to list th
 
 Deriving minimum NDVI measurements over pixel time series of Sentinel 2 imagery.
 
-[A similar example (computing an EVI) is also available.](../api/reference.md#section/Example)
+[A similar example (computing an EVI) is also available in the API.](../api/reference.md#section/Processes/Process-Graphs)
 
 1. **Requesting the API versions available at the back-end**
 

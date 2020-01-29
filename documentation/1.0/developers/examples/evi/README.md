@@ -8,7 +8,7 @@ The process graph could be visualized as follows:
 
 This process graph is meant to be used as batch job or can be lazy evaluated. It returns a GeoTiff file with the computed results.
 
-This process graph assumes the dataset is called `Sentinel-2`. The temporal extent covered is January 2018 and bands `B02` (blue), `B04` (red) and `B08` (nir) are used for the computation. Please note that the order of the bands in `get_collection` is important as they are requested by their order (index) in the callback.
+This process graph assumes the dataset is called `Sentinel-2`. The temporal extent covered is January 2018 and bands `B02` (blue), `B04` (red) and `B08` (nir) are used for the computation.
 
 ## Process Graph
 
@@ -16,7 +16,7 @@ This process graph assumes the dataset is called `Sentinel-2`. The temporal exte
 {
   "dc": {
     "process_id": "load_collection",
-    "description": "Loading the data; The order of the specified bands is important for the following reduce operation.",
+    "description": "Loading the data.",
     "arguments": {
       "id": "Sentinel-2",
       "spatial_extent": {
@@ -26,72 +26,78 @@ This process graph assumes the dataset is called `Sentinel-2`. The temporal exte
         "south": 47.2
       },
       "temporal_extent": ["2018-01-01", "2018-02-01"],
-      "bands": ["B08", "B04", "B02"]
+      "bands": ["B02", "B04", "B08"]
     }
   },
   "evi": {
-    "process_id": "reduce",
+    "process_id": "reduce_dimension",
     "description": "Compute the EVI. Formula: 2.5 * (NIR - RED) / (1 + NIR + 6*RED + -7.5*BLUE)",
     "arguments": {
-      "data": {"from_node": "dc"},
-      "dimension": "spectral",
+      "data": {"from_node": "dc"
+      },
+      "dimension": "bands",
       "reducer": {
-        "callback": {
+        "process_graph": {
           "nir": {
             "process_id": "array_element",
             "arguments": {
               "data": {"from_parameter": "data"},
-              "index": 0
+              "label": "B08"
             }
           },
           "red": {
             "process_id": "array_element",
             "arguments": {
               "data": {"from_parameter": "data"},
-              "index": 1
+              "label": "B04"
             }
           },
           "blue": {
             "process_id": "array_element",
             "arguments": {
               "data": {"from_parameter": "data"},
-              "index": 2
+              "label": "B02"
             }
           },
           "sub": {
             "process_id": "subtract",
             "arguments": {
-              "data": [{"from_node": "nir"}, {"from_node": "red"}]
+              "x": {"from_node": "nir"},
+              "y": {"from_node": "red"}
             }
           },
-          "p1": {
-            "process_id": "product",
+          "m1": {
+            "process_id": "multiply",
             "arguments": {
-              "data": [6, {"from_node": "red"}]
+              "x": 6,
+              "y": {"from_node": "red"}
             }
           },
-          "p2": {
-            "process_id": "product",
+          "m2": {
+            "process_id": "multiply",
             "arguments": {
-              "data": [-7.5, {"from_node": "blue"}]
+              "x": -7.5,
+              "y": {"from_node": "blue"}
             }
           },
           "sum": {
             "process_id": "sum",
             "arguments": {
-              "data": [1, {"from_node": "nir"}, {"from_node": "p1"}, {"from_node": "p2"}]
+              "data": [1, {"from_node": "nir"}, {"from_node": "m1"}, {"from_node": "m2"}]
             }
           },
           "div": {
             "process_id": "divide",
             "arguments": {
-              "data": [{"from_node": "sub"}, {"from_node": "sum"}]
+              "x": {"from_node": "sub"},
+              "y": {"from_node": "sum"}
             }
           },
           "p3": {
-            "process_id": "product",
+            "process_id": "multiply",
             "arguments": {
-              "data": [2.5, {"from_node": "div"}]
+              "x": 2.5,
+              "y": {"from_node": "div"}
             },
             "result": true
           }
@@ -100,13 +106,13 @@ This process graph assumes the dataset is called `Sentinel-2`. The temporal exte
     }
   },
   "mintime": {
-    "process_id": "reduce",
+    "process_id": "reduce_dimension",
     "description": "Compute a minimum time composite by reducing the temporal dimension",
     "arguments": {
       "data": {"from_node": "evi"},
       "dimension": "temporal",
       "reducer": {
-        "callback": {
+        "process_graph": {
           "min": {
             "process_id": "min",
             "arguments": {

@@ -52,7 +52,7 @@ Process Graph #1 computes the NDVI based on the common band names in the metadat
       "data": {
         "from_node": "ndvi1"
       },
-      "dimension": "temporal",
+      "dimension": "t",
       "reducer": {
         "callback": {
           "max1": {
@@ -138,7 +138,7 @@ Process Graph #1 computes the NDVI based on the common band names in the metadat
       "data": {
         "from_node": "normalized_difference"
       },
-      "dimension": "temporal",
+      "dimension": "t",
       "reducer": {
         "callback": {
           "max": {

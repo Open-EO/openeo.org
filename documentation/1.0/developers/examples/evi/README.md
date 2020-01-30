@@ -110,7 +110,7 @@ This process graph assumes the dataset is called `Sentinel-2`. The temporal exte
     "description": "Compute a minimum time composite by reducing the temporal dimension",
     "arguments": {
       "data": {"from_node": "evi"},
-      "dimension": "temporal",
+      "dimension": "t",
       "reducer": {
         "process_graph": {
           "min": {

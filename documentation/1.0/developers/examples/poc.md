@@ -102,7 +102,7 @@ Deriving minimum NDVI measurements over pixel time series of Sentinel 2 imagery.
           "process_id": "reduce",
           "arguments": {
             "data": {"from_node": "ndvi1"},
-            "dimension": "temporal",
+            "dimension": "t",
             "reducer": {
               "callback": {
                 "min1": {
@@ -189,7 +189,7 @@ Create a monthly aggregated Sentinel 1 product from a custom Python script.
           "process_id": "reduce",
           "arguments": {
             "data": {"from_node": "loadco1"},
-            "dimension": "temporal",
+            "dimension": "t",
             "reducer": {
               "callback": {
                 "runudf1": {
@@ -308,7 +308,7 @@ Compute time series of zonal (regional) statistics of Sentinel 2 imagery over us
           "process_id": "reduce",
           "arguments": {
             "data": {"from_node": "loadco1"},
-            "dimension": "spectral"
+            "dimension": "bands"
           }
         },
         "aggreg1": {

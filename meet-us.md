@@ -6,7 +6,7 @@ sidebar: false
 
 We are always happy to present and discuss the current state of the project. You can **meet us at the following events**:
 
-* FOSDEM 2020 (February, 2 in Brussels, Belgium): [Talks on OpenEO and STAC](https://fosdem.org/2020/schedule/track/geospatial/)
+* FOSDEM 2020 (February, 2 in Brussels, Belgium): Talks on [openEO](https://fosdem.org/2020/schedule/event/introduction_to_openeo/), [STAC](https://fosdem.org/2020/schedule/event/introduction_to_spatiotemporal_asset_catalogs_stac/) and [actinia](https://fosdem.org/2020/schedule/event/actinia_geoprocessing_in_the_cloud/)
 
 Interesting resources from **past events**:
 

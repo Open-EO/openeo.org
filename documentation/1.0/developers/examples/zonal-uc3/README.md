@@ -37,7 +37,7 @@ Only a single GeoJSON polygon is specified, which fully covers the spatial exten
       "data": {
         "from_node": "loadco1"
       },
-      "dimension": "spectral"
+      "dimension": "bands"
     }
   },
   "aggreg1": {

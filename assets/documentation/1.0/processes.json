@@ -60,7 +60,42 @@
         "href": "http://mathworld.wolfram.com/AbsoluteValue.html",
         "title": "Absolute value explained by Wolfram MathWorld"
       }
-    ]
+    ],
+    "process_graph": {
+      "lt": {
+        "process_id": "lt",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": 0
+        }
+      },
+      "multiply": {
+        "process_id": "multiply",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": -1
+        }
+      },
+      "if": {
+        "process_id": "if",
+        "arguments": {
+          "value": {
+            "from_node": "lt"
+          },
+          "accept": {
+            "from_node": "multiply"
+          },
+          "reject": {
+            "from_parameter": "x"
+          }
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "add_dimension",
@@ -198,12 +233,29 @@
         "href": "https://ieeexplore.ieee.org/document/8766229",
         "title": "IEEE Standard 754-2019 for Floating-Point Arithmetic"
       }
-    ]
+    ],
+    "process_graph": {
+      "sum": {
+        "process_id": "sum",
+        "arguments": {
+          "data": [
+            {
+              "from_parameter": "x"
+            },
+            {
+              "from_parameter": "y"
+            }
+          ],
+          "ignore_nodata": false
+        },
+        "result": true
+      }
+    }
   },
   {
-    "id": "aggregate_polygon_binary",
-    "summary": "Zonal statistics for polygons using binary aggregation",
-    "description": "Aggregates zonal statistics for one or multiple polygons over the spatial dimensions. This process passes two values to the reducer. In contrast, ``aggregate_polygon()`` passes a list of values.\n\nThe process considers all pixels for which the point at the pixel center intersects with the corresponding polygon (as defined in the Simple Features standard by the OGC).\n\nThe data cube must have been reduced to only contain two raster dimensions and a third dimension the values are aggregated for, for example the temporal dimension to get a time series. Otherwise this process fails with the `TooManyDimensions` error.\n\nThe number of total and valid pixels is returned together with the calculated values.",
+    "id": "aggregate_spatial_binary",
+    "summary": "Zonal statistics for geometries by binary aggregation",
+    "description": "Aggregates statistics for one or more geometries (e.g. zonal statistics for polygons) over the spatial dimensions. This process consecutively passes a pair of values to the reducer. This may be better suited especially for UDFs in case the number of values gets too large to be processed at once. In contrast, ``aggregate_spatial()`` passes a list of values.\n\n- For **polygons**, the process considers all pixels for which the point at the pixel center intersects with the corresponding polygon (as defined in the Simple Features standard by the OGC).\n- For **points**, the process considers the closest pixel center.\n- For **lines** (line strings), the process considers all the pixels whose centers are closest to at least one point on the line.\n\nThe data cube must have been reduced to only contain two raster dimensions and a third dimension the values are aggregated for, for example the temporal dimension to get a time series. Otherwise this process fails with the `TooManyDimensions` error.\n\nThe number of total and valid pixels is returned together with the calculated values.",
     "categories": [
       "cubes",
       "aggregate & resample"
@@ -212,25 +264,19 @@
     "parameters": [
       {
         "name": "data",
-        "description": "A data cube.",
+        "description": "A raster data cube. The data cube implicitly gets restricted to the bounds of the geometries as if ``filter_spatial()`` would have been used with the same values for the corresponding parameters immediately before this process.",
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
         }
       },
       {
-        "name": "polygons",
-        "description": "One or more polygons to calculate zonal statistics for. Either specified as GeoJSON or vector data cube.\n\nFor GeoJSON this can be one of the following GeoJSON types:\n\n* A `Polygon` geometry,\n* a `GeometryCollection` containing Polygons,\n* a `Feature` with a `Polygon` geometry or\n* a `FeatureCollection` containing `Feature`s with a `Polygon` geometry.",
-        "schema": [
-          {
-            "type": "object",
-            "subtype": "geojson"
-          },
-          {
-            "type": "object",
-            "subtype": "vector-cube"
-          }
-        ]
+        "name": "geometries",
+        "description": "Geometries as GeoJSON on which the aggregation will be based.",
+        "schema": {
+          "type": "object",
+          "subtype": "geojson"
+        }
       },
       {
         "name": "reducer",
@@ -252,22 +298,40 @@
               "schema": {
                 "description": "Any data type."
               }
+            },
+            {
+              "name": "context",
+              "description": "Additional data passed by the user.",
+              "schema": {
+                "description": "Any data type."
+              },
+              "optional": true,
+              "default": null
             }
           ]
         }
       },
       {
-        "name": "name",
+        "name": "target_dimension",
         "description": "The new dimension name to be used for storing the results. Defaults to `result`.",
         "schema": {
           "type": "string"
         },
         "default": "result",
         "optional": true
+      },
+      {
+        "name": "context",
+        "description": "Additional data to be passed to the reducer.",
+        "schema": {
+          "description": "Any data type."
+        },
+        "optional": true,
+        "default": null
       }
     ],
     "returns": {
-      "description": "A vector data cube with the computed results. The vector data cube implicitly gets restricted to the bounds of the polygons as if ``filter_polygon()`` would have been used with the same values for the corresponding parameters immediately before this process.\n\nThe computed value is stored in dimension with the name that was specified in the parameter `name`.\n\nThe computation also stores information about the total count of pixels (valid + invalid pixels) and the number of valid pixels (see ``is_valid()``) in each geometry. These values are stored as attributes of the result value with the attribute names `total_count` and `valid_count`.",
+      "description": "A vector data cube with the computed results and restricted to the bounds of the geometries.\n\nThe computed value is stored in dimension with the name that was specified in the parameter `target_dimension`.\n\nThe computation also stores information about the total count of pixels (valid + invalid pixels) and the number of valid pixels (see ``is_valid()``) for each geometry. These values are stored as new dimension with a dimension name derived from `target_dimension` by adding the suffix `_meta`. The new dimension has the dimension labels `total_count` and `valid_count`.",
       "schema": {
         "type": "object",
         "subtype": "vector-cube"
@@ -275,7 +339,7 @@
     },
     "exceptions": {
       "TooManyDimensions": {
-        "message": "The number of dimensions must be reduced to three for 'aggregate_polygon'."
+        "message": "The number of dimensions must be reduced to three for 'aggregate_spatial_binary'."
       }
     },
     "links": [
@@ -297,9 +361,9 @@
     ]
   },
   {
-    "id": "aggregate_polygon",
-    "summary": "Zonal statistics for polygons",
-    "description": "Aggregates zonal statistics for one or multiple polygons over the spatial dimensions. This process passes a list of values to the reducer. In contrast, ``aggregate_polygon_binary()`` passes two values, which may be better suited for UDFs.\n\nThe process considers all pixels for which the point at the pixel center intersects with the corresponding polygon (as defined in the Simple Features standard by the OGC).\n\nThe data cube must have been reduced to only contain two spatial dimensions and a third dimension the values are aggregated for, for example the temporal dimension to get a time series. Otherwise this process fails with the `TooManyDimensions` error.\n\nThe number of total and valid pixels is returned together with the calculated values.",
+    "id": "aggregate_spatial",
+    "summary": "Zonal statistics for geometries",
+    "description": "Aggregates statistics for one or more geometries (e.g. zonal statistics for polygons) over the spatial dimensions. This process passes a list of values to the reducer. In contrast, ``aggregate_spatial_binary()`` passes two values, which may be better suited especially for UDFs in case the number of values gets too large to be processed at once.\n\n- For **polygons**, the process considers all pixels for which the point at the pixel center intersects with the corresponding polygon (as defined in the Simple Features standard by the OGC).\n- For **points**, the process considers the closest pixel center.\n- For **lines** (line strings), the process considers all the pixels whose centers are closest to at least one point on the line.\n\nThus, pixels may be part of multiple geometries and be part of multiple aggregations.\n\nThe data cube must have been reduced to only contain two spatial dimensions and a third dimension the values are aggregated for, for example the temporal dimension to get a time series. Otherwise this process fails with the `TooManyDimensions` error.\n\nThe number of total and valid pixels is returned together with the calculated values.",
     "categories": [
       "cubes",
       "aggregate & resample"
@@ -307,25 +371,19 @@
     "parameters": [
       {
         "name": "data",
-        "description": "A data cube.",
+        "description": "A raster data cube. The data cube implicitly gets restricted to the bounds of the geometries as if ``filter_spatial()`` would have been used with the same values for the corresponding parameters immediately before this process.",
         "schema": {
           "type": "object",
           "subtype": "raster-cube"
         }
       },
       {
-        "name": "polygons",
-        "description": "One or more polygons to calculate zonal statistics for. Either specified as GeoJSON or vector data cube.\n\nFor GeoJSON this can be one of the following GeoJSON types:\n\n* A `Polygon` geometry,\n* a `GeometryCollection` containing Polygons,\n* a `Feature` with a `Polygon` geometry or\n* a `FeatureCollection` containing `Feature`s with a `Polygon` geometry.",
-        "schema": [
-          {
-            "type": "object",
-            "subtype": "geojson"
-          },
-          {
-            "type": "object",
-            "subtype": "vector-cube"
-          }
-        ]
+        "name": "geometries",
+        "description": "Geometries as GeoJSON on which the aggregation will be based.",
+        "schema": {
+          "type": "object",
+          "subtype": "geojson"
+        }
       },
       {
         "name": "reducer",
@@ -336,30 +394,47 @@
           "parameters": [
             {
               "name": "data",
-              "description": "A labeled array with values of any type.",
+              "description": "An array with elements of any type.",
               "schema": {
                 "type": "array",
-                "subtype": "labeled-array",
                 "items": {
                   "description": "Any data type."
                 }
               }
+            },
+            {
+              "name": "context",
+              "description": "Additional data passed by the user.",
+              "schema": {
+                "description": "Any data type."
+              },
+              "optional": true,
+              "default": null
             }
           ]
         }
       },
       {
-        "name": "name",
+        "name": "target_dimension",
         "description": "The new dimension name to be used for storing the results. Defaults to `result`.",
         "schema": {
           "type": "string"
         },
         "default": "result",
         "optional": true
+      },
+      {
+        "name": "context",
+        "description": "Additional data to be passed to the reducer.",
+        "schema": {
+          "description": "Any data type."
+        },
+        "optional": true,
+        "default": null
       }
     ],
     "returns": {
-      "description": "A vector data cube with the computed results. The vector data cube implicitly gets restricted to the bounds of the polygons as if ``filter_polygon()`` would have been used with the same values for the corresponding parameters immediately before this process.\n\nThe computed value is stored in dimension with the name that was specified in the parameter `name`.\n\nThe computation also stores information about the total count of pixels (valid + invalid pixels) and the number of valid pixels (see ``is_valid()``) in each geometry. These values are stored as attributes of the result value with the attribute names `total_count` and `valid_count`.",
+      "description": "A vector data cube with the computed results and restricted to the bounds of the geometries.\n\nThe computed value is stored in dimension with the name that was specified in the parameter `target_dimension`.\n\nThe computation also stores information about the total count of pixels (valid + invalid pixels) and the number of valid pixels (see ``is_valid()``) for each geometry. These values are stored as new dimension with a dimension name derived from `target_dimension` by adding the suffix `_meta`. The new dimension has the dimension labels `total_count` and `valid_count`.",
       "schema": {
         "type": "object",
         "subtype": "vector-cube"
@@ -367,7 +442,7 @@
     },
     "exceptions": {
       "TooManyDimensions": {
-        "message": "The number of dimensions must be reduced to three for 'aggregate_polygon'."
+        "message": "The number of dimensions must be reduced to three for 'aggregate_spatial'."
       }
     },
     "links": [
@@ -391,7 +466,6 @@
       "cubes",
       "aggregate & resample"
     ],
-    "experimental": true,
     "parameters": [
       {
         "name": "data",
@@ -481,6 +555,15 @@
                   "description": "Any data type."
                 }
               }
+            },
+            {
+              "name": "context",
+              "description": "Additional data passed by the user.",
+              "schema": {
+                "description": "Any data type."
+              },
+              "optional": true,
+              "default": null
             }
           ]
         }
@@ -515,6 +598,15 @@
         },
         "default": null,
         "optional": true
+      },
+      {
+        "name": "context",
+        "description": "Additional data to be passed to the reducer.",
+        "schema": {
+          "description": "Any data type."
+        },
+        "optional": true,
+        "default": null
       }
     ],
     "returns": {
@@ -591,7 +683,7 @@
     ],
     "exceptions": {
       "TooManyDimensions": {
-        "message": "The number of dimensions must be reduced to three for 'aggregate_polygon'."
+        "message": "The number of dimensions must be reduced to three for 'aggregate_temporal'."
       },
       "DimensionNotAvailable": {
         "message": "A dimension with the specified name does not exist."
@@ -816,7 +908,24 @@
         },
         "returns": null
       }
-    ]
+    ],
+    "process_graph": {
+      "all": {
+        "process_id": "all",
+        "arguments": {
+          "data": [
+            {
+              "from_parameter": "x"
+            },
+            {
+              "from_parameter": "y"
+            }
+          ],
+          "ignore_nodata": false
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "any",
@@ -985,6 +1094,15 @@
                   "description": "Any data type."
                 }
               }
+            },
+            {
+              "name": "context",
+              "description": "Additional data passed by the user.",
+              "schema": {
+                "description": "Any data type."
+              },
+              "optional": true,
+              "default": null
             }
           ]
         }
@@ -1007,6 +1125,15 @@
         },
         "default": null,
         "optional": true
+      },
+      {
+        "name": "context",
+        "description": "Additional data to be passed to the process.",
+        "schema": {
+          "description": "Any data type."
+        },
+        "optional": true,
+        "default": null
       }
     ],
     "returns": {
@@ -1118,9 +1245,27 @@
               "schema": {
                 "description": "Any data type."
               }
+            },
+            {
+              "name": "context",
+              "description": "Additional data passed by the user.",
+              "schema": {
+                "description": "Any data type."
+              },
+              "optional": true,
+              "default": null
             }
           ]
         }
+      },
+      {
+        "name": "context",
+        "description": "Additional data to be passed to the process.",
+        "schema": {
+          "description": "Any data type."
+        },
+        "optional": true,
+        "default": null
       }
     ],
     "returns": {
@@ -1504,9 +1649,27 @@
               ],
               "default": null,
               "optional": true
+            },
+            {
+              "name": "context",
+              "description": "Additional data passed by the user.",
+              "schema": {
+                "description": "Any data type."
+              },
+              "optional": true,
+              "default": null
             }
           ]
         }
+      },
+      {
+        "name": "context",
+        "description": "Additional data to be passed to the process.",
+        "schema": {
+          "description": "Any data type."
+        },
+        "optional": true,
+        "default": null
       }
     ],
     "returns": {
@@ -1522,7 +1685,7 @@
   {
     "id": "array_contains",
     "summary": "Check whether the array contains a given value",
-    "description": "Checks whether the array specified for `data` contains the value specified in `value`. Returns `true` if there's a match, otherwise `false`.\n\n**Remarks:**\n\n* To get the index or the label of the value found, use ``array_find()``.\n* All definitions for the process ``eq()`` regarding the comparison of values apply here as well. This includes that data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*.\n* An integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`. Still, this process may return unexpectedly `false` when comparing floating point numbers due to floating point inaccuracy in machine-based computation.\n* Temporal strings are treated as normal strings and MUST NOT be interpreted.",
+    "description": "Checks whether the array specified for `data` contains the value specified in `value`. Returns `true` if there's a match, otherwise `false`.\n\n**Remarks:**\n\n* To get the index or the label of the value found, use ``array_find()``.\n* All definitions for the process ``eq()`` regarding the comparison of values apply here as well. A `null` return value from ``eq()`` is handled exactly as `false` (no match).\n* Data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*.\n* An integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`. Still, this process may return unexpectedly `false` when comparing floating point numbers due to floating point inaccuracy in machine-based computation.\n* Temporal strings are treated as normal strings and MUST NOT be interpreted.\n* If the specified value is an array, object or null, the process always returns `false`. See the examples for one to check for `null` values.",
     "categories": [
       "arrays",
       "comparison"
@@ -1553,6 +1716,41 @@
       }
     },
     "examples": [
+      {
+        "title": "Check for `null` values",
+        "description": "Check whether the array contains a `null` value.",
+        "process_graph": {
+          "apply": {
+            "process_id": "array_apply",
+            "arguments": {
+              "data": {
+                "from_parameter": "data"
+              },
+              "process": {
+                "process-graph": {
+                  "is_null": {
+                    "process_id": "is_nodata",
+                    "arguments": {
+                      "from_parameter": "x"
+                    },
+                    "result": true
+                  }
+                }
+              }
+            }
+          },
+          "find": {
+            "process_id": "array_contains",
+            "arguments": {
+              "data": {
+                "from_node": "apply"
+              },
+              "value": true
+            },
+            "result": true
+          }
+        }
+      },
       {
         "arguments": {
           "data": [
@@ -1585,17 +1783,6 @@
           "value": "2"
         },
         "returns": false
-      },
-      {
-        "arguments": {
-          "data": [
-            1,
-            2,
-            3
-          ],
-          "value": 2
-        },
-        "returns": true
       },
       {
         "arguments": {
@@ -1659,7 +1846,37 @@
         },
         "returns": false
       }
-    ]
+    ],
+    "process_graph": {
+      "find": {
+        "process_id": "array_find",
+        "arguments": {
+          "data": {
+            "from_parameter": "data"
+          },
+          "value": {
+            "from_parameter": "value"
+          }
+        }
+      },
+      "is_nodata": {
+        "process_id": "is_nodata",
+        "arguments": {
+          "x": {
+            "from_node": "find"
+          }
+        }
+      },
+      "not": {
+        "process_id": "not",
+        "arguments": {
+          "x": {
+            "from_node": "is_nodata"
+          }
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "array_element",
@@ -1818,9 +2035,27 @@
               ],
               "default": null,
               "optional": true
+            },
+            {
+              "name": "context",
+              "description": "Additional data passed by the user.",
+              "schema": {
+                "description": "Any data type."
+              },
+              "optional": true,
+              "default": null
             }
           ]
         }
+      },
+      {
+        "name": "context",
+        "description": "Additional data to be passed to the condition.",
+        "schema": {
+          "description": "Any data type."
+        },
+        "optional": true,
+        "default": null
       }
     ],
     "returns": {
@@ -1836,7 +2071,7 @@
   {
     "id": "array_find",
     "summary": "Get the index for a value in an array",
-    "description": "Checks whether the array specified for `data` contains the value specified in `value` and returns the zero-based index for the first match. If there's no match, `null` is returned.\n\n**Remarks:**\n\n* To get a boolean value returned use ``array_contains()``.\n* All definitions for the process ``eq()`` regarding the comparison of values apply here as well. This includes that data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*.\n* An integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`. Still, this process may return unexpectedly `false` when comparing floating point numbers due to floating point inaccuracy in machine-based computation.\n* Temporal strings are treated as normal strings and MUST NOT be interpreted.",
+    "description": "Checks whether the array specified for `data` contains the value specified in `value` and returns the zero-based index for the first match. If there's no match, `null` is returned.\n\n**Remarks:**\n\n* To get a boolean value returned use ``array_contains()``.\n* All definitions for the process ``eq()`` regarding the comparison of values apply here as well. A `null` return value from ``eq()`` is handled exactly as `false` (no match).\n* Data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*.\n* An integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`. Still, this process may return unexpectedly `false` when comparing floating point numbers due to floating point inaccuracy in machine-based computation.\n* Temporal strings are treated as normal strings and MUST NOT be interpreted.\n* If the specified value is an array, object or null, the process always returns `null`. See the examples for one to find `null` values.",
     "categories": [
       "arrays"
     ],
@@ -1872,6 +2107,41 @@
       ]
     },
     "examples": [
+      {
+        "title": "Find `null` values",
+        "description": "Get the index of the first `null` value in an array.",
+        "process_graph": {
+          "apply": {
+            "process_id": "array_apply",
+            "arguments": {
+              "data": {
+                "from_parameter": "data"
+              },
+              "process": {
+                "process-graph": {
+                  "is_null": {
+                    "process_id": "is_nodata",
+                    "arguments": {
+                      "from_parameter": "x"
+                    },
+                    "result": true
+                  }
+                }
+              }
+            }
+          },
+          "find": {
+            "process_id": "array_find",
+            "arguments": {
+              "data": {
+                "from_node": "apply"
+              },
+              "value": true
+            },
+            "result": true
+          }
+        }
+      },
       {
         "arguments": {
           "data": [
@@ -2135,7 +2405,7 @@
   {
     "id": "between",
     "summary": "Between comparison",
-    "description": "By default this process checks whether `x` is greater than or equal to `min` and lower than or equal to `max`. Therefore, this process is an alias for `and(gte(x, min), lte(x, max))` and all definitions from ``and()``, ``gte()`` and ``lte()`` apply here as well.\n\nIf `exclude_max` is set to `true` the upper bound is excluded so that the process checks whether `x` is greater than or equal to `min` and lower than `max`. In this case the process works the same as executing `and(gte(x, min), lt(x, max))`.\n\nLower and upper bounds are not allowed to be swapped. So `min` MUST be lower than or equal to `max` or otherwise the process always returns `false`.",
+    "description": "By default this process checks whether `x` is greater than or equal to `min` and lower than or equal to `max`, which is the same as computing `and(gte(x, min), lte(x, max))`. Therefore, all definitions from ``and()``, ``gte()`` and ``lte()`` apply here as well.\n\nIf `exclude_max` is set to `true` the upper bound is excluded so that the process checks whether `x` is greater than or equal to `min` and lower than `max`. In this case the process works the same as computing `and(gte(x, min), lt(x, max))`.\n\nLower and upper bounds are not allowed to be swapped. So `min` MUST be lower than or equal to `max` or otherwise the process always returns `false`.",
     "categories": [
       "comparison"
     ],
@@ -2298,7 +2568,68 @@
         },
         "returns": false
       }
-    ]
+    ],
+    "process_graph": {
+      "gte": {
+        "process_id": "gte",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": {
+            "from_parameter": "min"
+          }
+        }
+      },
+      "lte": {
+        "process_id": "lte",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": {
+            "from_parameter": "max"
+          }
+        }
+      },
+      "lt": {
+        "process_id": "lt",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": {
+            "from_parameter": "max"
+          }
+        }
+      },
+      "if": {
+        "process_id": "if",
+        "arguments": {
+          "value": {
+            "from_parameter": "exclude_max"
+          },
+          "accept": {
+            "from_node": "lte"
+          },
+          "reject": {
+            "from_node": "lt"
+          }
+        }
+      },
+      "and": {
+        "process_id": "and",
+        "arguments": {
+          "x": {
+            "from_node": "gte"
+          },
+          "y": {
+            "from_node": "if"
+          }
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "ceil",
@@ -2437,7 +2768,38 @@
         },
         "returns": null
       }
-    ]
+    ],
+    "process_graph": {
+      "min": {
+        "process_id": "min",
+        "arguments": {
+          "data": [
+            {
+              "from_parameter": "max"
+            },
+            {
+              "from_parameter": "x"
+            }
+          ],
+          "ignore_nodata": false
+        }
+      },
+      "max": {
+        "process_id": "max",
+        "arguments": {
+          "data": [
+            {
+              "from_parameter": "min"
+            },
+            {
+              "from_node": "min"
+            }
+          ],
+          "ignore_nodata": false
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "cos",
@@ -2562,6 +2924,15 @@
                 "schema": {
                   "description": "Any data type."
                 }
+              },
+              {
+                "name": "context",
+                "description": "Additional data passed by the user.",
+                "schema": {
+                  "description": "Any data type."
+                },
+                "optional": true,
+                "default": null
               }
             ]
           },
@@ -2579,6 +2950,15 @@
         ],
         "default": null,
         "optional": true
+      },
+      {
+        "name": "context",
+        "description": "Additional data to be passed to the condition.",
+        "schema": {
+          "description": "Any data type."
+        },
+        "optional": true,
+        "default": null
       }
     ],
     "returns": {
@@ -3339,7 +3719,7 @@
   {
     "id": "eq",
     "summary": "Equal to comparison",
-    "description": "Compares whether `x` is strictly equal to `y`.\n\n**Remarks:**\n\n* Data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*. Nevertheless, an integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`.\n* If any operand is `null`, the return value is `null`.\n* If any operand is an array or object, the return value is `false`.\n* Strings are expected to be encoded in UTF-8 by default.\n* Temporal strings MUST be compared differently than other strings and MUST NOT be compared based on their string representation due to different possible representations. For example, the UTC time zone representation `Z` has the same meaning as `+00:00`.",
+    "description": "Compares whether `x` is strictly equal to `y`.\n\n**Remarks:**\n\n* Data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*. Nevertheless, an integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`.\n* If any operand is `null`, the return value is `null`. Therefore, `eq(null, null)` returns `null` instead of `true`.\n* If any operand is an array or object, the return value is `false`.\n* Strings are expected to be encoded in UTF-8 by default.\n* Temporal strings MUST be compared differently than other strings and MUST NOT be compared based on their string representation due to different possible representations. For example, the UTC time zone representation `Z` has the same meaning as `+00:00`.",
     "categories": [
       "texts",
       "comparison"
@@ -3394,6 +3774,13 @@
       {
         "arguments": {
           "x": 1,
+          "y": null
+        },
+        "returns": null
+      },
+      {
+        "arguments": {
+          "x": null,
           "y": null
         },
         "returns": null
@@ -3509,7 +3896,7 @@
   {
     "id": "exp",
     "summary": "Exponentiation to the base e",
-    "description": "Exponential function to the base *e* raised to the power of `p`. This process is an alias for *e^p^* / `power(e(), p)`.\n\nThe no-data value `null` is passed through and therefore gets propagated.",
+    "description": "Exponential function to the base *e* raised to the power of `p`.\n\nThe no-data value `null` is passed through and therefore gets propagated.",
     "categories": [
       "math > exponential & logarithmic"
     ],
@@ -3554,7 +3941,25 @@
         "href": "http://mathworld.wolfram.com/ExponentialFunction.html",
         "title": "Exponential function explained by Wolfram MathWorld"
       }
-    ]
+    ],
+    "process_graph": {
+      "e": {
+        "process_id": "e",
+        "arguments": {}
+      },
+      "power": {
+        "process_id": "power",
+        "arguments": {
+          "base": {
+            "from_node": "e"
+          },
+          "p": {
+            "from_parameter": "p"
+          }
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "extrema",
@@ -3907,6 +4312,15 @@
                   "type": "string"
                 }
               ]
+            },
+            {
+              "name": "context",
+              "description": "Additional data passed by the user.",
+              "schema": {
+                "description": "Any data type."
+              },
+              "optional": true,
+              "default": null
             }
           ]
         }
@@ -3917,6 +4331,15 @@
         "schema": {
           "type": "string"
         }
+      },
+      {
+        "name": "context",
+        "description": "Additional data to be passed to the condition.",
+        "schema": {
+          "description": "Any data type."
+        },
+        "optional": true,
+        "default": null
       }
     ],
     "returns": {
@@ -3965,9 +4388,9 @@
     ]
   },
   {
-    "id": "filter_polygon",
-    "summary": "Spatial filter using polygons",
-    "description": "Limits the data cube over the spatial dimensions to the specified polygons.\n\nThe filter retains a pixel in the data cube if the point at the pixel center intersects with at least one of the polygons (as defined in the Simple Features standard by the OGC).",
+    "id": "filter_spatial",
+    "summary": "Spatial filter using geometries",
+    "description": "Limits the data cube over the spatial dimensions to the specified geometries.\n\n- For **polygons**, the filter retains a pixel in the data cube if the point at the pixel center intersects with at least one of the polygons (as defined in the Simple Features standard by the OGC).\n- For **points**, the process considers the closest pixel center.\n- For **lines** (line strings), the process considers all the pixels whose centers are closest to at least one point on the line.\n\nMore specifically, pixels outside of the bounding box of the given geometry will not be available after filtering. All pixels inside the bounding box that are not retained will be set to `null` (no data).",
     "categories": [
       "filter"
     ],
@@ -3981,8 +4404,8 @@
         }
       },
       {
-        "name": "polygons",
-        "description": "One or more polygons used for filtering, either specified as GeoJSON or vector data cube.\n\nFor GeoJSON this can be one of the following GeoJSON types:\n\n* A `Polygon` geometry,\n* a `GeometryCollection` containing Polygons,\n* a `Feature` with a `Polygon` geometry or\n* a `FeatureCollection` containing `Feature`s with a `Polygon` geometry.",
+        "name": "geometries",
+        "description": "One or more geometries used for filtering, specified as GeoJSON.",
         "schema": {
           "type": "object",
           "subtype": "geojson"
@@ -3990,7 +4413,7 @@
       }
     ],
     "returns": {
-      "description": "A data cube restricted to the specified polygons. Therefore, the cardinality is potentially lower, but the resolution and the number of dimensions are the same as for the original data cube.",
+      "description": "A data cube restricted to the specified geometries. Therefore, the cardinality is potentially lower, but the resolution and the number of dimensions are the same as for the original data cube.",
       "schema": {
         "type": "object",
         "subtype": "raster-cube"
@@ -4323,7 +4746,7 @@
   {
     "id": "gte",
     "summary": "Greater than or equal to comparison",
-    "description": "Compares whether `x` is greater than or equal to `y`.\n\n**Remarks:**\n\n* If any operand is `null`, the return value is `null`.\n* If any operand is an array or object, the return value is `false`.\n* If the operands are not equal (see process ``eq()``) and any of them is not a `number` or temporal string (`date`, `time` or `date-time`), the process returns `false`.\n* Temporal strings can *not* be compared based on their string representation due to the time zone / time-offset representations.",
+    "description": "Compares whether `x` is greater than or equal to `y`.\n\n**Remarks:**\n\n* If any operand is `null`, the return value is `null`. Therefore, `gte(null, null)` returns `null` instead of `true`.\n* If any operand is an array or object, the return value is `false`.\n* If the operands are not equal (see process ``eq()``) and any of them is not a `number` or temporal string (`date`, `time` or `date-time`), the process returns `false`.\n* Temporal strings can *not* be compared based on their string representation due to the time zone / time-offset representations.",
     "categories": [
       "comparison"
     ],
@@ -4424,7 +4847,43 @@
         },
         "returns": false
       }
-    ]
+    ],
+    "process_graph": {
+      "eq": {
+        "process_id": "eq",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": {
+            "from_parameter": "y"
+          }
+        }
+      },
+      "gt": {
+        "process_id": "gt",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": {
+            "from_parameter": "y"
+          }
+        }
+      },
+      "or": {
+        "process_id": "or",
+        "arguments": {
+          "x": {
+            "from_node": "gt"
+          },
+          "y": {
+            "from_node": "eq"
+          }
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "if",
@@ -4588,7 +5047,7 @@
   {
     "id": "is_nan",
     "summary": "Value is not a number",
-    "description": "Checks whether the specified value `x` is not a number (often abbreviated as `NaN`). The definition of `NaN` follows the [IEEE Standard 754](https://ieeexplore.ieee.org/document/8766229). All non-numeric data types MUST also return `true`.",
+    "description": "Checks whether the specified value `x` is not a number (often abbreviated as `NaN`). The definition of `NaN` follows the [IEEE Standard 754](https://ieeexplore.ieee.org/document/4610935). All non-numeric data types MUST also return `true`.",
     "categories": [
       "comparison"
     ],
@@ -4624,8 +5083,8 @@
     "links": [
       {
         "rel": "about",
-        "href": "https://ieeexplore.ieee.org/document/8766229",
-        "title": "IEEE Standard 754-2019 for Floating-Point Arithmetic"
+        "href": "https://ieeexplore.ieee.org/document/4610935",
+        "title": "IEEE Standard 754-2008 for Floating-Point Arithmetic"
       }
     ]
   },
@@ -4675,7 +5134,7 @@
   {
     "id": "is_valid",
     "summary": "Value is valid data",
-    "description": "Checks whether the specified value `x` is valid. A value is considered valid if it is\n\n1. not a no-data value (`null`) and\n2. a finite number (only if `x` is a number). The definition of finite and infinite numbers follows the [IEEE Standard 754](https://ieeexplore.ieee.org/document/8766229).",
+    "description": "Checks whether the specified value `x` is valid. A value is considered valid if it is\n\n1. not a no-data value (`null`) and\n2. a finite number (only if `x` is a number). The definition of finite and infinite numbers follows the [IEEE Standard 754](https://ieeexplore.ieee.org/document/4610935).",
     "categories": [
       "comparison"
     ],
@@ -4717,8 +5176,8 @@
     "links": [
       {
         "rel": "about",
-        "href": "https://ieeexplore.ieee.org/document/8766229",
-        "title": "IEEE Standard 754-2019 for Floating-Point Arithmetic"
+        "href": "https://ieeexplore.ieee.org/document/4610935",
+        "title": "IEEE Standard 754-2008 for Floating-Point Arithmetic"
       }
     ]
   },
@@ -4886,12 +5345,81 @@
         },
         "returns": null
       }
-    ]
+    ],
+    "process_graph": {
+      "subtract1": {
+        "process_id": "subtract",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": {
+            "from_parameter": "inputMin"
+          }
+        }
+      },
+      "subtract2": {
+        "process_id": "subtract",
+        "arguments": {
+          "x": {
+            "from_parameter": "inputMax"
+          },
+          "y": {
+            "from_parameter": "inputMin"
+          }
+        }
+      },
+      "subtract3": {
+        "process_id": "subtract",
+        "arguments": {
+          "x": {
+            "from_parameter": "outputMax"
+          },
+          "y": {
+            "from_parameter": "outputMin"
+          }
+        }
+      },
+      "divide": {
+        "process_id": "divide",
+        "arguments": {
+          "x": {
+            "from_node": "subtract1"
+          },
+          "y": {
+            "from_node": "subtract2"
+          }
+        }
+      },
+      "multiply": {
+        "process_id": "multiply",
+        "arguments": {
+          "x": {
+            "from_node": "divide"
+          },
+          "y": {
+            "from_node": "subtract3"
+          }
+        }
+      },
+      "add": {
+        "process_id": "add",
+        "arguments": {
+          "x": {
+            "from_node": "multiply"
+          },
+          "y": {
+            "from_parameter": "outputMin"
+          }
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "ln",
     "summary": "Natural logarithm",
-    "description": "The natural logarithm is the logarithm to the base *e* of the number `x`. This process is an alias for the *log* process with the base set to *e*: `log(x, e())`. The natural logarithm is the inverse function of taking *e* to the power x.\n\nThe no-data value `null` is passed through.\n\nThe computations follow [IEEE Standard 754](https://ieeexplore.ieee.org/document/8766229) whenever the processing environment supports it. Therefore, `ln(0)` results in ±infinity if the processing environment supports it or otherwise an error is thrown.",
+    "description": "The natural logarithm is the logarithm to the base *e* of the number `x`, which equals to using the *log* process with the base set to *e*. The natural logarithm is the inverse function of taking *e* to the power x.\n\nThe no-data value `null` is passed through.\n\nThe computations follow [IEEE Standard 754](https://ieeexplore.ieee.org/document/8766229) whenever the processing environment supports it. Therefore, `ln(0)` results in ±infinity if the processing environment supports it or otherwise an error is thrown.",
     "categories": [
       "math > exponential & logarithmic"
     ],
@@ -4954,7 +5482,25 @@
         "href": "https://ieeexplore.ieee.org/document/8766229",
         "title": "IEEE Standard 754-2019 for Floating-Point Arithmetic"
       }
-    ]
+    ],
+    "process_graph": {
+      "e": {
+        "process_id": "e",
+        "arguments": {}
+      },
+      "log": {
+        "process_id": "log",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "base": {
+            "from_node": "e"
+          }
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "load_collection",
@@ -5504,7 +6050,7 @@
   {
     "id": "lte",
     "summary": "Less than or equal to comparison",
-    "description": "Compares whether `x` is less than or equal to `y`.\n\n**Remarks:**\n\n* If any operand is `null`, the return value is `null`.\n* If any operand is an array or object, the return value is `false`.\n* If the operands are not equal (see process ``eq()``) and any of them is not a `number` or temporal string (`date`, `time` or `date-time`), the process returns `false`.\n* Temporal strings can *not* be compared based on their string representation due to the time zone / time-offset representations.",
+    "description": "Compares whether `x` is less than or equal to `y`.\n\n**Remarks:**\n\n* If any operand is `null`, the return value is `null`. Therefore, `lte(null, null)` returns `null` instead of `true`.\n* If any operand is an array or object, the return value is `false`.\n* If the operands are not equal (see process ``eq()``) and any of them is not a `number` or temporal string (`date`, `time` or `date-time`), the process returns `false`.\n* Temporal strings can *not* be compared based on their string representation due to the time zone / time-offset representations.",
     "categories": [
       "comparison"
     ],
@@ -5605,7 +6151,43 @@
         },
         "returns": false
       }
-    ]
+    ],
+    "process_graph": {
+      "eq": {
+        "process_id": "eq",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": {
+            "from_parameter": "y"
+          }
+        }
+      },
+      "lt": {
+        "process_id": "lt",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": {
+            "from_parameter": "y"
+          }
+        }
+      },
+      "or": {
+        "process_id": "or",
+        "arguments": {
+          "x": {
+            "from_node": "lt"
+          },
+          "y": {
+            "from_node": "eq"
+          }
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "mask_polygon",
@@ -6013,7 +6595,7 @@
   {
     "id": "merge_cubes",
     "summary": "Merging two data cubes",
-    "description": "The data cubes have to be compatible. A merge operation without overlap should be reversible with (a set of) filter operations for each of the two cubes. The process doesn't add dimensions.\n\nThis means that the data cubes must have the same dimensions. Each dimension must be available in both data cubes and have the same name, type, reference system and resolution. One of the dimensions can have different labels, for all other dimensions the labels must be equal. If data overlaps, the parameter `overlap_resolver` must be specified to resolve the overlap.\n\n**Examples for merging two data cubes:**\n\n1. Data cubes with the dimensions `x`, `y`, `t` and `bands` have the same dimension labels in `x`,`y` and `t`, but the labels for the dimension `bands` are `B1` and `B2` for the first cube and `B3` and `B4`. An overlap resolver is *not needed*. The merged data cube has the dimensions `x`, `y`, `t` and `bands` and the dimension `bands` has four dimension labels: `B1`, `B2`, `B3`, `B4`.\n2. Data cubes with the dimensions `x`, `y`, `t` and `bands` have the same dimension labels in `x`,`y` and `t`, but the labels for the dimension `bands` are `B1` and `B2` for the first data cube and `B2` and `B3` for the second. An overlap resolver is *required* to resolve overlap in band `B2`. The merged data cube has the dimensions `x`, `y`, `t` and `bands` and the dimension `bands` has three dimension labels: `B1`, `B2`, `B3`.\n3. Data cubes with the dimensions `x`, `y` and `t` have the same dimension labels in `x`,`y` and `t`. There are two options:\n   1. Keep the overlapping values separately in the merged data cube: An overlap resolver is *not needed*, but for each data cube you need to add a new dimension using ``add_dimension()``. The new dimensions must be equal, except that the labels for the new dimensions must differ by name. The merged data cube has the same dimensions and labels as the original data cubes, plus the dimension added with ``add_dimension()``, which has the two dimension labels after the merge.\n   2. Combine the overlapping values into a single value: An overlap resolver is *required* to resolve the overlap for all pixels. The merged data cube has the same dimensions and labels as the original data cubes, but all pixel values have been processed by the overlap resolver.",
+    "description": "The data cubes have to be compatible. A merge operation without overlap should be reversible with (a set of) filter operations for each of the two cubes. The process performs the join on overlapping dimensions, with the same name and type.\n\nAn overlapping dimension has the same name, type, reference system and resolution in both dimensions, but can have different labels. One of the dimensions can have different labels, for all other dimensions the labels must be equal. If data overlaps, the parameter `overlap_resolver` must be specified to resolve the overlap.\n\n**Examples for merging two data cubes:**\n\n1. Data cubes with the dimensions `x`, `y`, `t` and `bands` have the same dimension labels in `x`,`y` and `t`, but the labels for the dimension `bands` are `B1` and `B2` for the first cube and `B3` and `B4`. An overlap resolver is *not needed*. The merged data cube has the dimensions `x`, `y`, `t` and `bands` and the dimension `bands` has four dimension labels: `B1`, `B2`, `B3`, `B4`.\n2. Data cubes with the dimensions `x`, `y`, `t` and `bands` have the same dimension labels in `x`,`y` and `t`, but the labels for the dimension `bands` are `B1` and `B2` for the first data cube and `B2` and `B3` for the second. An overlap resolver is *required* to resolve overlap in band `B2`. The merged data cube has the dimensions `x`, `y`, `t` and `bands` and the dimension `bands` has three dimension labels: `B1`, `B2`, `B3`.\n3. Data cubes with the dimensions `x`, `y` and `t` have the same dimension labels in `x`,`y` and `t`. There are two options:\n   1. Keep the overlapping values separately in the merged data cube: An overlap resolver is *not needed*, but for each data cube you need to add a new dimension using ``add_dimension()``. The new dimensions must be equal, except that the labels for the new dimensions must differ by name. The merged data cube has the same dimensions and labels as the original data cubes, plus the dimension added with ``add_dimension()``, which has the two dimension labels after the merge.\n   2. Combine the overlapping values into a single value: An overlap resolver is *required* to resolve the overlap for all pixels. The merged data cube has the same dimensions and labels as the original data cubes, but all pixel values have been processed by the overlap resolver.\n4. Merging a data cube with dimensions `x`, `y`, `t` with another cube with dimensions `x`, `y` will join on the `x`, `y` dimension, so the lower dimension cube is merged with each time step in the higher dimensional cube. This can for instance be used to apply a digital elevation model to a spatiotemporal data cube.",
     "categories": [
       "cubes"
     ],
@@ -6054,11 +6636,29 @@
               "schema": {
                 "description": "Any data type."
               }
+            },
+            {
+              "name": "context",
+              "description": "Additional data passed by the user.",
+              "schema": {
+                "description": "Any data type."
+              },
+              "optional": true,
+              "default": null
             }
           ]
         },
         "default": null,
         "optional": true
+      },
+      {
+        "name": "context",
+        "description": "Additional data to be passed to the overlap resolver.",
+        "schema": {
+          "description": "Any data type."
+        },
+        "optional": true,
+        "default": null
       }
     ],
     "returns": {
@@ -6340,7 +6940,24 @@
         "href": "https://ieeexplore.ieee.org/document/8766229",
         "title": "IEEE Standard 754-2019 for Floating-Point Arithmetic"
       }
-    ]
+    ],
+    "process_graph": {
+      "product": {
+        "process_id": "product",
+        "arguments": {
+          "data": [
+            {
+              "from_parameter": "x"
+            },
+            {
+              "from_parameter": "y"
+            }
+          ],
+          "ignore_nodata": false
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "ndvi",
@@ -6437,7 +7054,7 @@
   {
     "id": "neq",
     "summary": "Not equal to comparison",
-    "description": "Compares whether `x` is *not* strictly equal to `y`. This process is an alias for: `not(eq(val1, val2))`.\n\n**Remarks:**\n\n* Data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*. Nevertheless, an integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`.\n* If any operand is `null`, the return value is `null`.\n* If any operand is an array or object, the return value is `false`.\n* Strings are expected to be encoded in UTF-8 by default.\n* Temporal strings MUST be compared differently than other strings and MUST NOT be compared based on their string representation due to different possible representations. For example, the UTC time zone representation `Z` has the same meaning as `+00:00`.",
+    "description": "Compares whether `x` is *not* strictly equal to `y`.\n\n**Remarks:**\n\n* Data types MUST be checked strictly, for example a string with the content *1* is not equal to the number *1*. Nevertheless, an integer *1* is equal to a floating point number *1.0* as `integer` is a sub-type of `number`.\n* If any operand is `null`, the return value is `null`. Therefore, `neq(null, null)` returns `null` instead of `false`.\n* If any operand is an array or object, the return value is `false`.\n* Strings are expected to be encoded in UTF-8 by default.\n* Temporal strings MUST be compared differently than other strings and MUST NOT be compared based on their string representation due to different possible representations. For example, the UTC time zone representation `Z` has the same meaning as `+00:00`.",
     "categories": [
       "texts",
       "comparison"
@@ -6602,7 +7219,35 @@
         },
         "returns": false
       }
-    ]
+    ],
+    "process_graph": {
+      "eq": {
+        "process_id": "eq",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": {
+            "from_parameter": "y"
+          },
+          "delta": {
+            "from_parameter": "delta"
+          },
+          "case_sensitive": {
+            "from_parameter": "case_sensitive"
+          }
+        }
+      },
+      "not": {
+        "process_id": "not",
+        "arguments": {
+          "x": {
+            "from_node": "eq"
+          }
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "normalized_difference",
@@ -6652,12 +7297,48 @@
         "href": "https://eos.com/ndsi/",
         "title": "NDSI explained by EOS"
       }
-    ]
+    ],
+    "process_graph": {
+      "subtract": {
+        "process_id": "subtract",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": {
+            "from_parameter": "y"
+          }
+        }
+      },
+      "add": {
+        "process_id": "add",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": {
+            "from_parameter": "y"
+          }
+        }
+      },
+      "divide": {
+        "process_id": "divide",
+        "arguments": {
+          "x": {
+            "from_node": "subtract"
+          },
+          "y": {
+            "from_node": "add"
+          }
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "not",
-    "summary": "Logical negation (NOT)",
-    "description": "Inverts a single boolean value so that `true` gets `false` and `false` gets `true`. The no-data value `null` is passed through.",
+    "summary": "Inverting a boolean",
+    "description": "Inverts a single boolean so that `true` gets `false` and `false` gets `true`.\n\nThe no-data value `null` is passed through and therefore gets propagated.",
     "categories": [
       "logic"
     ],
@@ -6777,7 +7458,24 @@
         },
         "returns": null
       }
-    ]
+    ],
+    "process_graph": {
+      "any": {
+        "process_id": "any",
+        "arguments": {
+          "data": [
+            {
+              "from_parameter": "x"
+            },
+            {
+              "from_parameter": "y"
+            }
+          ],
+          "ignore_nodata": false
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "order",
@@ -7528,7 +8226,7 @@
   {
     "id": "reduce_dimension_binary",
     "summary": "Reduce dimensions using binary reduction",
-    "description": "Applies a binary reducer to a data cube dimension by collapsing all the pixel values along the specified dimension into an output value computed by the reducer. This process consecutively passes a pair of values to the reducer. In contrast, ``reduce_dimension()`` passes a list of values.\n\nThe dimension is dropped. To avoid this, use ``apply_dimension()`` instead.",
+    "description": "Applies a binary reducer to a data cube dimension by collapsing all the pixel values along the specified dimension into an output value computed by the reducer. This process consecutively passes a pair of values to the reducer. This may be better suited especially for UDFs in case the number of values gets too large to be processed at once. In contrast, ``reduce_dimension()`` passes a list of values.\n\nThe dimension is dropped. To avoid this, use ``apply_dimension()`` instead.",
     "categories": [
       "cubes",
       "reducer"
@@ -7563,6 +8261,15 @@
               "schema": {
                 "description": "Any data type."
               }
+            },
+            {
+              "name": "context",
+              "description": "Additional data passed by the user.",
+              "schema": {
+                "description": "Any data type."
+              },
+              "optional": true,
+              "default": null
             }
           ]
         }
@@ -7573,6 +8280,15 @@
         "schema": {
           "type": "string"
         }
+      },
+      {
+        "name": "context",
+        "description": "Additional data to be passed to the reducer.",
+        "schema": {
+          "description": "Any data type."
+        },
+        "optional": true,
+        "default": null
       }
     ],
     "returns": {
@@ -7598,7 +8314,7 @@
   {
     "id": "reduce_dimension",
     "summary": "Reduce dimensions",
-    "description": "Applies a unary reducer to a data cube dimension by collapsing all the pixel values along the specified dimension into an output value computed by the reducer. This process passes a list of values to the reducer. In contrast, ``reduce_dimension_binary()`` passes two values, which may be better suited for UDFs.\n\nThe dimension is dropped. To avoid this, use ``apply_dimension()`` instead.",
+    "description": "Applies a unary reducer to a data cube dimension by collapsing all the pixel values along the specified dimension into an output value computed by the reducer. This process passes a list of values to the reducer. In contrast, ``reduce_dimension_binary()`` passes two values, which may be better suited especially for UDFs in case the number of values gets too large to be processed at once.\n\nThe dimension is dropped. To avoid this, use ``apply_dimension()`` instead.",
     "categories": [
       "cubes",
       "reducer"
@@ -7629,6 +8345,15 @@
                   "description": "Any data type."
                 }
               }
+            },
+            {
+              "name": "context",
+              "description": "Additional data passed by the user.",
+              "schema": {
+                "description": "Any data type."
+              },
+              "optional": true,
+              "default": null
             }
           ]
         }
@@ -7639,6 +8364,15 @@
         "schema": {
           "type": "string"
         }
+      },
+      {
+        "name": "context",
+        "description": "Additional data to be passed to the reducer.",
+        "schema": {
+          "description": "Any data type."
+        },
+        "optional": true,
+        "default": null
       }
     ],
     "returns": {
@@ -7982,6 +8716,15 @@
                   "description": "Any data type."
                 }
               }
+            },
+            {
+              "name": "context",
+              "description": "Additional data passed by the user.",
+              "schema": {
+                "description": "Any data type."
+              },
+              "optional": true,
+              "default": null
             }
           ]
         }
@@ -7997,6 +8740,15 @@
         },
         "default": null,
         "optional": true
+      },
+      {
+        "name": "context",
+        "description": "Additional data to be passed to the process specified for the parameter `method`.",
+        "schema": {
+          "description": "Any data type."
+        },
+        "optional": true,
+        "default": null
       }
     ],
     "returns": {
@@ -8252,7 +9004,7 @@
   {
     "id": "run_udf_externally",
     "summary": "Run an externally hosted UDF container",
-    "description": "Runs a compatible UDF container that is either externally hosted by a service provider or running on a local machine of the user. The UDF container must follow the [openEO UDF specification](https://open-eo.github.io/openeo-udf/).\n\nThe referenced UDF service can be executed in several processes such as ``aggregate_polygon()``, ``apply()``, ``apply_dimension()`` and ``reduce_dimension()``. In this case an array is passed instead of a raster data cube. The user must ensure that the data is properly passed as an array so that the UDF can make sense of it.",
+    "description": "Runs a compatible UDF container that is either externally hosted by a service provider or running on a local machine of the user. The UDF container must follow the [openEO UDF specification](https://open-eo.github.io/openeo-udf/).\n\nThe referenced UDF service can be executed in several processes such as ``aggregate_spatial()``, ``apply()``, ``apply_dimension()`` and ``reduce_dimension()``. In this case an array is passed instead of a raster data cube. The user must ensure that the data is properly passed as an array so that the UDF can make sense of it.",
     "categories": [
       "import",
       "udf"
@@ -8331,7 +9083,7 @@
   {
     "id": "run_udf",
     "summary": "Run an UDF",
-    "description": "Runs an UDF in one of the supported runtime environments.\n\nThe process can either:\n\n1. load and run a locally stored UDF from a file in the workspace of the authenticated user. The path to the UDF file must be relative to the root directory of the user's workspace.\n2. fetch and run a remotely stored and published UDF by absolute URI, for example from [openEO Hub](https://hub.openeo.org)).\n3. run the source code specified inline as string.\n\nThe loaded UDF can be executed in several processes such as ``aggregate_polygon()``, ``apply()``, ``apply_dimension()`` and ``reduce_dimension()``. In this case an array is passed instead of a raster data cube. The user must ensure that the data is properly passed as an array so that the UDF can make sense of it.",
+    "description": "Runs an UDF in one of the supported runtime environments.\n\nThe process can either:\n\n1. load and run a locally stored UDF from a file in the workspace of the authenticated user. The path to the UDF file must be relative to the root directory of the user's workspace.\n2. fetch and run a remotely stored and published UDF by absolute URI, for example from [openEO Hub](https://hub.openeo.org)).\n3. run the source code specified inline as string.\n\nThe loaded UDF can be executed in several processes such as ``aggregate_spatial()``, ``apply()``, ``apply_dimension()`` and ``reduce_dimension()``. In this case an array is passed instead of a raster data cube. The user must ensure that the data is properly passed as an array so that the UDF can make sense of it.",
     "categories": [
       "import",
       "udf"
@@ -8576,7 +9328,30 @@
         "href": "http://mathworld.wolfram.com/StandardDeviation.html",
         "title": "Standard deviation explained by Wolfram MathWorld"
       }
-    ]
+    ],
+    "process_graph": {
+      "variance": {
+        "process_id": "variance",
+        "arguments": {
+          "data": {
+            "from_parameter": "data"
+          },
+          "ignore_nodata": {
+            "from_parameter": "ignore_nodata"
+          }
+        }
+      },
+      "power": {
+        "process_id": "power",
+        "arguments": {
+          "base": {
+            "from_node": "variance"
+          },
+          "p": 0.5
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "sgn",
@@ -8638,7 +9413,52 @@
         "href": "http://mathworld.wolfram.com/Sign.html",
         "title": "Sign explained by Wolfram MathWorld"
       }
-    ]
+    ],
+    "process_graph": {
+      "gt0": {
+        "process_id": "gt",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": 0
+        }
+      },
+      "lt0": {
+        "process_id": "lt",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": 0
+        }
+      },
+      "if_gt0": {
+        "process_id": "if",
+        "arguments": {
+          "value": {
+            "from_node": "gt0"
+          },
+          "accept": 1,
+          "reject": {
+            "from_parameter": "x"
+          }
+        }
+      },
+      "if_lt0": {
+        "process_id": "if",
+        "arguments": {
+          "value": {
+            "from_node": "lt0"
+          },
+          "accept": -1,
+          "reject": {
+            "from_node": "if_gt0"
+          }
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "sin",
@@ -8731,7 +9551,7 @@
   {
     "id": "sort",
     "summary": "Sort data",
-    "description": "Sorts an array into ascending (default) or descending order.\n\nThis process is an alias to call ``order()`` and ``rearrange()`` consecutively: `rearrange(data, order(data, nodata))`. This process could be faster though. See ``order()`` for more information on sorting behaviour.",
+    "description": "Sorts an array into ascending (default) or descending order.\n\n**Remarks:**\n\n* Ties will be left in their original ordering.\n* Temporal strings can *not* be compared based on their string representation due to the time zone / time-offset representations.",
     "categories": [
       "arrays",
       "sorting"
@@ -8883,12 +9703,40 @@
           null
         ]
       }
-    ]
+    ],
+    "process_graph": {
+      "order": {
+        "process_id": "order",
+        "arguments": {
+          "data": {
+            "from_parameter": "data"
+          },
+          "asc": {
+            "from_parameter": "asc"
+          },
+          "nodata": {
+            "from_parameter": "nodata"
+          }
+        }
+      },
+      "rearrange": {
+        "process_id": "rearrange",
+        "arguments": {
+          "data": {
+            "from_parameter": "data"
+          },
+          "order": {
+            "from_node": "order"
+          }
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "sqrt",
     "summary": "Square root",
-    "description": "Computes the square root of a real number `x`. This process is an alias for `x` to the power of *0.5*: `power(x, 0.5)`.\n\nA square root of x is a number a such that *a^2^ = x*. Therefore, the square root is the inverse function of a to the power of 2, but only for *a >= 0*.\n\nThe no-data value `null` is passed through and therefore gets propagated.",
+    "description": "Computes the square root of a real number `x`, which is equal to calculating `x` to the power of *0.5*.\n\nA square root of x is a number a such that *a^2^ = x*. Therefore, the square root is the inverse function of a to the power of 2, but only for *a >= 0*.\n\nThe no-data value `null` is passed through and therefore gets propagated.",
     "categories": [
       "math",
       "math > exponential & logarithmic"
@@ -8946,7 +9794,19 @@
         "href": "http://mathworld.wolfram.com/SquareRoot.html",
         "title": "Square root explained by Wolfram MathWorld"
       }
-    ]
+    ],
+    "process_graph": {
+      "power": {
+        "process_id": "power",
+        "arguments": {
+          "base": {
+            "from_parameter": "x"
+          },
+          "p": 0.5
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "subtract",
@@ -9715,7 +10575,65 @@
         "href": "http://mathworld.wolfram.com/Variance.html",
         "title": "Variance explained by Wolfram MathWorld"
       }
-    ]
+    ],
+    "process_graph": {
+      "mean": {
+        "process_id": "mean",
+        "arguments": {
+          "data": {
+            "from_parameter": "data"
+          }
+        }
+      },
+      "apply": {
+        "process_id": "apply",
+        "arguments": {
+          "data": {
+            "from_parameter": "data"
+          },
+          "process": {
+            "process-graph": {
+              "subtract": {
+                "process_id": "subtract",
+                "arguments": {
+                  "x": {
+                    "from_parameter": "x"
+                  },
+                  "y": {
+                    "from_parameter": "context"
+                  }
+                }
+              },
+              "power": {
+                "process_id": "power",
+                "arguments": {
+                  "base": {
+                    "from_node": "subtract"
+                  },
+                  "p": 2
+                },
+                "result": true
+              }
+            }
+          },
+          "context": {
+            "from_node": "mean"
+          }
+        }
+      },
+      "mean2": {
+        "process_id": "mean",
+        "arguments": {
+          "data": {
+            "from_node": "apply"
+          },
+          "ignore_nodata": {
+            "from_parameter": "ignore_nodata"
+          }
+        },
+        "result": true
+      }
+    }
   },
   {
     "id": "xor",
@@ -9791,6 +10709,58 @@
         },
         "returns": null
       }
-    ]
+    ],
+    "process_graph": {
+      "not_x": {
+        "process_id": "not",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          }
+        }
+      },
+      "not_y": {
+        "process_id": "not",
+        "arguments": {
+          "x": {
+            "from_parameter": "y"
+          }
+        }
+      },
+      "and1": {
+        "process_id": "and",
+        "arguments": {
+          "x": {
+            "from_node": "not_x"
+          },
+          "y": {
+            "from_parameter": "y"
+          }
+        }
+      },
+      "and2": {
+        "process_id": "and",
+        "arguments": {
+          "x": {
+            "from_parameter": "x"
+          },
+          "y": {
+            "from_node": "not_y"
+          }
+        }
+      },
+      "or": {
+        "process_id": "or",
+        "arguments": {
+          "x": {
+            "from_node": "and1"
+          },
+          "y": {
+            "from_node": "and2"
+          }
+        },
+        "result": true
+      }
+    }
   }
 ]

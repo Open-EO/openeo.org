@@ -1,4 +1,5 @@
-const apiVersion = '0.4.2';
+const apiVersion = '1.0.0-rc.1';
+const defaultVersion = 0;
 const versions = [
   {
     folder: '1.0',
@@ -73,8 +74,6 @@ const versions = [
     ]
   }
 ];
-
-const defaultVersion = 1;
 
 module.exports = {
   title: 'openEO',

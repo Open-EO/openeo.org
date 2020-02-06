@@ -1,5 +1,5 @@
 <template>
-	<DocGen :document="documentUrl" :apiVersion="apiVersion" />
+	<DocGen :document="documentUrl" :apiVersion="version.apiTag" />
 </template>
 
 <script>

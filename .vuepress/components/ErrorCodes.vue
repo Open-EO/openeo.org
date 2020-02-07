@@ -1,6 +1,6 @@
 <template>
 	<div class="error-codes">
-		<p>The whole table of error codes is available as <a :href="'/assets/documentation/' + version.folder + '/errors.json'" target="_blank">JSON file</a>, which can be used by implementors to automatically generate error responses.</p>
+		<p>The whole table of error codes is available as <a :href="'/documentation/' + version.folder + '/developers/api/errors.json'" target="_blank">JSON file</a>, which can be used by implementors to automatically generate error responses.</p>
 		<div v-for="tag in tags">
 			<a :name="tag | slugify"></a>
 			<h2>{{ tag }}</h2>
@@ -41,7 +41,12 @@ export default {
 		}
 	},
 	created() {
-		var errorData = require('../public/assets/documentation/' + this.version.folder + '/errors.json');
+		var errorData;
+		try { // production
+			errorData = require('/documentation/' + this.version.folder + '/developers/api/errors.json');
+		} catch (e) { // dev
+			errorData = require('../public/assets/documentation/' + this.version.folder + '/developers/api/errors.json');
+		}
 		// Group by tag in a dict
 		for (var key in errorData) {
 			var val = errorData[key];

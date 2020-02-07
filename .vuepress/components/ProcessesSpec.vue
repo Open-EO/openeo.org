@@ -12,7 +12,7 @@ export default {
 	components: { DocGen },
 	computed: {
 		documentUrl() {
-			return '/assets/documentation/' + this.version.folder + '/processes.json';
+			return '/documentation/' + this.version.folder + '/processes.json';
 		}
 	}
 };

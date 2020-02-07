@@ -1,0 +1,6 @@
+[submodule ".vuepress/public/assets/documentation/0.4/developers/api"]
+	path = .vuepress/public/assets/documentation/0.4/developers/api
+	url = ../openeo-api
+[submodule ".vuepress/public/assets/documentation/1.0/developers/api"]
+	path = .vuepress/public/assets/documentation/1.0/developers/api
+	url = ../openeo-api

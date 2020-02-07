@@ -1,4 +1,4 @@
 /node_modules/
 /.vuepress/dist
-/.vuepress/public/assets/
+/.vuepress/public/assets/documentation/*/processes.json
 /package-lock.json

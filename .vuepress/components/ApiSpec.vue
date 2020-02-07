@@ -16,7 +16,7 @@ export default {
 	mixins: [ VersioningMixin ],
 	computed: {
 		specUrl() {
-			return '/assets/documentation/' + this.version.folder + '/openapi.' + (this.version.apiFormat ? this.version.apiFormat : 'yaml');
+			return '/documentation/' + this.version.folder + '/developers/api/openapi.' + (this.version.apiFormat ? this.version.apiFormat : 'yaml');
 		}
 	},
 	data() {

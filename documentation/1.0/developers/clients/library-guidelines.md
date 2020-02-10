@@ -253,22 +253,21 @@ job %>% downloadResults("/tmp/job_results/")
 ```python
 import openeo
 
-con = openeo.connect("https://openeo.org", "username", "password")
+con = openeo.connect("https://openeo.org").authenticate_basic("username", "password")
 cap = con.capabilities()
 print(cap.api_version())
 print(con.describe_collection("Sentinel-2A"))
 print(con.list_processes())
 
-datacube = con.create_datacube()
-pg = datacube.load_collection(id="Sentinel-2A")
-pg = datacube.filter_bbox(pg, west=672000, south=5181000, east=652000, north=5161000, crs="EPSG:32632")
-pg = datacube.filter_temporal(pg, extent=["2017-01-01T00:00:00Z", "2017-01-31T23:59:59Z"])
-pg = datacube.ndvi(pg, nir="B4", red="B8A")
-pg = datacube.min_time(pg)
+datacube = con.load_collection(id="Sentinel-2A")
+datacube = datacube.filter_bbox(west=672000, south=5181000, east=652000, north=5161000, crs="EPSG:32632")
+datacube = datacube.filter_temporal(extent=["2017-01-01T00:00:00Z", "2017-01-31T23:59:59Z"])
+datacube = datacube.ndvi(nir="B4", red="B8A")
+datacube = datacube.min_time(pg)
 
-job = con.create_job(pg.graph)
+job = datacube.send_job('GTIFF')
 job.start_job()
-print job.describe_job()
+print(job.describe_job())
 job.download_results("/tmp/job_results/")
 ```
 

@@ -101,33 +101,33 @@ Parameters with a leading `?` are optional.
 
 ### Scope: `Connection` (API category)
 
-| Description                                                  | API Request                                                | Client method                                                |
-| ------------------------------------------------------------ | ---------------------------------------------------------- | ------------------------------------------------------------ |
-| Get the capabilities of the back-end. Returns `Capabilities`. | `GET /`                                                   | `capabilities()`                                             |
-| List the supported output file formats.                      | `GET /file_formats`                                        | `listFileTypes()`                                            |
-| List the supported secondary service types.                  | `GET /service_types`                                       | `listServiceTypes()`                                         |
-| List the supported UDF runtimes.                             | `GET /udf_runtimes`                                        | `listUdfRuntimes()`                                          |
-| List all collections available on the back-end.              | `GET /collections`                                         | `listCollections()`                                          |
-| Get information about a single collection.                   | `GET /collections/{collection_id}`                         | `describeCollection(collection_id)`                          |
-| List all pre-defined processes available on the back-end.    | `GET /processes`                                           | `listProcesses()`                                            |
-| Authenticate with OpenID Connect (if not specified in `connect`). | `GET /credentials/oidc`                               | `authenticateOIDC(?options)`                                 |
-| Authenticate with HTTP Basic (if not specified in `connect`). | `GET /credentials/basic`                                  | `authenticateBasic(username, password)`                      |
-| Logout / Close session for the authenticated user            | *Depends on authentication method*                         | `logout()`                                                   |
-| Get information about the authenticated user.                | `GET /me`                                                  | `describeAccount()`                                          |
-| Lists all files from a user. Returns a list of `File`.       | `GET /files`                                               | `listFiles()`                                                |
-| Opens an (existing or non-existing) file without reading it. Returns a `File`. | *None*                                   | `getFile(path)`                                              |
-| Upload a user file. Returns a `File`.                        | Shortcut: `getFile(path).uploadFile(source)`               | `uploadFile(source, path)`                                   |
-| Validates a process graph.                                   | `POST /validation`                                         | `validateProcess(process)`                                   |
-| Lists all user-defined processes of the authenticated user. Returns a list of `UserProcess`. | `GET /process_graphs`      | `listUserProcesses()`                                        |
-| Creates a new user-defined process. Returns a `UserProcess`. | Shortcut: `getUserProcess(id).replaceUserProcess(process)` | `setUserProcess(id, process)`                                |
-| Get all information about a user-defined process. Returns a `UserProcess`. | `GET /process_graphs/{process_graph_id}`     | `getUserProcess(id)`                                         |
-| Executes a process graph synchronously.                      | `POST /result`                                             | `computeResult(process, ?plan, ?budget)`                     |
-| Lists all jobs of the authenticated user. Returns a list of `Job`. | `GET /jobs`                                          | `listJobs()`                                                 |
-| Creates a new job. Returns a `Job`.                          | `POST /jobs`                                               | `createJob(process, ?title, ?description, ?plan, ?budget, ?additional)` |
-| Get all information about a job. Returns a `Job`.            | `GET /jobs/{job_id}`                                       | `getJob(id)`                                                 |
-| Lists all secondary services of the authenticated user. Returns a list of `Service`. | `GET /services`                    | `listServices()`                                             |
-| Creates a new secondary service. Returns  a `Service`.       | `POST /services`                                           | `createService(process, type, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget)` |
-| Get all information about a service. Returns a `Service`.    | `GET /services/{service_id}`                               | `getService(id)`                                             |
+| Description                                                   | API Request                                                | Client method                                                |
+| ------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------ |
+| Get the capabilities of the back-end. Returns `Capabilities`. | `GET /`                                                    | `capabilities()`                                             |
+| List the supported output file formats.                       | `GET /file_formats`                                        | `listFileTypes()`                                            |
+| List the supported secondary service types.                   | `GET /service_types`                                       | `listServiceTypes()`                                         |
+| List the supported UDF runtimes.                              | `GET /udf_runtimes`                                        | `listUdfRuntimes()`                                          |
+| List all collections available on the back-end.               | `GET /collections`                                         | `listCollections()`                                          |
+| Get information about a single collection.                    | `GET /collections/{collection_id}`                         | `describeCollection(collection_id)`                          |
+| List all pre-defined processes available on the back-end.     | `GET /processes`                                           | `listProcesses()`                                            |
+| Authenticate with OpenID Connect (if not specified in `connect`). | `GET /credentials/oidc`                                | `authenticateOIDC(?options)`                                 |
+| Authenticate with HTTP Basic (if not specified in `connect`). | `GET /credentials/basic`                                   | `authenticateBasic(username, password)`                      |
+| Logout / Close session for the authenticated user             | *Depends on authentication method*                         | `logout()`                                                   |
+| Get information about the authenticated user.                 | `GET /me`                                                  | `describeAccount()`                                          |
+| Lists all files from a user. Returns a list of `File`.        | `GET /files`                                               | `listFiles()`                                                |
+| Opens an (existing or non-existing) file without reading it. Returns a `File`. | *None*                                    | `getFile(path)`                                              |
+| Upload a user file. Returns a `File`.                         | Shortcut: `getFile(path).uploadFile(source)`               | `uploadFile(source, path)`                                   |
+| Validates a process graph.                                    | `POST /validation`                                         | `validateProcess(process)`                                   |
+| Lists all user-defined processes of the authenticated user. Returns a list of `UserProcess`. | `GET /process_graphs`       | `listUserProcesses()`                                        |
+| Creates a new user-defined process. Returns a `UserProcess`.  | Shortcut: `getUserProcess(id).replaceUserProcess(process)` | `setUserProcess(id, process)`                                |
+| Get all information about a user-defined process. Returns a `UserProcess`. | `GET /process_graphs/{process_graph_id}`      | `getUserProcess(id)`                                         |
+| Executes a process graph synchronously.                       | `POST /result`                                             | `computeResult(process, ?plan, ?budget)`                     |
+| Lists all jobs of the authenticated user. Returns a list of `Job`. | `GET /jobs`                                           | `listJobs()`                                                 |
+| Creates a new job. Returns a `Job`.                           | `POST /jobs`                                               | `createJob(process, ?title, ?description, ?plan, ?budget, ?additional)` |
+| Get all information about a job. Returns a `Job`.             | `GET /jobs/{job_id}`                                       | `getJob(id)`                                                 |
+| Lists all secondary services of the authenticated user. Returns a list of `Service`. | `GET /services`                     | `listServices()`                                             |
+| Creates a new secondary service. Returns  a `Service`.        | `POST /services`                                           | `createService(process, type, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget)` |
+| Get all information about a service. Returns a `Service`.     | `GET /services/{service_id}`                               | `getService(id)`                                             |
 
 #### Parameters
 
@@ -141,12 +141,14 @@ Should be prefixed with `Capabilities` if collisions of names between different 
 | ------------------------------------------------ | ---------------------- | ------------- |
 | Get the implemented openEO version.              | `api_version`          | `apiVersion()` |
 | Get the back-end version.                        | `backend_version`      | `backendVersion()` |
+| Is the back-end suitable for use in production?  | `production`           | `isStable()` |
 | Get the name of the back-end.                    | `title`                | `title()` |
 | Get the description of the back-end.             | `description`          | `description()` |
 | List all supported features / endpoints.         | `endpoints`            | `listFeatures()` |
 | Check whether a feature / endpoint is supported. | `endpoints` > ...      | `hasFeature(methodName)` |
 | Get the default billing currency.                | `billing` > `currency` | `currency()` |
 | List all billing plans.                          | `billing` > `plans`    | `listPlans()` |
+| List all links.                                  | `links`                | `links()` |
 
 #### Parameters
 
@@ -170,16 +172,17 @@ The `File` scope internally knows the `path`.
 
 The `Job` scope internally knows the `job_id`.
 
-| Description                                | API Request                        | Client method |
-| ------------------------------------------ | ---------------------------------- | ------------- |
-| Get all job information.                   | `GET /jobs/{job_id}`               | `describeJob()` |
-| Modify a job at the back-end.              | `PATCH /jobs/{job_id}`             | `updateJob(?process, ?title, ?description, ?plan, ?budget, ?additional)` |
-| Delete a job                               | `DELETE /jobs/{job_id}`            | `deleteJob()` |
-| Calculate an time/cost estimate for a job. | `GET /jobs/{job_id}/estimate`      | `estimateJob()` |
-| Start / queue a job for processing.        | `POST /jobs/{job_id}/results`      | `startJob()` |
-| Stop / cancel job processing.              | `DELETE /jobs/{job_id}/results`    | `stopJob()` |
-| Get document with download links.          | `GET /jobs/{job_id}/results`       | `listResults()` |
-| Download job results.                      | `GET /jobs/{job_id}/results` > ... | `downloadResults(target)` |
+| Description                                | API Request                           | Client method |
+| ------------------------------------------ | ------------------------------------- | ------------- |
+| Get all job information.                   | `GET /jobs/{job_id}`                  | `describeJob()` |
+| Modify a job at the back-end.              | `PATCH /jobs/{job_id}`                | `updateJob(?process, ?title, ?description, ?plan, ?budget, ?additional)` |
+| Delete a job                               | `DELETE /jobs/{job_id}`               | `deleteJob()` |
+| Calculate an time/cost estimate for a job. | `GET /jobs/{job_id}/estimate`         | `estimateJob()` |
+| Get the log files for a job.               | `GET /jobs/{job_id}/logs`             | `debugJob()` |
+| Start / queue a job for processing.        | `POST /jobs/{job_id}/results`         | `startJob()` |
+| Stop / cancel job processing.              | `DELETE /jobs/{job_id}/results`       | `stopJob()` |
+| Get STAC catalog with download links.      | `GET /jobs/{job_id}/results`          | `listResults()` |
+| Download job results.                      | `GET /jobs/{job_id}/results` > assets | `downloadResults(target)` |
 
 #### Parameters
 
@@ -199,11 +202,12 @@ The `UserProcess` scope manages the user-defined processes and internally knows 
 
 The `Service` scope internally knows the `service_id`.
 
-| Description                                        | API Request                     | Client method |
-| -------------------------------------------------- | ------------------------------- | ------------- |
-| Get all information about a secondary web service. | `GET /services/{service_id}`    | `describeService()` |
-| Modify a secondary web service at the back-end.    | `PATCH /services/{service_id}`  | `updateService(?process, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget)` |
-| Delete a secondary web service.                    | `DELETE /services/{service_id}` | `deleteService()` |
+| Description                                        | API Request                       | Client method |
+| -------------------------------------------------- | --------------------------------- | ------------- |
+| Get all information about a secondary web service. | `GET /services/{service_id}`      | `describeService()` |
+| Get the log files for a web service.               | `GET /services/{service_id}/logs` | `debugService()` |
+| Modify a secondary web service at the back-end.    | `PATCH /services/{service_id}`    | `updateService(?process, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget)` |
+| Delete a secondary web service.                    | `DELETE /services/{service_id}`   | `deleteService()` |
 
 ## Processes
 

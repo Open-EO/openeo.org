@@ -136,7 +136,7 @@ In the data cube example above, _x_ and _y_ dimension values have a _unique_ rel
 
 Resampling is however costly, involves (some) data loss, and is in general not reversible. Suppose that we want to work only on the spectral and temporal dimensions of a data cube, and do not want to do any resampling. In that case, one could create one data cube for each coordinate reference system. An alternative would be to create one _single_ data cube containing all tiles that has an _additional dimension_ with the coordinate reference system. In that data cube, _x_ and _y_ no longer point to a unique world coordinate, because identical _x_ and _y_ coordinate pairs occur in each UTM zone. Now, only the combination (_x_, _y_, _crs_) has a uniqe relationship to the world coordinates.
 
-On such a _crs-dimensioned data cube_, several operations make perfect sense, such as `apply` or `reduce` on spectral and/or temporal dimensions. A simple reduction over the `crs` dimension, using _sum_ or _mean_ would typically not make sense; the "reduction" (removal) of the `crs` dimension that is meaningful involes the resampling/warping of all subcubes for the `crs` dimension to a single, common target coordinate reference system.
+On such a _crs-dimensioned data cube_, several operations make perfect sense, such as `apply` or `reduce` on spectral and/or temporal dimensions. A simple reduction over the `crs` dimension, using _sum_ or _mean_ would typically not make sense. The "reduction" (removal) of the `crs` dimension that is meaningful involves the resampling/warping of all sub-cubes for the `crs` dimension to a single, common target coordinate reference system.
 
 ## User-defined function (UDF)
 

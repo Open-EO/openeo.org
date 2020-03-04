@@ -70,7 +70,7 @@ A data cube stores some additional properties per dimension such as:
 * axis / number
 * type
 * extents *or* nominal dimension labels
-* reference systems / projections
+* [reference systems / projections](#coordinate-reference-system-as-a-data-cube-dimension)
 * resolutions
 
 Having these properties available allows to easily resample from one data cube to another for example.

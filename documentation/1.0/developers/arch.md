@@ -26,4 +26,4 @@ To simplify and structure the development, the API is divided into a few microse
 | User-Defined Processes | Organizes and manages user-defined processes (process graphs). |
 | Secondary Services     | External web services to access data and job results such as a OGC WMTS service. |
 | Account Management     | User management, accounting and authentication. |
-| UDF Runtime            | Execution of user-defined functions, not part of the Core API. See the [../udf.md](UDF documentation) for more information. |
+| UDF Runtime            | Execution of user-defined functions, not part of the Core API. See the [UDF documentation](../udf.md) for more information. |

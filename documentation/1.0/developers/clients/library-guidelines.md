@@ -119,17 +119,18 @@ Parameters with a leading `?` are optional.
 | Lists all user-defined processes of the authenticated user. Returns a list of `UserProcess`. | `GET /process_graphs`       | `listUserProcesses()` |
 | Creates a new user-defined process. Returns a `UserProcess`.  | Shortcut: `getUserProcess(id).replaceUserProcess(process)` | `setUserProcess(id, process)` |
 | Get all information about a user-defined process. Returns a `UserProcess`. | `GET /process_graphs/{process_graph_id}`      | `getUserProcess(id)` |
-| Executes a process graph synchronously.                       | `POST /result`                                             | `computeResult(process, ?plan, ?budget)` |
+| Executes a process graph synchronously.                       | `POST /result`                                             | `computeResult(process, ?plan, ?budget, ?additional)` |
 | Lists all jobs of the authenticated user. Returns a list of `Job`. | `GET /jobs`                                           | `listJobs()` |
 | Creates a new job. Returns a `Job`.                           | `POST /jobs`                                               | `createJob(process, ?title, ?description, ?plan, ?budget, ?additional)` |
 | Get all information about a job. Returns a `Job`.             | `GET /jobs/{job_id}`                                       | `getJob(id)` |
 | Lists all secondary services of the authenticated user. Returns a list of `Service`. | `GET /services`                     | `listServices()` |
-| Creates a new secondary service. Returns  a `Service`.        | `POST /services`                                           | `createService(process, type, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget)` |
+| Creates a new secondary service. Returns  a `Service`.        | `POST /services`                                           | `createService(process, type, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget, ?additional)` |
 | Get all information about a service. Returns a `Service`.     | `GET /services/{service_id}`                               | `getService(id)` |
 
 #### Parameters
 
 * **options** in `authenticateOIDC`: May hold additional data required for OpenID connect authentication.
+* **additional** in `createJob` and `createService` (also below in `updateJob` and `updateService`): May hold additional key-value-pairs as object. The object should be merged with the body of the request.
 
 ### Scope `Capabilities` (Content category)
 
@@ -204,7 +205,7 @@ The `Service` scope internally knows the `service_id`.
 | -------------------------------------------------- | --------------------------------- | ------------- |
 | Get all information about a secondary web service. | `GET /services/{service_id}`      | `describeService()` |
 | Get the log files for a web service.               | `GET /services/{service_id}/logs` | `debugService()` |
-| Modify a secondary web service at the back-end.    | `PATCH /services/{service_id}`    | `updateService(?process, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget)` |
+| Modify a secondary web service at the back-end.    | `PATCH /services/{service_id}`    | `updateService(?process, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget, ?additional)` |
 | Delete a secondary web service.                    | `DELETE /services/{service_id}`   | `deleteService()` |
 
 ## Processes

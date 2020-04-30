@@ -43,16 +43,18 @@ In the following chapters we quickly walk through the main features of the Pytho
 
 If you do not know an openEO backend that you want to connect to yet, you can have a look at the [openEO Hub](https://hub.openeo.org/), to find all known backends with information on their capabilities.
 
-For this tutorial we will use the Google Earth Engine openEO driver (https://earthengine.openeo.org/v1.0). 
+For this tutorial we will use the Google Earth Engine openEO driver (https://earthengine.openeo.org/v1.0)
+Note that the code snippets in this guide works the same way for the other backend listed in the openEO Hub. Just the collection identifier and band names might differ between the backends.
 
-First we need to connect to the backend. 
+First we need to establish a connection to the backend. 
 
 ```python
 import openeo
 connection = openeo.connect("https://earthengine.openeo.org/v1.0")
 ```
 
-The connection object bundles information about the backend, so that the provided data and capabilities can be accessed. The capabilities of the backend is publicly available and therefore you do not need to have an account on the backend.
+The connection object bundles information about the backend, so that the provided data and capabilities can be accessed. 
+The capabilities of the backend is publicly available and therefore you do not need to have an account on the backend for reading them.
 
 ### Collections
 
@@ -166,30 +168,35 @@ datacube = datacube.filter_temporal(start_date="2017-03-01", end_date="2017-04-0
 datacube = datacube.filter_bands(["VV", "VH"])
 ```
 
-Now if you want to apply a process on the datacube, you can just call the process directly on the datacube. 
-Every datacube object contains a process graph, describing the processes that will be applied to it.
-By calling a process on the datacube it returns a datacube with the process added to its process graph. 
+Now, having the input data ready, we want to apply a process on the datacube. Therefore, we can call the process directly on the datacube object. 
+Every datacube object contains a process graph, describing the processes that will be applied on it.
+By calling a process on the datacube it returns a datacube with the process added to its graph. 
 
 ```python
 datacube = datacube.max_time()
 ```
-Now the datacube process graph includes a reducer on the temporal dimension using the maximum value.
-For a list of supported processes on the Python client datacube object see the [official documentation](https://open-eo.github.io/openeo-python-client/).
+The datacube is now reduced by the time dimension, by taking the maximum value of the timeseries values. Now the datacube has not time dimension left.
+Similiar so called "reducer" processes also exist for minimum and mean values of the timeseries. A list of supported processes using the Python client datacube can be found on the [official documentation](https://open-eo.github.io/openeo-python-client/).
 
 Applying a process not supported by the Python client can be added to the datacube manually:
 
 ```python
-datacube = datacube.process(process_id="ndvi", args={ "data": {"from_node": datacube._pg}, 
-                                                      "nir": "B8", 
-                                                      "red": "B4"})
+datacube = datacube.process(process_id="ndvi", 
+                            args={ "data": {"from_node": datacube._pg}, 
+                                   "nir": "B8", 
+                                   "red": "B4"})
 ```
 
 This applies the ["ndvi" process](https://openeo.org/documentation/1.0/processes.html#ndvi) to the datacube with the arguments of "nir" and "red". 
-The "data" argument defines the input of the process and we choose latest added process of the datacube.
+The "data" argument defines the input of the process and we chose latest added process of the datacube.
+
+Note that everything applied to the datacube at this point is neither executed locally on your machine nor executed on the backend. 
+It just defines the input data and process chain the backend needs to apply, when sending and executing the datacube at the backend.
+How this can be done is the topic of the next chapter. 
 
 ## Job Management
 
-Assuming that the definition of the datacube object and all related processes is finished, we will now send it to the backend and start the execution. 
+Assuming that the definition of the datacube object and all related processes is finished, we can now send it to the backend and start the execution. 
 In openEO, an execution of a process graph (here defined in the datacube object) is called a [job](https://openeo.org/documentation/1.0/glossary.html#data-processing-modes). Therefore, we need to create a job at the backend using our datacube.
 
 ```python
@@ -205,7 +212,6 @@ After calling this, the job is just created, but has not started the execution a
 job.start_job()
 
 # Get job description
-
 job.describe_job()
 ```
 The "start_job" method starts the execution of the job at the backend. 
@@ -216,16 +222,18 @@ When the job is finished, you can download the result with the following command
 # Download job results
 job.download_results("download_path")
 ```
-This only works if the job execution has already finished. If you want the program to wait until the job finished and then download it automatically, you can use the "start_and_wait" method.
+This only works if the job execution finished already. If you want your Python script to wait until the job finished and then download it automatically, you can use the "start_and_wait" method.
 
 ```python
 # Starts the job and waits until it finished to download the result.
 job.start_and_wait().download_results("download_path")
 ```
 
+Now you know the general workflow of job executions.
+
 ## Example Walkthrough
 
-In this chapter we will walk through an example earth observation use case using the Python client and the Google Earth Engine backend.
+In this chapter we will walk through an earth observation use case using the Python client and the Google Earth Engine backend.
 We want to produce a monthly RGB composite of Sentinel 1 backscatter data over the area of Vienna, Austria for three months in 2017. This can be used for classification and crop monitoring.
 It is also one of the Use Cases defined for the openEO project ([see proposal](https://zenodo.org/record/1065474#.Xql0cfmxVhE)). 
 
@@ -314,7 +322,7 @@ The [source code](https://github.com/Open-EO/openeo-python-client/blob/master/ex
 
 ## User Defined Function
 
-If the use case you want to realize with openEO can not be accomplished with the [default processes](https://openeo.org/documentation/1.0/processes.html), you can define a [user defined function](https://openeo.org/documentation/1.0/glossary.html#user-defined-function-udf).
+If your use case can not be accomplished with the [default processes](https://openeo.org/documentation/1.0/processes.html) of openEO, you can define a [user defined function](https://openeo.org/documentation/1.0/glossary.html#user-defined-function-udf).
 Therefore, you can create a Python function that will be executed at the backend and functions as a process in your process graph.
 
 Some examples using UDFs can be found in the [Python Client Repository](https://github.com/Open-EO/openeo-python-client/tree/master/examples/udf). 

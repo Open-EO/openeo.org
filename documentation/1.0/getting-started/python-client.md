@@ -266,12 +266,10 @@ may = datacube.filter_temporal("2017-05-01", "2017-06-01")
 Now that we split it into the correct time range, we have to aggregate the timeseries values into a single image.
 Therefore, we make use of the Python Client function "mean_time", which reduces the time dimension, by taking for every timeseries the mean value.
 
-_Note: The dimension parameter is needed for the current version of the Python client with the GEE backend, but might be unnecessary in the future._
-
 ```python
-mean_march = march.mean_time(dimension="t")
-mean_april = april.mean_time(dimension="t")
-mean_may = may.mean_time(dimension="t")
+mean_march = march.mean_time()
+mean_april = april.mean_time()
+mean_may = may.mean_time()
 ```
 
 Now we have the three images that will be combined into the temporal composite. 

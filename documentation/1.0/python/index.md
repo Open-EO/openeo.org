@@ -317,8 +317,8 @@ job = datacube.send_job()
 job.start_and_wait().download_results()
 ```
 
-Now the resulting PNG file of the RGB backscatter composite is in your temporary folder (e.g. Linux: "/tmp", Windows: "C:\temp" ).
-You can also specify the output directory in the `download_results(OUTPUT_DIR)` call.
+Now the resulting PNG file of the RGB backscatter composite is in your current directory. 
+You can also specify a different output directory in the `download_results(OUTPUT_DIR)` call.
 
 ![Python client RGB composite](./images/example_result.png "RGB composite")
 

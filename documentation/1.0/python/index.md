@@ -59,7 +59,7 @@ The capabilities of the backend is publicly available and therefore you do not n
 ### Collections
 
 Collections represent the basic data the backend provides (e.g. Sentinel 2 collection).
-Collections are used as input data for job executions ([more info on collections](https://openeo.org/documentation/1.0/glossary.html#eo-data-collections)).
+Collections are used as input data for job executions ([more info on collections](../glossary.md#eo-data-collections)).
 With the following code snippet you can get all available collection names and their description.
 
 ```python
@@ -83,7 +83,7 @@ The collections in the list have a general description, but to get the full coll
 
 ### Processes
 
-Processes in openEO are tasks that can be applied on (EO) data. The input of a process might be the output of another process, so that several connected processes form a process graph. Therefore, a process resembles the smallest unit of task descriptions in openEO ([more info on processes](https://openeo.org/documentation/1.0/glossary.html#processes)).
+Processes in openEO are tasks that can be applied on (EO) data. The input of a process might be the output of another process, so that several connected processes form a process graph. Therefore, a process resembles the smallest unit of task descriptions in openEO ([more info on processes](../glossary.md#processes)).
 The following code snippet shows how to get the available processes. 
 
 ```python
@@ -105,7 +105,7 @@ Available Processes
 The "list_processes" method returns a list of dictionaries with all openEO processes that the backend provides.
 Each dictionary in the list contains the process identifier and metadata about the process, such as expected arguments and return types. 
 In the third print statement of the code block, just the identifiers of the supported processes are listed.
-For a graphical overview of the openEO processes, there is an [online documentation](https://openeo.org/documentation/1.0/processes.html) for general process descriptions and the [openEO Hub](https://hub.openeo.org/) for backend specific process descriptions. 
+For a graphical overview of the openEO processes, there is an [online documentation](../processes.md) for general process descriptions and the [openEO Hub](https://hub.openeo.org/) for backend specific process descriptions. 
 
 ## Authentication 
 
@@ -115,18 +115,6 @@ To run your own jobs at the backend or to access job results, you need to authen
 Depending on the backend, there might be two different approaches to authenticate. 
 You need to inform yourself at your backend provider of choice, which authentication approach you have to carry out. 
 You can also have a look at the [openEO Hub](https://hub.openeo.org/) to see the available authentication types of the backends.     
-
-### Basic Authentication
-
-The basic authentication method is a common way of authenticate HTTP requests given username and password. 
-The following code snippet shows how to log in via basic authentication:
-
-```python
-print("Authenticate with basic authentication")
-connection.authenticate_basic("username", "password")
-```
-After successfully calling the "authenticate_basic" method, you are logged into the backend with your account. 
-This means, that every call that comes after that via the connection variable is executed by your user account.
 
 ### OIDC Authentication
 The OIDC ([OpenID Connect](https://openid.net/connect/)) authentication can be used to authenticate via an external service given a client ID.
@@ -141,6 +129,20 @@ Calling this method opens your system web browser, with which you can authentica
 After that the website will give you the instructions to go back to the python client, where your connection has logged your account in. 
 This means, that every call that comes after that via the connection variable is executed by your user account.
 
+### Basic Authentication
+
+The basic authentication method is a common way of authenticate HTTP requests given username and password. 
+Note that the preferred authentication method is OIDC, so if possible use it instead of basic authentication. 
+The following code snippet shows how to log in via basic authentication:
+
+```python
+print("Authenticate with basic authentication")
+connection.authenticate_basic("username", "password")
+```
+After successfully calling the "authenticate_basic" method, you are logged into the backend with your account. 
+This means, that every call that comes after that via the connection variable is executed by your user account.
+
+
 ## Creating a Datacube
 
 Now that we know how to discover the backend and how to authenticate, lets continue by defining creating a new job.
@@ -150,7 +152,7 @@ First you need to initialize a datacube by selecting a collection from the backe
 datacube = connection.load_collection("COPERNICUS/S1_GRD")
 ```
 
-This results in a [datacube object](https://openeo.org/documentation/1.0/glossary.html#spatial-data-cubes) with the complete dataset of the "COPERNICUS/S1_GRD" collection.
+This results in a [datacube object](../glossary.md#spatial-data-cubes) with the complete dataset of the "COPERNICUS/S1_GRD" collection.
 You might want to limit the datasets extent already when loading it. This can be done by setting the extent of the spatial and temporal dimensions as well as by filtering the bands dimension.
  
 ```python
@@ -187,7 +189,7 @@ datacube = datacube.process(process_id="ndvi",
                                    "red": "B4"})
 ```
 
-This applies the ["ndvi" process](https://openeo.org/documentation/1.0/processes.html#ndvi) to the datacube with the arguments of "nir" and "red". 
+This applies the ["ndvi" process](../processes.md#ndvi) to the datacube with the arguments of "nir" and "red". 
 The "data" argument defines the input of the process and we chose latest added process of the datacube.
 
 Note that everything applied to the datacube at this point is neither executed locally on your machine nor executed on the backend. 
@@ -197,7 +199,7 @@ How this can be done is the topic of the next chapter.
 ## Job Management
 
 Assuming that the definition of the datacube object and all related processes is finished, we can now send it to the backend and start the execution. 
-In openEO, an execution of a process graph (here defined in the datacube object) is called a [job](https://openeo.org/documentation/1.0/glossary.html#data-processing-modes). Therefore, we need to create a job at the backend using our datacube.
+In openEO, an execution of a process graph (here defined in the datacube object) is called a [job](../glossary.md#data-processing-modes). Therefore, we need to create a job at the backend using our datacube.
 
 ```python
 # Creating a new job at the backend by sending the datacube information.
@@ -275,7 +277,7 @@ mean_may = may.mean_time()
 Now we have the three images that will be combined into the temporal composite. 
 But before merging them into one datacube object, we need to rename the bands of the images, because otherwise, they would be overwritten in the merging process.  
 This is because at the moment the three datacubes have one band named "VV" (see "load_collection" statement above). 
-If we would now merge two of them, it would overwrite the "VV" band of one of the originals and keep the band from the other cube (see ["merge_cubes" description](https://openeo.org/documentation/1.0/processes.html#merge_cubes)).
+If we would now merge two of them, it would overwrite the "VV" band of one of the originals and keep the band from the other cube (see ["merge_cubes" description](../processes.md#merge_cubes)).
 Therefore, we rename the bands of the datacubes using the "rename_labels" process to "R", "G" and "B".
 After that we merge them into the "RGB" datacube, which has now three bands ("R", "G" and "B")
 
@@ -288,16 +290,17 @@ RG = R_band.merge(G_band)
 RGB = RG.merge(B_band)
 ```
 
-To make the values match the RGB values from 0 to 255, we need to scale them linear. Therefore, we apply the "linear_scale" process to the datacube. 
-It is not part of the implemented functions of the Python client, therefore, we need to define it manually. This might change in future versions of the client. 
+To make the values match the RGB values from 0 to 255, we need to scale them. Therefore, we apply the "linear_scale" process to the datacube. 
+It is not part of the fully implemented functions of the Python client, so we need to adjust it manually. This might change in future versions of the client. 
 
 ```python
-from openeo.internal.graph_building import PGNode
-# defining linear scale range for apply process
-lin_scale = PGNode("linear_scale_range", arguments={"x": {"from_parameter": "x"},
-                                                    "inputMin": -20, "inputMax": -5, "outputMin": 0, "outputMax": 255})
+from openeo.rest.datacube import DataCube
 
-datacube = RGB.apply(lin_scale)
+lin_scale_subcube = DataCube(None, RGB.connection)
+lin_scale_subcube = lin_scale_subcube.linear_scale_range(-20, -5, 0, 255)
+lin_scale_subcube._pg.arguments["x"] = {"from_parameter": "x"}
+
+datacube = RGB.apply(lin_scale_subcube._pg)
 ```
 Last but not least, we add the process to save the result of the processing. There we define that the result should be a PNG file.
 We also set, which band should be used for "red", "green" and "blue" colour in the options.
@@ -311,25 +314,26 @@ With the last process we have finished the datacube definition and can create an
 ```python
 job = datacube.send_job()
 
-res = job.start_and_wait().download_results("/tmp")
+job.start_and_wait().download_results()
 ```
 
-Now in our "/tmp" folder there is the resulting PNG file of the RGB backscatter composite:
+Now the resulting PNG file of the RGB backscatter composite is in your temporary folder (e.g. Linux: "/tmp", Windows: "C:\temp" ).
+You can also specify the output directory in the `download_results(OUTPUT_DIR)` call.
 
 ![Python client RGB composite](./images/example_result.png "RGB composite")
 
-The [source code](https://github.com/Open-EO/openeo-python-client/blob/master/examples/gee_uc1_temp.py) of this example can be found on GitHub.
+The [source code](https://github.com/Open-EO/openeo-python-client/blob/8de1f2ea6754126cccc663c009a2f0290299a5ea/examples/gee_uc1_temp.py) of this example can be found on GitHub.
 
 ## User Defined Function
 
-If your use case can not be accomplished with the [default processes](https://openeo.org/documentation/1.0/processes.html) of openEO, you can define a [user defined function](https://openeo.org/documentation/1.0/glossary.html#user-defined-function-udf).
+If your use case can not be accomplished with the [default processes](../processes.md) of openEO, you can define a [user defined function](../glossary.md#user-defined-function-udf).
 Therefore, you can create a Python function that will be executed at the backend and functions as a process in your process graph.
 
 Some examples using UDFs can be found in the [Python Client Repository](https://github.com/Open-EO/openeo-python-client/tree/master/examples/udf). 
 
 ## Additional Information
 
-* [Python Client Examples](https://github.com/Open-EO/openeo-python-client/tree/master/examples)
-* [Python Client Jupyther Notebooks](https://github.com/Open-EO/openeo-python-client/tree/master/examples/notebooks)
-* [Python Client Documentation](https://open-eo.github.io/openeo-python-client/)
-* [Python Client Repository](https://github.com/Open-EO/openeo-python-client)
+* [Examples](https://github.com/Open-EO/openeo-python-client/tree/master/examples)
+* [Jupyther Notebooks](https://github.com/Open-EO/openeo-python-client/tree/master/examples/notebooks)
+* [Documentation](https://open-eo.github.io/openeo-python-client/)
+* [Repository](https://github.com/Open-EO/openeo-python-client)

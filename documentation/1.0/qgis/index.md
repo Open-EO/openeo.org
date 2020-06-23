@@ -44,7 +44,7 @@ Backends that do not support this authentication can not be accessed via this pl
 If logged in successfully, the main window of the plugin appears with three tabs (**Backend Info**, **Jobs**, **Services**). 
 The following sections will go through the capabilities of these tabs. 
 
-## Tab1: Backend Info
+## Exploring a backend
 
 The first tab shows information about the backend and the available collections and processes. 
 On the top, there is a basic description about the backend you are connected to.
@@ -59,14 +59,14 @@ Second column shows the type of the parameter (e.g. raster-cube) and the third c
 To learn more about the process, you can click on the info button next to the drop down menu 
 (marked red in the figure below). The return type of the process is written next to the info box. If you want to get a
 good overview of all processes of openEO you might visit the 
-[official processes page](https://openeo.org/documentation/1.0/processes.html), but note that not all backends 
+[official processes page](../processes.md), but note that not all backends 
 will implement all processes listed there.
 
-## Tab2: Jobs
+## Job Management
 
-The "Jobs" tab lists all of your [jobs](https://openeo.org/documentation/1.0/glossary.html#data-processing-modes) 
+The "Jobs" tab lists all of your [jobs](../glossary.md#data-processing-modes) 
 at the backend. In openEO a job describes what the backend needs to process 
-(e.g. by defining a [process graph](https://openeo.org/documentation/1.0/glossary.html#processes)) as well as 
+(e.g. by defining a [process graph](../glossary.md#processes)) as well as 
 additional meta-information (e.g. title, creation date). The first two columns show the title and the creation date of 
 the job. The other elements of the table are numbered in the screenshot and described in the following. 
 
@@ -217,8 +217,8 @@ have a "Proc-Param" button. If pressed it will forward the input data of the par
 (so the one with the subgraph as attribute) to the selected argument (see screenshot "data" argument). Note that the 
 sub process graph also needs to have at least one result node.
 
-## Tab3: Services
-The "Services" tab lists all of your [secondary web services](https://openeo.org/documentation/1.0/glossary.html#data-processing-modes) 
+## Service Management
+The "Services" tab lists all of your [secondary web services](../glossary.html#data-processing-modes) 
 at the backend. In openEO a secondary service has a process graph like a job, but depending on the service type it is 
 possible for the user to change the viewing extent dynamically. The first two columns shows the title, the description 
 and the date and time it got created at the backend. 
@@ -245,9 +245,7 @@ on the table. Not that the list of jobs contains only successfully executed jobs
 the [openEO web editor](https://editor.openeo.org/). There you can create new services via the editor or from your jobs.
 6. **Refresh Table** - This button refreshes the list of services manually.
 
-[//]: <> (## Example Job Adaption To Do: Create Youtube Walk-Through)
-
 ## Additional Information
 
-* [openEO QGIS Plugin Github](https://github.com/Open-EO/openeo-qgis-plugin)
-* [openEO QGIS Plugin Page](https://plugins.qgis.org/plugins/openeo-qgis-plugin-master/)
+* [Github Repository](https://github.com/Open-EO/openeo-qgis-plugin)
+* [QGIS Plugin Page](https://plugins.qgis.org/plugins/openeo-qgis-plugin-master/)

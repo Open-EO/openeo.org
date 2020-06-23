@@ -47,7 +47,7 @@ The following sections will go through the capabilities of these tabs.
 ## Exploring a backend
 
 The first tab shows information about the backend and the available collections and processes. 
-On the top, there is a Basic description about the backend you are connected to.
+On the top, there is a basic description about the backend you are connected to.
 Next, you can choose a collection in the drop down menu to see a description of that dataset.
 
 ![QGIS Backend Info](./images/backend_info.png "Backend Info tab")
@@ -88,13 +88,9 @@ description as well as the processes and extent of the job. How this works in de
 It contains information like a description, a cost plan etc., of course only if this information is provided by the backend.
 6. **Delete** - By clicking on the "Trash" button the job gets deleted from the backend, after being asked if you are 
 really sure about it.
-7. **Load Job from openEO Hub** - This button opens a new window with a list of shared jobs (or process graphs) from the openEO Hub 
-(see figure below). You can select one of these jobs, adapt them to your needs and create a new "duplicate" job at 
-your backend. More information on how to do that can be found in the next sections.
-    
-![QGIS openEO Hub](./images/openeohub.png "openEO Hub")
-
-8. **Create new Job** - Similar to loading a job from the Hub, you can also create a job from scratch using this button. 
+7. **Load Job from openEO Hub** - At the moment it is recommended to not use this feature, since the exchange of 
+process graphs in the OpenEO Hub is under development.
+8. **Create new Job** - You can create a job from scratch using this button. 
 More information in the next sections.  
 9. **Create new Job in Web Editor** - This button opens the [openEO web editor](https://editor.openeo.org/) in your 
 system browser, so that you can create a new job using it. This is the recommended way for creating a new job, since it has 
@@ -103,7 +99,7 @@ a graphical and therefore more convenient way of doing so.
 
 ### Creating new Jobs
 
-There are four approaches to create a new job using this plugin, depending on whether you want to start from scratch or just 
+There are three approaches to create a new job using this plugin, depending on whether you want to start from scratch or just 
 change existing jobs:
 
 * **From scratch with web editor** - As described in the job table overview above, there is a button (no. 9) that opens 
@@ -113,11 +109,7 @@ based manner for a better understanding of how processes are connected.
 * **From scratch with QGIS** - If you want to use the QGIS plugin, you can create a new job using the 
 button (no. 8) of the job overview dialog. It opens the job adaption window (more details in the section below). 
 In the beginning the job has already a "load_collection" process as a starting point.  
-* **From openEO Hub** - If you want to create a new job by adapting an existing one, one possibility is to choose one 
-from the openEO Hub. The hub has the feature to share existing process graphs, which are listed in the pop up window, so 
-that you can select one. After job selection, the job adaption window will pop up, where you are able 
-to configure the hub job to your needs (see next section).
-* **From existing Job** - Similar to loading a process graph from the openEO Hub, you can create a new job by adapting 
+* **From existing Job** - You can create a new job by adapting 
 one of your existing jobs at the backend. You can e.g. create a new job with a different spatial extent, or 
 adding a few processes to the original one. To do so, you need to click on the edit button in the job overview window (no. 4)
 

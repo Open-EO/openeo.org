@@ -27,7 +27,7 @@ You can check the installation by trying to import the openeo module in the Pyth
 import openeo
 ```
 If this gives you the following output, something went wrong with the installation, please check again the requirements. 
-If you have still troubles installing the Python module, feel free to [contact us](https://openeo.org/contact.html) or leave an issue at the [GitHub project](https://github.com/Open-EO/openeo-python-client/issues).
+If you have still troubles installing the Python module, feel free to [contact us](../../../contact.md) or leave an issue at the [GitHub project](https://github.com/Open-EO/openeo-python-client/issues).
 
 ```shell script
 >>> import openeo
@@ -43,14 +43,14 @@ In the following chapters we quickly walk through the main features of the Pytho
 
 If you do not know an openEO backend that you want to connect to yet, you can have a look at the [openEO Hub](https://hub.openeo.org/), to find all known backends with information on their capabilities.
 
-For this tutorial we will use the Google Earth Engine openEO driver (https://earthengine.openeo.org/v1.0)
+For this tutorial we will use the Google Earth Engine openEO driver (https://earthengine.openeo.org)
 Note that the code snippets in this guide works the same way for the other backend listed in the openEO Hub. Just the collection identifier and band names might differ between the backends.
 
 First we need to establish a connection to the backend. 
 
 ```python
 import openeo
-connection = openeo.connect("https://earthengine.openeo.org/v1.0")
+connection = openeo.connect("https://earthengine.openeo.org")
 ```
 
 The connection object bundles information about the backend, so that the provided data and capabilities can be accessed. 
@@ -131,12 +131,12 @@ This means, that every call that comes after that via the connection variable is
 
 ### Basic Authentication
 
-The basic authentication method is a common way of authenticate HTTP requests given username and password. 
-Note that the preferred authentication method is OIDC, so if possible use it instead of basic authentication. 
-The following code snippet shows how to log in via basic authentication:
+The Basic authentication method is a common way of authenticate HTTP requests given username and password. 
+Note that the preferred authentication method is OIDC, so if possible use it instead of Basic authentication. 
+The following code snippet shows how to log in via Basic authentication:
 
 ```python
-print("Authenticate with basic authentication")
+print("Authenticate with Basic authentication")
 connection.authenticate_basic("username", "password")
 ```
 After successfully calling the "authenticate_basic" method, you are logged into the backend with your account. 
@@ -239,7 +239,7 @@ In this chapter we will walk through an earth observation use case using the Pyt
 We want to produce a monthly RGB composite of Sentinel 1 backscatter data over the area of Vienna, Austria for three months in 2017. This can be used for classification and crop monitoring.
 It is also one of the Use Cases defined for the openEO project ([see proposal](https://zenodo.org/record/1065474#.Xql0cfmxVhE)). 
 
-First, we connect to the backend and authenticate ourselves via basic authentication. 
+First, we connect to the backend and authenticate ourselves via Basic authentication. 
 
 ```python
 import openeo

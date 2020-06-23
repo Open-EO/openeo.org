@@ -47,7 +47,7 @@ The following sections will go through the capabilities of these tabs.
 ## Exploring a backend
 
 The first tab shows information about the backend and the available collections and processes. 
-On the top, there is a basic description about the backend you are connected to.
+On the top, there is a Basic description about the backend you are connected to.
 Next, you can choose a collection in the drop down menu to see a description of that dataset.
 
 ![QGIS Backend Info](./images/backend_info.png "Backend Info tab")

@@ -314,7 +314,9 @@ job = datacube.send_job()
 res = job.start_and_wait().download_results("/tmp")
 ```
 
-Now in our "/tmp" folder there is the resulting PNG file of the RGB backscatter composite. 
+Now in our "/tmp" folder there is the resulting PNG file of the RGB backscatter composite:
+
+![Python client RGB composite](./images/example_result.png "RGB composite")
 
 The [source code](https://github.com/Open-EO/openeo-python-client/blob/master/examples/gee_uc1_temp.py) of this example can be found on GitHub.
 

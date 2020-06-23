@@ -12,11 +12,9 @@ const versions = [
       '1.0.0 RC2'
     ],
     userNav: [
-      {text: 'Getting Started', items: [
-          {text: 'First Steps', link: 'getting-started/first-steps.html'},
-          {text: 'Python Client', link: 'getting-started/python-client.html'},
-          {text: 'QGIS Plugin', link: 'getting-started/qgis-plugin.html'}
-      ]},
+      {text: 'Getting Started', link: 'getting-started.html'},
+      {text: 'Python Client', link: 'python/index.html'},
+      {text: 'QGIS Plugin', link: 'qgis/index.html'},
       {text: 'Glossary', link: 'glossary.html'},
       {text: 'Processes', link: 'processes.html'},
       {text: 'UDFs', link: 'udfs.html'}

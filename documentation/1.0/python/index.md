@@ -78,8 +78,8 @@ Available Collections
 Describe COPERNICUS/S2
 {'id': 'COPERNICUS/S2', 'title': ..., 'description': ..., 'bands': ..., ...}
 ```
-By calling "list_collection", a list of collection dictionaries is returned. 
-The collections in the list have a general description, but to get the full collection metadata you need to call the "describe_collection" method. 
+By calling `list_collection`, a list of collection dictionaries is returned. 
+The collections in the list have a general description, but to get the full collection metadata you need to call the `describe_collection` method. 
 
 ### Processes
 
@@ -102,7 +102,7 @@ Available Processes
 ['absolute', 'add', 'add_dimension', 'aggregate_temporal_frequency', 'anomaly', 'apply', 'arccos',... ]
 ```
  
-The "list_processes" method returns a list of dictionaries with all openEO processes that the backend provides.
+The `list_processes` method returns a list of dictionaries with all openEO processes that the backend provides.
 Each dictionary in the list contains the process identifier and metadata about the process, such as expected arguments and return types. 
 In the third print statement of the code block, just the identifiers of the supported processes are listed.
 For a graphical overview of the openEO processes, there is an [online documentation](../processes.md) for general process descriptions and the [openEO Hub](https://hub.openeo.org/) for backend specific process descriptions. 
@@ -139,14 +139,14 @@ The following code snippet shows how to log in via Basic authentication:
 print("Authenticate with Basic authentication")
 connection.authenticate_basic("username", "password")
 ```
-After successfully calling the "authenticate_basic" method, you are logged into the backend with your account. 
+After successfully calling the `authenticate_basic` method, you are logged into the backend with your account. 
 This means, that every call that comes after that via the connection variable is executed by your user account.
 
 
 ## Creating a Datacube
 
 Now that we know how to discover the backend and how to authenticate, lets continue by defining creating a new job.
-First you need to initialize a datacube by selecting a collection from the backend via the "load_collection" method:
+First you need to initialize a datacube by selecting a collection from the backend via calling `load_collection`:
 
 ```python
 datacube = connection.load_collection("COPERNICUS/S1_GRD")
@@ -206,7 +206,7 @@ In openEO, an execution of a process graph (here defined in the datacube object)
 job = datacube.send_job()
 ```
 
-The "send_job" method sends all necessary information to the backend and creates a new job, which gets returned. 
+The `send_job` method sends all necessary information to the backend and creates a new job, which gets returned. 
 After calling this, the job is just created, but has not started the execution at the backend. 
 
 ```python
@@ -216,19 +216,26 @@ job.start_job()
 # Get job description
 job.describe_job()
 ```
-The "start_job" method starts the execution of the job at the backend. 
-You can use the "describe_job" method to get the current status (e.g. "error", "running", "finished") of the job. 
-When the job is finished, you can download the result with the following command:
+The `start_job` method starts the execution of the job at the backend. 
+You can use the `describe_job` method to get the current status (e.g. "error", "running", "finished") of the job. 
+When the job is finished, calling `download_results` will download the result to your current directory. You can 
+specify a different output directory by passing the path as first parameter:
 
 ```python
-# Download job results
-job.download_results("download_path")
+# Download job results to current directory
+job.download_results()
+# Download job results to different path
+# Windows
+job.download_results("C:\temp")
+# Linux
+job.download_results("/tmp")
 ```
-This only works if the job execution finished already. If you want your Python script to wait until the job finished and then download it automatically, you can use the "start_and_wait" method.
+This only works if the job execution finished already. To let your Python script wait until the job has finished and 
+download it automatically, you can use the `start_and_wait` method. 
 
 ```python
 # Starts the job and waits until it finished to download the result.
-job.start_and_wait().download_results("download_path")
+job.start_and_wait().download_results()
 ```
 
 Now you know the general workflow of job executions.
@@ -236,7 +243,8 @@ Now you know the general workflow of job executions.
 ## Example Walkthrough
 
 In this chapter we will walk through an earth observation use case using the Python client and the Google Earth Engine backend.
-We want to produce a monthly RGB composite of Sentinel 1 backscatter data over the area of Vienna, Austria for three months in 2017. This can be used for classification and crop monitoring.
+We want to produce a monthly RGB composite of Sentinel 1 backscatter data over the area of Vienna, Austria for three 
+months in 2017. This can be used for classification and crop monitoring.
 It is also one of the Use Cases defined for the openEO project ([see proposal](https://zenodo.org/record/1065474#.Xql0cfmxVhE)). 
 
 First, we connect to the backend and authenticate ourselves via Basic authentication. 
@@ -266,7 +274,7 @@ may = datacube.filter_temporal("2017-05-01", "2017-06-01")
 ```
 
 Now that we split it into the correct time range, we have to aggregate the timeseries values into a single image.
-Therefore, we make use of the Python Client function "mean_time", which reduces the time dimension, by taking for every timeseries the mean value.
+Therefore, we make use of the Python Client function `mean_time`, which reduces the time dimension, by taking for every timeseries the mean value.
 
 ```python
 mean_march = march.mean_time()
@@ -276,9 +284,9 @@ mean_may = may.mean_time()
 
 Now we have the three images that will be combined into the temporal composite. 
 But before merging them into one datacube object, we need to rename the bands of the images, because otherwise, they would be overwritten in the merging process.  
-This is because at the moment the three datacubes have one band named "VV" (see "load_collection" statement above). 
+This is because at the moment the three datacubes have one band named "VV" (see `load_collection` statement above). 
 If we would now merge two of them, it would overwrite the "VV" band of one of the originals and keep the band from the other cube (see ["merge_cubes" description](../processes.md#merge_cubes)).
-Therefore, we rename the bands of the datacubes using the "rename_labels" process to "R", "G" and "B".
+Therefore, we rename the bands of the datacubes using the `rename_labels` process to "R", "G" and "B".
 After that we merge them into the "RGB" datacube, which has now three bands ("R", "G" and "B")
 
 ```python
@@ -290,7 +298,7 @@ RG = R_band.merge(G_band)
 RGB = RG.merge(B_band)
 ```
 
-To make the values match the RGB values from 0 to 255, we need to scale them. Therefore, we apply the "linear_scale" process to the datacube. 
+To make the values match the RGB values from 0 to 255, we need to scale them. Therefore, we apply the `linear_scale` process to the datacube. 
 It is not part of the fully implemented functions of the Python client, so we need to adjust it manually. This might change in future versions of the client. 
 
 ```python
@@ -318,7 +326,6 @@ job.start_and_wait().download_results()
 ```
 
 Now the resulting PNG file of the RGB backscatter composite is in your current directory. 
-You can also specify a different output directory in the `download_results(OUTPUT_DIR)` call.
 
 ![Python client RGB composite](./images/example_result.png "RGB composite")
 

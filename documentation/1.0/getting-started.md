@@ -1,13 +1,13 @@
-# Getting started for users
+# Getting started
 
 Currently, there are three official client libraries, a web-based interface for openEO and a QGIS plugin.
 
-If you are **unfamiliar** with programming, you could start using the [web-based editor for openEO](https://editor.openeo.org). It supports visual modelling of your algorithms and a simplified JavaScript based access to the openEO workflows and providers. openEO can also be used in QGIS through a [QGIS plugin](https://plugins.qgis.org/plugins/openeo-qgis-plugin-master/).
+If you are **unfamiliar** with programming, you could start using the [web-based editor for openEO](https://editor.openeo.org). It supports visual modelling of your algorithms and a simplified JavaScript based access to the openEO workflows and providers. openEO can also be used in QGIS through a [QGIS plugin](./qgis/index.md).
 
 If you are **familiar** with programming, you could choose a client library for three programming languages:
 
 * [JavaScript](https://www.npmjs.com/package/@openeo/js-client) (client-side and server-side)
-* [Python](https://pypi.org/project/openeo/)
+* [Python](./python/index.md)
 * [R](https://github.com/Open-EO/openeo-r-client)
 
 Follow the links above to find usage instructions for each of the client libraries.

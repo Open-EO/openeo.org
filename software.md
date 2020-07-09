@@ -25,6 +25,7 @@ Data and infrastructure providers can host their own instance of the openEO API:
 * [Google Earth Engine](https://github.com/Open-EO/openeo-earthengine-driver) (by WWU)
 * [GRASS GIS](https://github.com/Open-EO/openeo-grassgis-driver) (by mundialis)
 * [JEODPP](https://github.com/Open-EO/openeo-jeodpp-driver) (by JRC)
+* [OpenDataCube](https://github.com/SARScripts/openeo_odc_driver) (by EURAC, funded by ESA)
 * [RedHat OpenShift Origin](https://github.com/Open-EO/openeo-openshift-driver) (by EODC)
 * [Sentinel Hub](https://github.com/Open-EO/openeo-sentinelhub-python-driver) (by Sinergise)
 * [WCPS (rasdaman)](https://github.com/Open-EO/openeo-wcps-driver) (by EURAC)

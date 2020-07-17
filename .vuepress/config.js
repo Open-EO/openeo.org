@@ -5,11 +5,10 @@ const versions = [
     folder: '1.0',
     path: '/documentation/1.0/',
     title: 'v1.0',
-    apiTag: '1.0.0-rc.2',
+    apiTag: '1.0.0',
     processesTag: '1.0.0-rc.1',
     apiVersions: [
-      '1.0.0 RC1',
-      '1.0.0 RC2'
+      '1.0.0'
     ],
     userNav: [
       {text: 'Getting Started', link: 'getting-started.html'},

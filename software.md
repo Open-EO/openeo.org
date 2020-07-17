@@ -35,9 +35,11 @@ See the **[getting started guide for back-end providers](https://open-eo.github.
 
 To start developing a new back-end driver, you may start with any of the common functionalities implemented in several programming languages:
 
+* [Java (Spring) API Commons](https://github.com/Open-EO/openeo-spring-driver)
 * [Python API Commons](https://github.com/Open-EO/openeo-python-driver)
 * [Python Process Graph Parser](https://github.com/Open-EO/openeo-pg-parser-python)
-* [JavaScript Process Graph Parser](https://github.com/Open-EO/openeo-js-commons)
+* [JavaScript Process Graph Parser](https://github.com/Open-EO/openeo-js-processgraphs)
+* [Python Processes](https://github.com/Open-EO/openeo-processes-python) - many openEO processes implemented in Python
 
 Our approach to tackle language-agnostic user-defined functions can be found in the following repositories:
 

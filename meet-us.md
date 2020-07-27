@@ -6,7 +6,7 @@ sidebar: false
 
 We are always happy to present and discuss the current state of the project. You can **meet us at the following events**:
 
-* FOSDEM 2020 (February, 2 in Brussels, Belgium): Talks on [openEO](https://fosdem.org/2020/schedule/event/introduction_to_openeo/), [STAC](https://fosdem.org/2020/schedule/event/introduction_to_spatiotemporal_asset_catalogs_stac/) and [actinia](https://fosdem.org/2020/schedule/event/actinia_geoprocessing_in_the_cloud/)
+* Due to the COVID-19 situation there are no in-person meetings planned. We are planning to hold and attend some virtual meetings in September. We'll post further information here once available.
 
 Interesting resources from **past events**:
 
@@ -16,3 +16,4 @@ Interesting resources from **past events**:
 * [GeoScienceDay 2019: Science Slam about openEO (video)](https://www.youtube.com/watch?v=ziQXgki9ejI)
 * [ESA Φ-week 2018: Presentation about the idea of openEO (video)](https://www.youtube.com/watch?v=igmiZw2GCTE&list=PLvT7fd9OiI9X2_QZ12fDhVMFzvign0HEF&index=27)
 * [Webinar for the H2020 EO Big Data Hackathon](https://www.youtube.com/watch?v=E0wtDvm2SfA)
+* [FOSDEM 2020: Talk on openEO](https://fosdem.org/2020/schedule/event/introduction_to_openeo/)

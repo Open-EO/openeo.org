@@ -1,5 +1,8 @@
 <template>
-  <main class="home page" aria-labelledby="main-title">
+  <main
+    class="home"
+    aria-labelledby="main-title"
+  >
     <header class="hero">
       <img src="/images/openeo_logo.png" alt="openEO">
 
@@ -41,6 +44,8 @@
 import NavLink from '@theme/components/NavLink.vue'
 
 export default {
+  name: 'Home',
+
   components: { NavLink },
 
   props: ['blog', 'defaultVersion'],
@@ -56,7 +61,7 @@ export default {
 <style lang="stylus">
 .home
   padding-top $navbarHeight
-  max-width 960px
+  max-width $homePageWidth
   margin 0px auto
   display block
   .hero

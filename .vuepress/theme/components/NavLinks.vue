@@ -13,7 +13,13 @@ import DropdownLink from '@theme/components/DropdownLink.vue'
 import NavLink from '@theme/components/NavLink.vue'
 
 export default {
-  components: { NavLink, DropdownLink },
+  name: 'NavLinks',
+
+  components: {
+    NavLink,
+    DropdownLink
+  },
+
   computed: {
     userLinks () {
       return this.$site.themeConfig.nav.map(link => {

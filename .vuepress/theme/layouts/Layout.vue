@@ -1,15 +1,31 @@
 <template>
-  <div class="theme-container" :class="pageClasses" @touchstart="onTouchStart" @touchend="onTouchEnd">
-    <Navbar v-if="shouldShowNavbar" @toggle-sidebar="toggleSidebar" />
+  <div
+    class="theme-container"
+    :class="pageClasses"
+    @touchstart="onTouchStart"
+    @touchend="onTouchEnd"
+  >
+    <Navbar
+      v-if="shouldShowNavbar"
+      @toggle-sidebar="toggleSidebar"
+    />
 
-    <div class="sidebar-mask" @click="toggleSidebar(false)"></div>
+    <div
+      class="sidebar-mask"
+      @click="toggleSidebar(false)"
+    />
 
-    <Sidebar :items="sidebarItems" @toggle-sidebar="toggleSidebar">
+    <Sidebar
+      :items="sidebarItems"
+      @toggle-sidebar="toggleSidebar"
+    >
       <template #top>
         <VersionChooser :sidebar="true" />
         <slot name="sidebar-top" />
       </template>
-      <slot name="sidebar-bottom" #bottom />
+      <template #bottom>
+        <slot name="sidebar-bottom" />
+      </template>
     </Sidebar>
 
     <VersionChooser />
@@ -55,7 +71,15 @@ import VersionChooser from '@theme/components/VersionChooser.vue'
 import { resolveSidebarItems } from '@theme/util'
 
 export default {
-  components: { Home, Page, Sidebar, Navbar, VersionChooser },
+  name: 'Layout',
+
+  components: {
+    Home,
+    Page,
+    Sidebar,
+    Navbar
+  },
+
   mixins: [VersioningMixin],
 
   data () {

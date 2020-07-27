@@ -14,12 +14,12 @@
 	},
 	"devDependencies": {
 		"@openeo/processes-docgen": "^1.0.0", 
-		"@vuepress/plugin-active-header-links": "^1.2.0",
-		"dayjs": "^1.8.17",
-		"vuepress": "^1.2.0",
+		"@vuepress/plugin-active-header-links": "^1.5.2",
+		"dayjs": "^1.8.30",
+		"vuepress": "^1.5.2",
 		"vuepress-plugin-check-md": "0.0.2",
-		"vuepress-plugin-code-copy": "^1.0.4",
-		"vuepress-plugin-code-switcher": "^1.0.2"
+		"vuepress-plugin-code-copy": "^1.0.6",
+		"vuepress-plugin-code-switcher": "^1.0.3"
 	},
 	"scripts": {
 		"prepare": "node .vuepress/prepare.js",

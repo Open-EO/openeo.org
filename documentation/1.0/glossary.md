@@ -77,22 +77,25 @@ Having these properties available allows to easily resample from one data cube t
 
 Dimension labels are either of type number or string, including all sub types such as integers or temporal strings. Additional data types may be allowed in the future.
 
-### `apply`: processes that do not change dimensions
+### apply: processes that process individual values
 
-Math process that does not reduce or change anything to the array
-dimensions. The process `apply` can be used to apply unary functions
-such as `abs` or `sqrt` to all values in a data cube.
+The `apply_*` processes work on individual values (pixels) and 
+usually don't reduce or change the array dimensions much.
 
-The process `apply_dimension` applies (maps) an n-ary function to a particular
+For example, the process `apply` can be used to apply (map) unary functions
+such as `abs` or `sqrt` to all values in a data cube without changing any
+dimensions at all.
+
+The process `apply_dimension` applies an n-ary function to a particular
 dimension. An example along the time dimension is to apply a moving
 average filter to implement temporal smoothing.
 An example of `apply_dimension` to the spatial dimensions
-is to do a historgram stretch for every spatial (grayscale) image
+is to do a histogram stretch for every spatial (grayscale) image
 of an image time series.
 
-### `filter`: subsetting dimensions by dimension label selection
+### filter: subsetting dimensions by dimension label selection
 
-The `filter` process makes a cube smaller by selecting specific
+The `filter_*` processes makes a cube smaller by selecting specific
 value ranges for a particular dimension.
 
 Examples: 
@@ -100,21 +103,21 @@ Examples:
 - a band filter that selects the `red` band
 - a bounding box filter "crops" the collection to a spatial extent
 
-### `reduce`: removing dimensions entirely by computation
+### reduce: removing dimensions entirely by computation
 
-The `reduce` process removes a dimension by "rolling up" or summarizing
+The `reduce_*` processes remove a dimension by "rolling up" or summarizing
 the values along that dimension to a single value.
 For example: eliminate the time dimension by taking the `mean` along that dimension.
 Another example is taking the `sum` or `max` along the band dimension.
 
-### `aggregate`: reducing resolution
+### aggregate: reducing resolution
 
 Aggregation computes new values from sets of values that are assigned to groups. The assignment to the groups is not necessarily unique. It involves a grouping predicate (e.g. monthly, 100 m x 100 m grid cells, or a set of non-overlapping spatial polygons), and an reducer (e.g., `mean`) that computes one or more new values from the original ones.
 
-In effect, `aggregate` combines the following three steps:
+In effect, the `aggregate_*` processes combine the following three steps:
 
 - _split_ the data cube in groups, based on dimension constraints (time intervals, band groups, spatial polygons)
-- _apply_ a reducer to each group (similar to the `reduce` process, but reducing a group rather than an entire dimension)
+- _apply_ a reducer to each group (similar to the `reduce_dimension` process, but reducing a group rather than an entire dimension)
 - _combine_ the result to a new data cube, with some dimensions having reduced resolution (or e.g. raster to vector converted)
 
 Examples:
@@ -122,9 +125,9 @@ Examples:
 - a weekly time series may be aggregated to monthly values by computing the `mean` for all values in a month (grouping predicate: months)
 - _spatial_ aggregation involves computing e.g. _mean_ pixel values on a 100 x 100 m grid, from 10 m x 10 m pixels, where each original pixel is assigned uniquely to a larger pixel (grouping predicate: 100 m x 100 m grid cells)
 
-### `resample`: changing data cube geometry
+### resample: changing data cube geometry
 
-Resampling considers the case where we have data at one resolution and coordinate reference system, and need values at another. In case we have values at a 100 m x 100 m grid and need values at a 10 m x 10 m grid, the original values will be reused many times, and may be simply assigned to the nearest high resolution grid cells (nearest neighbor method), or may be interpolated using various methods (e.g. by bilinear interpolation). This is often called _upsampling_ or _upscaling_. 
+Resampling - using the `resample_*` processes - considers the case where we have data at one resolution and coordinate reference system, and need values at another. In case we have values at a 100 m x 100 m grid and need values at a 10 m x 10 m grid, the original values will be reused many times, and may be simply assigned to the nearest high resolution grid cells (nearest neighbor method), or may be interpolated using various methods (e.g. by bilinear interpolation). This is often called _upsampling_ or _upscaling_. 
 
 Resampling from finer to coarser grid is a special case of aggregation often called _downsampling_ or _downscaling_.
 
@@ -136,7 +139,7 @@ In the data cube example above, _x_ and _y_ dimension values have a _unique_ rel
 
 Resampling is however costly, involves (some) data loss, and is in general not reversible. Suppose that we want to work only on the spectral and temporal dimensions of a data cube, and do not want to do any resampling. In that case, one could create one data cube for each coordinate reference system. An alternative would be to create one _single_ data cube containing all tiles that has an _additional dimension_ with the coordinate reference system. In that data cube, _x_ and _y_ no longer point to a unique world coordinate, because identical _x_ and _y_ coordinate pairs occur in each UTM zone. Now, only the combination (_x_, _y_, _crs_) has a uniqe relationship to the world coordinates.
 
-On such a _crs-dimensioned data cube_, several operations make perfect sense, such as `apply` or `reduce` on spectral and/or temporal dimensions. A simple reduction over the `crs` dimension, using _sum_ or _mean_ would typically not make sense. The "reduction" (removal) of the `crs` dimension that is meaningful involves the resampling/warping of all sub-cubes for the `crs` dimension to a single, common target coordinate reference system.
+On such a _crs-dimensioned data cube_, several operations make perfect sense, such as `apply` or `reduce_dimension` on spectral and/or temporal dimensions. A simple reduction over the `crs` dimension, using _sum_ or _mean_ would typically not make sense. The "reduction" (removal) of the `crs` dimension that is meaningful involves the resampling/warping of all sub-cubes for the `crs` dimension to a single, common target coordinate reference system.
 
 ## User-defined function (UDF)
 

@@ -254,18 +254,18 @@ download_results(job = job, folder = "/tmp/job_results/")
 ```python
 import openeo
 
-con = openeo.connect("https://openeo.org", ...)
+con = openeo.connect("https://openeo.org").authenticate_basic("username", "password")
 cap = con.capabilities()
 print(cap.api_version())
 print(con.describe_collection("Sentinel-2A"))
 print(con.list_processes())
 
-datacube = con.datacube()
+datacube = con.load_collection(...)
 # Chain processes, implementation is up to the client
 
-job = con.create_job(datacube)
+job = datacube.create_job()
 job.start_job()
-print job.describe_job()
+print(job.describe_job())
 job.download_results("/tmp/job_results/")
 ```
 
@@ -284,7 +284,7 @@ System.out.println(con.listProcesses());
 DataCube cube = con.createDataCube()
 // Chain processes, implementation is up to the client
 
-Job job = con.createJob(cube);
+Job job = cube.createJob();
 job.startJob();
 System.out.println(job.describeJob());
 job.downloadResults("/tmp/job_results/");

@@ -1,4 +1,4 @@
-const apiVersion = '1.0.0-rc.2';
+const apiVersion = '1.0.0';
 const defaultVersion = 0;
 const versions = [
   {
@@ -6,7 +6,7 @@ const versions = [
     path: '/documentation/1.0/',
     title: 'v1.0',
     apiTag: '1.0.0',
-    processesTag: '1.0.0-rc.1',
+    processesTag: '1.0.0',
     apiVersions: [
       '1.0.0'
     ],

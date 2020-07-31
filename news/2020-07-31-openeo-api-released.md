@@ -6,7 +6,9 @@ author: Matthias Mohr
 ---
 
 After two release candidates in early 2020, the openEO Consortium released the first stable version of its [openEO API](https://api.openeo.org/) and their set of [common processes](https://processes.openeo.org). This blog post gives an overview of the most notable changes since [version 0.4](2019-03-07-openeo-api-040.md) and provides an outlook on the next months' project activity.
-  
+
+*For those who are new to openEO, we have developed an open API to connect R, Python, JavaScript and other clients to big Earth observation cloud back-ends in a simple and unified way. The idea is that this will make cloud-based processing of large satellite image collections, or other data cubes such as weather model data easier for data scientists. The entire development process has been open, and all [software](/software.md) developed in this project is open source and available on [GitHub](https://github.com/open-eo). For more information about openEO, please read [page about the project](/about.md) first.*
+
 ## Processes
 
 The most important change was introduced just recently in openEO API version 1.0.0 RC2. Until then, openEO process graphs allowed users to express processing algorithms and execute them on a back-end using *pre-defined processes* exposed by a back-end provider. While this still exists, a user can now also promote a process graph to a full openEO process description, following the same schema as the pre-defined processes: it must include the processing instructions and metadata like an identifier, parameters, return values, examples etc. This allows *user-defined processes* to be stored and used like pre-defined processes, enabling users to extend the processing capabilities of a back-end. Users can now encapsulate algorithms in separate user-defined processes and re-use these in other user-defined processes. This also allows the exchange of processes (algorithms) between users and back-ends, and creates the possibility for a repository of user-contributed processes that other users can benefit from. A place for finding and sharing such processes is (planned to be) the [openEO Hub](https://hub.openeo.org).

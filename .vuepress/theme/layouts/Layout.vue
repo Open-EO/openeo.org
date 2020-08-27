@@ -77,7 +77,8 @@ export default {
     Home,
     Page,
     Sidebar,
-    Navbar
+    Navbar,
+    VersionChooser
   },
 
   mixins: [VersioningMixin],

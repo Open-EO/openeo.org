@@ -13,9 +13,12 @@ const versions = [
     userNav: [
       {text: 'Getting Started', link: 'getting-started.html'},
       {text: 'Glossary', link: 'glossary.html'},
-      {text: 'Python', link: 'python/index.html'},
-      {text: 'QGIS', link: 'qgis/index.html'},
       {text: 'Processes', link: 'processes.html'},
+      {text: 'Getting Started', items: [
+        {text: 'JavaScript', link: 'javascript/index.html'},
+        {text: 'Python', link: 'python/index.html'},
+        {text: 'QGIS', link: 'qgis/index.html'}
+      ]},
       {text: 'UDFs', link: 'udfs.html'}
     ],
     devNav: [

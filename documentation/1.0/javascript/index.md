@@ -5,19 +5,19 @@
 The openEO JavaScript Client can be used in all modern browsers (excludes Internet Explorer) and all maintained Node.js versions (>= 10.x).
 It can also been used for mobile app development with the [Ionic Framework](https://ionicframework.com/), for example.
 
-The easiest way to try out the client is using one of the [examples](https://github.com/Open-EO/openeo-js-client/tree/v1.0.0/examples).
+The easiest way to try out the client is using one of the [examples](https://github.com/Open-EO/openeo-js-client/tree/v1.0.0-rc.2/examples).
 Alternatively, you can create an HTML file and include the client with the following HTML `script` tags:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/axios@0.20/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@openeo/js-client@1/openeo.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@openeo/js-client@latest/openeo.min.js"></script>
 ```
 
 This gives you a minified version for production environments. If you'd like a better development experience, use the following code:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/axios@0.20/dist/axios.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@openeo/js-client@1/openeo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@openeo/js-client@latest/openeo.js"></script>
 ```
 
 If you are working on a Node.js application or you are using a Node.js-based build tool for web development (e.g. Webpack), you can install the client via [npm](https://npmjs.org/) by using the following command:
@@ -86,7 +86,7 @@ After establishing the connection to the back-end, it can be explored. The basic
 var info = con.capabilities();
 ```
 
-This allows to request a couple of [different information](https://open-eo.github.io/openeo-js-client/1.0.0/Capabilities.html), like API version, description, related links or the billing plans. You can print some of these information to the console as follows:
+This allows to request a couple of [different information](https://open-eo.github.io/openeo-js-client/1.0.0-rc.2/Capabilities.html), like API version, description, related links or the billing plans. You can print some of these information to the console as follows:
 
 ```js
 console.log("API Version: ", info.apiVersion());
@@ -176,7 +176,7 @@ If you have included the library using HTML `script` tags, then you need to incl
 No further action is required, if you have installed the client via npm.
 ::: 
 
-As OpenID Connect authentication is a bit more complex and depends on the environment your are using it in, please refer to the [JavaScript client documentation](https://open-eo.github.io/openeo-js-client/1.0.0/OidcProvider.html) for more information.
+As OpenID Connect authentication is a bit more complex and depends on the environment your are using it in, please refer to the [JavaScript client documentation](https://open-eo.github.io/openeo-js-client/1.0.0-rc.2/OidcProvider.html) for more information.
 
 
 ### Basic Authentication
@@ -341,7 +341,7 @@ async function example() {
   // Connect to the back-end
   var con = await OpenEO.connect("https://earthengine.openeo.org");
   // Authenticate ourselves via Basic authentication
-  con.authenticateBasic("group11", "test123");
+  await con.authenticateBasic("group11", "test123");
   // Create a process builder
   var builder = await con.buildProcess();
   // We are now loading the Sentinel-1 data over the Area of Interest
@@ -408,6 +408,6 @@ For more information check out the Python or R tutorials on UDFs.
 
 ## Additional Information
 
-* [Examples](https://github.com/Open-EO/openeo-js-client/tree/v1.0.0/examples)
-* [Documentation](https://open-eo.github.io/openeo-js-client/1.0.0/)
+* [Examples](https://github.com/Open-EO/openeo-js-client/tree/v1.0.0-rc.2/examples)
+* [Documentation](https://open-eo.github.io/openeo-js-client/1.0.0-rc.2/)
 * [Repository](https://github.com/Open-EO/openeo-js-client)

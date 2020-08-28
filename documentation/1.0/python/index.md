@@ -12,15 +12,6 @@ The [latest release](https://pypi.org/project/openeo/) can be installed via [PyP
 pip install openeo
 ```
 
-If you want to install the latest (unreleased) version you have to clone it from the [GitHub project](https://github.com/Open-EO/openeo-python-client) and install it locally: 
-
-```shell script
-cd DIR_OF_CHOICE
-git clone https://github.com/Open-EO/openeo-python-client.git
-cd openeo-python-client
-pip install -e .
-```
-
 You can check the installation by trying to import the openeo module in the Python console:
 
 ```python

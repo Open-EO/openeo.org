@@ -5,8 +5,8 @@
 Before you install the Python client module into your Python environment, please make sure that you have at least Python version 3.5.
 
 There are two versions of the module available, the released version, which is the most stable one and the less stable latest available version with the newest features.
-
-The [latest release](https://pypi.org/project/openeo/) can be installed via [PyPi](https://pypi.org/) by using the following command:
+If you are interested in installing the latest available version, please have a look at the [official documentation](https://open-eo.github.io/openeo-python-client/).
+Here we will only show the installation of the [latest release](https://pypi.org/project/openeo/), which can be installed via [PyPi](https://pypi.org/) by using the following command:
 
 ```shell script
 pip install openeo
@@ -35,7 +35,7 @@ In the following chapters we quickly walk through the main features of the Pytho
 If you do not know an openEO back-end that you want to connect to yet, you can have a look at the [openEO Hub](https://hub.openeo.org/), to find all known back-ends with information on their capabilities.
 
 For this tutorial we will use the openEO instance of Google Earth Engine, which is available at `https://earthengine.openeo.org`.
-Note that the code snippets in this guide work the same way for the other back-end listed in the openEO Hub. Just the collection identifier and band names might differ between the back-ends.
+Note that the code snippets in this guide work the same way for the other back-ends listed in the openEO Hub. Just the collection identifier and band names might differ.
 
 First we need to establish a connection to the back-end. 
 
@@ -44,7 +44,7 @@ import openeo
 connection = openeo.connect("https://earthengine.openeo.org")
 ```
 
-The connection object bundles information about the back-end, so that the provided data and capabilities can be accessed. 
+The [connection object](https://open-eo.github.io/openeo-python-client/api.html#module-openeo.rest.connection) bundles information about the back-end, so that the provided data and capabilities can be accessed. 
 The capabilities of the back-end is publicly available and therefore you do not need to have an account on the back-end for reading them.
 
 ### Collections
@@ -69,8 +69,8 @@ Available Collections
 Describe COPERNICUS/S2
 {'id': 'COPERNICUS/S2', 'title': ..., 'description': ..., 'bands': ..., ...}
 ```
-By calling `list_collection`, a list of collection dictionaries is returned. 
-The collections in the list have a general description, but to get the full collection metadata you need to call the `describe_collection` method. 
+By calling [list_collections](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.list_collections), a list of collection dictionaries is returned. 
+The collections in the list have a general description, but to get the full collection metadata you need to call the [describe_collection](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.describe_collection) method. 
 
 ### Processes
 
@@ -95,7 +95,7 @@ Available Processes
 ['absolute', 'add', 'add_dimension', 'aggregate_temporal_frequency', 'anomaly', 'apply', 'arccos',... ]
 ```
  
-The `list_processes` method returns a list of dictionaries with all openEO processes that the back-end provides.
+The [list_processes](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.list_processes) method returns a list of dictionaries with all openEO processes that the back-end provides.
 Each dictionary in the list contains the process identifier and metadata about the process, such as expected arguments and return types. 
 In the third print statement of the code block, just the identifiers of the supported processes are listed.
 For a graphical overview of the openEO processes, there is an [online documentation](../processes.md) for general process descriptions and the [openEO Hub](https://hub.openeo.org/) for back-end specific process descriptions. 
@@ -137,14 +137,14 @@ The following code snippet shows how to log in via Basic authentication:
 print("Authenticate with Basic authentication")
 connection.authenticate_basic("username", "password")
 ```
-After successfully calling the `authenticate_basic` method, you are logged into the back-end with your account. 
+After successfully calling the [authenticate_basic](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.authenticate_basic) method, you are logged into the back-end with your account. 
 This means, that every call that comes after that via the connection variable is executed by your user account.
 
 
 ## Creating a Datacube
 
 Now that we know how to discover the back-end and how to authenticate, lets continue by creating a new batch job to process some data.
-First you need to initialize a datacube by selecting a collection from the back-end via calling `load_collection`:
+First you need to initialize a datacube by selecting a collection from the back-end via calling [load_collection](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.datacube.DataCube.load_collection):
  
 ```python
 datacube = connection.load_collection(
@@ -155,7 +155,7 @@ datacube = connection.load_collection(
 )
 ```
 
-This results in a [datacube](../glossary.md#spatial-data-cubes) containing the "COPERNICUS/S1_GRD" data restricted to the given spatial extent, the given temporal extend and the given bands .
+This results in a [datacube object](https://open-eo.github.io/openeo-python-client/api.html#module-openeo.rest.datacube) containing the "COPERNICUS/S1_GRD" data restricted to the given spatial extent, the given temporal extend and the given bands .
 
 ::: tip
 You can also filter the datacube at a later stage by using the following filter methods:
@@ -166,7 +166,7 @@ datacube = datacube.filter_temporal(start_date="2017-03-01", end_date="2017-04-0
 datacube = datacube.filter_bands(["VV", "VH"])
 ```
 
-Still, it is recommended to always use the filters in `load_collection` to avoid loading too much data upfront.
+Still, it is recommended to always use the filters in [load_collection](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.datacube.DataCube.load_collection) to avoid loading too much data upfront.
 :::
 
 Now, having the input data ready, we want to apply a process on the datacube.
@@ -210,7 +210,7 @@ Therefore, we need to create a job at the back-end using our datacube.
 job = datacube.send_job()
 ```
 
-The `send_job` method sends all necessary information to the back-end and creates a new job, which gets returned.
+The [send_job](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.datacube.DataCube.send_job) method sends all necessary information to the back-end and creates a new job, which gets returned.
 After this, the job is just created, but has not started the execution at the back-end yet.
 It needs to be started explicitly.
 
@@ -255,100 +255,75 @@ We want to produce a monthly RGB composite of Sentinel 1 backscatter data over t
 months in 2017. This can be used for classification and crop monitoring.
 :::
 
-First, we connect to the back-end and authenticate ourselves via Basic authentication. 
-
 ::: warning
-The username ans password in the example above work at the time of writing, but may be invalid at the time you read this. Please [contact us](../../../contact.md) for credentials.
+The username and password in the example above work at the time of writing, but may be invalid at the time you read this. Please [contact us](../../../contact.md) for credentials.
 :::
 
 ```python
 import openeo
 
+# First, we connect to the back-end and authenticate ourselves via Basic authentication. 
 con = openeo.connect("https://earthengine.openeo.org")
 con.authenticate_basic("group11", "test123")
-```
 
-Now that we are connected, we can initialize our datacube object with the area around Vienna and the time range of interest using Sentinel 1 data.
-
-```python
+# Now that we are connected, we can initialize our datacube object with the area around Vienna 
+# and the time range of interest using Sentinel 1 data.
 datacube = con.load_collection("COPERNICUS/S1_GRD",
                                spatial_extent={"west": 16.06, "south": 48.06, "east": 16.65, "north": 48.35},
                                temporal_extent=["2017-03-01", "2017-06-01"],
                                bands=["VV"])
-```
-Since we are creating a monthly RGB composite, we need three (R, G and B) separated time ranges.
-Therefore, we split the datacube into three datacubes by filtering temporal for March, April and May. 
 
-```python
+# Since we are creating a monthly RGB composite, we need three (R, G and B) separated time ranges.
+# Therefore, we split the datacube into three datacubes by filtering temporal for March, April and May. 
 march = datacube.filter_temporal("2017-03-01", "2017-04-01")
 april = datacube.filter_temporal("2017-04-01", "2017-05-01")
 may = datacube.filter_temporal("2017-05-01", "2017-06-01")
-```
 
-Now that we split it into the correct time range, we have to aggregate the timeseries values into a single image.
-Therefore, we make use of the Python Client function `mean_time`, which reduces the time dimension, by taking for every timeseries the mean value.
+# Now that we split it into the correct time range, we have to aggregate the timeseries values into a single image.
+# Therefore, we make use of the Python Client function `mean_time`, which reduces the time dimension, 
+# by taking for every timeseries the mean value.
 
-```python
 mean_march = march.mean_time()
 mean_april = april.mean_time()
 mean_may = may.mean_time()
-```
 
-Now the three images will be combined into the temporal composite. 
-Before merging them into one datacube, we need to rename the bands of the images, because otherwise, they would be overwritten in the merging process.  
-This is because at the moment the three datacubes have one band named "VV" (see `load_collection` statement above). 
-If we would now merge two of them, it would overwrite the "VV" band of one of the originals and keep the band from the other cube (see ["merge_cubes" description](../processes.md#merge_cubes)).
-Therefore, we rename the bands of the datacubes using the `rename_labels` process to "R", "G" and "B".
-After that we merge them into the "RGB" datacube, which has now three bands ("R", "G" and "B")
+# Now the three images will be combined into the temporal composite. 
+# Before merging them into one datacube, we need to rename the bands of the images, because otherwise, 
+# they would be overwritten in the merging process.  
+# Therefore, we rename the bands of the datacubes using the `rename_labels` process to "R", "G" and "B".
+# After that we merge them into the "RGB" datacube, which has now three bands ("R", "G" and "B")
 
-```python
 R_band = mean_march.rename_labels(dimension="bands", target=["R"])
 G_band = mean_april.rename_labels(dimension="bands", target=["G"])
 B_band = mean_may.rename_labels(dimension="bands", target=["B"])
 
 RG = R_band.merge(G_band)
 RGB = RG.merge(B_band)
-```
 
-To make the values match the RGB values from 0 to 255 in a PNG file, we need to scale them. Therefore, we apply the `linear_scale` process to the datacube. 
-It is not part of the fully implemented functions of the Python client, so we need to adjust it manually. This might change in future versions of the client. 
+# Last but not least, we add the process to save the result of the processing. There we define that 
+# the result should be a GeoTiff file.
+# We also set, which band should be used for "red", "green" and "blue" color in the options.
 
-```python
-from openeo.rest.datacube import DataCube
+datacube = datacube.save_result(format="GTIFF-THUMB")
 
-lin_scale_subcube = DataCube(None, RGB.connection)
-lin_scale_subcube = lin_scale_subcube.linear_scale_range(-20, -5, 0, 255)
-lin_scale_subcube._pg.arguments["x"] = {"from_parameter": "x"}
+# With the last process we have finished the datacube definition and can create and start the job at the back-end.
 
-datacube = RGB.apply(lin_scale_subcube._pg)
-```
-Last but not least, we add the process to save the result of the processing. There we define that the result should be a PNG file.
-We also set, which band should be used for "red", "green" and "blue" color in the options.
-
-```python
-datacube = datacube.save_result(format="PNG", options={"red": "R", "green": "G", "blue": "B"})
-```
-
-With the last process we have finished the datacube definition and can create and start the job at the back-end.
-
-```python
 job = datacube.send_job()
-
 job.start_and_wait().download_results()
 ```
 
-Now the resulting PNG file of the RGB backscatter composite is in your current directory. 
+Now the resulting GTiff file of the RGB backscatter composite is in your current directory. 
 
 ![RGB composite](../getting-started-result-example.png "RGB composite")
 
-The [source code](https://github.com/Open-EO/openeo-python-client/blob/8de1f2ea6754126cccc663c009a2f0290299a5ea/examples/gee_uc1_temp.py) of this example can be found on GitHub.
+The [source code](https://github.com/Open-EO/openeo-python-client/blob/c21b928ab5f4b4561bb07b7c4a934f0ea9b4f0b8/examples/gee_uc1_temp.py) of this example can be found on GitHub.
 
 ## User Defined Functions
 
 If your use case can not be accomplished with the [default processes](../processes.md) of openEO, you can define a [user defined function](../glossary.md#user-defined-function-udf).
 Therefore, you can create a Python function that will be executed at the back-end and functions as a process in your process graph.
 
-Some examples using UDFs can be found in the [Python Client Repository](https://github.com/Open-EO/openeo-python-client/tree/master/examples/udf). 
+Detailed information about Python UDFs can be found in the [official documentation](https://open-eo.github.io/openeo-python-client/udf.html) as well as examples in the [Python client repository](https://github.com/Open-EO/openeo-python-client/tree/master/examples/udf). 
 
 ## Additional Information
 

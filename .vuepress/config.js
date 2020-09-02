@@ -98,6 +98,7 @@ module.exports = {
       { text: 'Meet us', link: '/meet-us.html' },
       { text: 'Software', link: '/software.html' },
       { text: 'Hub', link: 'https://hub.openeo.org' },
+      { text: 'Platform', link: '/platform/' },
       { text: 'User Documentation', userNav: true, items: [] },
       { text: 'Developers', devNav: true, items: [] },
       { text: 'Contact', link: '/contact.html' }

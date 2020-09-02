@@ -36,7 +36,7 @@ const versions = [
       {text: 'API', link: 'developers/api/reference.html'},
       {text: 'Processes', link: 'processes.html'},
       {text: 'Error Codes', link: 'developers/api/errors.html'},
-      {text: 'Examples', link: 'developers/examples/'}
+//    {text: 'Examples', link: 'developers/examples/'} // Removed; Currently outdated
     ]
   },
   {

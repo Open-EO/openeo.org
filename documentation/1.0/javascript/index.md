@@ -48,7 +48,7 @@ If you have trouble installing the client, feel free to [contact us](../../../co
 If you do not know an openEO back-end that you want to connect to yet, you can have a look at the [openEO Hub](https://hub.openeo.org/), to find all known back-ends with information on their capabilities.
 
 For this tutorial we will use the openEO instance of Google Earth Engine, which is available at `https://earthengine.openeo.org`.
-Note that the code snippets in this guide works the same way for the other back-end listed in the openEO Hub. Just the collection identifier and band names might differ between the back-ends.:
+Note that the code snippets in this guide works the same way for the other back-ends listed in the openEO Hub. Just the collection identifier and band names might differ.
 
 First we need to establish a connection to the back-end.
 
@@ -81,7 +81,7 @@ try {
 To simplify the code here, we use async/await in all examples and don't catch errors. So we assume you run the code in an async function and also in a try/catch block.
 :::
 
-After establishing the connection to the back-end, it can be explored. The basic service's metadata (capabilities) can be accessed via 
+After establishing the connection to the back-end, it can be explored using the [Connection object](https://open-eo.github.io/openeo-js-client/1.0.0-rc.2/Connection.html) returned. The basic service's metadata (capabilities) can be accessed via 
 ```js
 var info = con.capabilities();
 ```
@@ -130,7 +130,7 @@ The collections descriptions returned by `listCollections` are usually not compl
 
 Processes in openEO are small tasks that can be applied on (EO) data.
 The input of a process might be the output of another process, so that several connected processes form a new (user-defined) process itself.
-Therefore, a process resembles the smallest unit of task descriptions in openEO ([more info on processes](../glossary.md#processes)).
+Therefore, a process resembles the smallest unit of task descriptions in openEO ([more details on processes](../glossary.md#processes)).
 With the following code snippet you can print all available process IDs and their summaries.
 
 ```js
@@ -191,7 +191,7 @@ If possible, use OpenID Connect instead of HTTP Basic authentication.
 The following code snippet shows how to log in via Basic authentication:
 
 ```js
-await con.authenticateBasic("username", "password")
+await con.authenticateBasic("username", "password");
 ```
 
 After successfully calling the `authenticateBasic` method, you are logged into the back-end with your account. 
@@ -232,8 +232,7 @@ datacube = builder.filter_bands(datacube, ["VV", "VH"]);
 Still, it is recommended to always use the filters in `load_collection` to avoid loading too much data upfront.
 :::
 
-Now, having the input data ready, we want to apply a process on the datacube. 
-By calling a process on the datacube it returns a datacube with the process added to its graph. 
+Having the input data ready, we want to apply a process on the datacube, which returns a datacube with the process applied:
 
 ```js
 var min = function(data) { return this.min(data); };
@@ -317,19 +316,20 @@ In a Browser environment, it is also an option to download the STAC Item for the
 
 Now you know the general workflow of job executions.
 
-## Example Walkthrough
+## Full Example
 
-In this chapter we will walk through an earth observation use case using the JavaScript client in a Node.js environment and the Google Earth Engine back-end.
+In this chapter we will show a full example of an earth observation use case using the JavaScript client in a Node.js environment and the Google Earth Engine back-end.
+Instead of batch job processing, we compute the image synchronously. Synchronous processing means the result is directly returned in the response, which usually works only for smaller amounts of data.
 
 ::: tip Use Case
 We want to produce a monthly RGB composite of Sentinel 1 backscatter data over the area of Vienna, Austria for three 
 months in 2017. This can be used for classification and crop monitoring.
 :::
 
-In the following code example, we use inline comments to describe what we are doing.
+In the following code example, we use inline code comments to describe what we are doing.
 
 ::: warning
-The username ans password in the example above work at the time of writing, but may be invalid at the time you read this. Please [contact us](../../../contact.md) for credentials.
+The username and password in the example above work at the time of writing, but may be invalid at the time you read this. Please [contact us](../../../contact.md) for credentials.
 :::
 
 ```js

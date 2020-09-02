@@ -6,7 +6,9 @@ sidebar: false
 
 We are always happy to present and discuss the current state of the project. You can **meet us at the following events**:
 
-* Due to the COVID-19 situation there are no in-person meetings planned. We are planning to hold and attend some virtual meetings in September. We'll post further information here once available.
+* [Virtual openEO User Workshop](https://openeo.org/news/2020-09-02-openeo-user-workshop.html) on 19 October 2020
+
+Due to the COVID-19 situation there are no in-person meetings planned. We are planning to hold and attend some virtual meetings in September. We'll post further information here once available.
 
 Interesting resources from **past events**:
 

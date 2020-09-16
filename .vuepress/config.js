@@ -36,7 +36,7 @@ const versions = [
       {text: 'API', link: 'developers/api/reference.html'},
       {text: 'Processes', link: 'processes.html'},
       {text: 'Error Codes', link: 'developers/api/errors.html'},
-      {text: 'Examples', link: 'developers/examples/'}
+//    {text: 'Examples', link: 'developers/examples/'} // Removed; Currently outdated
     ]
   },
   {
@@ -98,6 +98,7 @@ module.exports = {
       { text: 'Meet us', link: '/meet-us.html' },
       { text: 'Software', link: '/software.html' },
       { text: 'Hub', link: 'https://hub.openeo.org' },
+      { text: 'Platform', link: '/platform/' },
       { text: 'User Documentation', userNav: true, items: [] },
       { text: 'Developers', devNav: true, items: [] },
       { text: 'Contact', link: '/contact.html' }

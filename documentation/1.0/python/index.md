@@ -4,13 +4,14 @@
 
 Before you install the Python client module into your Python environment, please make sure that you have at least Python version 3.5.
 
-There are two versions of the module available, the released version, which is the most stable one and the less stable latest available version with the newest features.
-If you are interested in installing the latest available version, please have a look at the [official documentation](https://open-eo.github.io/openeo-python-client/).
-Here we will only show the installation of the [latest release](https://pypi.org/project/openeo/), which can be installed via [PyPi](https://pypi.org/) by using the following command:
+The [latest stable release](https://pypi.org/project/openeo/) can be installed via [PyPi](https://pypi.org/) by using the following command:
 
 ```shell script
 pip install openeo
 ```
+
+If you want to install the development version, please have a look at the [official documentation](https://open-eo.github.io/openeo-python-client/).
+It may contain more features, but may also be unstable.
 
 You can check the installation by trying to import the openeo module in the Python console:
 
@@ -44,7 +45,8 @@ import openeo
 connection = openeo.connect("https://earthengine.openeo.org")
 ```
 
-The [connection object](https://open-eo.github.io/openeo-python-client/api.html#module-openeo.rest.connection) bundles information about the back-end, so that the provided data and capabilities can be accessed. 
+The [`connection` object](https://open-eo.github.io/openeo-python-client/api.html#module-openeo.rest.connection) bundles information about the back-end, so that the provided data and capabilities can be accessed. 
+
 The capabilities of the back-end is publicly available and therefore you do not need to have an account on the back-end for reading them.
 
 ### Collections
@@ -69,14 +71,16 @@ Available Collections
 Describe COPERNICUS/S2
 {'id': 'COPERNICUS/S2', 'title': ..., 'description': ..., 'bands': ..., ...}
 ```
-By calling [list_collections](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.list_collections), a list of collection dictionaries is returned. 
-The collections in the list have a general description, but to get the full collection metadata you need to call the [describe_collection](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.describe_collection) method. 
+
+By calling [`list_collections`](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.list_collections), a list of collection dictionaries is returned. 
+The collections in the list have a general description, but to get the full collection metadata you need to call the [`describe_collection`](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.describe_collection) method. 
+
 
 ### Processes
 
 Processes in openEO are tasks that can be applied on (EO) data.
 The input of a process might be the output of another process, so that several connected processes form a new (user-defined) process itself.
-Therefore, a process resembles the smallest unit of task descriptions in openEO ([more info on processes](../glossary.md#processes)).
+Therefore, a process resembles the smallest unit of task descriptions in openEO ([more details on processes](../glossary.md#processes)).
 The following code snippet shows how to get the available processes.
 
 ```python
@@ -94,8 +98,8 @@ Available Processes
 [{'id': 'absolute', 'summary': 'Absolute value', 'description': 'Computes the absolute value of a real number `x`, which is the "unsigned" portion of x and often denoted as *|x|*.\n\nThe no-data value `null` is passed through and therefore gets propagated.', ... ]
 ['absolute', 'add', 'add_dimension', 'aggregate_temporal_frequency', 'anomaly', 'apply', 'arccos',... ]
 ```
- 
-The [list_processes](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.list_processes) method returns a list of dictionaries with all openEO processes that the back-end provides.
+
+The [`list_processes`](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.list_processes) method returns a list of dictionaries with all openEO processes that the back-end provides.
 Each dictionary in the list contains the process identifier and metadata about the process, such as expected arguments and return types. 
 In the third print statement of the code block, just the identifiers of the supported processes are listed.
 For a graphical overview of the openEO processes, there is an [online documentation](../processes.md) for general process descriptions and the [openEO Hub](https://hub.openeo.org/) for back-end specific process descriptions. 
@@ -137,15 +141,16 @@ The following code snippet shows how to log in via Basic authentication:
 print("Authenticate with Basic authentication")
 connection.authenticate_basic("username", "password")
 ```
-After successfully calling the [authenticate_basic](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.authenticate_basic) method, you are logged into the back-end with your account. 
+After successfully calling the [`authenticate_basic`](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.authenticate_basic) method, you are logged into the back-end with your account. 
+
 This means, that every call that comes after that via the connection variable is executed by your user account.
 
 
 ## Creating a Datacube
 
 Now that we know how to discover the back-end and how to authenticate, lets continue by creating a new batch job to process some data.
-First you need to initialize a datacube by selecting a collection from the back-end via calling [load_collection](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.datacube.DataCube.load_collection):
- 
+First you need to initialize a datacube by selecting a collection from the back-end via calling [`load_collection`](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.datacube.DataCube.load_collection):
+
 ```python
 datacube = connection.load_collection(
   "COPERNICUS/S1_GRD",
@@ -155,7 +160,7 @@ datacube = connection.load_collection(
 )
 ```
 
-This results in a [datacube object](https://open-eo.github.io/openeo-python-client/api.html#module-openeo.rest.datacube) containing the "COPERNICUS/S1_GRD" data restricted to the given spatial extent, the given temporal extend and the given bands .
+This results in a [`datacube` object](https://open-eo.github.io/openeo-python-client/api.html#module-openeo.rest.datacube) containing the "COPERNICUS/S1_GRD" data restricted to the given spatial extent, the given temporal extend and the given bands .
 
 ::: tip
 You can also filter the datacube at a later stage by using the following filter methods:
@@ -169,9 +174,8 @@ datacube = datacube.filter_bands(["VV", "VH"])
 Still, it is recommended to always use the filters in [load_collection](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.datacube.DataCube.load_collection) to avoid loading too much data upfront.
 :::
 
-Now, having the input data ready, we want to apply a process on the datacube.
-Therefore, we can call the process directly on the datacube object. 
-By calling a process on the datacube it returns a datacube with the process applied. 
+Having the input data ready, we want to apply a process on the datacube.
+Therefore, we can call the process directly on the datacube object, which then returns a datacube with the process applied. 
 
 ```python
 datacube = datacube.max_time()
@@ -190,7 +194,7 @@ datacube = datacube.process(process_id="ndvi",
                                    "red": "B4"})
 ```
 
-This applies the ["ndvi" process](../processes.md#ndvi) to the datacube with the arguments of "nir" and "red". 
+This applies the [`ndvi` process](../processes.md#ndvi) to the datacube with the arguments of "nir" and "red". 
 The "data" argument defines the input of the process and we chose latest added process of the datacube.
 
 ::: tip Note
@@ -210,7 +214,8 @@ Therefore, we need to create a job at the back-end using our datacube.
 job = datacube.send_job()
 ```
 
-The [send_job](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.datacube.DataCube.send_job) method sends all necessary information to the back-end and creates a new job, which gets returned.
+The [`send_job`](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.datacube.DataCube.send_job) method sends all necessary information to the back-end and creates a new job, which gets returned.
+
 After this, the job is just created, but has not started the execution at the back-end yet.
 It needs to be started explicitly.
 
@@ -246,14 +251,16 @@ job.start_and_wait().download_results()
 
 Now you know the general workflow of job executions.
 
-## Example Walkthrough
+## Full Example
 
-In this chapter we will walk through an earth observation use case using the Python client and the Google Earth Engine back-end.
+In this chapter we will show a full example of an earth observation use case using the Python client and the Google Earth Engine back-end.
 
 ::: tip Use Case
 We want to produce a monthly RGB composite of Sentinel 1 backscatter data over the area of Vienna, Austria for three 
 months in 2017. This can be used for classification and crop monitoring.
 :::
+
+In the following code example, we use inline code comments to describe what we are doing.
 
 ::: warning
 The username and password in the example above work at the time of writing, but may be invalid at the time you read this. Please [contact us](../../../contact.md) for credentials.
@@ -299,6 +306,7 @@ B_band = mean_may.rename_labels(dimension="bands", target=["B"])
 
 RG = R_band.merge(G_band)
 RGB = RG.merge(B_band)
+
 
 # Last but not least, we add the process to save the result of the processing. There we define that 
 # the result should be a GeoTiff file.

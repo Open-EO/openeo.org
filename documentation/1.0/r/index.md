@@ -32,7 +32,7 @@ First we need to establish a connection to the back-end.
 
 ```r
 library(openeo)
-gee = connect(host = "https://earthengine.openeo.org/v1.0")
+gee = connect(host = "https://earthengine.openeo.org", version="1.0.0")
 ```
 
 The object stored as variable `gee` is a connection and resembles the OpenEOClient - an object, that bundles all information and functions to interact with the openEO back-end. It can be used explicitly in all of the functions to determine which connection has to be used (usually parameter `con`). If only one connection is active, then you can omit the parameter, because the last active connection is always stored in a package environment and used if no specific connection was present (see `?active_connection` in the package documentation).
@@ -255,7 +255,7 @@ Now you know the general workflow of job executions.
 
 ## Full Example
 
-In this chapter we will show a full example of an earth observation use case using the JavaScript client in a Node.js environment and the Google Earth Engine back-end.
+In this chapter we will show a full example of an earth observation use case using the R client and the Google Earth Engine back-end.
 Instead of batch job processing, we compute the image synchronously. Synchronous processing means the result is directly returned in the response, which usually works only for smaller amounts of data.
 
 ::: tip Use Case

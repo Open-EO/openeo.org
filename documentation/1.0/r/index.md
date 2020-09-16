@@ -36,7 +36,7 @@ First we need to establish a connection to the back-end.
 
 ```r
 library(openeo)
-gee = connect(host = "https://earthengine.openeo.org", version="1.0.0")
+gee = connect(host = "https://earthengine.openeo.org")
 ```
 
 The object stored as variable `gee` is a connection and resembles the OpenEOClient - an object, that bundles all information and functions to interact with the openEO back-end. It can be used explicitly in all of the functions to determine which connection has to be used (usually parameter `con`). If only one connection is active, then you can omit the parameter, because the last active connection is always stored in a package environment and used if no specific connection was present (see `?active_connection` in the package documentation).

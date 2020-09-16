@@ -68,7 +68,7 @@ print(s2)
 
 In general all metadata objects are based on lists, so you can use `str()` to get the structure of the list and address fields by the `$` operator.
 
-::: tip If the package is used with RStudio the metadata can also be nicely rendered as a web page in the viewer panel by running `collection_viewer()`. :::
+::: tip If the package is used with RStudio the metadata can also be nicely rendered as a web page in the viewer panel by running `collection_viewer(x="COPERNICUS/S2")`. :::
 
 ### Processes
 

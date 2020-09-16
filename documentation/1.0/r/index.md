@@ -10,6 +10,10 @@ Stable releases can be installed from the master branch or one of the releases o
 devtools::install_github(repo="Open-EO/openeo-r-client",dependencies=TRUE)
 ```
 
+:::note
+Please make sure to have the package 'devtools' installed. If it is not installed use `install.packages("devtools")`.
+:::
+
 If you want to install the development version, please use the `ref="develop"` in the prior installation command.
 It may contain more features, but may also be unstable.
 

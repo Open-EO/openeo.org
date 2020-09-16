@@ -4,13 +4,13 @@
 
 Before you install the R client module into your R environment, please make sure that you have at least R version 3.6. Older versions might also work, but were not tested.
 
-Stable releases can be installed from the master branch or one of the releases of the [Github repository](https://github.com/Open-EO/openeo-r-client) using `install_github` from the devtools package using the follwing command:
+Stable releases can be installed from the master branch or one of the releases of the [Github repository](https://github.com/Open-EO/openeo-r-client) using `install_github` from the devtools package using the following command:
 
 ```r
 devtools::install_github(repo="Open-EO/openeo-r-client",dependencies=TRUE)
 ```
 
-:::note
+::: tip Note
 Please make sure to have the package 'devtools' installed. If it is not installed use `install.packages("devtools")`.
 :::
 
@@ -68,7 +68,9 @@ print(s2)
 
 In general all metadata objects are based on lists, so you can use `str()` to get the structure of the list and address fields by the `$` operator.
 
-::: tip If the package is used with RStudio the metadata can also be nicely rendered as a web page in the viewer panel by running `collection_viewer(x="COPERNICUS/S2")`. :::
+::: tip
+If the package is used with RStudio the metadata can also be nicely rendered as a web page in the viewer panel by running `collection_viewer(x="COPERNICUS/S2")`.
+:::
 
 ### Processes
 
@@ -91,7 +93,9 @@ print(processes$load_collection)
 The `list_processes()` method returns a list of process metadata objects that the back-end provides.
 Each process list entry is a more complex list object (called 'ProcessInfo') and contains the process identifier and additional metadata about the process, such as expected arguments and return types. 
 
-::: tip As for the collection, processes can also be rendered as a web page in the viewer panel, if RStudio is used. In order to open the viewer use `process_viewer()` with either a particular process (`process_viewer("load_collection")`) or you can pass on all processes (`process_viewer(processes)`). When all processes are chosen, there is also a search bar and a category tree. :::
+::: tip
+As for the collection, processes can also be rendered as a web page in the viewer panel, if RStudio is used. In order to open the viewer use `process_viewer()` with either a particular process (`process_viewer("load_collection")`) or you can pass on all processes (`process_viewer(processes)`). When all processes are chosen, there is also a search bar and a category tree.
+:::
 
 For other graphical overviews of the openEO processes, there is an [online documentation](../processes.md) for general process descriptions and the [openEO Hub](https://hub.openeo.org/) for back-end specific process descriptions. 
 
@@ -132,7 +136,7 @@ The Basic authentication method is a common way of authenticate HTTP requests gi
 ::: warning
 The preferred authentication method is OpenID Connect due to better security mechanisms implemented in the OpenID Connect protocol.
 If possible, use OpenID Connect instead of HTTP Basic authentication. 
-::: 
+:::
 
 The following code snippet shows how to log in via Basic authentication:
 ```r
@@ -234,10 +238,10 @@ After the job was executed, status updates can be fetched by using the `list_job
 jobs = list_jobs()
 jobs # printed as a tibble or data.frame, but the object is a list
 
-# or use the job id (in this example 'cZ2ND0Z5nhBFNQFq') as index to get a particular job overiew
+# or use the job id (in this example 'cZ2ND0Z5nhBFNQFq') as index to get a particular job overview
 jobs$cZ2ND0Z5nhBFNQFq
 
-# alternatively request detailled information about the job
+# alternatively request detailed information about the job
 describe_job(job = job)
 ```
 
@@ -292,7 +296,7 @@ collections = list_collections()
 # get the formats
 formats = list_file_formats()
 
-# load the intial data collection and limit the amount of data loaded
+# load the initial data collection and limit the amount of data loaded
 # note: for the collection id and later the format you can also use the its character value
 data = p$load_collection(id = collections$`COPERNICUS/S1_GRD`,
                          spatial_extent = list(west=16.06, 

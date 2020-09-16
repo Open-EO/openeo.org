@@ -18,7 +18,7 @@ const versions = [
         {text: 'JavaScript', link: 'javascript/index.html'},
         {text: 'Python', link: 'python/index.html'},
         {text: 'QGIS', link: 'qgis/index.html'}
-		{text: 'R', link: 'r/index.html'}
+        {text: 'R', link: 'r/index.html'}
       ]},
       {text: 'UDFs', link: 'udfs.html'}
     ],

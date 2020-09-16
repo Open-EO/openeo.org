@@ -6,9 +6,9 @@ If you are **unfamiliar** with programming, you could start using the [web-based
 
 If you are **familiar** with programming, you could choose a client library for three programming languages:
 
-* [JavaScript](https://www.npmjs.com/package/@openeo/js-client) (client-side and server-side)
+* [JavaScript](./javascript/index.md) (client-side and server-side)
 * [Python](./python/index.md)
-* [R](https://github.com/Open-EO/openeo-r-client)
+* [R](./r/index.md)
 
 Follow the links above to find usage instructions for each of the client libraries.
 

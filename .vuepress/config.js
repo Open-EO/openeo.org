@@ -20,6 +20,7 @@ const versions = [
         {text: 'QGIS', link: 'qgis/index.html'},
         {text: 'R', link: 'r/index.html'}
       ]},
+      {text: 'Authentication', link: 'authentication.html'},
       {text: 'UDFs', link: 'udfs.html'}
     ],
     devNav: [
@@ -37,6 +38,7 @@ const versions = [
       {text: 'API', link: 'developers/api/reference.html'},
       {text: 'Processes', link: 'processes.html'},
       {text: 'Error Codes', link: 'developers/api/errors.html'},
+      {text: 'Authentication', link: 'authentication.html'}
 //    {text: 'Examples', link: 'developers/examples/'} // Removed; Currently outdated
     ]
   },

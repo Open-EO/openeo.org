@@ -14,7 +14,7 @@ With these security related caveats out of the way, you authenticate using your 
 ::: tip Further Information
 * [JS Client Documentation](https://open-eo.github.io/openeo-js-client/1.0.0-rc.2/BasicProvider.html)
 * [Python Client Documentation](https://open-eo.github.io/openeo-python-client/auth.html#basic-http-auth)
-* [R Client Documentation](https://github.com/Open-EO/openeo-r-client/blob/master/man/BasicAuth.Rd)
+* [R Client Documentation](https://open-eo.github.io/openeo-r-client/reference/BasicAuth.html)
 
 :::
 
@@ -52,7 +52,7 @@ OpenID Connect is clearly more complex than HTTP Basic Authentication. In the se
 ::: tip Further Information
 * [JS Client Documentation](https://open-eo.github.io/openeo-js-client/1.0.0-rc.2/OidcProvider.html)
 * [Python Client Documentation](https://open-eo.github.io/openeo-python-client/auth.html#openid-connect-based-authentication)
-* [R Client Documentation](https://github.com/Open-EO/openeo-r-client/blob/master/man/OIDCAuth.Rd)
+* [R Client Documentation](https://open-eo.github.io/openeo-r-client/reference/OIDCAuth.html)
 
 :::
 

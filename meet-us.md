@@ -7,7 +7,6 @@ sidebar: false
 We are always happy to present and discuss the current state of the project. You can **meet us at the following events**:
 
 * [Virtual openEO User Workshop](https://openeo.org/news/2020-09-02-openeo-user-workshop.html) on 19 October 2020
-* [ESA Φ-week 2020: Poster about openEO](https://next.brella.io/events/phiweek2020/sponsors/32696) on 22 September 2020, 16:30 - 18:00 CEST
 * GeoIT Round Table NRW - Digitaler Workshop „Copernicus Relays“ (German) on 30 October 2020, 13:00 - 15:00 CEST
 
 Due to the COVID-19 situation there are no in-person meetings planned. We'll post further information here once available.

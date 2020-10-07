@@ -104,6 +104,7 @@ module.exports = {
       { text: 'Platform', link: '/platform/' },
       { text: 'User Documentation', userNav: true, items: [] },
       { text: 'Developers', devNav: true, items: [] },
+      { text: 'PSC', link: '/psc.html' },
       { text: 'Contact', link: '/contact.html' }
     ],
     sidebar: 'auto'

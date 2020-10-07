@@ -2,3 +2,4 @@
 /.vuepress/dist
 /.vuepress/public/assets/documentation/*/processes.json
 /package-lock.json
+/psc.md

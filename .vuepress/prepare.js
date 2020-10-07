@@ -14,6 +14,11 @@ for (var v of config.themeConfig.versions) {
 		);
 	}
 }
+	
+copyFromWeb(
+	'https://raw.githubusercontent.com/Open-EO/PSC/main/README.md',
+	'psc.md'
+);
 
 function copyFromWeb(from, to) {
 	var file = fs.createWriteStream(to);

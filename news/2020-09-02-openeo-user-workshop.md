@@ -5,7 +5,7 @@ date: 2020-09-02
 author: Matthias Schramm
 ---
 
-openEO hosts a (virtual) user workshop on **19 October 2020** and encourages interested parties to register for this event at [https://ec.europa.eu/eusurvey/runner/openEOUserWorkshop](https://ec.europa.eu/eusurvey/runner/openEOUserWorkshop).
+openEO hosts a (virtual) user workshop on **19 October 2020** (10:30 - 16:30 CEST) and encourages interested parties to register for this event at [https://ec.europa.eu/eusurvey/runner/openEOUserWorkshop](https://ec.europa.eu/eusurvey/runner/openEOUserWorkshop).
 
 openEO is a user-driven open source API, which grants a uniform communication between the Earth Observation (EO) data user community and diverse EO cloud service providers. Thus, it aims for a cross-platform interoperability to ease a comparison, the cooperation and the switch between them. The project consortium (H2020 Grant No 776242) released a stable version of the openEO API, covering standardised online processing of all aspects of an EO data life cycle on diverse cloud platforms.
 

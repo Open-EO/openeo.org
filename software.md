@@ -26,7 +26,7 @@ Data and infrastructure providers can host their own instance of the openEO API:
 * [GRASS GIS](https://github.com/Open-EO/openeo-grassgis-driver) (by mundialis)
 * [JEODPP](https://github.com/Open-EO/openeo-jeodpp-driver) (by JRC)
 * [OpenDataCube](https://github.com/SARScripts/openeo_odc_driver) (by EURAC, funded by ESA)
-* [RedHat OpenShift Origin](https://github.com/Open-EO/openeo-openshift-driver) (by EODC)
+* [Apache Airflow / eoDataReaders](https://github.com/Open-EO/openeo-eodc-driver) (by EODC)
 * [Sentinel Hub](https://github.com/Open-EO/openeo-sentinelhub-python-driver) (by Sinergise)
 * [WCPS (rasdaman)](https://github.com/Open-EO/openeo-wcps-driver) (by EURAC)
 * [R back-end](https://github.com/Open-EO/openeo-r-backend) (by WWU) - discontinued until further notice (last version: 0.3)

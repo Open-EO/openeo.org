@@ -1,5 +1,9 @@
 # Python Client
 
+This How-To page will give you just a simple overview of the capabilities of the Python client.
+For a more detailed introduction or if you are already certain that you want to use the Python 
+client we recommend to visit directly the [official documentation](https://open-eo.github.io/openeo-python-client/).
+
 ## Installation
 
 Before you install the Python client module into your Python environment, please make sure that you have at least Python version 3.5.
@@ -114,6 +118,8 @@ You need to inform yourself at your back-end provider of choice, which authentic
 You can also have a look at the [openEO Hub](https://hub.openeo.org/) to see the available authentication types of the back-ends.
 For Google Earth Engine, only [Basic Authentication](#basic-authentication) is supported at the moment.
 
+A detailed description of why and how to use the authentication methods is on the [official documentation](https://open-eo.github.io/openeo-python-client/auth.html#authentication-and-account-management).
+
 ### OpenID Connect Authentication
 The OIDC ([OpenID Connect](https://openid.net/connect/)) authentication can be used to authenticate via an external service given a client ID.
 The following code snippet shows how to log in via OIDC authentication:
@@ -197,10 +203,14 @@ datacube = datacube.process(process_id="ndvi",
 This applies the [`ndvi` process](../processes.md#ndvi) to the datacube with the arguments of "nir" and "red". 
 The "data" argument defines the input of the process and we chose latest added process of the datacube.
 
+
 ::: tip Note
 Everything applied to the datacube at this point is neither executed locally on your machine nor executed on the back-end.
 It just defines the input data and process chain the back-end needs to apply, when sending and executing the datacube at the back-end.
 How this can be done is the topic of the next chapter. 
+:::
+::: tip Note
+Still unsure on how to make use of processes with the Python client? Visit the [official documentation](https://open-eo.github.io/openeo-python-client/processes.html#working-with-processes).
 :::
 
 ## Batch Job Management
@@ -217,31 +227,7 @@ job = datacube.send_job()
 The [`send_job`](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.datacube.DataCube.send_job) method sends all necessary information to the back-end and creates a new job, which gets returned.
 
 After this, the job is just created, but has not started the execution at the back-end yet.
-It needs to be started explicitly.
-
-```python
-# Starting the execution of the job at the back-end.
-job.start_job()
-
-# Get job description
-job.describe_job()
-```
-The `start_job` method starts the execution of the job at the back-end. 
-You can use the `describe_job` method to get the current status (e.g. "error", "running", "finished") of the job. 
-When the job is finished, calling `download_results` will download the result to your current directory. You can 
-specify a different output directory by passing the path as first parameter:
-
-```python
-# Download job results to current directory
-job.download_results()
-# Download job results to different path
-# Windows
-job.download_results("C:\temp")
-# Linux
-job.download_results("/tmp")
-```
-This only works if the job execution has finished.
-To let your Python script wait until the job has finished and 
+To start the job and let your Python script wait until the job has finished then 
 download it automatically, you can use the `start_and_wait` method. 
 
 ```python
@@ -249,7 +235,8 @@ download it automatically, you can use the `start_and_wait` method.
 job.start_and_wait().download_results()
 ```
 
-Now you know the general workflow of job executions.
+Now you know the general workflow of job executions. More information on job management with the Python client can be 
+found on the [official documentation](https://open-eo.github.io/openeo-python-client/basics.html#managing-jobs-in-openeo) 
 
 ## Full Example
 
@@ -337,5 +324,5 @@ Detailed information about Python UDFs can be found in the [official documentati
 
 * [Examples](https://github.com/Open-EO/openeo-python-client/tree/master/examples)
 * [Jupyther Notebooks](https://github.com/Open-EO/openeo-python-client/tree/master/examples/notebooks)
-* [Documentation](https://open-eo.github.io/openeo-python-client/)
+* [Official Documentation](https://open-eo.github.io/openeo-python-client/)
 * [Repository](https://github.com/Open-EO/openeo-python-client)

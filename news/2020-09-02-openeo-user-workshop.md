@@ -9,7 +9,7 @@ openEO hosts a (virtual) user workshop on **19 October 2020** (10:30 - 16:30 CES
 
 **Needed preparation:** Manuals for installing the various client APIs, recommended for testing openEO in guided sessions, can be found in the *User Documentation* under *Getting Started*.
 
-**Access details**: A link to the Zoom meeting will follow soon.
+**Access details**: Please use [this link to a Microsoft Teams Meeting](https://teams.microsoft.com/l/meetup-join/19%3ameeting_YWE2ODZiZTYtZWJlMy00NjE4LThkZmItMTczZDJhYjg2OWEw%40thread.v2/0?context=%7b%22Tid%22%3a%2227d137e5-761f-4dc1-af88-d26430abb18f%22%2c%22Oid%22%3a%2295bfbb24-83a4-44d4-b55d-c765e79f211f%22%7d "Join Microsoft Teams Meeting") to connect to the main session. Links for the parallel sessions will be communicated during the event.
 
 **Agenda:**
 

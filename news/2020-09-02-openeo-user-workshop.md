@@ -5,18 +5,18 @@ date: 2020-09-02
 author: Matthias Schramm
 ---
 
-openEO hosts a (virtual) user workshop on **19 October 2020** (10:30 - 16:30 CEST in two sessions) and encourages interested parties to register for this event at [https://ec.europa.eu/eusurvey/runner/openEOUserWorkshop](https://ec.europa.eu/eusurvey/runner/openEOUserWorkshop).
+openEO hosts a (virtual) user workshop on **19 October 2020** (10:30 - 16:30 CEST in two parts) and encourages interested parties to register for this event at [https://ec.europa.eu/eusurvey/runner/openEOUserWorkshop](https://ec.europa.eu/eusurvey/runner/openEOUserWorkshop).
 
-**Needed preparation:** Manuals for installing the various client APIs, recommended for testing openEO in guided sessions, can be found in the *User Documentation* under *Getting Started*.
+**Needed preparation:** Manuals for installing the various client APIs, recommended for testing openEO in guided sessions, can be found in the *User Documentation* under *[Getting Started](/documentation/1.0/getting-started.md)*.
 
-**Access details**: Please use [this link to a Microsoft Teams Meeting](https://teams.microsoft.com/l/meetup-join/19%3ameeting_YWE2ODZiZTYtZWJlMy00NjE4LThkZmItMTczZDJhYjg2OWEw%40thread.v2/0?context=%7b%22Tid%22%3a%2227d137e5-761f-4dc1-af88-d26430abb18f%22%2c%22Oid%22%3a%2295bfbb24-83a4-44d4-b55d-c765e79f211f%22%7d "Join Microsoft Teams Meeting") to connect to the main session. Links for the parallel sessions will be communicated during the event.
+**Access details**: Please click the session topics below to connect to the corresponding sessions in Microsoft Teams.
 
 **Agenda:**
 
 <table>
   <thead>
     <tr>
-      <th colspan=5>Session 1</th>
+      <th colspan=5>Part 1</th>
     </tr>
     <tr>
       <th>No.</th>
@@ -31,36 +31,36 @@ openEO hosts a (virtual) user workshop on **19 October 2020** (10:30 - 16:30 CES
       <td>1.1</td>
       <td>10:30h</td>
       <td>30min</td>
-      <td>Introduction into openEO + technical overview</td>
+      <td><a href="https://bit.ly/3lLblSX" target="_blank">Introduction into openEO + technical overview</a></td>
       <td> </td>
     </tr>
     <tr>
       <td>1.2</td>
       <td>11:00h</td>
       <td>20min</td>
-      <td>Overview backends</td>
+      <td><a href="https://bit.ly/3lLblSX" target="_blank">Overview backends</a></td>
       <td> </td>
     </tr>
     <tr>
       <td>1.3</td>
       <td>11:20h</td>
       <td>20min</td>
-      <td>Overview processes + documentation</td>
+      <td><a href="https://bit.ly/3lLblSX" target="_blank">Overview processes + documentation</a></td>
       <td> </td>
     </tr>
     <tr>
       <td>1.4</td>
       <td>11:40h</td>
       <td>5min</td>
-      <td>Installation of openEO</td>
+      <td><a href="https://bit.ly/3lLblSX" target="_blank">Installation of openEO</a></td>
       <td> </td>
     </tr>
     <tr>
       <td>1.5</td>
       <td>11:45h</td>
       <td>15min</td>
-      <td>Q/A: Backends, Installation, Q/A Chat (block 1 Questionnaire)</td>
-      <td> </td>
+      <td><a href="https://bit.ly/3lLblSX" target="_blank">Q/A: Backends, Installation, Q/A Chat</a></td>
+      <td>Questionaire</td>
     </tr>
     <tr>
       <td colspan=5><i>Break for users to install openEO, partners stay available in chat for answering questions on that in bilateral talks</i></td>
@@ -71,7 +71,7 @@ openEO hosts a (virtual) user workshop on **19 October 2020** (10:30 - 16:30 CES
   </tbody>
   <thead>
     <tr>
-      <th colspan=5>Session 2</th>
+      <th colspan=5>Part 2</th>
     </tr>
     <tr>
       <th>No.</th>
@@ -86,90 +86,102 @@ openEO hosts a (virtual) user workshop on **19 October 2020** (10:30 - 16:30 CES
       <td>2.1</td>
       <td>14:00h</td>
       <td>5min</td>
-      <td>Welcome back / Ways for users to approach to openEO</td>
+      <td><a href="https://bit.ly/3lLblSX" target="_blank">Welcome back / Ways for users to approach to openEO</a></td>
       <td> </td>
+    </tr>
+    <tr>
+      <th colspan=5>Live Demontrations, Part 1</th>
     </tr>
     <tr>
       <td>2.2a</td>
       <td>14:05h</td>
       <td>20min</td>
-      <td>Live demonstration: Python</td>
+      <td><a href="https://bit.ly/3lLblSX" target="_blank">Python Client</a></td>
       <td rowspan=2>Parallel session</td>
     </tr>
     <tr>
       <td>2.2b</td>
       <td>14:05h</td>
       <td>20min</td>
-      <td>Live demonstration: JavaScript + mobile application</td>
+      <td><a href="https://bit.ly/3iWreUB" target="_blank">JavaScript Client + mobile application</a></td>
     </tr>
     <tr>
       <td></td>
       <td><i>14:25h</i></td>
       <td><i>5min</i></td>
-      <td colspan=2><i>Coming back</i></td>
+      <td colspan=2><i>Short break / Switching sessions</i></td>
+    </tr>
+    <tr>
+      <th colspan=5>Live Demontrations, Part 2</th>
     </tr>
     <tr>
       <td>2.3a</td>
       <td>14:30h</td>
       <td>20min</td>
-      <td>Live demonstration: Web Editor + QGIS</td>
+      <td><a href="https://bit.ly/3lLblSX" target="_blank">Web Editor + QGIS</a></td>
       <td rowspan=2>Parallel session</td>
     </tr>
     <tr>
       <td>2.3b</td>
       <td>14:30h</td>
       <td>20min</td>
-      <td>Live demonstration: R</td>
+      <td><a href="https://bit.ly/3iWreUB" target="_blank">R Client</a></td>
     </tr>
     <tr>
       <td></td>
-      <td>14:50h</td>
-      <td>5min</td>
-      <td colspan=2><i>Coming back</i></td>
+      <td><i>14:50h</i></td>
+      <td><i>5min</i></td>
+      <td colspan=2><i>Short break / Switching sessions</i></td>
+    </tr>
+    <tr>
+      <th colspan=5>Guided Sessions and Q/A</th>
     </tr>
     <tr>
       <td>2.4a</td>
       <td>14:55h</td>
       <td>60min</td>
-      <td>Guided session: managed room for users to test R</td>
+      <td><a href="https://bit.ly/3lLblSX" target="_blank">Guided room for users to test the R Client</a></td>
       <td rowspan=3>Parallel session</td>
     </tr>
     <tr>
       <td>2.4b</td>
       <td>14:55h</td>
       <td>60min</td>
-      <td>Guided session: managed room for users to test Python</td>
+      <td><a href="https://bit.ly/3iWreUB" target="_blank">Guided room for users to test the Python Client</a></td>
     </tr>
     <tr>
       <td>2.4c</td>
       <td>14:55h</td>
       <td>60min</td>
-      <td>Guided session: managed room for users to other clients</td>
+      <td><a href="https://bit.ly/31bt2mH" target="_blank">Guided room for users to test other clients</a></td>
     </tr>
     <tr>
       <td>2.5a</td>
       <td>15:55h</td>
       <td>15min</td>
-      <td>Q/A; Discussion live demonstrations: R</td>
+      <td><a href="https://bit.ly/3lLblSX" target="_blank">Q/A and Discussions: R Client</a></td>
       <td rowspan=3>Parallel session</td>
     </tr>
     <tr>
       <td>2.5b</td>
       <td>15:55h</td>
       <td>15min</td>
-      <td>Q/A; Discussion live demonstrations: Python</td>
+      <td><a href="https://bit.ly/3iWreUB" target="_blank">Q/A and Discussions: Python</a></td>
     </tr>
     <tr>
       <td>2.5c</td>
       <td>15:55h</td>
       <td>15min</td>
-      <td>Q/A; Discussion live demonstrations: other clients</td>
+      <td><a href="https://bit.ly/31bt2mH" target="_blank">Q/A and Discussions: Other clients</a></td>
+    </tr>
+    <tr>
+      <th colspan=5>Wrap up</th>
     </tr>
     <tr>
       <td>2.6</td>
       <td>16:10h</td>
       <td>20min</td>
-      <td>Q/A; Discussion on user needs, future work</td>
+      <td><a href="https://bit.ly/3lLblSX" target="_blank">Q/A; Discussion on user needs, future work</a></td>
       <td> </td>
     </tr>
   </tbody>

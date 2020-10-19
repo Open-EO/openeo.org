@@ -9,6 +9,8 @@ openEO hosts a (virtual) user workshop on **19 October 2020** (10:30 - 16:30 CES
 
 **Needed preparation:** Manuals for installing the various client APIs, recommended for testing openEO in guided sessions, can be found in the *User Documentation* under *[Getting Started](/documentation/1.0/getting-started.md)*.
 
+**User questionnaire:** Please help us also by spending some minutes for this [user questionnaire](https://ec.europa.eu/eusurvey/runner/OpenEOFinalUserWorkshop).
+
 **Access details**: Please click the session topics below to connect to the corresponding sessions in Microsoft Teams.
 
 **Agenda:**

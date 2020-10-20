@@ -299,11 +299,11 @@ RGB = RG.merge(B_band)
 # the result should be a GeoTiff file.
 # We also set, which band should be used for "red", "green" and "blue" color in the options.
 
-datacube = datacube.save_result(format="GTIFF-THUMB")
+RGB = RGB.save_result(format="GTIFF-THUMB")
 
 # With the last process we have finished the datacube definition and can create and start the job at the back-end.
 
-job = datacube.send_job()
+job = RGB.send_job()
 job.start_and_wait().download_results()
 ```
 

@@ -8,7 +8,7 @@ Some useful links to get started:
 * [Getting started for service providers](developers/backends/getting-started.md)
 * [openEO Glossary](glossary.md)
 * [openEO Processes](processes.md)
-* [openEO UDFs for users](udfs.md)
+* [openEO UDFs (user-defined functions)](udfs.md)
 * [openEO API](developers/api/reference.md)
 
 Feel encouraged to use the "User Documentation" and "Developers" menu items for further navigation through the documentation.

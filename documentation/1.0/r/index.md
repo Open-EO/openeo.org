@@ -169,7 +169,7 @@ datacube = p$load_collection(
 )
 ```
 
-This results in a process node that represents a [`datacube`](https://openeo.org/documentation/1.0/glossary.html#spatial-data-cubes) and contains the "COPERNICUS/S1_GRD" data restricted to the given spatial extent, the given temporal extent and the given bands .
+This results in a process node that represents a [`datacube`](../glossary.md#spatial-data-cubes) and contains the "COPERNICUS/S1_GRD" data restricted to the given spatial extent, the given temporal extent and the given bands .
 
 ::: tip
 You can also filter the datacube at a later stage by using the following filter methods:

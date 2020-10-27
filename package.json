@@ -25,6 +25,6 @@
 		"prepare": "node .vuepress/prepare.js",
 		"build": "npm run prepare && vuepress build",
 		"dev": "npm run prepare && vuepress dev",
-		"check-links": "npm run prepare && vuepress check-md"
+		"test": "npm run prepare && vuepress check-md"
 	}
 }

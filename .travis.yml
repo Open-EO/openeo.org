@@ -8,8 +8,7 @@ sudo: false
 install:
 - npm install
 
-#script:
-#- vuepress check-md
+script: true # Skip tests for now, see https://stackoverflow.com/questions/49861126/how-to-configure-travis-ci-to-build-node-js-without-tests
 
 before_deploy:
 - npm run build

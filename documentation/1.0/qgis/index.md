@@ -222,7 +222,7 @@ have a "Proc-Param" button. If pressed it will forward the input data of the par
 sub process graph also needs to have at least one result node.
 
 ## Service Management
-The "Services" tab lists all of your [secondary web services](../glossary.html#data-processing-modes) 
+The "Services" tab lists all of your [secondary web services](../glossary.md#data-processing-modes) 
 at the backend. In openEO a secondary service has a process graph like a job, but depending on the service type it is 
 possible for the user to change the viewing extent dynamically. The first two columns shows the title, the description 
 and the date and time it got created at the backend. 

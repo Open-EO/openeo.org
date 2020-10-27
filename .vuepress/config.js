@@ -28,8 +28,7 @@ const versions = [
       {text: 'Glossary', link: 'glossary.html'},
       {text: 'Architecture', link: 'developers/arch.html'},
       {text: 'Service Providers', items: [
-          {text: 'Getting Started', link: 'developers/backends/getting-started.html'},
-          {text: 'UDFs', link: 'developers/backends/udfs.html'}
+          {text: 'Getting Started', link: 'developers/backends/getting-started.html'}
       ]},
       {text: 'Client Developers', items: [
           {text: 'Getting Started', link: 'developers/clients/getting-started.html'},
@@ -38,7 +37,8 @@ const versions = [
       {text: 'API', link: 'developers/api/reference.html'},
       {text: 'Processes', link: 'processes.html'},
       {text: 'Error Codes', link: 'developers/api/errors.html'},
-      {text: 'Authentication', link: 'authentication.html'}
+      {text: 'Authentication', link: 'authentication.html'},
+      {text: 'UDFs', link: 'udfs.html'},
 //    {text: 'Examples', link: 'developers/examples/'} // Removed; Currently outdated
     ]
   },

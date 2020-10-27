@@ -1,14 +1,12 @@
 # Introduction
 
-*This is the openEO Developer Documentation for the next potential API version. This is work in progress!*
-
 The openEO API defines a [HTTP API](./api/reference.md) that lets cloud back-ends with large Earth observation datasets communicate with front end analysis applications in an interoperable way.
 
 As an overview, the openEO API specifies how to
 
 - discover which Earth observation data and processes are available at cloud back-ends,
 - execute (chained) processes on back-ends, 
-- run [user-defined functions](./backends/udfs.md) (UDFs) on back-ends where UDFs can be exposed to the data in different ways, 
+- run [user-defined functions](../udfs.md) (UDFs) on back-ends where UDFs can be exposed to the data in different ways, 
 - download (intermediate) results, and
 - manage user content including billing.
 

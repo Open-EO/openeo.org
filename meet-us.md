@@ -6,13 +6,14 @@ sidebar: false
 
 We are always happy to present and discuss the current state of the project. You can **meet us at the following events**:
 
-* [Virtual openEO User Workshop](https://openeo.org/news/2020-09-02-openeo-user-workshop.html) on 19 October 2020 (10:30 - 16:30 CEST)
 * GeoIT Round Table NRW - Digitaler Workshop „Copernicus Relays“ (German) on 30 October 2020, 13:00 - 15:00 CEST
+* H2020 Project Presentations: EO Big Data / Big Data Technologies and AI for Copernicus (19/20 November 2020, 9:00 - 13:00 CEST)
 
 Due to the COVID-19 situation there are no in-person meetings planned. We'll post further information here once available.
 
 Interesting resources from **past events**:
 
+* [openEO User Workshop Materials](https://openeo.org/news/2020-09-02-openeo-user-workshop.html)
 * [OpenGeoHub Summer School: Plenary on openEO](https://www.youtube.com/watch?v=UdjysZ-IvV0&list=PLXUoTpMa_9s1npXD6S9M0_2pUgnTd6cqV&index=26)
 * [FOSS4G 2019: Talk on openEO Earth Observation data cubes](https://media.ccc.de/v/bucharest-286-openeo-earth-observation-data-cubes)
 * [Scene From Above: Podcast about openEO and how to facilitate EO processing for new communities](http://scenefromabove.org/podcasts.html)

@@ -3,6 +3,11 @@
 $mobileSidebarWidth = $sidebarWidth * 0.82
 
 // narrow desktop / iPad
+@media (max-width: $MQMedium)
+    .navbar
+      .site-name
+        display none
+
 @media (max-width: $MQNarrow)
   .sidebar
     font-size 15px
@@ -11,8 +16,6 @@ $mobileSidebarWidth = $sidebarWidth * 0.82
     padding-left $mobileSidebarWidth
   .navbar
     .nav-links .nav-item:first-of-type
-      display none
-    .site-name
       display none
 
 // wide mobile

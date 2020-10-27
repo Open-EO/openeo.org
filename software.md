@@ -31,7 +31,7 @@ Data and infrastructure providers can host their own instance of the openEO API:
 * [WCPS (rasdaman)](https://github.com/Open-EO/openeo-wcps-driver) (by EURAC)
 * [R back-end](https://github.com/Open-EO/openeo-r-backend) (by WWU) - discontinued until further notice (last version: 0.3)
 
-See the **[getting started guide for back-end providers](https://open-eo.github.io/openeo-api/gettingstarted-backends/)** for more information.
+See the <a :href="$site.themeConfig.docPath + 'developers/backends/getting-started.html'">**getting started guide for back-end providers**</a> for more information.
 
 To start developing a new back-end driver, you may start with any of the common functionalities implemented in several programming languages:
 

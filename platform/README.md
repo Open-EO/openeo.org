@@ -8,7 +8,7 @@ The project is funded by [ESA](https://esa.int) and starts in September 2020. Th
 
 ## About
 
-openEO Platform builds upon the EO cloud processing platforms managed by VITO, Sinergise, EODC and EURAC, and the platform management and software development experience of these partners. openEO platform unites:
+openEO Platform builds upon the EO cloud processing platforms managed by VITO, Sinergise and EODC, and the platform management and software development experience of all partners. openEO platform unites:
 
 1. the Proba-V exploitation platform, one of the first EO-focused private clouds in Europe,
 2. Sentinel Hub, the most advanced on-the-fly satellite data processing engine handling more than one hundred million requests every month, and its future evolution,

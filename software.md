@@ -6,13 +6,13 @@ All developed software is organized within the [openEO GitHub organization](http
 
 Software that allows remote sensers and other users to access the openEO back-ends:
 
-| Client software    | Package Manager / Hosted Version                             | GitHub                                                       |
-| ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| JavaScript library | npm: [@openeo/js-client](https://www.npmjs.com/package/@openeo/js-client) | [openeo-js-client](https://github.com/Open-EO/openeo-js-client) |
-| Python library     | PyPI: [openeo](https://pypi.org/project/openeo/)             | [openeo-python-client](https://github.com/Open-EO/openeo-python-client) |
-| QGIS plugin        | QGIS plugin repository: [openeo-qgis-plugin-master](https://plugins.qgis.org/plugins/openeo-qgis-plugin-master/) | [openeo-qgis-plugin](https://github.com/Open-EO/openeo-qgis-plugin) |
-| R library          | CRAN: Not available yet                                      | [openeo-r-client](https://github.com/Open-EO/openeo-r-client) |
-| Web Editor         | [Hosted Version](https://editor.openeo.org)                  | [openeo-web-editor](https://github.com/Open-EO/openeo-web-editor) |
+| Client software               | Package Manager / Hosted Version                             | GitHub                                                       |
+| ----------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| JavaScript/TypeScript library | npm: [@openeo/js-client](https://www.npmjs.com/package/@openeo/js-client) | [openeo-js-client](https://github.com/Open-EO/openeo-js-client) |
+| Python library                | PyPI: [openeo](https://pypi.org/project/openeo/)             | [openeo-python-client](https://github.com/Open-EO/openeo-python-client) |
+| QGIS plugin                   | QGIS plugin repository: [openeo-qgis-plugin-master](https://plugins.qgis.org/plugins/openeo-qgis-plugin-master/) | [openeo-qgis-plugin](https://github.com/Open-EO/openeo-qgis-plugin) |
+| R library                     | CRAN: Not available yet                                      | [openeo-r-client](https://github.com/Open-EO/openeo-r-client) |
+| Web Editor                    | [Hosted Version](https://editor.openeo.org)                  | [openeo-web-editor](https://github.com/Open-EO/openeo-web-editor) |
 
 See the <a :href="$site.themeConfig.docPath + 'getting-started.html'">**getting started guide for users**</a> for more information.
 Users considering to implement a new client library should read the <a :href="$site.themeConfig.docPath + 'developers/clients/getting-started.html'">**getting started guide for client developers**</a>.

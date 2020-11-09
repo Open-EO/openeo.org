@@ -6,8 +6,7 @@ sidebar: false
 
 We are always happy to present and discuss the current state of the project. You can **meet us at the following events**:
 
-* GeoIT Round Table NRW - Digitaler Workshop „Copernicus Relays“ (German) on 30 October 2020, 13:00 - 15:00 CEST
-* H2020 Project Presentations: EO Big Data / Big Data Technologies and AI for Copernicus (19/20 November 2020, 9:00 - 13:00 CEST)
+* [H2020 Workshop on Big Data and Artificial Intelligence for Earth Observation (19/20 November 2020, 9:00 - 13:00 CET)](https://ec.europa.eu/info/events/workshop-big-data-and-artificial-intelligence-earth-observation-2020-nov-19_en)
 
 Due to the COVID-19 situation there are no in-person meetings planned. We'll post further information here once available.
 

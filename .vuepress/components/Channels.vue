@@ -1,12 +1,11 @@
 <template>
   <div class="channels">
     <ul v-if="contact" class="contact">
-        <!-- Thankfully provided by https://simpleicons.org/ -->
-      <li><a v-if="email" href="mailto:openeo@list.tuwien.ac.at" target="_blank" class="mail"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/mail-dot-ru.svg" alt="Public chat" title="Public chat" /> Email</a></li>
-      <li><a v-if="chat" href="https://openeo-chat.eodc.eu/channel/public" target="_blank" class="chat"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/hipchat.svg" alt="Public chat" title="Public chat" /> Chat</a></li>
+      <!-- Thankfully provided by https://simpleicons.org/ -->
+      <li><a v-if="email" href="mailto:openeo.psc@uni-muenster.de" target="_blank" class="mail"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/mail-dot-ru.svg" alt="Email the PSC" title="Email the PSC" /> Email</a></li>
+      <li><a v-if="chat" href="https://gitter.im/Open-EO/community" target="_blank" class="chat"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/hipchat.svg" alt="Public chat on Gitter" title="Public chat on Gitter" /> Chat</a></li>
       <li><a v-if="github && !code" href="https://github.com/Open-EO" target="_blank" class="github"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/github.svg" alt="GitHub: Open-EO" title="GitHub: Open-EO" /> GitHub</a></li>
       <li><a v-if="twitter" href="https://twitter.com/Open_EO" target="_blank" class="twitter"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/twitter.svg" alt="Twitter: Open_EO" title="Twitter: Open_EO" /> Twitter</a></li>
-      <li><a v-if="linkedin" href="https://www.linkedin.com/groups/8694624/" target="_blank" class="linkedin"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/linkedin.svg" alt="LinkedIn" title="LinkedIn" /> LinkedIn</a></li>
       <li><a v-if="youtube" href="https://www.youtube.com/channel/UCMJQil8j9sHBQkcSlSaEsvQ" target="_blank" class="youtube"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/youtube.svg" alt="YouTube: openEO" title="YouTube: openEO" /> YouTube</a></li>
     </ul>
     <ul v-if="code" class="code">
@@ -48,10 +47,6 @@ export default {
       default: true
     },
     twitter: {
-      type: Boolean,
-      default: true
-    },
-    linkedin: {
       type: Boolean,
       default: true
     },

@@ -79,36 +79,44 @@ Dimension labels are either of type number or string, including all sub types su
 
 ### apply: processes that process individual values
 
-The `apply_*` processes work on individual values (pixels) and 
+`apply` and the `apply_*` processes work on individual values (pixels) and 
 usually don't reduce or change the array dimensions much.
 
-For example, the process `apply` can be used to apply (map) unary functions
-such as `abs` or `sqrt` to all values in a data cube without changing any
-dimensions at all.
+The process [`apply`](processes.md#apply) can be used to apply (map) unary functions to all values in
+a data cube without changing any dimensions at all.
 
-The process `apply_dimension` applies an n-ary function to a particular
-dimension. An example along the time dimension is to apply a moving
-average filter to implement temporal smoothing.
-An example of `apply_dimension` to the spatial dimensions
-is to do a histogram stretch for every spatial (grayscale) image
-of an image time series.
+The process [`apply_dimension`](processes.md#apply_dimension) applies an n-ary function to a particular
+dimension.
+
+::: tip Examples
+- Simplified: `apply([🌽, 🥔, 🐔], cook) => [🍿, 🍟, 🍗]`
+- `apply`: Apply a mathematical operation such as [`absolute`](processes.md#absolute), e.g. `apply([-1, 2, -3], absolute) => [1, 2, 3]`
+- `apply_dimension`: apply a moving average filter along the time dimension to implement temporal smoothing
+:::
 
 ### filter: subsetting dimensions by dimension label selection
 
 The `filter_*` processes makes a cube smaller by selecting specific
 value ranges for a particular dimension.
 
-Examples: 
-
-- a band filter that selects the `red` band
-- a bounding box filter "crops" the collection to a spatial extent
+::: tip Examples
+- Simplified: `filter([🌽, 🥔, 🐔], isVegetarian) => [🌽, 🥔]`
+- [`filter_bands`](processes.md#filter_bands): a band filter that selects the `red` band
+- [`filter_spatial`](processes.md#filter_spatial): a spatial filter that "crops" the data cube to the boundaries of Italy
+- [`filter_temporal`](](processes.md#filter_temporal): a temporal filter that retains only the data for 2020
+:::
 
 ### reduce: removing dimensions entirely by computation
 
 The `reduce_*` processes remove a dimension by "rolling up" or summarizing
 the values along that dimension to a single value.
-For example: eliminate the time dimension by taking the `mean` along that dimension.
-Another example is taking the `sum` or `max` along the band dimension.
+
+::: tip Examples
+- Simplified: `reduce(🥬, 🥒, 🍅, 🧅) => 🥗`
+- [`reduce_dimension`](processes.md#reduce_dimension):
+    - Eliminate the time dimension by calculating the [`mean`](processes.md#mean)
+    - Eliminate the band dimension by calculating the [`NDVI`](processes.md#ndvi)
+:::
 
 ### aggregate: reducing resolution
 
@@ -120,10 +128,11 @@ In effect, the `aggregate_*` processes combine the following three steps:
 - _apply_ a reducer to each group (similar to the `reduce_dimension` process, but reducing a group rather than an entire dimension)
 - _combine_ the result to a new data cube, with some dimensions having reduced resolution (or e.g. raster to vector converted)
 
-Examples:
-
-- a weekly time series may be aggregated to monthly values by computing the `mean` for all values in a month (grouping predicate: months)
-- _spatial_ aggregation involves computing e.g. _mean_ pixel values on a 100 x 100 m grid, from 10 m x 10 m pixels, where each original pixel is assigned uniquely to a larger pixel (grouping predicate: 100 m x 100 m grid cells)
+::: tip Examples
+- Simplified: `aggregate(👪 👩‍👦 👨‍👩‍👦‍👦, countFamilyMembers) => [3️⃣, 2️⃣, 4️⃣]`
+- [`aggregate_temporal_period`](processes.md#aggregate_temporal_period): a weekly time series may be aggregated to monthly values by computing the `mean` for all values in a month (grouping predicate: month)
+- [`aggregate_spatial`](processes.md#aggregate_spatial): spatial aggregation that computes `mean` pixel values for each country (grouping predicate: country area)
+:::
 
 ### resample: changing data cube geometry
 
@@ -132,6 +141,17 @@ Resampling - using the `resample_*` processes - considers the case where we have
 Resampling from finer to coarser grid is a special case of aggregation often called _downsampling_ or _downscaling_.
 
 When the target grid or time series has a lower resolution (larger grid cells) or lower frequency (longer time intervals) than the source grid, aggregation might be used for resampling. For example, if the resolutions are similar, (e.g. the source collection provides 10 day intervals and the target needs values for 16 day intervals), then some form of interpolation may be more appropriate than aggregation as defined here.
+
+Another use case of resampling in openEO is to change the projection of the data cube.
+
+::: tip Examples
+- Simplified:
+    - `resample(🖼️, downscale) =>🟦`
+    - `resample(🌍, reproject) => 🗺️`
+- Downsample from 1 meter resolution to 100 meter resolution
+- Upsample from 20 meter resolution to 10 meter resolution
+- Reproject from WGS84 to Web Mercator projection
+:::
 
 ### Coordinate reference system as a data cube dimension
 

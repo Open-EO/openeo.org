@@ -1,14 +1,15 @@
-const apiVersion = '1.0.0';
+const apiVersion = '1.0.1';
 const defaultVersion = 0;
 const versions = [
   {
     folder: '1.0',
     path: '/documentation/1.0/',
     title: 'v1.0',
-    apiTag: '1.0.0',
+    apiTag: '1.0.1',
     processesTag: '1.0.0',
     apiVersions: [
-      '1.0.0'
+      '1.0.0',
+      '1.0.1'
     ],
     userNav: [
       {text: 'Getting Started', link: 'getting-started.html'},

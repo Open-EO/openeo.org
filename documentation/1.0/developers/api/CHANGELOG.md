@@ -6,6 +6,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased / Draft
 
+## 1.0.1 - 2020-12-07
+
+### Changed
+- `GET /collections` and `GET /collections/{collection_id}`: Units for STAC dimensions in `cube:dimensions` should be compliant to UDUNITS-2 units (singular) whenever available.
+- `GET /file_formats`: It is recommended to at least specify one of the data types in `gis_data_types`. [#325](https://github.com/Open-EO/openeo-api/issues/325)
+
+### Fixed
+- Cross-Origin Resource Sharing (CORS):
+  - **SECURITY**: It is recommended to set `Access-Control-Allow-Origin` to `*` instead of reflecting the origin. [#41](https://github.com/Open-EO/openeo-api/issues/41)
+  - **SECURITY**: It is recommended to NOT send the `Access-Control-Allow-Credentials` header any more. [#41](https://github.com/Open-EO/openeo-api/issues/41)
+  - Added missing `Link` header to `Access-Control-Expose-Headers`. [#331](https://github.com/Open-EO/openeo-api/issues/331)
+- `GET /`: Missing option `OPTIONS` added to allowed `methods` for the `endpoints`. [#324](https://github.com/Open-EO/openeo-api/issues/324)
+- For `PATCH` requests: Clarified that no default values apply (for `budget`, `enabled` and `plan`). Data is only changed on the back-end if new data is explicitly specified by the client.
+- For `POST` requests with a `plan` property: Clarify that the default value is `null`.
+- `GET /jobs/{job_id}/results`: Clarified the use of the `type` `Feature` in the GeoJSON result response. [#327](https://github.com/Open-EO/openeo-api/issues/327)
+- Add missing `{namespace}` placeholder to `ProcessUnsupported` error message. [#328](https://github.com/Open-EO/openeo-api/pull/328)
+- Fixed JSON Schema links to point to draft-07 instead of draft/2019-09.
+- `GET /jobs/{job_id}/estimate`: Enforce in the response schema that "at least one of `costs`, `duration` or `size` MUST be provided."
 
 ## 1.0.0 - 2020-07-17
 
@@ -18,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `GET /file_formats`: Added optional `description` property for file formats. [#266](https://github.com/Open-EO/openeo-api/issues/266)
 - `GET /collections/{collection_id}` and `GET /processes`: Mention of link `rel` type `example` to refer to examples. [#285](https://github.com/Open-EO/openeo-api/issues/285)
 - `GET /collections/{collection_id}`: Added optional `assets` property for collection-level assets. This may link to visualizations for example. [#211](https://github.com/Open-EO/openeo-api/issues/211)
-- `GET /collections`, `GET /jobs`, `GET /process_graphs`, `GET /Services`: Allow all non-scalar properties to be part of the response although strongly discouraged.
+- `GET /collections`, `GET /jobs`, `GET /process_graphs`, `GET /services`: Allow all non-scalar properties to be part of the response although strongly discouraged.
 
 ### Changed
 - `GET /credentials/oidc`: field `scopes` is not required anymore, but when specified, it should contain the `openid` scope. [#288](https://github.com/Open-EO/openeo-api/pull/288)
@@ -30,7 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Allow full JSON Schema for parameters, instead of a very limited subset.
     - Instead of the proprietary property `example` use `examples` from JSON Schema instead.
 - `GET /collections` and `GET /collections/{collection_id}`:
-    - Additional dimensions in `cube:properties` can only be of type `other`.
+    - Additional dimensions in `cube:dimensions` can only be of type `other`.
     - The extents `interval` and `bbox` can have multiple entries.
 - Allow all STAC versions that are compatible to STAC 0.9.0.
 - Process graph nodes have an additional field `namespace` to distinguish pre-defined and user-defined processes. The default behavior has not changed. [#305](https://github.com/Open-EO/openeo-api/issues/305)

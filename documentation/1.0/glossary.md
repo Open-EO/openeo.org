@@ -48,9 +48,10 @@ and labels:
 | 3    | band           | `red`, `green` |
 | 4    | time           | `2018-02-10`, `2018-02-17` |
 
-dimensions x and time are aligned along the x-axis; y and band are aligned along the y-axis.
-
-![Data cube example](./datacube-example.png)
+<figure>
+  <img src="./datacube-example.png" alt="Data cube example">
+  <figcaption>Dimensions x and time are aligned along the x-axis; y and band are aligned along the y-axis.</figcaption>
+</figure>
 
 Data cubes as defined here have a _single value_ (scalar) for each
 unique combination of dimension labels.  The value pointed to by
@@ -75,7 +76,10 @@ A data cube stores some additional properties per dimension such as:
 
 Having these properties available allows to easily resample from one data cube to another for example.
 
-Dimension labels are either of type number or string, including all sub types such as integers or temporal strings. Additional data types may be allowed in the future.
+Dimension labels are either of type number or string, including all sub types such as integers or temporal strings.
+Additional data types may be allowed in the future.
+Dimensions with a natural/inherit label order (with a reference system this is each spatial and temporal dimensions) are always sorted.
+Other dimensions where there is no inherit order, including bands, they have the order in which they have been defined in metadata or processes (e.g. `filter_bands`) and new labels are added at the end.
 
 ### apply: processes that process individual values
 

@@ -78,8 +78,8 @@ Having these properties available allows to easily resample from one data cube t
 
 Dimension labels are either of type number or string, including all sub types such as integers or temporal strings.
 Additional data types may be allowed in the future.
-Dimensions with a natural/inherit label order (with a reference system this is each spatial and temporal dimensions) are always sorted.
-Other dimensions where there is no inherit order, including bands, they have the order in which they have been defined in metadata or processes (e.g. `filter_bands`) and new labels are added at the end.
+Dimensions with a natural/inherent label order (with a reference system this is each spatial and temporal dimensions) are always sorted.
+Other dimensions where there is no inherent order, including bands, they have the order in which they have been defined in metadata or processes (e.g. `filter_bands`) and new labels are added at the end.
 
 ### apply: processes that process individual values
 

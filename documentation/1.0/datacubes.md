@@ -78,6 +78,13 @@ Think of it as a waste press that does math instead of using brute force. Given 
     <figcaption>reduce</figcaption>
 </figure>
 
+Update: Display a transparent grid of the original dimensions. I like this second one but wanted to include the original idea above.
+
+<figure>
+    <img src="./dc_reduce_v2.png" alt="Datacube timeseries">
+    <figcaption>reduce, v2</figcaption>
+</figure>
+
 ### Aggregate
 
 

@@ -323,6 +323,6 @@ Detailed information about Python UDFs can be found in the [official documentati
 ## Additional Information
 
 * [Examples](https://github.com/Open-EO/openeo-python-client/tree/master/examples)
-* [Jupyther Notebooks](https://github.com/Open-EO/openeo-python-client/tree/master/examples/notebooks)
+* [Jupyter Notebooks](https://github.com/Open-EO/openeo-python-client/tree/master/examples/notebooks)
 * [Official Documentation](https://open-eo.github.io/openeo-python-client/)
 * [Repository](https://github.com/Open-EO/openeo-python-client)

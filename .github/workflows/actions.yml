@@ -1,0 +1,28 @@
+name: Publish openeo.org
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - run: npm install
+      - run: npm run build
+      - run: cp CNAME .vuepress/dist/CNAME
+      - run: cp -ap redirects/. .vuepress/dist
+      - run: cp -ap .vuepress/dist/assets/documentation/. .vuepress/dist/documentation
+      - run: rm -r .vuepress/dist/assets/documentation
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .vuepress/dist
+          user_name: 'openEO CI'
+          user_email: openeo.ci@uni-muenster.de

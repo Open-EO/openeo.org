@@ -58,7 +58,7 @@ Here is an overview of the dimensions contained in our example datacube above:
 
 When filtering data, only the data within the filter interval is returned. That can be a time interval, coordinates or specific bands. The datacube is then smaller, according to the selected data.
 
-Here, a specific region of a specific band [`blue`] of a specific time interval (let's say [`2020-10-10, 2020-10-24`]) is selected (_filtered_).
+In the image, the filtering techniques are displayed separately. First, the Datacube is filtered temporally, e.g. with the interval `["2020-10-15", "2020-10-27"]`. The result is a cube with only the rasters for the timestep that lies within that interval and unchanged bands and spatial dimensions. Consecutively, the original cube is filtered for a specific band `[nir]` and a specific region (TODO).
 
 <figure>
     <img src="./dc_filter.png" alt="Datacube timeseries">
@@ -67,15 +67,17 @@ Here, a specific region of a specific band [`blue`] of a specific time interval 
 
 ### Apply
 
-When using `apply()`, the specified function is applied to all individual pixel values. An example is the absolute function (`abs()`). For each pixel (or data point), the absolute is computed and returned. This is called an unary function.
+The `apply*()` functions employs a process on the datacube, calculating new pixel values for each pixel, based on n other pixels.
 
-Furthermore there are the `apply_*()` processes (e.g `apply_kernel()`, `apply_dimension()`, `apply_neighbourhood()`). They typically apply a function under the consideration of a (multidimensional) neighbourhood, or along a dimension. That could be a smoothing function applied spatially and/or temporally. The new pixel value is then calculated taking into account a pixel neighbourhood and/or a time series of the pixel. This is called a n-ary function.
+For the case n = 1 this is called an unary function and means that only the pixel itself is considered when calculating the new pixel value. A prominent example is the `abs()` function, calculating the absolute value of the input pixel value. 
+
+If n is larger than 1, the function is called n-ary. In practice, this means that the pixel neighbourhood is taked into account to calculate the new pixel value. Such nieghbourhoods can be of temporal and/or spatial nature. A temporal (e.g. smoothing) function works on a time series of the same pixel, a spatial function works on a kernel by weighting the surrounding pixels.
 
 Original dimensions and their resolutions usually remain unchanged when `apply()`-ing some process.
 
 <figure>
-    <img src="./dc_apply_closeup.png" alt="Datacube timeseries">
-    <figcaption>apply, close up</figcaption>
+    <img src="./dc_apply_unary.png" alt="Datacube timeseries">
+    <figcaption>applying a unary process</figcaption>
 </figure>
 
 ### Resample

@@ -94,7 +94,12 @@ Of course this also works for temporal neighbourhoods, considering neighbours be
 
 ### Resample
 
-In a resampling process, the _layout_ of a certain dimension is changed into another _layout_, most likely also changing the resolution of that dimension. This is done by mapping values of the source (old) datacube to the new layout of the target (new) datacube. During that process, resolutions can be _upscaled_ or _downscaled_, depending on whether they have a finer or a coarser spacing afterwards. A prominent example is to reproject a datacube.
+In a resampling process, the _layout_ of a certain dimension is changed into another _layout_, most likely also changing the resolution of that dimension. This is done by mapping values of the source (old) datacube to the new layout of the target (new) datacube. During that process, resolutions can be _upscaled_ or _downscaled_, depending on whether they have a finer or a coarser spacing afterwards. During that process, a function is needed to translate the existing data into the new resolution. A prominent example is to reproject a datacube into the coordinate reference system of another datacube, for example to be able to merge the two cubes.
+
+<figure>
+    <img src="./dc_resample_time.png" alt="Datacube timeseries">
+    <figcaption>Idea for reample figure</figcaption>
+</figure>
 
 ### Reduce
 

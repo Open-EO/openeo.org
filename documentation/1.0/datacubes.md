@@ -4,7 +4,9 @@ Generic Intro
 
  TODOs / Questions:
 
- * use of "pixel" vs "datapoint" or something else that is arbitrary
+ * color palettes: 
+   + bright/dark = high/low values or other way around?
+   + lighter or darker in general?
  * address as "we"
 
 ## What are Datacubes?
@@ -52,17 +54,15 @@ Here is an overview of the dimensions contained in our example datacube above:
 
 ## Functions on Datacubes
 
-**Reducer/Reducing**: A reducer is a function that _reduces_, _shrinks_ and _compresses_ a certain dimension when calculating the result. For example a mean is such a function. It takes input values and _shrinks_ them down to just one result. If we apply a mean on a time series,  the time dimension is reduced, meaning it _stops existing_ (a mean value has no timestamp). If we apply a mean on x, y (calculating a mean for the whole extent) then the spatial dimensions are reduced. We still know that this mean represents the whole area which consisted of, let's say 100x100 pixels just a second ago, but the mean itself has no spatial dimensions anymore. Reducers must not necessarily remove the dimension. If we reduce an example bands dimension [B,G,R,NIR] by calculating a NDVI to [B,G,NDVI], then the band dimension was reduced but still exists.
-
 ### Filter
 
 When filtering data, only the data within the filter interval is returned. That can be a time interval, coordinates or specific bands. The datacube is then smaller, according to the selected data.
 
-In the image, the filtering techniques are displayed separately. First, the Datacube is filtered temporally, e.g. with the interval `["2020-10-15", "2020-10-27"]`. The result is a cube with only the rasters for the timestep that lies within that interval and unchanged bands and spatial dimensions. Consecutively, the original cube is filtered for a specific band `[nir]` and a specific region (TODO).
+In the image, the example datacube can be seen in top with labeled dimansions. The filtering techniques are displayed separately below. First, the Datacube is filtered temporally, e.g. with the interval `["2020-10-15", "2020-10-27"]`. The result is a cube with only the rasters for the timestep that lies within that interval (`"2020-10-25"`) and unchanged bands and spatial dimensions. Consecutively, the original cube is filtered for a specific band `[nir]` and a specific region (TODO).
 
 <figure>
     <img src="./datacubes/dc_filter.png" alt="Datacube timeseries">
-    <figcaption>filter</figcaption>
+    <figcaption>Filtering a sample datacube. The input datacube carries all dimension labels.</figcaption>
 </figure>
 
 ### Apply
@@ -78,14 +78,14 @@ For the case n = 1 this is called an unary function and means that only the pixe
 
 If n is larger than 1, the function is called n-ary. In practice, this means that the pixel neighbourhood is taken into account to calculate the new pixel value. Such nieghbourhoods can be of temporal and/or spatial nature. A temporal (e.g. smoothing) function works on a time series of the same pixel, a spatial function works on a kernel by weighting the surrounding pixels. Original dimensions and their resolutions usually remain unchanged when `apply()`-ing some process.
 
-In the example below, a weighted kernel (shown in the middle) is applied to the cube. To avoid edge effects (affecting pixels on the edge of the image with less neighbours), a padding has been added virtually.
+In the example below, an example weighted kernel (shown in the middle) is applied to the cube. To avoid edge effects (affecting pixels on the edge of the image with less neighbours), a padding has been added in the background.
 
 <figure>
     <img src="./datacubes/dc_apply_kernel.png" alt="Datacube timeseries">
     <figcaption>Applying a spatial kernel. Only values for the first raster are shown as text, although the process is applied to the whole cube.</figcaption>
 </figure>
 
-Of course this also works for temporal neighbourhoods, considering neighbours before and after a pixel. Here, no padding was added and therefore no values could be calculated for t<sub>1</sub> and t<sub>3</sub>. 
+Of course this also works for temporal neighbourhoods (time series), considering neighbours before and after a pixel. To be able to show the effect, two time steps were added in this example figure. A moving average of window size 3 is then applied. This process can be followed from left to right on the highlighted pixel time series. No padding was added which is why we observe edge effects (NA values are calculated for t<sub>1</sub> and t<sub>5</sub>, because they didn't have enough input time steps).
 
 <figure>
     <img src="./datacubes/dc_apply_ts.png" alt="Datacube timeseries">
@@ -94,22 +94,31 @@ Of course this also works for temporal neighbourhoods, considering neighbours be
 
 ### Resample
 
-In a resampling process, the _layout_ of a certain dimension is changed into another _layout_, most likely also changing the resolution of that dimension. This is done by mapping values of the source (old) datacube to the new layout of the target (new) datacube. During that process, resolutions can be _upscaled_ or _downscaled_, depending on whether they have a finer or a coarser spacing afterwards. During that process, a function is needed to translate the existing data into the new resolution. A prominent example is to reproject a datacube into the coordinate reference system of another datacube, for example to be able to merge the two cubes.
+In a resampling process, the _layout_ of a certain dimension is changed into another _layout_, most likely also changing the resolution of that dimension. This is done by mapping values of the source (old) datacube to the new layout of the target (new) datacube. During that process, resolutions can be _upscaled_ or _downscaled_ (or ~_sampled_), depending on whether they have a finer or a coarser spacing afterwards. During that process, a function is needed to translate the existing data into the new resolution. A prominent example is to reproject a datacube into the coordinate reference system of another datacube, for example in order to merge the two cubes.
+
+The first figure gives an overview of temporal resampling. How exactly the input time steps are rescaled to the output time steps, depend on the resampling function.
 
 <figure>
     <img src="./datacubes/dc_resample_time.png" alt="Datacube timeseries">
-    <figcaption>Idea for resample figure</figcaption>
+    <figcaption>Temporal resampling</figcaption>
+</figure>
+
+The second figure displays spatial resampling. Common resampling methods are "near" and "bilinear". Observe how in the upsampling process, the output has not gained in information value. The resulting grid still carries the same pixel information, but in higher spatial resolution.
+
+<figure>
+    <img src="./datacubes/dc_resample_space.png" alt="Datacube timeseries">
+    <figcaption>Spatial resampling</figcaption>
 </figure>
 
 ### Reduce
 
-The `reduce_dimension*()` process _collapses_ a whole dimension of the datacube. It does so by using some sort of _reducer_, which is a function that calculates a single result from an amount of values, as e.g. `mean()`, `min()` and `max()` are. For example can we reduce the time dimension by calculating the mean for each pixel in that time series. We are left with a cube that has no time dimension, because all values are compressed into a single mean value. The same goes for e.g. the spatial dimensions: If we calculate the mean along the `x` and `y` dimensions, we are left without any spatial dimensions, but a mean value for each "image".
+The `reduce_dimension*()` process _collapses_ a whole dimension of the datacube. It does so by using some sort of _reducer_, which is a function that calculates a single result from an amount of values, as e.g. `mean()`, `min()` and `max()` are. For example can we reduce the time dimension of a time series by calculating the mean value out of all time steps for each pixel. We are left with a cube that has no time dimension, because all values are compressed into a single mean value. The same goes for e.g. the spatial dimensions: If we calculate the mean along the `x` and `y` dimensions, we are left without any spatial dimensions, but a mean value for each instance that previously was a raster. In the image below, the dimensions that are reduced are crossed out in the result (TODO: make explicit for space?).
 
 Think of it as a waste press that does math instead of using brute force. Given a representation of our example data cube, let's see how it is affected.
 
 <figure>
     <img src="./datacubes/dc_reduce.png" alt="Datacube timeseries">
-    <figcaption>reduce</figcaption>
+    <figcaption>Overview of reducing a sample datacube. Dimensions that are reduced are crossed out in the result images</figcaption>
 </figure>
 
 ### Aggregate

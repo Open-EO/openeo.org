@@ -41,9 +41,9 @@ Here is an overview of the dimensions contained in our example datacube above:
 
 | # | dimension name | dimension labels | resolution |
 |---|----------------|------------------| ---------- |
-| 1 | x              |288790.5, 288819, 288847.5, 288876, 288904.5, 288933 | 30m |
-| 2 | y              | 9120747, 9120718, 9120690, 9120661, 9120633, 9120604, 9120576 | 30m |
-| 3 | bands          | `red`, `green`, `blue`, `nir` | 4 bands |
+| 1 | x              | 466380, 466580, 466780, 466980, 467180, 467380, | 10m |
+| 2 | y              | 7167130, 7166930, 7166730, 7166530, 7166330, 7166130, 7165930 | 10m |
+| 3 | bands          | `blue`, `green`, `red`, `nir` | 4 bands |
 | 4 | time           | `2020-10-01`, `2020-10-13`, `2020-10-25` | 12 days |
  
  ### Processes on Dimensions
@@ -123,4 +123,18 @@ Think of it as a waste press that does math instead of using brute force. Given 
 
 ### Aggregate
 
+An aggregation of a datacube can be thought of as a grouped reduce. That means it consists of two steps: 
 
+1. Grouping via a grouping variable, e.g. spatial geometries or temporal intervals
+2. Reducing these groups along the grouped dimension with a certain reducer function, e.g. calculating the mean pixel value per polygon or the maximum pixel values per month
+
+While the layout of the reduced dimension is changed, other dimensions keep their resolution and geometry.
+
+A temporal aggregation is similar to a downsampling process, as it can be seen in the according image above. Intervals for grouping can either be set manually, or periods can be chosen: monthly, yearly, etc.. All timesteps in an interval are then collapsed via a reducer function (mean, max, etc.) and assigned to the new labels given.
+
+A spatial agregation works in a similar manner. Polygons, lines and points can be selected for grouping. The spatial dimension is then reduced by a given process and a vector cube is returned. The vector cube then has dimensions containing features, attributes and time.
+
+<figure>
+    <img src="./datacubes/dc_aggregate_space.png" alt="Datacube timeseries">
+    <figcaption>Aggregate spatial</figcaption>
+</figure>

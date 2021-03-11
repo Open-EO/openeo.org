@@ -145,13 +145,13 @@ pl = function(s, x, y, add = TRUE, randomize = FALSE, pal, m, print_geom = TRUE,
   #plot(s, text_values = TRUE)
 }
 
-print_segments <- function(x, y, seg, by = 1, lwd = 4) {
+print_segments <- function(x, y, seg, by = 1, lwd = 4, col = "black") {
   seg = seg * by
   seg[,1] <- seg[,1] + x
   seg[,3] <- seg[,3] + x
   seg[,2] <- seg[,2] + y
   seg[,4] <- seg[,4] + y
-  segments(seg[,1], seg[,2], seg[,3], seg[,4], lwd = lwd)
+  segments(seg[,1], seg[,2], seg[,3], seg[,4], lwd = lwd, col = col)
 }
 
 # time series ----
@@ -407,70 +407,68 @@ pl_stack_agg = function(s, x, y, add = TRUE, nrM, imgY = 7, inner = 1) {
 polygon_1 <- matrix(c(c(0.0, 5.1, 4.9,-2.3), c(0.0, 2.4, 3.1, 1.8),
                       c(5.1, 4.9,-2.3, 0.0), c(2.4, 3.1, 1.8, 0.0)), ncol = 4)
 
-arrow_seg <- matrix(c(c(-1,-1,-5, 2, 9, 5, 5), c( 0,-8,-8,-13,-8,-8, 0),
-                             c(-1,-5, 2, 9, 5, 5,-1), c(-8,-8,-13,-8,-8, 0, 0)), ncol = 4)
+a <- make_dummy_stars(6, 7, 5, -1.14, -2.28)
 
 print_vector_content <- function(x, y, cex = 0.8) {
   vec <- floor(rnorm(8, 250, 100))
-  text(12 + x, 6 + y, vec[1], cex = cex)
-  text( 8 + x, 4 + y, vec[2], cex = cex)
-  text( 4 + x, 2 + y, vec[3], cex = cex)
+  text( 0 + x,12 + y, vec[1], cex = cex)
+  text( 0 + x, 8 + y, vec[2], cex = cex)
+  text( 0 + x, 4 + y, vec[3], cex = cex)
   text( 0 + x, 0 + y, vec[4], cex = cex)
-  text(26 + x, 6 + y, vec[5], cex = cex)
-  text(22 + x, 4 + y, vec[6], cex = cex)
-  text(18 + x, 2 + y, vec[7], cex = cex)
-  text(14 + x, 0 + y, vec[8], cex = cex)
+  text( 12 + x,12 + y, vec[5], cex = cex)
+  text( 12 + x, 8 + y, vec[6], cex = cex)
+  text( 12 + x, 4 + y, vec[7], cex = cex)
+  text( 12 + x, 0 + y, vec[8], cex = cex)
 }
-
-a <- make_dummy_stars(6, 7, 5, -1.14, -2.28)
-b <- make_dummy_stars(2, 4, 15,   -2,  -4)
 
 png("exp_aggregate_space.png", width = 2400, height = 1600, pointsize = 36)
 off = 26 # image stacks are always 26 apart
-x = 96 # png X
-y = 64 # png Y
-yoff = 45
+x = 72 # png X
+y = 48 # png Y
+yoff = 30
 plot.new()
 par(mar = c(5,3,3,3))
 plot.window(xlim = c(-1, x), ylim = c(0, y), asp = 1)
 print_ts(5, yoff)
-print_segments(10.57, 44.57, seg = polygon_1)
+print_segments(10.57, yoff-.43, seg = polygon_1)
 x = 3
 segments(c(2, 0, -1.3)+x, c(-.2, 0, 1)+yoff, c(0, -1.3, 1)+x, c(0, 1, 2)+yoff, lwd = 4)
-print_segments(10.57+off, 44.57, seg = polygon_1)
+print_segments(10.57+off, yoff-.43, seg = polygon_1)
 x = 3 + off
 segments(c(2, 0, -1.3)+x, c(-.2, 0, 1)+yoff, c(0, -1.3, 1)+x, c(0, 1, 2)+yoff, lwd = 4)
-print_segments(10.57+2*off, 44.57, seg = polygon_1)
+print_segments(10.57+2*off, yoff-.43, seg = polygon_1)
 x = 3 + 2 * off
 segments(c(2, 0, -1.3)+x, c(-.2, 0, 1)+yoff, c(0, -1.3, 1)+x, c(0, 1, 2)+yoff, lwd = 4)
-pl_stack_agg(a, 75, 28, nrM = 3, inner = 2) # print masked enlargement
-print_segments(86.25, 27.15, seg = polygon_1, by = 2)
-x <- 71
-y <- 28
+# old 75 28 poly 86.25, 27.15
+pl_stack_agg(a, 5, 5, nrM = 1, inner = 3) # print masked enlargement
+print_segments(16.25, 7.15, seg = polygon_1, by = 2)
+x <- 1
+y <- 8
 segments(c(4, 0, -2.6)+x, c(-.4, 0, 2)+y, c(0, -2.6, 2)+x, c(0, 2, 4)+y, lwd = 4) # line in large
-text(77, 37, "1. Group by geometry", cex = 1.3)
-segments(50, 40, 62, 28, lwd = 3)
-segments(73, 48, 97, 35, lwd = 3)
+text(10, 20, "1. Group by geometry", cex = 1.3)
+segments(-3, 25, -7, 9, lwd = 3)
+segments(21, 29, 27.5, 14, lwd = 3)
 vecM <- matrix(rep(1,8), ncol = 2)
-text(40, 18, "2. Reduce to vector cube", cex = 1.3)
-pl(b, 30, 2, m = vecM, pal = alpha("white", 0.9), border = 0)
-print_vector_content(24, -5)
-pl(b, 30, 4, m = vecM, pal = alpha("white", 0.9), border = 0)
-print_vector_content(24, -3)
-pl(b, 30, 6, m = vecM, pal = alpha("white", 0.9), border = 0)
-print_vector_content(24, -1)
-text(38, 7.5, "Polygon_1")
-text(52, 7.5, "Line_1")
-text(45, 11, "Features", cex = 1.1)
-text(24, 5.5, "blue")
-text(20, 3.5, "green")
-text(16, 1.5, "red")
-text(12, -.5, "nir")
-text(14, 5.5, "Bands", srt = 26, cex = 1.1)
+text(57, 21, "2. Reduce to vector cube", cex = 1.3)
+b <- make_dummy_stars(2, 4, 12, 4, 0)
+pl(b, 48, -5, m = vecM, pal = alpha("white", 0.9), border = 0)
+print_vector_content(54, -3)
+pl(b, 46.5, -3.5, m = vecM, pal = alpha("white", 0.9), border = 0)
+print_vector_content(52.5, -1.5)
+pl(b, 45, -2, m = vecM, pal = alpha("white", 0.9), border = 0)
+print_vector_content(51, 0)
+text(51.5, 15, "Line_1")
+text(63, 15, "Polygon_1")
+text(57, 17.5, "Geometries", cex = 1.1)
+text(42, 12, "blue")
+text(42,  8, "green")
+text(42,  4, "red")
+text(42,  0, "nir")
+text(38, 6, "Bands", srt = 90, cex = 1.1)
 # arrows(13.5, -2, 13.5, -6, angle = 20, lwd = 3)
-text(63, 4, "time", srt = 270, cex = 1.1)
-arrows(61, 6, 61, 2, angle = 20, lwd = 3)
-print_segments(30, 35, seg = arrow_seg)
+text(72, 14, "time", srt = 315, cex = 1.1)
+arrows(69.5, 14.5, 72.5, 11.5, angle = 20, lwd = 3)
+# print_segments(30, 35, seg = arrow_seg)
 dev.off()
 
 # flat ----
@@ -832,10 +830,10 @@ print_text(s, 22.4, 1.4, m = floor((b2 + b12 + b11) / 3))
 pl(f, 21.2, .2, pal = blues, m = (b1 + b2 + b12) / 3, breaks = brks)
 print_text(s, 21.2, .2, m = floor((b1 + b2 + b12) / 3))
 pl(f, 20, -1, pal = alpha(greys, 0.1), m = matrix(rep("NA", 42), ncol = 7))
-print_segments(5.7, 1.7, seg = time_arrow_seg)
+print_segments(5.7, 1.7, seg = time_arrow_seg, col = "forestgreen")
 arrows(12.5, 9, 20, 9, lwd = 3)
 text(16.3, 8.5, "apply_dimension(dimension = 't')", cex = 1.4)
-print_segments(9.7, 1.7, time_arrow_seg) # draw ma explanation
+print_segments(9.7, 1.7, time_arrow_seg, col = "forestgreen") # draw ma explanation
 text(-0.5 + 10, -0.5 + 2, "496", cex = 1.2)
 text(.7 + 10, .7 + 2, "363", cex = 1.2)
 text(1.9 + 10, 1.9 + 2, "658", cex = 1.2)
@@ -845,13 +843,13 @@ t_formula <- expression("t"[n]*" = (t"[n-1]*" + t"[n]*" + t"[n+1]*") / 3")
 # text(13.8, 3, t_formula, srt = 45, cex = 1.2)
 text(14.4, 3.6, "calculate moving average", srt = 45, cex = 1.2)
 arrows(15, 5.7, 18, 5.7, lwd = 3)
-print_segments(15.4, 1.7, seg = time_arrow_seg) # draw ma explanation
+print_segments(15.4, 1.7, seg = time_arrow_seg, col = "forestgreen") # draw ma explanation
 text(-0.5 + 15.7, -0.5 + 2, "NA", cex = 1.2)
 text(.7 + 15.7, .7 + 2, "505", cex = 1.2)
 text(1.9 + 15.7, 1.9 + 2, "417", cex = 1.2)
 text(3.1 + 15.7, 3.1 + 2, "471", cex = 1.2)
 text(4.3 + 15.7, 4.3 + 2, "NA", cex = 1.2)
-print_segments(25.7, 1.7, seg = time_arrow_seg)
+print_segments(25.7, 1.7, seg = time_arrow_seg, col = "forestgreen")
 dev.off()
 
 # heads <- matrix(c(1,2,3,4,5,6, 1,2,3,4,5,6), ncol = 2)

@@ -1,14 +1,5 @@
 # Datacubes
 
-Generic Intro
-
-TODOs / Questions:
-
-* color palettes: 
-  + bright/dark = high/low values or other way around?
-  + lighter or darker in general?
-* address as "we"
-
 ## What are Datacubes?
 
 Datacubes are multidimensional arrays with one or more spatial or temporal dimension(s). They are the way in which data is represented in OpenEO. They provide a nice and tidy interface for spatiotemproal data and the operations you may want to execute on it. As they are arrays, it might be easiest to look at raster data as an example, even though datacubes can hold vector data as well: In that case, the x and y dimensions typical for raster data would be exchanged for other dimensions, like stations with a number of sensors. Our example data however consists of a 6x7 raster with 4 bands [`blue`, `green`, `red`, `near-infrared`] and 3 timesteps [`2020-10-01`, `2020-10-13`, `2020-10-25`], displayed here in an orderly, time series like manner:
@@ -60,7 +51,7 @@ In the following part, the basic processes for manipulating datacubes are introd
 
 When filtering data, only the data within the filter interval is returned. That can be a time interval, coordinates or specific bands. The datacube is then smaller, according to the selected data.
 
-In the image, the example datacube can be seen at the top with labeled dimensions. The filtering techniques are displayed separately below. First, the Datacube is filtered temporally with the interval `["2020-10-15", "2020-10-27"]`. The result is a cube with only the rasters for the timestep that lies within that interval (`"2020-10-25"`) and unchanged bands and spatial dimensions. Consecutively, the original cube is filtered for a specific band `[nir]` and a specific region (`[Polygon(...)]`).
+In the image, the example datacube can be seen at the top with labeled dimensions. The filtering techniques are displayed separately below. First, the Datacube is filtered temporally with the interval `["2020-10-15", "2020-10-27"]`. The result is a cube with only the rasters for the timestep that lies within that interval (`"2020-10-25"`) and unchanged bands and spatial dimensions. Consecutively, the original cube is filtered for a specific band `[nir]` and a specific region `[Polygon(...)]`.
 
 <figure>
     <img src="./datacubes/dc_filter.png" alt="Datacube timeseries">
@@ -134,9 +125,9 @@ While the layout of the reduced dimension is changed, other dimensions keep thei
 
 A temporal aggregation is similar to the downsampling process, as it can be seen in the according image above. Intervals for grouping can either be set manually, or periods can be chosen: monthly, yearly, etc. All timesteps in an interval are then collapsed via a reducer function (mean, max, etc.) and assigned to the given new labels.
 
-A spatial agregation works in a similar manner. Polygons, lines and points can be selected for grouping. The spatial dimension is then reduced by a given process and thus, a vector cube is returned. The vector cube then has dimensions containing features, attributes and time. In the graphic below, the grouping is only shown for the first timestep. 
+A spatial agregation works in a similar manner. Polygons, lines and points can be selected for grouping. Their spatial dimension is then reduced by a given process and thus, a vector cube is returned. The vector cube then has dimensions containing features, attributes and time. In the graphic below, the grouping is only shown for the first timestep. 
 
 <figure>
     <img src="./datacubes/dc_aggregate_space.png" alt="Datacube timeseries">
-    <figcaption>When aggregating spatially, pixels are grouped (cut out) based on geometries, and then reduced with a reducer function. A vector datacube is returned (as shown with dimensions names and labels).</figcaption>
+    <figcaption>When aggregating spatially, pixels are grouped (cut out) based on geometries, and then collapsed with a reducer function. A vector datacube is returned (as shown with dimensions names and labels).</figcaption>
 </figure>

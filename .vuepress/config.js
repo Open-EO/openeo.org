@@ -16,6 +16,7 @@ const versions = [
       {text: 'Glossary', link: 'glossary.html'},
       {text: 'Processes', link: 'processes.html'},
       {text: 'Getting Started', items: [
+        {text: 'Data Cubes', link: 'datacubes.html'},
         {text: 'JavaScript', link: 'javascript/index.html'},
         {text: 'Python', link: 'python/index.html'},
         {text: 'QGIS', link: 'qgis/index.html'},

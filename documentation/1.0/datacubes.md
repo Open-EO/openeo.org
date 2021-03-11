@@ -2,12 +2,12 @@
 
 Generic Intro
 
- TODOs / Questions:
+TODOs / Questions:
 
- * color palettes: 
-   + bright/dark = high/low values or other way around?
-   + lighter or darker in general?
- * address as "we"
+* color palettes: 
+  + bright/dark = high/low values or other way around?
+  + lighter or darker in general?
+* address as "we"
 
 ## What are Datacubes?
 
@@ -26,16 +26,16 @@ It is important to understand that datacubes are designed to make things easier 
 </figure>
 
 ## Dimensions
- A dimension refers to a certain extent of a datacube. There are the obvious spatial dimensions x and y, and also the temporal dimension t. Furthermore there is the bands dimension, extending into the realm of _what_ is contained in the datacube.
+A dimension refers to a certain extent of a datacube. There are the obvious spatial dimensions x and y, and also the temporal dimension t. Furthermore there is the bands dimension, extending into the realm of _what_ is contained in the datacube.
 
- There are multiple additional properties stored for each dimension:
+There are multiple additional properties stored for each dimension:
 
- * name
- * axis / number
- * type
- * extents _or_ nominal dimension labels
- * reference system / projections
- * resolution
+* name
+* axis / number
+* type
+* extents _or_ nominal dimension labels
+* reference system / projections
+* resolution
 
 Here is an overview of the dimensions contained in our example datacube above:
 
@@ -45,12 +45,12 @@ Here is an overview of the dimensions contained in our example datacube above:
 | 2 | y              | 7167130, 7166930, 7166730, 7166530, 7166330, 7166130, 7165930 | 10m |
 | 3 | bands          | `blue`, `green`, `red`, `nir` | 4 bands |
 | 4 | time           | `2020-10-01`, `2020-10-13`, `2020-10-25` | 12 days |
- 
- ### Processes on Dimensions
- Some processes are typically applied "along a dimension". You can imagine said dimension as an arrow and whatever is happening as a parallel process to that arrow. It simply means: "we focus on _this_ dimension right now".
 
- ### Resolution
- The resolution of a dimension gives information about what interval lies between observations. This is most obvious with the temporal resolution, where the intervals depict how often obervations were made. Spatial resolution gives information about the pixel spacing, meaning how many 'real world meters' are contained in a pixel. You can also think of how many bands you have as the resolution in the band dimension (i.e. spectral resolution).
+### Processes on Dimensions
+Some processes are typically applied "along a dimension". You can imagine said dimension as an arrow and whatever is happening as a parallel process to that arrow. It simply means: "we focus on _this_ dimension right now".
+
+### Resolution
+The resolution of a dimension gives information about what interval lies between observations. This is most obvious with the temporal resolution, where the intervals depict how often obervations were made. Spatial resolution gives information about the pixel spacing, meaning how many 'real world meters' are contained in a pixel. You can also think of how many bands you have as the resolution in the band dimension (i.e. spectral resolution).
 
 ## Functions on Datacubes
 

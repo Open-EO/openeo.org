@@ -4,9 +4,17 @@ $mobileSidebarWidth = $sidebarWidth * 0.82
 
 // narrow desktop / iPad
 @media (max-width: $MQMedium)
-    .navbar
-      .site-name
-        display none
+  .navbar
+    .site-name
+      display none
+
+  {$contentClass}, .fullpage-content
+    figure
+      margin 0
+      max-width 100%
+
+    figcaption
+      margin 0
 
 @media (max-width: $MQNarrow)
   .sidebar

@@ -84,6 +84,34 @@ a
   img
     max-width 100%
 
+  figure
+    max-width 130%
+    margin 0 -15%
+    text-align center
+
+  figcaption
+    margin 0 11.53%
+    font-style italic
+    display inline-block
+    text-align left
+
+  figcaption:before
+    content 'Figure: '
+    font-weight bold
+
+
+@media (min-width: 1600px)
+  {$contentClass}, .fullpage-content
+    img
+      max-height 90%
+
+    figure
+      max-width 150%
+      margin 0 -25%
+
+    figcaption
+      margin 0 16.66%
+
 {$contentClass}:not(.custom)
   @extend $wrapper
   > *:first-child

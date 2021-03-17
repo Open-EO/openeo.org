@@ -107,7 +107,7 @@ The second figure displays spatial resampling. Common resampling methods are "ne
 
 The `reduce_dimension*()` process _collapses_ a whole dimension of the datacube. It does so by using some sort of **reducer**, which is a function that calculates a single result from an amount of values, as e.g. `mean()`, `min()` and `max()` are. For example can we reduce the time dimension of a time series by calculating the mean value out of all timesteps for each pixel. We are left with a cube that has no time dimension, because all values are compressed into a single mean value. The same goes for e.g. the spatial dimensions: If we calculate the mean along the x and y dimensions, we are left without any spatial dimensions, but a mean value for each instance that previously was a raster is returned. In the image below, the dimensions that are reduced are crossed out in the result.
 
-Think of it as a waste press that does math instead of using brute force. Given a representation of our example data cube, let's see how it is affected.
+Think of it as a waste press that does math instead of using brute force. Given a representation of our example datacube, let's see how it is affected.
 
 <figure>
     <img src="./datacubes/dc_reduce.png" alt="Datacube timeseries">

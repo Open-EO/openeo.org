@@ -74,7 +74,7 @@ If `n` is larger than 1, the function is called n-ary. In practice, this means t
 In the example below, an example weighted kernel (shown in the middle) is applied to the cube. To avoid edge effects (affecting pixels on the edge of the image with less neighbours), a padding has been added in the background.
 
 <figure>
-    <img src="./datacubes/dc_apply_kernel.png" alt="Datacube timeseries">
+    <img src="./datacubes/dc_apply_kernel.png" alt="Datacube apply spatial kernel">
     <figcaption>Applying a spatial kernel. For calculating each new pixel value, the defined weighted neighbourhood is used.</figcaption>
 </figure>
 

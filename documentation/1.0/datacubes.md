@@ -12,7 +12,7 @@ Datacubes are multidimensional arrays with one or more spatial or temporal dimen
 It is important to understand that datacubes are designed to make things easier for us, and are not literally a cube, meaning that the above plot is just as good a way to represent the dimensionality than any other. That is why we can display the dimensions how we want and switch them around a bit, including the view below. Here, dimension labels are shown instead of names:
 
 <figure>
-    <img src="./datacubes/dc_flat.png" alt="Datacube timeseries">
+    <img src="./datacubes/dc_flat.png" alt="Datacube flat representation">
     <figcaption>This is the 'raw' data collection that is our example datacube. The grayscale images are colored for understandability.</figcaption>
 </figure>
 

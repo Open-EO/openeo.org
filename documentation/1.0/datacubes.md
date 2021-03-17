@@ -110,7 +110,7 @@ The `reduce_dimension*()` process _collapses_ a whole dimension of the datacube.
 Think of it as a waste press that does math instead of using brute force. Given a representation of our example datacube, let's see how it is affected.
 
 <figure>
-    <img src="./datacubes/dc_reduce.png" alt="Datacube timeseries">
+    <img src="./datacubes/dc_reduce.png" alt="Datacube reduce">
     <figcaption>Overview of reducing the sample datacube. Dimensions that are reduced are crossed out in the result images. Their information value has been compressed by a reducer function.</figcaption>
 </figure>
 

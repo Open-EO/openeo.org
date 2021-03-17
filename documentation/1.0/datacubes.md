@@ -93,7 +93,7 @@ The first figure gives an overview of temporal resampling. How exactly the input
 
 <figure>
     <img src="./datacubes/dc_resample_time.png" alt="Datacube temporal resampling (up and down)">
-    <figcaption>Temporal downscaling is seen on the left, upscaling on the right. The temporal layout that the cubes are resampled to is displayed in the middle.</figcaption>
+    <figcaption>Temporal downsampling is seen on the left, upsampling on the right. The temporal layout that the cubes are resampled to is displayed in the middle.</figcaption>
 </figure>
 
 The second figure displays spatial resampling. Common resampling methods are "near" and "bilinear". Observe how in the upsampling process, the output datacube has not gained in information value. The resulting grid still carries the same pixel information, but in higher spatial resolution.

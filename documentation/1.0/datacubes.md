@@ -49,7 +49,7 @@ In the following part, the basic processes for manipulating datacubes are introd
 
 ### Filter
 
-When filtering data, only the data within the filter interval is returned. That can be a time interval, coordinates or specific bands. The datacube is then smaller, according to the selected data.
+When filtering data, only the data that satisfies a condition is returned. For example, this condition could be a timestamp or interval, (a set of) coordinates, or specific bands. By applying filtering the datacube becomes smaller, according to the selected data.
 
 In the image, the example datacube can be seen at the top with labeled dimensions. The filtering techniques are displayed separately below. First, the Datacube is filtered temporally with the interval `["2020-10-15", "2020-10-27"]`. The result is a cube with only the rasters for the timestep that lies within that interval (`"2020-10-25"`) and unchanged bands and spatial dimensions. Consecutively, the original cube is filtered for a specific band `[nir]` and a specific region `[Polygon(...)]`.
 

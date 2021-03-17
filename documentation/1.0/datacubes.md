@@ -128,6 +128,6 @@ A temporal aggregation is similar to the downsampling process, as it can be seen
 A spatial agregation works in a similar manner. Polygons, lines and points can be selected for grouping. Their spatial dimension is then reduced by a given process and thus, a vector cube is returned. The vector cube then has dimensions containing features, attributes and time. In the graphic below, the grouping is only shown for the first timestep. 
 
 <figure>
-    <img src="./datacubes/dc_aggregate_space.png" alt="Datacube timeseries">
+    <img src="./datacubes/dc_aggregate_space.png" alt="Datacube spatial aggregation">
     <figcaption>When aggregating spatially, pixels are grouped (cut out) based on geometries, and then collapsed with a reducer function. A vector datacube is returned (as shown with dimensions names and labels).</figcaption>
 </figure>

@@ -92,7 +92,7 @@ In a resampling process, the _layout_ of a certain dimension is changed into ano
 The first figure gives an overview of temporal resampling. How exactly the input timesteps are rescaled to the output timesteps depends on the resampling function.
 
 <figure>
-    <img src="./datacubes/dc_resample_time.png" alt="Datacube timeseries">
+    <img src="./datacubes/dc_resample_time.png" alt="Datacube temporal resampling (up and down)">
     <figcaption>Temporal downscaling is seen on the left, upscaling on the right. The temporal layout that the cubes are resampled to is displayed in the middle.</figcaption>
 </figure>
 

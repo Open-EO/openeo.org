@@ -81,7 +81,7 @@ In the example below, an example weighted kernel (shown in the middle) is applie
 Of course this also works for temporal neighbourhoods (time series), considering neighbours before and after a pixel. To be able to show the effect, two timesteps were added in this example figure. A moving average of window size 3 is then applied. While this process is applied to all pixels in the cube, a specific pixel time series is highlighted (green line) and processed step-by-step. No padding was added which is why we observe edge effects (NA values are returned for t<sub>1</sub> and t<sub>5</sub>, because their temporal neighbourhood is missing input timesteps).
 
 <figure>
-    <img src="./datacubes/dc_apply_ts.png" alt="Datacube timeseries">
+    <img src="./datacubes/dc_apply_ts.png" alt="Datacube apply temporal moving average">
     <figcaption>Applying a moving average (temporal smoothing) by avegraging the direct temporal neighbourhoods of pixels. No padding is used, which leads to edge effects.</figcaption>
 </figure>
 

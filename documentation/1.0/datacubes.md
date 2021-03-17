@@ -121,7 +121,7 @@ An aggregation of a datacube can be thought of as a grouped reduce. That means i
 1. Grouping via a grouping variable, i.e. spatial geometries or temporal intervals
 2. Reducing these groups along the grouped dimension with a certain reducer function, e.g. calculating the mean pixel value per polygon or the maximum pixel values per month
 
-While the layout of the reduced dimension is changed, other dimensions keep their resolution and geometry.
+While the layout of the reduced dimension is changed, other dimensions keep their resolution and geometry. But in contrast to pure `reduce`, the dimension along which `aggregate` is performed still exists after the operation.
 
 A temporal aggregation is similar to the downsampling process, as it can be seen in the according image above. Intervals for grouping can either be set manually, or periods can be chosen: monthly, yearly, etc. All timesteps in an interval are then collapsed via a reducer function (mean, max, etc.) and assigned to the given new labels.
 

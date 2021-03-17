@@ -82,7 +82,7 @@ Of course this also works for temporal neighbourhoods (time series), considering
 
 <figure>
     <img src="./datacubes/dc_apply_ts.png" alt="Datacube apply temporal moving average">
-    <figcaption>Applying a moving average (temporal smoothing) by avegraging the direct temporal neighbourhoods of pixels. No padding is used, which leads to edge effects.</figcaption>
+    <figcaption>Applying a moving average (temporal smoothing) by averaging the direct temporal neighbourhoods of pixels. No padding is used, which leads to edge effects.</figcaption>
 </figure>
 
 ### Resample

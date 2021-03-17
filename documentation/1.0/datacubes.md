@@ -65,7 +65,7 @@ The `apply*()` functions employs a process on the datacube that calculates new p
 For the case `n = 1` this is called an unary function and means that only the pixel itself is considered when calculating the new pixel value. A prominent example is the `abs()` function, calculating the absolute value of the input pixel value. 
 
 <figure>
-    <img src="./datacubes/dc_apply_unary.png" alt="Datacube timeseries">
+    <img src="./datacubes/dc_apply_unary.png" alt="Datacube apply unary">
     <figcaption>Applying an unary process. Only the pixel itself is considered for calculating the new pixel value.</figcaption>
 </figure>
 

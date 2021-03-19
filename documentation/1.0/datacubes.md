@@ -17,7 +17,7 @@ It is important to understand that datacubes are designed to make things easier 
 </figure>
 
 ## Dimensions
-A dimension refers to a certain axis of a datacube. Our exemplary raster datacube has the spatial dimensions x and y, and the temporal dimension t. Furthermore it has a bands dimension, extending into the realm of _what kind of information_ is contained in the cube.
+A dimension refers to a certain axis of a datacube. Our exemplary raster datacube has the spatial dimensions `x` and `y`, and the temporal dimension `t`. Furthermore it has a `bands` dimension, extending into the realm of _what kind of information_ is contained in the cube.
 
 The following properties are usually available for dimensions:
 
@@ -32,16 +32,16 @@ Here is an overview of the dimensions contained in our example datacube above:
 
 | # | dimension name | dimension labels | resolution |
 |---|----------------|------------------| ---------- |
-| 1 | x              | 466380, 466580, 466780, 466980, 467180, 467380 | 10m |
-| 2 | y              | 7167130, 7166930, 7166730, 7166530, 7166330, 7166130, 7165930 | 10m |
-| 3 | bands          | `blue`, `green`, `red`, `nir` | 4 bands |
-| 4 | t              | `2020-10-01`, `2020-10-13`, `2020-10-25` | 12 days |
+| 1 | `x`              | `466380`, `466580`, `466780`, `466980`, `467180`, `467380` | 10m |
+| 2 | `y`             | `7167130`, `7166930`, `7166730`, `7166530`, `7166330`, `7166130`, `7165930` | 10m |
+| 3 | `bands`          | `blue`, `green`, `red`, `nir` | 4 bands |
+| 4 | `t`              | `2020-10-01`, `2020-10-13`, `2020-10-25` | 12 days |
 
 ### Applying Processes on Dimensions
 Some processes are typically applied "along a dimension". You can imagine said dimension as an arrow and whatever is happening as a parallel process to that arrow. It simply means: "we focus on _this_ dimension right now".
 
 ### Resolution
-The resolution of a dimension gives information about what interval lies between observations. This is most obvious with the temporal resolution, where the intervals depict how often observations were made. Spatial resolution gives information about the pixel spacing, meaning how many 'real world meters' are contained in a pixel. You can also think of how many bands you have as the resolution in the band dimension (i.e. spectral resolution).
+The resolution of a dimension gives information about what interval lies between observations. This is most obvious with the temporal resolution, where the intervals depict how often observations were made. Spatial resolution gives information about the pixel spacing, meaning how many 'real world meters' are contained in a pixel. You can also think of how many bands you have as the resolution in the `bands` dimension (i.e. spectral resolution).
 
 ## Processes on Datacubes
 
@@ -105,7 +105,7 @@ The second figure displays spatial resampling. Observe how in the upsampling pro
 
 ### Reduce
 
-The [`reduce_dimension`](https://processes.openeo.org/#reduce_dimension) process _collapses_ a whole dimension of the datacube. It does so by using some sort of **reducer**, which is a function that calculates a single result from an amount of values, as e.g. `mean()`, `min()` and `max()` are. For example we can reduce the time dimension of a timeseries by calculating the mean value of all timesteps for each pixel. We are left with a cube that has no time dimension, because all values of that dimension are compressed into a single mean value. The same goes for e.g. the spatial dimensions: If we calculate the mean along the x and y dimensions, we are left without any spatial dimensions, but a mean value for each instance that previously was a raster is returned. In the image below, the dimensions that are reduced are crossed out in the result.
+The [`reduce_dimension`](https://processes.openeo.org/#reduce_dimension) process _collapses_ a whole dimension of the datacube. It does so by using some sort of **reducer**, which is a function that calculates a single result from an amount of values, as e.g. `mean()`, `min()` and `max()` are. For example we can reduce the time dimension (`t`) of a timeseries by calculating the mean value of all timesteps for each pixel. We are left with a cube that has no time dimension, because all values of that dimension are compressed into a single mean value. The same goes for e.g. the spatial dimensions: If we calculate the mean along the `x` and `y` dimensions, we are left without any spatial dimensions, but a mean value for each instance that previously was a raster is returned. In the image below, the dimensions that are reduced are crossed out in the result.
 
 Think of it as a waste press that does math instead of using brute force. Given a representation of our example datacube, let's see how it is affected.
 
@@ -123,7 +123,7 @@ An aggregation of a datacube can be thought of as a grouped reduce. That means i
 
 While the layout of the reduced dimension is changed, other dimensions keep their resolution and geometry. But in contrast to pure `reduce`, the dimension along which `aggregate` is performed still exists after the operation.
 
-A temporal aggregation (e.g. [`aggregate_temporal`](https://processes.openeo.org/#aggregate_temporal)) is similar to the downsampling process, as it can be seen in the according image above. Intervals for grouping can either be set manually, or periods can be chosen: monthly, yearly, etc. All timesteps in an interval are then collapsed via a reducer function (mean, max, etc.) and assigned to the given new labels.
+A temporal aggregation (e.g. [`aggregate_temporal`](https://processes.openeo.org/#aggregate_temporal)) is similar to the downsampling process, as it can be seen in the according image above. Intervals for grouping can either be set manually, or periods can be chosen: monthly, yearly, etc. All timesteps in an interval are then collapsed via a reducer function (`mean`, `max`, etc.) and assigned to the given new labels.
 
 A spatial agregation (e.g. [`aggregate_spatial`](https://processes.openeo.org/#aggregate_spatial)) works in a similar manner. Polygons, lines and points can be selected for grouping. Their spatial dimension is then reduced by a given process and thus, a vector cube is returned. The vector cube then has dimensions containing features, attributes and time. In the graphic below, the grouping is only shown for the first timestep. 
 

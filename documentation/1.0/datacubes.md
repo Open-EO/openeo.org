@@ -17,7 +17,7 @@ It is important to understand that datacubes are designed to make things easier 
 </figure>
 
 ## Dimensions
-A dimension refers to a certain extent of a datacube. There are the obvious spatial dimensions x and y, and also the temporal dimension t. Furthermore there is the bands dimension, extending into the realm of _what kind of information_ is contained in the datacube.
+A dimension refers to a certain axis of a datacube. Our exemplary raster datacube has the spatial dimensions x and y, and the temporal dimension t. Furthermore it has a bands dimension, extending into the realm of _what kind of information_ is contained in the cube.
 
 The following properties are usually available for dimensions:
 

@@ -6,14 +6,14 @@ Datacubes are multidimensional arrays with one or more spatial or temporal dimen
 
 <figure>
     <img src="./datacubes/dc_timeseries.png" alt="Datacube timeseries">
-    <figcaption>An examplary datacube with x, y, bands and time dimension.</figcaption>
+    <figcaption>An examplary datacube with 4 dimensions: x, y, bands and time.</figcaption>
 </figure>
 
 It is important to understand that datacubes are designed to make things easier for us, and are not literally a cube, meaning that the above plot is just as good a representation as any other. That is why we can switch the dimensions around and display them in whatever way we want, including the view below:
 
 <figure>
     <img src="./datacubes/dc_flat.png" alt="Datacube flat representation">
-    <figcaption>This is the 'raw' data collection that is our example datacube. The grayscale images are colored for understandability.</figcaption>
+    <figcaption>This is the 'raw' data collection that is our example datacube. The grayscale images are colored for understandability, and dimension labels are displayed.</figcaption>
 </figure>
 
 ## Dimensions
@@ -69,7 +69,7 @@ For the case `n = 1` this is called an unary function and means that only the pi
     <figcaption>Applying an unary process. Only the pixel itself is considered for calculating the new pixel value.</figcaption>
 </figure>
 
-If `n` is larger than 1, the function is called n-ary. In practice, this means that the pixel neighbourhood is taken into account to calculate the new pixel value. Such neighbourhoods can be of temporal and/or spatial nature. A temporal (e.g. smoothing) function works on a timeseries at a certain pixel location, a spatial function works on a kernel that weights the surrounding pixels. Original dimensions and their resolutions usually remain unchanged when applying some process.
+If `n` is larger than 1, the function is called n-ary. In practice, this means that the pixel neighbourhood is taken into account to calculate the new pixel value. Such neighbourhoods can be of temporal and/or spatial nature. A temporal function works on a time series at a certain pixel location (e.g. smoothing values over time), a spatial function works on a kernel that weights the surrounding pixels (e.g. smoothing values with nearby observations).
 
 In the example below, an example weighted kernel (shown in the middle) is applied to the cube. To avoid edge effects (affecting pixels on the edge of the image with less neighbours), a padding has been added in the background.
 
@@ -105,7 +105,7 @@ The second figure displays spatial resampling. Observe how in the upsampling pro
 
 ### Reduce
 
-The [`reduce_dimension`](https://processes.openeo.org/#reduce_dimension) process _collapses_ a whole dimension of the datacube. It does so by using some sort of **reducer**, which is a function that calculates a single result from an amount of values, as e.g. `mean()`, `min()` and `max()` are. For example can we reduce the time dimension of a timeseries by calculating the mean value out of all timesteps for each pixel. We are left with a cube that has no time dimension, because all values are compressed into a single mean value. The same goes for e.g. the spatial dimensions: If we calculate the mean along the x and y dimensions, we are left without any spatial dimensions, but a mean value for each instance that previously was a raster is returned. In the image below, the dimensions that are reduced are crossed out in the result.
+The [`reduce_dimension`](https://processes.openeo.org/#reduce_dimension) process _collapses_ a whole dimension of the datacube. It does so by using some sort of **reducer**, which is a function that calculates a single result from an amount of values, as e.g. `mean()`, `min()` and `max()` are. For example we can reduce the time dimension of a timeseries by calculating the mean value of all timesteps for each pixel. We are left with a cube that has no time dimension, because all values of that dimension are compressed into a single mean value. The same goes for e.g. the spatial dimensions: If we calculate the mean along the x and y dimensions, we are left without any spatial dimensions, but a mean value for each instance that previously was a raster is returned. In the image below, the dimensions that are reduced are crossed out in the result.
 
 Think of it as a waste press that does math instead of using brute force. Given a representation of our example datacube, let's see how it is affected.
 

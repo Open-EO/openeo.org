@@ -204,6 +204,12 @@ print_ts <- function(off2, yoff2) {
 
 # spatial
 
+# before making the plots bigger, parameters were:
+# segments(c(-8, 7, 0, 15), c(-1,-1,3,3), 3.5, 14) # first stack pyramid
+# text(-9.5, -2.5, "bands", srt = 90, col = "black", cex = secText)
+# text(-4.5, 2, "y", srt = 27.5, col = "black", cex = secText)
+# and stacks were plotted without "-2".
+
 # make big matrices
 # numbering scheme because of how pl is written
 b4 <- make_matrix(warped_highres, 1, n = 168, ncol = 14)
@@ -216,7 +222,34 @@ g5 <- make_matrix(warped_lowres, 2, n = 12, ncol = 4)
 r5 <- make_matrix(warped_lowres, 3, n = 12, ncol = 4)
 n5 <- make_matrix(warped_lowres, 4, n = 12, ncol = 4)
 
-png("exp_resample_space.png", width = 2500, height = 1000, pointsize = 25)
+fac = 1.3
+quo = 1.5
+highres <- make_dummy_stars(12, 14, 1.25, -.2857143, -.57) # for resampling
+highres <- make_dummy_stars(12, 14, 2.5 / quo, -.5714286 / quo, -1.14 / quo)
+lowres <- make_dummy_stars(3, 4, 5, -1, -2) # for resampling
+lowres <- make_dummy_stars(3, 4, 5 * fac, -1 * fac, -2 * fac) # for resampling
+k <- make_dummy_stars(6, 7, 2.5 * fac, -.5714286 * fac, -1.14 * fac)
+
+print_ts_exp <- function(off2, yoff2) {
+  pl_stack(k, -2 + off2, yoff2, nrM = 3) # input 2
+  pl_stack(k, -2 + off2 + off, yoff2, nrM = 2)
+  pl_stack(k, -2 + 2 * off + off2, yoff2, nrM = 1)
+  arrows(-13 + off2, 14 + yoff2, 72 + off2, 14 + yoff2, angle = 20, lwd = 2)  # timeline
+  heads <- matrix(c(3.5+off2, 3.5 + off + off2, 3.5 + 2*off + off2, 14+yoff2,14+yoff2,14+yoff2), ncol = 2)
+  points(heads, pch = 16) # 4 or 16
+  segments(c(-12.4, 7.15, -2.05, 17.6)+off2, c(-2.25,-2.25,3,3)+yoff2, 3.5+off2, 14+yoff2) # first stack pyramid
+  segments(c(-12.4, 7.15, -2.05, 17.6) + off + off2, c(-2.25,-2.25,3,3)+yoff2, 3.5 + off + off2, 14+yoff2) # second stack pyramid
+  segments(c(-12.4, 7.15, -2.05, 17.6) + 2*off + off2, c(-2.25,-2.25,3,3)+yoff2, 3.5 + 2*off + off2, 14+yoff2) # third stack pyramid
+  text(7.5+off2, 4.3+yoff2, "x", col = "black", cex = secText)
+  text(-14+off2, -3.5+yoff2, "bands", srt = 90, col = "black", cex = secText)
+  text(-6.5+off2, 2+yoff2, "y", srt = 27.5, col = "black", cex = secText)
+  text(69+off2, 15.5+yoff2, "time", col = "black")
+  text(3.5+off2, 15.5+yoff2, "2020-10-01", col = "black")
+  text(3.5 + off + off2, 15.5+yoff2, "2020-10-13", col = "black")
+  text(3.5 + 2*off + off2, 15.5+yoff2, "2020-10-25", col = "black")
+}
+
+png("exp_resample_space_new.png", width = 2500, height = 1000, pointsize = 25)
 off = 26 # image stacks are always 26 apart
 x = 160 # png X
 y = 64 # png Y
@@ -228,26 +261,26 @@ plot.new()
 par(mar = c(5,3,3,3))
 plot.window(xlim = c(0, x), ylim = c(0, y), asp = 1)
 
-print_ts(0, yoff2)
+print_ts_exp(0, yoff2)
 
-print_ts(off2, yoff2)
+print_ts_exp(off2, yoff2)
 
 # mask1
 lowres_2x <- make_dummy_stars(3, 4, 10, -2, -4) # for resampling
 pl(lowres_2x, off - 3, maskHeight, pal = alpha(greys, 0.1), m = matrix(rep("1", 12), ncol = 4), border = 0.1)
 
-pl_stack(lowres, 0, 0, nrM = 5, imgY = 4) # out 1
-pl_stack(lowres, off, 0, nrM = 5, imgY = 4)
-pl_stack(lowres, 2 * off, 0, nrM = 5, imgY = 4)
+pl_stack(lowres, -2, 0, nrM = 5, imgY = 4) # out 1
+pl_stack(lowres, -2 + off, 0, nrM = 5, imgY = 4)
+pl_stack(lowres, -2 + 2 * off, 0, nrM = 5, imgY = 4)
 arrows(-13, 14, 72, 14, angle = 20, lwd = 2)  # timeline
 heads <- matrix(c(3.5, 3.5 + off, 3.5 + 2*off, 14,14,14), ncol = 2)
 points(heads, pch = 16) # 4 or 16
-segments(c(-8, 7, 0, 15), c(-1,-1,3,3), 3.5, 14) # first stack pyramid
-segments(c(-8, 7, 0, 15) + off, c(-1,-1,3,3), 3.5 + off, 14) # second stack pyramid
-segments(c(-8, 7, 0, 15) + 2*off, c(-1,-1,3,3), 3.5 + 2*off, 14) # third stack pyramid
+segments(c(-12.4, 7.15, -2.05, 17.6), c(-2.25,-2.25,3,3), 3.5, 14) # first stack pyramid
+segments(c(-12.4, 7.15, -2.05, 17.6) + off, c(-2.25,-2.25,3,3), 3.5 + off, 14) # second stack pyramid
+segments(c(-12.4, 7.15, -2.05, 17.6) + 2*off, c(-2.25,-2.25,3,3), 3.5 + 2*off, 14) # third stack pyramid
 text(7.5, 4.3, "x", col = "black", cex = secText)
-text(-9.5, -2.5, "bands", srt = 90, col = "black", cex = secText)
-text(-4.5, 2, "y", srt = 27.5, col = "black", cex = secText)
+text(-14, -3.5, "bands", srt = 90, col = "black", cex = secText)
+text(-6.5, 2, "y", srt = 27.5, col = "black", cex = secText)
 text(69, 15.5, "time", col = "black")
 text(3.5, 15.5, "2020-10-01", col = "black")
 text(3.5 + off, 15.5, "2020-10-13", col = "black")
@@ -257,18 +290,18 @@ text(3.5 + 2*off, 15.5, "2020-10-25", col = "black")
 highres_2x <- make_dummy_stars(12, 14, 2.5, -.5714286, -1.14)
 pl(highres_2x, off + off2 - 3, maskHeight, pal = alpha(greys, 0.1), m = matrix(rep(1, 168), ncol = 14), border = 0.1)
 
-pl_stack(highres, 0 + off2, 0, nrM = 4, imgY = 14) # out 2
-pl_stack(highres, off + off2, 0, nrM = 4, imgY = 14)
-pl_stack(highres, 2 * off + off2, 0, nrM = 4, imgY = 14)
+pl_stack(highres, -2 + off2, 0, nrM = 4, imgY = 14) # out 2
+pl_stack(highres, -2 + off + off2, 0, nrM = 4, imgY = 14)
+pl_stack(highres, -2 + 2 * off + off2, 0, nrM = 4, imgY = 14)
 arrows(-13 + off2, 14, 72 + off2, 14, angle = 20, lwd = 2)  # timeline
 heads <- matrix(c(3.5+off2, 3.5 + off + off2, 3.5 + 2*off + off2, 14,14,14), ncol = 2)
 points(heads, pch = 16) # 4 or 16
-segments(c(-8, 7, 0, 15)+off2, c(-1,-1,3,3), 3.5+off2, 14) # first stack pyramid
-segments(c(-8, 7, 0, 15) + off + off2, c(-1,-1,3,3), 3.5 + off + off2, 14) # second stack pyramid
-segments(c(-8, 7, 0, 15) + 2*off + off2, c(-1,-1,3,3), 3.5 + 2*off + off2, 14) # third stack pyramid
+segments(c(-12.6, 7.35, -2.05, 18.1)+off2, c(-2.25,-2.25,3,3), 3.5+off2, 14) # first stack pyramid
+segments(c(-12.4, 7.15, -2.05, 17.6) + off + off2, c(-2.25,-2.25,3,3), 3.5 + off + off2, 14) # second stack pyramid
+segments(c(-12.4, 7.15, -2.05, 17.6) + 2*off + off2, c(-2.25,-2.25,3,3), 3.5 + 2*off + off2, 14) # third stack pyramid
 text(7.5+off2, 4.3, "x", col = "black", cex = secText)
-text(-9.5+off2, -2.5, "bands", srt = 90, col = "black", cex = secText)
-text(-4.5+off2, 2, "y", srt = 27.5, col = "black", cex = secText)
+text(-14+off2, -3.5, "bands", srt = 90, col = "black", cex = secText)
+text(-6.5+off2, 2, "y", srt = 27.5, col = "black", cex = secText)
 text(69+off2, 15.5, "time", col = "black")
 text(3.5+off2, 15.5, "2020-10-01", col = "black")
 text(3.5 + off + off2, 15.5, "2020-10-13", col = "black")
@@ -340,27 +373,28 @@ text(newDt[3] + off2, maskHeight + 1.5, "2020-10-14", col = "black")
 text(newDt[4] + off2, maskHeight + 1.5, "2020-10-22", col = "black")
 text(newDt[5] + off2, maskHeight + 1.5, "2020-10-30", col = "black")
 
-# pl(s, newDt[1] - 3.5 + off2, 0, nrM = 3) # out 2
+pl_stack(s, newDt[1] - 3.5 + off2, 0, nrM = 3) # out 2
 pl_stack(s, newDt[2] - 3.5 + off2, 0, nrM = 3)
 pl_stack(s, newDt[3] - 3.5 + off2, 0, nrM = 2)
 pl_stack(s, newDt[4] - 3.5 + off2, 0, nrM = 2)
 pl_stack(s, newDt[5] - 3.5 + off2, 0, nrM = 1)
 arrows(-13 + off2, 14, 72 + off2, 14, angle = 20, lwd = 2)  # timeline
-heads <- matrix(c(c(newDt[2:5])+off2, 14,14,14,14), ncol = 2) # 2:5 to cut out first point
+heads <- matrix(c(c(newDt[1:5])+off2, 14,14,14,14,14), ncol = 2) # 2:5 to cut out first point
 points(heads, pch = 16) # 4 or 16
-# text(newDt[1] + off2, 15.5, "2020-09-28", col = "black")
+text(newDt[1] + off2, 15.5, "2020-09-28", col = "black")
 text(newDt[2] + off2, 15.5, "2020-10-06", col = "black")
 text(newDt[3] + off2, 15.5, "2020-10-14", col = "black")
 text(newDt[4] + off2, 15.5, "2020-10-22", col = "black")
 text(newDt[5] + off2, 15.5, "2020-10-30", col = "black")
+segments(c(-8, 7, 0, 15) + off2 + newDt[1]-3.5, c(-1,-1,3,3), 3.5 + off2 + newDt[1]-3.5, 14) # first stack pyramid
 segments(c(-8, 7, 0, 15) + off2 + newDt[2]-3.5, c(-1,-1,3,3), 3.5 + off2 + newDt[2]-3.5, 14) # first stack pyramid
 segments(c(-8, 7, 0, 15) + off2 + newDt[3]-3.5, c(-1,-1,3,3), 3.5 + off2 + newDt[3]-3.5, 14) # second stack pyramid
 segments(c(-8, 7, 0, 15) + off2 + newDt[4]-3.5, c(-1,-1,3,3), 3.5 + off2 + newDt[4]-3.5, 14) # third stack pyramid
 segments(c(-8, 7, 0, 15) + off2 + newDt[5]-3.5, c(-1,-1,3,3), 3.5 + off2 + newDt[5]-3.5, 14) # third stack pyramid
 text(73.5 + off2, 11.5, "time", col = "black")
-text(18+off2, 4.3, "x", col = "black", cex = secText)
-text(1.5+off2, -2.5, "bands", srt = 90, col = "black", cex = secText)
-text(6.5+off2, 2, "y", srt = 27.5, col = "black", cex = secText)
+text(1+off2, 4.3, "x", col = "black", cex = secText)
+text(-15.5+off2, -2.5, "bands", srt = 90, col = "black", cex = secText)
+text(-10.5+off2, 2, "y", srt = 27.5, col = "black", cex = secText)
 
 text(82, 50, "input", cex = 1.2) # headings
 text(82, maskHeight, "resample to", cex = 1.2)
@@ -621,7 +655,7 @@ print_alpha_grid(2*(x/3)+((x/3-28)/2), 0, alp = 0, geom = TRUE) # alpha grid
 print_grid_spat(2*(x/3)+((x/3-28)/2), 0)
 text(3, 13.5, "time", srt = 90, col = "black")
 segments(3.6, 8, 3.7, 19, col = "red", lwd=3)
-text(43, 13.5, "time", srt = 90, col = "black")
+text(50, 13.5, "time", srt = 90, col = "black")
 text(83, 13.5, "time", srt = 90, col = "black")
 text(20, 30, "bands", col = "black")
 text(60, 30, "bands", col = "black")

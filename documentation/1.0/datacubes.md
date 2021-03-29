@@ -51,6 +51,11 @@ In the following part, the basic processes for manipulating datacubes are introd
 
 When filtering data (e.g. [`filter_spatial`](https://processes.openeo.org/#filter_spatial), [`filter_temporal`](https://processes.openeo.org/#filter_temporal), [`filter_bands`](https://processes.openeo.org/#filter_bands)), only the data that satisfies a condition is returned. For example, this condition could be a timestamp or interval, (a set of) coordinates, or specific bands. By applying filtering the datacube becomes smaller, according to the selected data.
 
+::: tip Simplified
+<span title="Filtering vegetarian options from [corn, potato, pig] returns [corn, potato].
+">`filter([🌽, 🥔, 🐷], isVegetarian) => [🌽, 🥔]`</span>
+:::
+
 In the image, the example datacube can be seen at the top with labeled dimensions. The filtering techniques are displayed separately below. On the left, the datacube is filtered temporally with the interval `["2020-10-15", "2020-10-27"]`. The result is a cube with only the rasters for the timestep that lies within that interval (`"2020-10-25"`) and unchanged bands and spatial dimensions. Likewise, the original cube is filtered for a specific band `["nir"]` in the middle and a specific spatial region `[Polygon(...)]` on the right.
 
 <figure>
@@ -61,6 +66,10 @@ In the image, the example datacube can be seen at the top with labeled dimension
 ### Apply
 
 The `apply*` functions (e.g. [`apply`](https://processes.openeo.org/#apply), [`apply_dimension`](https://processes.openeo.org/#apply_dimension), [`apply_kernel`](https://processes.openeo.org/#apply_kernel)) employ a process on the datacube that calculates new pixel values for each pixel, based on `n` other pixels.
+
+::: tip Simplified
+<span title="Applying the process 'cook' to [corn, potato, pig] returns [popcorn, fries, meat].">`apply([🌽, 🥔, 🐷], cook) => [🍿, 🍟, 🍖]`</span>
+:::
 
 For the case `n = 1` this is called an unary function and means that only the pixel itself is considered when calculating the new pixel value. A prominent example is the `absolute()` function, calculating the absolute value of the input pixel value. 
 
@@ -89,6 +98,12 @@ Of course this also works for temporal neighbourhoods (timeseries), considering 
 
 In a resampling processes (e.g. [`resample_cube_spatial`](https://processes.openeo.org/#resample_cube_spatial), [`resample_cube_temporal`](https://processes.openeo.org/#resample_cube_temporal)), the _layout_ of a certain dimension is changed into another _layout_, most likely also changing the resolution of that dimension. This is done by mapping values of the source (old) datacube to the new layout of the target (new) datacube. During that process, resolutions can be _upscaled_ or _downscaled_ (also called _upsampling_ and _downsampling_), depending on whether they have a finer or a coarser spacing afterwards. A function is then needed to translate the existing data into the new resolution. A prominent example is to reproject a datacube into the coordinate reference system of another datacube, for example in order to merge the two cubes.
 
+::: tip Simplified
+<span title="Downscaling a raster image (to infinity) returns one pixel.">`resample(🖼️, downscale) => 🟦`</span>
+
+<span title="Reprojecting a globe results into a map.">`resample(🌍, reproject) => 🗺️`</span>
+:::
+
 The first figure gives an overview of temporal resampling. How exactly the input timesteps are rescaled to the output timesteps depends on the resampling function.
 
 <figure>
@@ -107,6 +122,10 @@ The second figure displays spatial resampling. Observe how in the upsampling pro
 
 The [`reduce_dimension`](https://processes.openeo.org/#reduce_dimension) process _collapses_ a whole dimension of the datacube. It does so by using some sort of **reducer**, which is a function that calculates a single result from an amount of values, as e.g. `mean()`, `min()` and `max()` are. For example we can reduce the time dimension (`t`) of a timeseries by calculating the mean value of all timesteps for each pixel. We are left with a cube that has no time dimension, because all values of that dimension are compressed into a single mean value. The same goes for e.g. the spatial dimensions: If we calculate the mean along the `x` and `y` dimensions, we are left without any spatial dimensions, but a mean value for each instance that previously was a raster is returned. In the image below, the dimensions that are reduced are crossed out in the result.
 
+::: tip Simplified
+<span title="Reducing [mixed greens, cucumber, tomato, onion] returns a salad.">`reduce(🥬, 🥒, 🍅, 🧅) => 🥗`</span>
+:::
+
 Think of it as a waste press that does math instead of using brute force. Given a representation of our example datacube, let's see how it is affected.
 
 <figure>
@@ -122,6 +141,10 @@ An aggregation of a datacube can be thought of as a grouped reduce. That means i
 2. Reducing these groups along the grouped dimension with a certain reducer function, e.g. calculating the mean pixel value per polygon or the maximum pixel values per month
 
 While the layout of the reduced dimension is changed, other dimensions keep their resolution and geometry. But in contrast to pure `reduce`, the dimension along which `aggregate` is performed still exists after the operation.
+
+::: tip Simplified
+<span title="Aggregating different family representations with 3, 2 and 4 members with the function 'countFamilyMembers' returns [3, 2, 4].">`aggregate(👪 👩‍👦 👨‍👩‍👦‍👦, countFamilyMembers) => [3️⃣, 2️⃣, 4️⃣]`</span>
+:::
 
 A temporal aggregation (e.g. [`aggregate_temporal`](https://processes.openeo.org/#aggregate_temporal)) is similar to the downsampling process, as it can be seen in the according image above. Intervals for grouping can either be set manually, or periods can be chosen: monthly, yearly, etc. All timesteps in an interval are then collapsed via a reducer function (`mean`, `max`, etc.) and assigned to the given new labels.
 

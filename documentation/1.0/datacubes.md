@@ -111,7 +111,7 @@ The first figure gives an overview of temporal resampling. How exactly the input
     <figcaption>Temporal downsampling is seen on the left, upsampling on the right. The temporal layout that the cubes are resampled to is displayed in the middle.</figcaption>
 </figure>
 
-The second figure displays spatial resampling. Observe how in the upsampling process, the output datacube has not gained in information value. The resulting grid still carries the same pixel information, but in higher spatial resolution.
+The second figure displays spatial resampling. Observe how in the upsampling process, the output datacube has not gained in information value. The resulting grid still carries the same pixel information, but in higher spatial resolution. Other upsampling methods may yield smoother results, e.g. by using interpolation.
 
 <figure>
     <img src="./datacubes/dc_resample_space.png" alt="Datacube spatial resampling (up and down)">
@@ -140,7 +140,7 @@ An aggregation of a datacube can be thought of as a grouped reduce. That means i
 1. Grouping via a grouping variable, i.e. spatial geometries or temporal intervals
 2. Reducing these groups along the grouped dimension with a certain reducer function, e.g. calculating the mean pixel value per polygon or the maximum pixel values per month
 
-While the layout of the reduced dimension is changed, other dimensions keep their resolution and geometry. But in contrast to pure `reduce`, the dimension along which `aggregate` is performed still exists after the operation.
+While the layout of the reduced dimension is changed, other dimensions keep their resolution and geometry. But in contrast to pure `reduce`, the dimension along which the reducer function is applied still exists after the operation.
 
 ::: tip Simplified
 <span title="Aggregating different family representations with 3, 2 and 4 members with the function 'countFamilyMembers' returns [3, 2, 4].">`aggregate(👪 👩‍👦 👨‍👩‍👦‍👦, countFamilyMembers) => [3️⃣, 2️⃣, 4️⃣]`</span>

@@ -23,7 +23,7 @@ The following properties are usually available for dimensions:
 
 * name
 * axis / number
-* type
+* type (spatial/temporal/bands/other)
 * extents _or_ nominal dimension labels
 * reference system / projections
 * resolution

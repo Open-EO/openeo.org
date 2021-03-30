@@ -65,7 +65,7 @@ In the image, the example datacube can be seen at the top with labeled dimension
 
 ### Apply
 
-The `apply*` functions (e.g. [`apply`](https://processes.openeo.org/#apply), [`apply_dimension`](https://processes.openeo.org/#apply_dimension), [`apply_kernel`](https://processes.openeo.org/#apply_kernel)) employ a process on the datacube that calculates new pixel values for each pixel, based on `n` other pixels.
+The `apply*` functions (e.g. [`apply`](https://processes.openeo.org/#apply), [`apply_neighbourhood`](https://processes.openeo.org/#apply_neighbourhood), [`apply_dimension`](https://processes.openeo.org/#apply_dimension)) employ a process on the datacube that calculates new pixel values for each pixel, based on `n` other pixels.
 
 ::: tip Simplified
 <span title="Applying the process 'cook' to [corn, potato, pig] returns [popcorn, fries, meat].">`apply([🌽, 🥔, 🐷], cook) => [🍿, 🍟, 🍖]`</span>
@@ -78,7 +78,7 @@ For the case `n = 1` this is called an unary function and means that only the pi
     <figcaption>Applying an unary process. Only the pixel itself is considered for calculating the new pixel value.</figcaption>
 </figure>
 
-If `n` is larger than 1, the function is called n-ary. In practice, this means that the pixel neighbourhood is taken into account to calculate the new pixel value. Such neighbourhoods can be of temporal and/or spatial nature. A temporal function works on a time series at a certain pixel location (e.g. smoothing values over time), a spatial function works on a kernel that weights the surrounding pixels (e.g. smoothing values with nearby observations).
+If `n` is larger than 1, the function is called n-ary. In practice, this means that the pixel neighbourhood is taken into account to calculate the new pixel value. Such neighbourhoods can be of temporal and/or spatial nature. A temporal function works on a time series at a certain pixel location (e.g. smoothing values over time), a spatial function works on a kernel that weights the surrounding pixels (e.g. smoothing values with nearby observations). Combinations of types to n-dimensional neighbourhoods are also possible.
 
 In the example below, an example weighted kernel (shown in the middle) is applied to the cube. To avoid edge effects (affecting pixels on the edge of the image with less neighbours), a padding has been added in the background.
 
@@ -93,6 +93,8 @@ Of course this also works for temporal neighbourhoods (timeseries), considering 
     <img src="./datacubes/dc_apply_ts.png" alt="Datacube apply temporal moving average">
     <figcaption>Applying a moving average (temporal smoothing) by averaging the direct temporal neighbourhoods of pixels. No padding is used, which leads to edge effects.</figcaption>
 </figure>
+
+Alternatively, a process can also be applied along a dimension of the datacube, meaning the input is no longer a neighbourhood of some sort but all pixels along that dimension. If a process is applied along the `time` dimension (e.g. a breakpoint detection), the complete pixel timeseries are the input. If a process is applied along the `spatial` dimensions (e.g. a `mean`), all pixels of an image are the input. The process is then applied to all pixels along that dimension and the dimension continues to exist. This is in contrast to [reduce](#reduce), as you will see below.
 
 ### Resample
 

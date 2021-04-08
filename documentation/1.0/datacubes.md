@@ -80,7 +80,7 @@ For the case `n = 1` this is called a unary function and means that only the pix
 
 If `n` is larger than 1, the function is called n-ary. In practice, this means that the pixel neighbourhood is taken into account to calculate the new pixel value. Such neighbourhoods can be of spatial and/or temporal nature. A spatial function works on a kernel that weights the surrounding pixels (e.g. smoothing values with nearby observations), a temporal function works on a time series at a certain pixel location (e.g. smoothing values over time). Combinations of types to n-dimensional neighbourhoods are also possible.
 
-In the example below, an example weighted kernel (shown in the middle) is applied to the cube. To avoid edge effects (affecting pixels on the edge of the image with less neighbours), a padding has been added in the background.
+In the example below, an example weighted kernel (shown in the middle) is applied to the cube (via [`apply_kernel`](https://processes.openeo.org/#apply_kernel)). To avoid edge effects (affecting pixels on the edge of the image with less neighbours), a padding has been added in the background.
 
 <figure>
     <img src="./datacubes/dc_apply_kernel.png" alt="Datacube apply spatial kernel">

@@ -1,5 +1,8 @@
 # Getting started
 
+First of all, a good idea is to get familiar with the terminology in openEO by reading the [glossary](./glossary.md).
+There's also an in-depth [introduction to datacubes](./datacubes.md) and processing them with openEO.
+
 Currently, there are three official client libraries, a web-based interface for openEO and a QGIS plugin.
 
 If you are **unfamiliar** with programming, you could start using the [web-based editor for openEO](https://editor.openeo.org). It supports visual modelling of your algorithms and a simplified JavaScript based access to the openEO workflows and providers. openEO can also be used in QGIS through a [QGIS plugin](./qgis/index.md).

@@ -7,7 +7,7 @@
 # every time something is plotted
 
 # wdir, packages, read input ----
-setwd()
+setwd("")
 set.seed(1331)
 library(stars)
 library(colorspace)
@@ -249,7 +249,7 @@ print_ts_exp <- function(off2, yoff2) {
   text(3.5 + 2*off + off2, 15.5+yoff2, "2020-10-25", col = "black")
 }
 
-png("exp_resample_space_new.png", width = 2500, height = 1000, pointsize = 25)
+png("exp_resample_space.png", width = 2500, height = 1000, pointsize = 25)
 off = 26 # image stacks are always 26 apart
 x = 160 # png X
 y = 64 # png Y
@@ -310,8 +310,8 @@ text(3.5 + 2*off + off2, 15.5, "2020-10-25", col = "black")
 text(82, 50, "input", cex = 1.2) # headings
 text(82, maskHeight - 3, "resample to", cex = 1.2)
 text(82, 7, "output", cex = 1.2)
-text(3.5 + off, 65, "Downsampling", cex = 1.8)
-text(3.5 + off + off2, 65, "Upsampling", cex = 1.8)
+text(3.5 + off, 65, "Spatial Downsampling", cex = 1.8)
+text(3.5 + off + off2, 65, "Spatial Upsampling", cex = 1.8)
 dev.off()
 
 # time
@@ -357,7 +357,7 @@ segments(c(-8, 7, 0, 15)+60.66, c(-1,-1,3,3), 64.163, 14) # second stack pyramid
 heads <- matrix(c(newDt, 14,14), ncol = 2) # 50
 points(heads, pch = 16) # 4 or 16
 text(newDt[1], 15.5, "2020-10-05", col = "black") # 3.5 is 01.10., two pix are 1 day
-text(newDt[2], 15.5, "2020-10-30", col = "black")
+text(newDt[2], 15.5, "2020-10-29", col = "black")
 text(15.5, 4.3, "x", col = "black", cex = secText)
 text(-1, -2.5, "bands", srt = 90, col = "black", cex = secText)
 text(3.5, 2, "y", srt = 27.5, col = "black", cex = secText)
@@ -399,8 +399,8 @@ text(-10.5+off2, 2, "y", srt = 27.5, col = "black", cex = secText)
 text(82, 50, "input", cex = 1.2) # headings
 text(82, maskHeight, "resample to", cex = 1.2)
 text(82, 7, "output", cex = 1.2)
-text(3.5 + off, 65, "Downsampling", cex = 1.8)
-text(3.5 + off + off2, 65, "Upsampling", cex = 1.8)
+text(3.5 + off, 65, "Temporal Downsampling", cex = 1.8)
+text(3.5 + off + off2, 65, "Temporal Upsampling", cex = 1.8)
 dev.off()
 
 # aggregate ----
@@ -791,7 +791,7 @@ pl(f, 21.5, 0.5, pal = abs_pal, m = abs(b2 - 200), breaks = abs_brks)
 pl(f, 20, -1, pal = abs_pal, m = abs(b1 - 200), breaks = abs_brks)
 print_text(s, 20, -1, m = abs(b1 - 200))
 arrows(11, 4, 17.5, 4, lwd = 3)
-text(14.3, 3.5, "absolute()", cex = 1.4)
+text(14.3, 3.5, "apply(process = absolute())", cex = 1.4)
 dev.off()
 
 vNeumann_seg <- matrix(c(c(0,0,1,1,2,2,1,1,0,0,-1,-1), c(0,-1,-1,0,0,1,1,2,2,1,1,0), 
@@ -832,13 +832,24 @@ text(14.3, 2.5, "0.2", cex = 1.3)
 text(14.3, .5, "0.2", cex = 1.3)
 dev.off()
 
-time_arrow_seg <- matrix(c(c(-1.0, 0.3, 1.5, 2.7, 3.9, 5.1), c(-1.0, 0.3, 1.5, 2.7, 3.9, 5.1),
-                           c(-0.5, 0.7, 1.9, 3.1, 4.3, 5.6), c(-0.5, 0.7, 1.9, 3.1, 4.3, 5.6)), ncol = 4)
-time_arrow_flag_seg <- matrix(c(c(-1.0, 1.5, 2.7, 3.9), c(-1.0, 1.5, 2.7, 3.9),
-                                c(0.7, 1.9, 3.1, 5.6), c(0.7, 1.9, 3.1, 5.6)), ncol = 4)
+time_arrow_seg <- matrix(c(c(0.3, 1.5, 2.7, 3.9), c(0.3, 1.5, 2.7, 3.9),
+                           c(0.7, 1.9, 3.1, 4.3), c(0.7, 1.9, 3.1, 4.3)), ncol = 4)
+time_arrow_small_seg <- matrix(c(c(0.3, 1.5), c(0.3, 1.5),
+                           c(0.7, 1.9), c(0.7, 1.9)), ncol = 4)
 
 b11 <- b2 - t1
 b12 <- b1 - t2 + t1
+
+ma_seg <- matrix(c(c(10.0, 11.2, 12.4, 10.2, 11.4), c(1.5, 2.7, 3.9, 1.5, 2.7),
+                   c(10.2, 11.4, 12.6, 11.4, 12.6), c(1.5, 2.7, 3.9, 2.7, 3.9)), ncol = 4)
+
+mask_1 <- matrix(c(NA,NA,NA,NA,NA,NA,
+                   NA,NA,NA,NA,NA,NA,
+                   NA,NA,NA,NA,NA, 1,
+                   NA,NA,NA,NA,NA,NA,
+                   NA,NA,NA,NA,NA,NA,
+                   NA,NA,NA,NA,NA,NA,
+                   NA,NA,NA,NA,NA,NA), ncol = 7)
 
 png("exp_apply_ts.png", width = 2400, height = 1000, pointsize = 24)
 plot.new()
@@ -864,6 +875,73 @@ print_text(s, 22.4, 1.4, m = floor((b2 + b12 + b11) / 3))
 pl(f, 21.2, .2, pal = blues, m = (b1 + b2 + b12) / 3, breaks = brks)
 print_text(s, 21.2, .2, m = floor((b1 + b2 + b12) / 3))
 pl(f, 20, -1, pal = alpha(greys, 0.1), m = matrix(rep("NA", 42), ncol = 7))
+
+arrows(12.5, 5.5, 18, 5.5, lwd = 3)
+text(15.5, 5, "apply_neighborhood(dimension = 't')", cex = 1.4)
+
+pl(f, 10.8, 1.4, pal = "white", m = matrix(b1[mask_1 == TRUE], ncol = 7))
+pl(f,  9.6, 0.2, pal = "white", m = matrix(b1[mask_1 == TRUE], ncol = 7))
+pl(f,  8.4,  -1, pal = "white", m = matrix(b1[mask_1 == TRUE], ncol = 7))
+print_segments(14.1, 1.7, time_arrow_small_seg)
+text(13.9, 1.5, "1/3")
+text(15.1, 2.7, "1/3")
+text(16.3, 3.9, "1/3")
+dev.off()
+
+#print_segments(5.7, 1.7, seg = time_arrow_seg, col = "forestgreen")
+# pl(f, 0.5, -1, pal = blues[5], m = matrix(b1[mask_1 == TRUE], ncol = 7), print_geom = FALSE)
+#t_formula <- expression("t"[n]*" = (t"[n-1]*" + t"[n]*" + t"[n+1]*") / 3")
+#text(16.3, 7.5, t_formula, cex = 1.2)
+#text(-0.5 + 10, -0.5 + 2, "496", cex = 1.2)
+#text(.7 + 10, .7 + 2, "363", cex = 1.2)
+#text(1.9 + 10, 1.9 + 2, "658", cex = 1.2)
+#print_segments(9.7, 1.7, time_arrow_small_seg, col = "forestgreen")
+#text(.7 + 11.2, .7 + 2, "363", cex = 1.2)
+#text(1.9 + 11.2, 1.9 + 2, "658", cex = 1.2)
+#text(3.1 + 11.2, 3.1 + 2, "230", cex = 1.2)
+#print_segments(12.1, 2.9, time_arrow_small_seg, col = "forestgreen")
+#text(1.9 + 12.4, 1.9 + 2, "658", cex = 1.2)
+#text(3.1 + 12.4, 3.1 + 2, "230", cex = 1.2)
+#text(4.3 + 12.4, 4.3 + 2, "525", cex = 1.2)
+#print_segments(14.5, 4.1, time_arrow_small_seg, col = "forestgreen")
+#print_segments(15.4, 1.7, seg = time_arrow_seg, col = "forestgreen") # draw ma explanation
+#text(-0.5 + 15.7, -0.5 + 2, "NA", cex = 1.2)
+#text(.7 + 15.7, .7 + 2, "505", cex = 1.2)
+#text(1.9 + 15.7, 1.9 + 2, "417", cex = 1.2)
+#text(3.1 + 15.7, 3.1 + 2, "471", cex = 1.2)
+#text(4.3 + 15.7, 4.3 + 2, "NA", cex = 1.2)
+#print_segments(25.7, 1.7, seg = time_arrow_seg, col = "forestgreen")
+
+
+time_arrow_seg <- matrix(c(c(-1.0, 0.3, 1.5, 2.7, 3.9, 5.1), c(-1.0, 0.3, 1.5, 2.7, 3.9, 5.1),
+                           c(-0.5, 0.7, 1.9, 3.1, 4.3, 5.6), c(-0.5, 0.7, 1.9, 3.1, 4.3, 5.6)), ncol = 4)
+
+png("exp_apply_dim_ts.png", width = 2400, height = 1000, pointsize = 24)
+plot.new()
+par(mar = c(2,2,2,2))
+x = 30
+y = 10 # 7.5
+plot.window(xlim = c(0, x), ylim = c(0, y), asp = 1)
+pl(f, 4.8, 3.8, pal = blues, m = b3, breaks = brks)
+print_text(s, 4.8, 3.8, m = b3)
+pl(f, 3.6, 2.6, pal = blues, m = b11, breaks = brks)
+print_text(s, 3.6, 2.6, m = b11)
+pl(f, 2.4, 1.4, pal = blues, m = b12, breaks = brks)
+print_text(s, 2.4, 1.4, m = b12)
+pl(f, 1.2, .2, pal = blues, m = b2, breaks = brks)
+print_text(s, 1.2, .2, m = b2)
+pl(f, 0, -1, pal = blues, m = b1, breaks = brks)
+print_text(s, 0, -1, m = b1) # print text on left first stack
+pl(f, 24.8, 3.8, pal = blues, m = (b12 + b11 + b3 + b2 + b1) / 5, breaks = brks)
+print_text(s, 24.8, 3.8, m = floor((b12 + b11 + b3 + b2 + b1) / 5))
+pl(f, 23.6, 2.6, pal = blues, m = (b12 + b11 + b3) / 3, breaks = brks)
+print_text(s, 23.6, 2.6, m = floor((b12 + b11 + b3 + b2 + b1) / 5))
+pl(f, 22.4, 1.4, pal = blues, m = (b12 + b11 + b3 + b2 + b1) / 5, breaks = brks)
+print_text(s, 22.4, 1.4, m = floor((b12 + b11 + b3 + b2 + b1) / 5))
+pl(f, 21.2, .2, pal = blues, m = (b12 + b11 + b3 + b2 + b1) / 5, breaks = brks)
+print_text(s, 21.2, .2, m = floor((b12 + b11 + b3 + b2 + b1) / 5))
+pl(f, 20, -1, pal = blues, m = (b12 + b11 + b3 + b2 + b1) / 5, breaks = brks)
+print_text(s, 20, -1, m = floor((b12 + b11 + b3 + b2 + b1) / 5))
 print_segments(5.7, 1.7, seg = time_arrow_seg, col = "forestgreen")
 arrows(12.5, 9, 20, 9, lwd = 3)
 text(16.3, 8.5, "apply_dimension(dimension = 't')", cex = 1.4)
@@ -873,16 +951,16 @@ text(.7 + 10, .7 + 2, "363", cex = 1.2)
 text(1.9 + 10, 1.9 + 2, "658", cex = 1.2)
 text(3.1 + 10, 3.1 + 2, "230", cex = 1.2)
 text(4.3 + 10, 4.3 + 2, "525", cex = 1.2)
-t_formula <- expression("t"[n]*" = (t"[n-1]*" + t"[n]*" + t"[n+1]*") / 3")
+# t_formula <- expression("t"[n]*" = (t"[n-1]*" + t"[n]*" + t"[n+1]*") / 3")
 # text(13.8, 3, t_formula, srt = 45, cex = 1.2)
-text(14.4, 3.6, "calculate moving average", srt = 45, cex = 1.2)
+text(14.4, 3.6, "mean()", srt = 45, cex = 1.2)
 arrows(15, 5.7, 18, 5.7, lwd = 3)
 print_segments(15.4, 1.7, seg = time_arrow_seg, col = "forestgreen") # draw ma explanation
-text(-0.5 + 15.7, -0.5 + 2, "NA", cex = 1.2)
-text(.7 + 15.7, .7 + 2, "505", cex = 1.2)
-text(1.9 + 15.7, 1.9 + 2, "417", cex = 1.2)
-text(3.1 + 15.7, 3.1 + 2, "471", cex = 1.2)
-text(4.3 + 15.7, 4.3 + 2, "NA", cex = 1.2)
+text(-0.5 + 15.7, -0.5 + 2, "454", cex = 1.2)
+text(.7 + 15.7, .7 + 2, "454", cex = 1.2)
+text(1.9 + 15.7, 1.9 + 2, "454", cex = 1.2)
+text(3.1 + 15.7, 3.1 + 2, "454", cex = 1.2)
+text(4.3 + 15.7, 4.3 + 2, "454", cex = 1.2)
 print_segments(25.7, 1.7, seg = time_arrow_seg, col = "forestgreen")
 dev.off()
 

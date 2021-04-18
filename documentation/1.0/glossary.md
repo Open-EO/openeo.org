@@ -31,6 +31,10 @@ The [CEOS OpenSearch Best Practice Document v1.2](http://ceos.org/ourwork/workin
 
 In openEO, a back-end offers a set of collections to be processed. All collections can be requested using a client and are described using the [STAC (SpatioTemporal Asset Catalog) metadata specification](https://github.com/radiantearth/stac-spec) as STAC collections. A user can load (a subset of) a collection using a special process, which returns a (spatial) data cube. All further processing is then applied to the data cube on the back-end.
 
+## Spatial data cubes
+
+A spatiotemporal datacube is a multidimensional array with one or more spatial or temporal dimensions. In the EO domain, it is common to be implicit about the temporal dimension and just refer to them as spatial datacubes in short. Special cases are raster and vector datacubes. Learn more about them in the [datacube documentation](https://openeo.org/documentation/1.0/datacubes.html).
+
 ## User-defined function (UDF)
 
 The abbreviation **UDF** stands for **user-defined function**. With this concept, users are able to upload custom code and have it executed e.g. for every pixel of a scene, or applied to a particular dimension or set of dimensions, allowing custom server-side calculations. See the section on [UDFs](./udfs.md) for more information.

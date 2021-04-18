@@ -37,6 +37,14 @@ Here is an overview of the dimensions contained in our example datacube above:
 | 3 | `bands`          | `blue`, `green`, `red`, `nir` | 4 bands |
 | 4 | `t`              | `2020-10-01`, `2020-10-13`, `2020-10-25` | 12 days |
 
+Dimension labels are either of type number or string, including all sub types such as integers or temporal strings. Additional data types may be allowed in the future. Dimensions with a natural/inherent label order (with a reference system this is each spatial and temporal dimension) are always sorted. Other dimensions where there is no inherent order, including bands, have the order in which they have been defined in metadata or processes (e.g. [`filter_bands`](https://processes.openeo.org/#filter_bands)) and new labels are added at the end.
+
+OpenEO datacubes contain scalar pixels, with all other information stored in dimensions (e.g. coordinates or timestamps). Additional attributes (e.g. "CRS" or "Sensor") can also be turned into dimensions. Be advised that in such a case, the uniqueness of pixel coordinates is affected. When usually, `(x, y)` refers to a unique location, that changes to `(x, y, CRS)` when `(x, y)` values are reused in other coordinate reference systems (e.g. two neighbouring UTM zones).
+
+::: tip Be Careful with Data Types
+As stated above, datacubes only contain scalar pixels. However, data types are handled by each backend individually. To avoid unhandled data types, steer clear of changing or mixing data types in datacube functions. Do not rely on a backend to automatically do conversions for you, unless explicitly stated by that backend.
+:::
+
 ### Applying Processes on Dimensions
 Some processes are typically applied "along a dimension". You can imagine said dimension as an arrow and whatever is happening as a parallel process to that arrow. It simply means: "we focus on _this_ dimension right now".
 

@@ -42,7 +42,7 @@ Dimension labels are either of type number or string, including all sub types su
 OpenEO datacubes contain scalar values (e.g. strings, numbers or boolean values), with all other associated attributes stored in dimensions (e.g. coordinates or timestamps). Attributes such as the CRS or the sensor can also be turned into dimensions. Be advised that in such a case, the uniqueness of pixel coordinates may be affected. When usually, `(x, y)` refers to a unique location, that changes to `(x, y, CRS)` when `(x, y)` values are reused in other coordinate reference systems (e.g. two neighboring UTM zones).
 
 ::: tip Be Careful with Data Types
-As stated above, datacubes only contain scalar pixels. However, data types are handled by each backend individually. To avoid unhandled data types, steer clear of changing or mixing data types in datacube functions. Do not rely on a backend to automatically do conversions for you, unless explicitly stated by that backend.
+As stated above, datacubes only contain scalar values. However, implementations may differ in their ability to handle or convert them. Implementations may also not allow mixing data types in a datacube. For example, returning a boolean value for a reducer on a numerical datacube may result in an error on some back-ends. The recommendation is to not change the data type of values in a datacube unless the back-end supports it explicitly.
 :::
 
 ### Applying Processes on Dimensions

@@ -19,7 +19,7 @@ For details about available processes, see the **[list of openEO processes](proc
 
 The more advanced topic to run your own code on back-ends, is explained in the introduction to [openEO UDFs (user-defined functions)](udfs.md).
 
-::: Note
+::: tip Note
 This is the documentation for the **openEO API version 1.0**. If you are looking for other versions of openEO, please use the version switch at the top right of this page.
 :::
 

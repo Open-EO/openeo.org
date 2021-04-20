@@ -12,7 +12,7 @@ const versions = [
       '1.0.1'
     ],
     userNav: [
-      {text: 'Intoduction', link: 'getting-started.html'},
+      {text: 'Intoduction', link: 'index.html'},
       {text: 'Glossary', link: 'glossary.html'},
       {text: 'Getting Started', items: [
         {text: 'Datacubes', link: 'datacubes.html'},

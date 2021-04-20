@@ -29,9 +29,9 @@ The [CEOS OpenSearch Best Practice Document v1.2](http://ceos.org/ourwork/workin
 - **granule**: dataset (ESA, ISO 19115), granule (NASA), product (ESA, CNES), scene (JAXA)
 - **collection**: dataset series (ESA, ISO 19115), collection (CNES, NASA), dataset (JAXA), product (JAXA)
 
-In openEO, a back-end offers a set of collections to be processed. All collections can be requested using a client and are described using the [STAC (SpatioTemporal Asset Catalog) metadata specification](https://github.com/radiantearth/stac-spec) as STAC collections. A user can load (a subset of) a collection using a special process, which returns a (spatial) data cube. All further processing is then applied to the data cube on the back-end.
+In openEO, a back-end offers a set of collections to be processed. All collections can be requested using a client and are described using the [STAC (SpatioTemporal Asset Catalog) metadata specification](https://github.com/radiantearth/stac-spec) as STAC collections. A user can load (a subset of) a collection using a special process, which returns a (spatial) datacube. All further processing is then applied to the datacube on the back-end.
 
-## Spatial data cubes
+## Spatial datacubes
 
 A spatiotemporal datacube is a multidimensional array with one or more spatial or temporal dimensions. In the EO domain, it is common to be implicit about the temporal dimension and just refer to them as spatial datacubes in short. Special cases are raster and vector datacubes. Learn more about them in the [datacube documentation](https://openeo.org/documentation/1.0/datacubes.html).
 

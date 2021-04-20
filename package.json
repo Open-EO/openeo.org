@@ -19,7 +19,7 @@
 		"vuepress": "^1.5.2",
 		"vuepress-plugin-check-md": "0.0.2",
 		"vuepress-plugin-code-copy": "^1.0.6",
-		"vuepress-plugin-code-switcher": "github:padarom/vuepress-plugin-code-switcher#global-configuration"
+		"vuepress-plugin-code-switcher": "^1.1.0"
 	},
 	"scripts": {
 		"prepare": "node .vuepress/prepare.js",

@@ -33,7 +33,7 @@ In openEO, a back-end offers a set of collections to be processed. All collectio
 
 ## Spatial datacubes
 
-A spatiotemporal datacube is a multidimensional array with one or more spatial or temporal dimensions. In the EO domain, it is common to be implicit about the temporal dimension and just refer to them as spatial datacubes in short. Special cases are raster and vector datacubes. Learn more about them in the [datacube documentation](https://openeo.org/documentation/1.0/datacubes.html).
+A spatiotemporal datacube is a multidimensional array with one or more spatial or temporal dimensions. In the EO domain, it is common to be implicit about the temporal dimension and just refer to them as spatial datacubes in short. Special cases are raster and vector datacubes. Learn more about datacubes in the [datacube documentation](https://openeo.org/documentation/1.0/datacubes.html).
 
 ## User-defined function (UDF)
 

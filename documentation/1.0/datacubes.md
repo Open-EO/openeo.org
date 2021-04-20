@@ -73,7 +73,7 @@ In the image, the example datacube can be seen at the top with labeled dimension
 
 ### Apply
 
-The `apply*` functions (e.g. [`apply`](https://processes.openeo.org/#apply), [`apply_neighborhood`](https://processes.openeo.org/#apply_neighborhood), [`apply_dimension`](https://processes.openeo.org/#apply_dimension)) employ a process on the datacube that calculates new pixel values for each pixel, based on `n` other pixels.
+The `apply*` functions (e.g. [`apply`](https://processes.openeo.org/#apply), [`apply_neighborhood`](https://processes.openeo.org/#apply_neighborhood), [`apply_dimension`](https://processes.openeo.org/#apply_dimension)) employ a process on the datacube that calculates new pixel values for each pixel, based on `n` other pixels. Please note that several programming languages use the name `map` instead of `apply`, but they describe the same type of function.
 
 ::: tip Simplified
 <span title="Applying the process 'cook' to [corn, potato, pig] returns [popcorn, fries, meat].">`apply([🌽, 🥔, 🐷], cook) => [🍿, 🍟, 🍖]`</span>

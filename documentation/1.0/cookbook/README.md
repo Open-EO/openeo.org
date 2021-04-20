@@ -14,7 +14,7 @@ Please refer to the getting started guides for [JavaScript](https://openeo.org/d
 
 Although already covered by the getting started guides, we want to go through our examples from the very beginning. So let's see how to connect to a backend of choice.
 
-<CodeSwitcher :languages="{py:'Python', r:'R', js:'JavaScript'}">
+<CodeSwitcher>
 <template v-slot:py>
 
 ```python
@@ -86,7 +86,7 @@ example().catch(error => console.error(error));
 
 Before loading a collection, of course we need to find out the exact name of a collection we want to use (backend-specific, see references above). We assign the spatial and temporal extent to variables, so that we can re-use them on other collections we might want to load. 
 
-<CodeSwitcher :languages="{py:'Python', r:'R', js:'JavaScript'}">
+<CodeSwitcher>
 <template v-slot:py>
 
 ```python
@@ -157,7 +157,7 @@ how to handle multiple ways to do things? mention but don't explain?
 
 ## Test
 
-<CodeSwitcher :languages="{py:'Python', r:'R', js:'JavaScript'}">
+<CodeSwitcher>
 <template v-slot:py>
 
 ```python

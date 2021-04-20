@@ -12,9 +12,8 @@ const versions = [
       '1.0.1'
     ],
     userNav: [
-      {text: 'Getting Started', link: 'getting-started.html'},
+      {text: 'Intoduction', link: 'getting-started.html'},
       {text: 'Glossary', link: 'glossary.html'},
-      {text: 'Processes', link: 'processes.html'},
       {text: 'Getting Started', items: [
         {text: 'Datacubes', link: 'datacubes.html'},
         {text: 'JavaScript', link: 'javascript/index.html'},
@@ -22,6 +21,8 @@ const versions = [
         {text: 'QGIS', link: 'qgis/index.html'},
         {text: 'R', link: 'r/index.html'}
       ]},
+      {text: 'Processes', link: 'processes.html'},
+      {text: 'Cookbook', link: 'cookbook/index.html'},
       {text: 'Authentication', link: 'authentication.html'},
       {text: 'UDFs', link: 'udfs.html'}
     ],
@@ -40,8 +41,7 @@ const versions = [
       {text: 'Processes', link: 'processes.html'},
       {text: 'Error Codes', link: 'developers/api/errors.html'},
       {text: 'Authentication', link: 'authentication.html'},
-      {text: 'UDFs', link: 'udfs.html'},
-//    {text: 'Examples', link: 'developers/examples/'} // Removed; Currently outdated
+      {text: 'UDFs', link: 'udfs.html'}
     ]
   },
   {
@@ -116,7 +116,14 @@ module.exports = {
     'check-md',
     '@vuepress/active-header-links',
     '@vuepress/last-updated',
-    'code-switcher',
+    [
+      'code-switcher',
+      {
+        groups: {
+          default: {py: 'Python', r: 'R', js: 'JavaScript'},
+        }
+      }
+    ],
     ['vuepress-plugin-code-copy', true]
   ],
   serviceWorker: true,

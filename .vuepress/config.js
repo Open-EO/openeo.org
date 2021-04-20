@@ -40,8 +40,7 @@ const versions = [
       {text: 'Processes', link: 'processes.html'},
       {text: 'Error Codes', link: 'developers/api/errors.html'},
       {text: 'Authentication', link: 'authentication.html'},
-      {text: 'UDFs', link: 'udfs.html'},
-//    {text: 'Examples', link: 'developers/examples/'} // Removed; Currently outdated
+      {text: 'UDFs', link: 'udfs.html'}
     ]
   },
   {

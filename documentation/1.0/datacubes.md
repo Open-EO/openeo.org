@@ -138,7 +138,7 @@ The second figure displays spatial resampling. Observe how in the upsampling pro
 The [`reduce_dimension`](https://processes.openeo.org/#reduce_dimension) process _collapses_ a whole dimension of the datacube. It does so by using some sort of **reducer**, which is a function that calculates a single result from an amount of values, as e.g. `mean()`, `min()` and `max()` are. For example we can reduce the time dimension (`t`) of a timeseries by calculating the mean value of all timesteps for each pixel. We are left with a cube that has no time dimension, because all values of that dimension are compressed into a single mean value. The same goes for e.g. the spatial dimensions: If we calculate the mean along the `x` and `y` dimensions, we are left without any spatial dimensions, but a mean value for each instance that previously was a raster is returned. In the image below, the dimensions that are reduced are crossed out in the result.
 
 ::: tip Simplified
-<span title="Reducing [mixed greens, cucumber, tomato, onion] returns a salad.">`reduce(🥬, 🥒, 🍅, 🧅) => 🥗`</span>
+<span title="Reducing [mixed greens, cucumber, tomato, onion] returns a salad.">`reduce([🥬, 🥒, 🍅, 🧅], prepare) => 🥗`</span>
 :::
 
 Think of it as a waste press that does math instead of using brute force. Given a representation of our example datacube, let's see how it is affected.

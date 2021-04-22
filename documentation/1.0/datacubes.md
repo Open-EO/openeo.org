@@ -17,7 +17,7 @@ It is important to understand that datacubes are designed to make things easier 
 </figure>
 
 ## Dimensions
-A dimension refers to a certain axis of a datacube. Our exemplary raster datacube has the spatial dimensions `x` and `y`, and the temporal dimension `t`. Furthermore it has a `bands` dimension, extending into the realm of _what kind of information_ is contained in the cube.
+A dimension refers to a certain axis of a datacube. This includes all variables (e.g. bands), which are represented as dimensions. Our exemplary raster datacube has the spatial dimensions `x` and `y`, and the temporal dimension `t`. Furthermore, it has a `bands` dimension, extending into the realm of _what kind of information_ is contained in the cube.
 
 The following properties are usually available for dimensions:
 
@@ -49,7 +49,7 @@ As stated above, datacubes only contain scalar values. However, implementations 
 Some processes are typically applied "along a dimension". You can imagine said dimension as an arrow and whatever is happening as a parallel process to that arrow. It simply means: "we focus on _this_ dimension right now".
 
 ### Resolution
-The resolution of a dimension gives information about what interval lies between observations. This is most obvious with the temporal resolution, where the intervals depict how often observations were made. Spatial resolution gives information about the pixel spacing, meaning how many 'real world meters' are contained in a pixel. For the `bands` dimension, the resolution would correspond to the spectral distance between consecutive bands, but this usually varies from band to band.
+The resolution of a dimension gives information about what interval lies between observations. This is most obvious with the temporal resolution, where the intervals depict how often observations were made. Spatial resolution gives information about the pixel spacing, meaning how many 'real world meters' are contained in a pixel. The number of bands and their wavelength intervals give information about the spectral resolution.
 
 ## Processes on Datacubes
 

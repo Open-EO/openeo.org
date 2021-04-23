@@ -231,3 +231,5 @@ Only a collection for now.
 - parameters that are named dependent on backend: collection name, exact band name, output format (?), 
 
 You have **feedback or** noticed an **error**? Feel free to open an issue in the [github repository](https://github.com/Open-EO/openeo.org) or use the [other communication channels](https://openeo.org/contact.html)
+
+* add filter bands to show python .bands and other filtr_bands?

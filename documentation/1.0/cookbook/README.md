@@ -1,37 +1,37 @@
 # OpenEO Cookbook
 
-This is the openEO cookbook that you can refer to to get a first idea on how to solve problems with the openEO API in the three client languages Python, R and JavaScript. It describes how to implement simple use cases in a pragmatic way.
+This is the openEO cookbook that you can refer to to get a first idea on how to solve problems with openEO in the three client languages Python, R and JavaScript. It describes how to implement simple use cases in a pragmatic way.
 
-Please refer to the getting started guides for [JavaScript](https://openeo.org/documentation/1.0/javascript), [Python](https://openeo.org/documentation/1.0/python/) and [R](https://openeo.org/documentation/1.0/r/) if you have never worked with the openEO API. This guide requires you to have a basic idea of how to establish a connection to a backend and how to explore that backend.
+Please refer to the getting started guides for [JavaScript](../javascript/index.md), [Python](../python/index.md) and [R](../r/index.md) if you have never worked with one of the openEO client libraries before. This guide requires you to have a basic idea of how to establish a connection to a backend and how to explore that backend.
 
 ::: tip References
-* [openEO processes documentation](https://openeo.org/documentation/1.0/processes.html)
-* [openEO hub](https://openeo.org/documentation/1.0/processes.html) to discover backends with available data and processes
-* [openEO web editor](https://editor.openeo.org) to visually build process graphs and execute jobs
+* [openEO processes documentation](../processes.md)
+* [openEO Hub](https://hub.openeo.org) to discover backends with available data and processes
+* [openEO Web Editor](https://editor.openeo.org) to visually build and execute processing workflows
 :::
 
 Throughout these guides, code examples for all three client languages are given. Select your preferred language with the code switcher on the right-hand side to set all examples to that language.
 
 ## Connecting to a Backend
 
-Click the link below to see how to connect to backend via openID. You can call the connection object `con` to avoid confusion throughout the rest of the tutorials.
+Click the link below to see how to connect to a back-end (via OpenID Connect). You can call the connection object `con` to avoid confusion throughout the rest of the tutorials.
 
 <CodeSwitcher>
 <template v-slot:py>
 
-[Getting started: openID authentication](https://openeo.org/documentation/1.0/python/#openid-connect-authentication)
+[Getting started: Authentication](https://openeo.org/documentation/1.0/python/#openid-connect-authentication)
 
 </template>
 
 <template v-slot:r>
 
-[Getting started: openID authentication](https://openeo.org/documentation/1.0/r/#openid-connect-authentication)
+[Getting started: Authentication](https://openeo.org/documentation/1.0/r/#openid-connect-authentication)
 
 </template>
 
 <template v-slot:js>
 
-[Getting started: openID authentication](https://openeo.org/documentation/1.0/javascript/#openid-connect-authentication)
+[Getting started: Authentication](https://openeo.org/documentation/1.0/javascript/#openid-connect-authentication)
 
 </template>
 

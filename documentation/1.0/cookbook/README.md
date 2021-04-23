@@ -1,37 +1,37 @@
 # OpenEO Cookbook
 
-This is the openEO cookbook that you can refer to to get a first idea on how to solve problems with the openEO API in the three client languages Python, R and JavaScript. It describes how to implement simple use cases in a pragmatic way.
+This is the openEO cookbook that you can refer to to get a first idea on how to solve problems with openEO in the three client languages Python, R and JavaScript. It describes how to implement simple use cases in a pragmatic way.
 
-Please refer to the getting started guides for [JavaScript](https://openeo.org/documentation/1.0/javascript), [Python](https://openeo.org/documentation/1.0/python/) and [R](https://openeo.org/documentation/1.0/r/) if you have never worked with the openEO API. This guide requires you to have a basic idea of how to establish a connection to a back-end and how to explore that back-end.
+Please refer to the getting started guides for [JavaScript](../javascript/index.md), [Python](../python/index.md) and [R](../r/index.md) if you have never worked with one of the openEO client libraries before. This guide requires you to have a basic idea of how to establish a connection to a back-end and how to explore that back-end.
 
 ::: tip References
-* [openEO processes documentation](https://openeo.org/documentation/1.0/processes.html)
-* [openEO hub](https://openeo.org/documentation/1.0/processes.html) to discover back-ends with available data and processes
-* [openEO web editor](https://editor.openeo.org) to visually build process graphs and execute jobs
+* [openEO processes documentation](../processes.md)
+* [openEO Hub](https://hub.openeo.org) to discover back-ends with available data and processes
+* [openEO Web Editor](https://editor.openeo.org) to visually build and execute processing workflows
 :::
 
 Throughout these guides, code examples for all three client languages are given. Select your preferred language with the code switcher on the right-hand side to set all examples to that language.
 
 ## Connecting to a back-end
 
-Click the link below to see how to connect to back-end via openID. You can call the connection object `con` to avoid confusion throughout the rest of the tutorials.
+Click the link below to see how to connect to a back-end (via OpenID Connect). You can call the connection object `con` to avoid confusion throughout the rest of the tutorials.
 
 <CodeSwitcher>
 <template v-slot:py>
 
-[Getting started: openID authentication](https://openeo.org/documentation/1.0/python/#openid-connect-authentication)
+[Getting started: Authentication](../python/#openid-connect-authentication)
 
 </template>
 
 <template v-slot:r>
 
-[Getting started: openID authentication](https://openeo.org/documentation/1.0/r/#openid-connect-authentication)
+[Getting started: Authentication](../r/#openid-connect-authentication)
 
 </template>
 
 <template v-slot:js>
 
-[Getting started: openID authentication](https://openeo.org/documentation/1.0/javascript/#openid-connect-authentication)
+[Getting started: Authentication](../javascript/#openid-connect-authentication)
 
 </template>
 
@@ -171,7 +171,7 @@ var cube_s2_b8_red = builder.reduce_dimension(data = cube_s2_b8, reducer = build
 
 To get a result, we first need to create a `save_result` node, in which we state the desired output format and potential parameters, both dependent on the back-end you are connected to. The output formats and their parameters can e.g. be explored via the Web Editor along with available processes and collections.
 
-We then proceed to send that job to the back-end, _without executing it_. Refer to the getting started guides on how to process results as batch or synchronous jobs. The way it is stated here allows us to log in to the web editor and look at, change, and execute the job from there.
+We then proceed to send that job to the back-end, _without executing it_. Refer to the getting started guides on how to process results as batch or synchronous jobs. The way it is stated here allows us to log in to the Web Editor and look at, change, and execute the job from there.
 
 ### Raster Formats: GTiff, NetCDF, PNG
 
@@ -232,4 +232,4 @@ Only a collection for now.
 
 You have **feedback or** noticed an **error**? Feel free to open an issue in the [github repository](https://github.com/Open-EO/openeo.org) or use the [other communication channels](https://openeo.org/contact.html)
 
-* add filter bands to show python .bands and other filtr_bands?
+* add filter bands to show python .bands and other filter_bands?

@@ -10,11 +10,9 @@ Please refer to the getting started guides for [JavaScript](../javascript/index.
 * [openEO Web Editor](https://editor.openeo.org) to visually build and execute processing workflows
 :::
 
-Throughout these guides, code examples for all three client languages are given. Select your preferred language with the code switcher on the right-hand side to set all examples to that language.
-
-# First Example: Output Formats
-
 In this example, we want to explore the different output formats that are possible with openEO. For that, we load and filter a collection (a datacube) of satellite data and calculate the temporal mean of that data. Different steps (e.g. a linear scaling) are done to prepare for the data to be output in one of the formats: Raster or text data.
+
+Throughout these guides, code examples for all three client languages are given. Select your preferred language with the code switcher on the right-hand side to set all examples to that language.
 
 ## Connecting to a back-end
 
@@ -51,7 +49,7 @@ In R and JavaScript it is very useful to assign a graph-building helper object t
 from openeo.processes import ProcessBuilder
 ```
 
-**Note:** Many functions in _callbacks_ (see below), are instances of this `ProcessBuilder` import.
+**Note:** Many functions in _child processes_ (see below), are instances of this `ProcessBuilder` import.
 
 </template>
 <template v-slot:r>
@@ -94,7 +92,7 @@ cube_s2_b8 = con.load_collection(
     "SENTINEL2_L2A_SENTINELHUB",
     spatial_extent = brussels,
     temporal_extent = t,
-    bands = ["B02", "B03", "B04", "B08"]
+    bands = ["B2", "B3", "B4", "B8"]
 )
 ```
 
@@ -111,7 +109,7 @@ cube_s2_b8 <- p$load_collection(
   id = "SENTINEL2_L2A_SENTINELHUB",
   spatial_extent = brussels,
   temporal_extent = t,
-  bands=c("B02", "B03", "B04", "B08")
+  bands=c("B2", "B3", "B4", "B8")
 )
 ```
 
@@ -128,7 +126,7 @@ var cube_s2_b8 = builder.load_collection(
     "SENTINEL2_L2A_SENTINELHUB",
     spatial_extent = brussels,
     temporal_extent = t,
-    bands = ["B02", "B03", "B04", "B08"]
+    bands = ["B2", "B3", "B4", "B8"]
 );
 ```
 
@@ -144,10 +142,10 @@ To go through the desired output formats, we'll need one collection with three b
 
 ```python
 # filter for band 8
-cube_s2_b8 = cube_s2.filter_bands(bands = ["B08"])
+cube_s2_b8 = cube_s2.filter_bands(bands = ["B8"])
 
 # filter for bands 2, 3, 4  
-cube_s2_b234 = cube_s2.filter_bands(bands = ["B02", "B03", "B04"])
+cube_s2_b234 = cube_s2.filter_bands(bands = ["B2", "B3", "B4"])
 ```
 
 </template>
@@ -155,10 +153,10 @@ cube_s2_b234 = cube_s2.filter_bands(bands = ["B02", "B03", "B04"])
 
 ```r
 # filter for band 8
-cube_s2_b8 <- p$filter_bands(data = cube_s2, bands = c("B08"))
+cube_s2_b8 <- p$filter_bands(data = cube_s2, bands = c("B8"))
 
 # filter for bands 2, 3, 4
-cube_s2_b234 <- p$filter_bands(data = cube_s2, bands = c("B02", "B03", "B04"))
+cube_s2_b234 <- p$filter_bands(data = cube_s2, bands = c("B2", "B3", "B4"))
 ```
 
 </template>
@@ -166,10 +164,10 @@ cube_s2_b234 <- p$filter_bands(data = cube_s2, bands = c("B02", "B03", "B04"))
 
 ```js
 // filter for band 8
-var cube_s2_b8 = builder.filter_bands(data = cube_s2, bands = ["B08"])
+var cube_s2_b8 = builder.filter_bands(data = cube_s2, bands = ["B8"])
 
 // filter bands 2, 3, 4
-var cube_s2_b234 = builder.filter_bands(data = cube_s2, bands = ["B02", "B03", "B04"]);
+var cube_s2_b234 = builder.filter_bands(data = cube_s2, bands = ["B2", "B3", "B4"]);
 ```
 
 </template>
@@ -179,12 +177,12 @@ var cube_s2_b234 = builder.filter_bands(data = cube_s2, bands = ["B02", "B03", "
 
 As we don't want to download the raw collection of satellite data, we need to reduce that data somehow. That means, we want to get rid of one dimension. Let's say we calculate a `mean` over all timesteps, and then drop the temporal dimension (as it's empty then anyway). This can be done via `reduce_dimension()`. The function requires a reducer, in our case a `mean` process, and the dimension over which to reduce, given as a string (`"t"`). 
 
-:::tip Callbacks
-Here, we need to define a **callback**: A function that is called by (or passed to) another function, and then works on a subset of the datacube. In this case: We want `reduce_dimension` to use the `mean` function to average all timesteps of each pixel. Not any function can be used as a callback, it must be defined by openEO, of course.
+:::tip Child Processes
+Here, we need to define a child process: A function that is called by (or passed to) another function, and then works on a subset of the datacube (somewhat similar to the concept of callbacks in Javascript). In this case: We want `reduce_dimension` to use the `mean` function to average all timesteps of each pixel. Not any function can be used like this, it must be defined by openEO, of course.
 
-All clients have more or less different specifics when defining a callback. As you can observe directly below, one way to define a callback is to pass the callback function directly inside the "parent"-function.
+All clients have more or less different specifics when defining a child process. As you can observe directly below, one way to define one is to define the function directly inside the parent process.
 
-For a more clean way to define a callback, see the chapter below.
+For a more clean way to define a child process, see the chapter below.
 :::
 
 <CodeSwitcher>
@@ -202,7 +200,7 @@ cube_s2_b8_red = cube_s2_b8.reduce_dimension(dimension="t", reducer="mean")
 cube_s2_b234_red = cube_s2_b234.mean_time()
 ```
 
-**Note:** In python, the callback function can be a string.
+**Note:** In python, the child process can be a string.
 
 </template>
 <template v-slot:r>
@@ -215,7 +213,7 @@ cube_s2_b8_red <- p$reduce_dimension(data = cube_s2_b8, reducer = function(data,
 cube_s2_b234_red <- p$reduce_dimension(data = cube_s2_rgb, reducer = function(data, context) { p$mean(data) }, dimension = "t")
 ```
 
-**Note:** In R, we can select a callback from the `p` helper object.
+**Note:** In R, we can select a child process from the `p` helper object.
 
 </template>
 <template v-slot:js>
@@ -228,7 +226,7 @@ var cube_s2_b8_red = builder.reduce_dimension(data = cube_s2_b8, reducer = new F
 var cube_s2_b234_red = builder.reduce_dimension(data = cube_s2_b234, reducer = new Formula("mean(data)"), dimension = "t");
 ```
 
-**Note:** In Javascript, `new Formula()` and a string can be used as callback.
+**Note:** In Javascript, `new Formula()` and a string can be used as child process.
 
 </template>
 </CodeSwitcher>
@@ -237,15 +235,15 @@ var cube_s2_b234_red = builder.reduce_dimension(data = cube_s2_b234, reducer = n
 
 To create a PNG output, we need to scale the satellite data we have down to the 8bit range of a PNG image. For this, the scale range of our imagery has to be known. For Sentinel 2 over urban and agricultural areas, we can use `6000` as a maximum.
 
-We'll use the process `linear_scale_range`. It takes a number and the four borders of the intervals as input. Because it works on a number and not a datacube as all processes discussed so far, we need to nest the process into an `apply`, once again defining a callback. `apply` applies a unary process to all pixels of a datacube.
+We'll use the process `linear_scale_range`. It takes a number and the four borders of the intervals as input. Because it works on a number and not a datacube as all processes discussed so far, we need to nest the process into an `apply`, once again defining a child process. `apply` applies a unary process to all pixels of a datacube.
 
-This time we'll also define our callbacks externally, as to not get confused in too much code nesting.
+This time we'll also define our child processes externally, as to not get confused in too much code nesting.
 
 <CodeSwitcher>
 <template v-slot:py>
 
 ```python
-# define callback, use ProcessBuilder
+# define child process, use ProcessBuilder
 def scale_(x: ProcessBuilder):
     return x.linear_scale_range(0, 6000, 0, 255)
 
@@ -253,13 +251,13 @@ def scale_(x: ProcessBuilder):
 cube_s2_b234_red_lin = cube_s2_b234_red.apply(scale_)
 ```
 
-**Resource:** Refer to the [Python client documentation](https://open-eo.github.io/openeo-python-client/processes.html#processes-with-child-callbacks) to learn more about Python callbacks.
+**Resource:** Refer to the [Python client documentation](https://open-eo.github.io/openeo-python-client/processes.html#processes-with-child-callbacks) to learn more about child processes in Python.
 
 </template>
 <template v-slot:r>
 
 ```r
-# define callback function
+# define child process
 scale_ <- function(x, context) {
   p$linear_scale_range(x, inputMin = 0, inputMax = 6000, outputMin = 0, outputMax = 255)
 }
@@ -272,13 +270,91 @@ cube_s2_b234_red_lin <- p$apply(data = cube_s2_b234_red, process = scale_)
 <template v-slot:js>
 
 ```js
-// define callback function
+// define child process
 var scale_ = function(x, context) {
     return this.linear_scale_range(x, 0, 6000, 0, 255)
 }
 
-// apply callback to all pixels
+// apply child process to all pixels
 var cube_s2_b234_red_lin = builder.apply(data = cube_s2_rgb_red, scale_);
+```
+
+</template>
+</CodeSwitcher>
+
+## Spatial Aggregation: `aggregate_spatial`
+
+To look at text output formats we first need to "de-spatialize" our data. Or put another way: If we're interested in e.g. timeseries of various geometries, text output might be very interesting for us.
+
+To aggregate over certain geometries, we use the process `aggregate_spatial`. It takes valid GeoJSON as input, therefore we introduce two libraries to handle that data in Python and R (JSON is native to Javascript).
+
+<CodeSwitcher>
+<template v-slot:py>
+
+```python
+# import shapely library to construct Polygons
+from shapely.geometry import Polygon
+
+# make polygon with shapely
+p1 = Polygon([(4.358139, 50.851149), (4.342517, 50.853479), (4.345178, 50.847518), (4.358139, 50.851149)])
+
+# aggregate spatially with polygon and reducer
+cube_s2_b8_agg = cube_s2_b8.aggregate_spatial(p1, reducer = "mean")
+```
+
+</template>
+<template v-slot:r>
+
+```r
+# load sf
+library(sf)
+
+# make sf polygon feature
+p1 <- st_polygon(x = list(matrix(c( 4.358139,  4.342517,  4.345178,  4.358139,
+                                   50.851149, 50.853479, 50.847518, 50.851149), ncol = 2)))
+
+# aggregate spatially
+cube_s2_b8_agg <- p$aggregate_spatial(data = cube_s2_b8, reducer = function(data, context) { p$mean(data) }, geometries = p1)
+```
+
+</template>
+<template v-slot:js>
+
+```js
+// define polygon as geojson
+var p1 = {
+    "type": "FeatureCollection",
+    "features": [{
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [
+                    [
+                        4.363503456115723,
+                        50.83242375662908
+                    ],
+                    [
+                        4.3399858474731445,
+                        50.82705667183455
+                    ],
+                    [
+                        4.369468688964844,
+                        50.81493780212673
+                    ],
+                    [
+                        4.363503456115723,
+                        50.83242375662908
+                    ]
+                ]
+            ]
+        }
+    }]
+}
+
+// aggregate spatial
+var cube_s2_b8_agg = builder.aggregate_spatial(data = cube_s2_b8, geometries = p1, reducer = new Formula("mean(data)"))
 ```
 
 </template>
@@ -292,7 +368,9 @@ We then proceed to send that job to the back-end, _without executing it_. Refer 
 
 ### Raster Formats: GTiff, NetCDF
 
-In the example, GeoTiff files are produced. Refer to the back-end for the available formats, options, and their correct naming. Check the [PNG section](#raster-formats-png) for passing options.
+In the example, GeoTiff files are produced. Refer to the back-end for the available formats, options, and their correct naming. Check the [PNG section](#raster-formats-png) for passing options. 
+
+Different from the creation of a PNG image, the raster format doesn't need scaling and the original datacube can be downloaded as is. However, we need to be careful with the dimensionality of the datacube: How a 4+ - dimensional datacube is handled when converted to a raster format is back-end dependent. That is why we [made sure](#temporal-mean-reduce_dimension) that our cube would only contain one additional dimension, apart from the spatial `x` and `y`.
 
 <CodeSwitcher>
 <template v-slot:py>
@@ -302,7 +380,7 @@ In the example, GeoTiff files are produced. Refer to the back-end for the availa
 res = cube_s2_b8_red.save_result(format = "GTiff")
 
 # send job to back-end, do not execute
-job = res.send_job(title = "calc_mean_via_python")
+job = res.send_job(title = "temporal_mean_as_GTiff_py")
 ```
 
 </template>
@@ -316,7 +394,7 @@ formats <- list_file_formats()
 res <- p$save_result(data = cube_s2_b8_red, format = formats$output$GTiff)
 
 # send job to back-end
-job <- create_job(graph = res, title = "calc_mean_via_r")
+job <- create_job(graph = res, title = "temporal_mean_as_GTiff_r")
 ```
 
 </template>
@@ -327,7 +405,7 @@ job <- create_job(graph = res, title = "calc_mean_via_r")
 result = builder.save_result(data = cube_s2_b8_red, format = "GTiff");
 
 // send job to back-end, but don't execute yet
-var job = await con.createJob(result, "calc_mean_via_javascript");
+var job = await con.createJob(result, "temporal_mean_as_GTiff_js");
 ```
 
 </template>
@@ -335,7 +413,7 @@ var job = await con.createJob(result, "calc_mean_via_javascript");
 
 ### Raster Formats: PNG
 
-For a PNG output, we'll use the datacube with the bands 2, 3 and 4 (blue, green and red) that we've been working on simultaneously with the cube used above. As we have scaled it down to 8bit using a [linear scale](#scale-all-pixels-linearly-apply-linear_scale_range), nothing stands in the way of downloading the data as PNG. Check with the back-end for available options. 
+For a PNG output, we'll use the datacube with the bands 2, 3 and 4 (blue, green and red) that we've been working on simultaneously with the datacube used above. As we have scaled the data down to 8bit using a [linear scale](#scale-all-pixels-linearly-apply-linear_scale_range), nothing stands in the way of downloading the data as PNG. Check with the back-end for available options.
 
 <CodeSwitcher>
 <template v-slot:py>
@@ -349,7 +427,7 @@ res = cube_s2_b234_red_lin.save_result(format = "PNG", options = {
       })
 
 # send job to backend
-job = res.send_job(title = "ex1_png_opt_py")
+job = res.send_job(title = "temporal_mean_as_PNG_py")
 ```
 
 In python, options are passed as a dictionary
@@ -366,7 +444,7 @@ res <- p$save_result(data = cube2_lin, format = formats$output$PNG,
                       options = list(red="B4", green="B3", blue="B2"))
 
 # send job to backend
-job <- create_job(graph = res, title = "ex1_png_red_r")
+job <- create_job(graph = res, title = "temporal_mean_as_PNG_r")
 ```
 
 In R, options are passed as a list.
@@ -383,7 +461,7 @@ result = builder.save_result(data = cube_s2_b234_red_lin, format = "PNG", option
 });
     
 // send job to backend
-var job = await con.createJob(result, "b234_lin_png_js");
+var job = await con.createJob(result, "temporal_mean_as_PNG_js");
 ```
 
 In JavaScript, options are passed as objects.
@@ -393,6 +471,48 @@ In JavaScript, options are passed as objects.
 
 ### Text Formats: *JSON, CSV
 
+We can now save the timeseries in the [aggregated](#spatial-aggregation-aggregate_spatial) datacube as e.g. CSV.
+
+<CodeSwitcher>
+<template v-slot:py>
+
+```python
+# save result cube as CSV
+res = cube_s2_b8_agg.save_result(format = "CSV")
+
+# send job to backend
+job = res.send_job(title = "timeseries_as_CSV_py")
+```
+
+</template>
+<template v-slot:r>
+
+```r
+# use list_file_formats() to be able to choose from a list
+formats <- list_file_formats()
+
+# save result as CSV
+res <- p$save_result(data = cube_s2_b8_agg, format = formats$output$CSV)
+
+# send job to backend
+job <- create_job(graph = res, title = "timeseries_as_CSV_r")
+```
+
+</template>
+<template v-slot:js>
+
+```js
+// save as CSV
+result = builder.save_result(data = cube_s2_b8_agg, format = "CSV");
+
+// send job to backend
+var job = await con.createJob(result, "timeseries_as_CSV_js");
+```
+
+</template>
+</CodeSwitcher>
+
+## Endnote
 
 You have **feedback or** noticed an **error**? Feel free to open an issue in the [github repository](https://github.com/Open-EO/openeo.org) or use the [other communication channels](https://openeo.org/contact.html)
 

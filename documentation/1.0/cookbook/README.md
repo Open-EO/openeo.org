@@ -220,7 +220,7 @@ cube_s2_b234_red <- p$reduce_dimension(data = cube_s2_rgb, reducer = function(da
 
 ```js
 // reduce dimension
-var cube_s2_b8_red = builder.reduce_dimension(data = cube_s2_b8, reducer = new Formula("mean(data)"), dimension = "t");
+var cube_s2_b8_red = builder.reduce_dimension(data = cube_s2_b8, reducer = (data, _, child) => child.mean(data), dimension = "t");
 
 // second collection
 var cube_s2_b234_red = builder.reduce_dimension(data = cube_s2_b234, reducer = new Formula("mean(data)"), dimension = "t");
@@ -515,4 +515,3 @@ var job = await con.createJob(result, "timeseries_as_CSV_js");
 ## Endnote
 
 You have **feedback or** noticed an **error**? Feel free to open an issue in the [github repository](https://github.com/Open-EO/openeo.org) or use the [other communication channels](https://openeo.org/contact.html)
-

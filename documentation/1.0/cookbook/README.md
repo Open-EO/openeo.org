@@ -223,10 +223,10 @@ cube_s2_b234_red <- p$reduce_dimension(data = cube_s2_rgb, reducer = function(da
 var cube_s2_b8_red = builder.reduce_dimension(data = cube_s2_b8, reducer = (data, _, child) => child.mean(data), dimension = "t");
 
 // second collection
-var cube_s2_b234_red = builder.reduce_dimension(data = cube_s2_b234, reducer = new Formula("mean(data)"), dimension = "t");
+var cube_s2_b234_red = builder.reduce_dimension(data = cube_s2_b234, reducer = (data, _, child) => child.mean(data), dimension = "t");
 ```
 
-**Note:** In Javascript, `new Formula()` and a string can be used as child process.
+**Note:** In Javascript, arrow functions can be used as child processes.
 
 </template>
 </CodeSwitcher>
@@ -270,14 +270,19 @@ cube_s2_b234_red_lin <- p$apply(data = cube_s2_b234_red, process = scale_)
 <template v-slot:js>
 
 ```js
-// define child process
+// define child process (long way)
 var scale_ = function(x, context) {
     return this.linear_scale_range(x, 0, 6000, 0, 255)
 }
 
+// we could also use an arrow function here to abbreviate
+// var scale_ = (x, context, child) => child.linear_scale_range(x, 0, 6000, 0, 255)
+
 // apply child process to all pixels
 var cube_s2_b234_red_lin = builder.apply(data = cube_s2_rgb_red, scale_);
 ```
+
+**Note:** Given the two ways of defining a child process above, we can see that in the long way, the builder is available as `this`, while in arrow functions, it has to be passed as the last argument (here called `child`).
 
 </template>
 </CodeSwitcher>
@@ -354,7 +359,7 @@ var p1 = {
 }
 
 // aggregate spatial
-var cube_s2_b8_agg = builder.aggregate_spatial(data = cube_s2_b8, geometries = p1, reducer = new Formula("mean(data)"))
+var cube_s2_b8_agg = builder.aggregate_spatial(data = cube_s2_b8, geometries = p1, reducer = (data, _, child) => child.mean(data))
 ```
 
 </template>

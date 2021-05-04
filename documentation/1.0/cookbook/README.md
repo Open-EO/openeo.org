@@ -76,23 +76,25 @@ var builder = await con.buildProcess();
 
 ## Input: `load_collection`
 
-Before loading a collection, we need to find out the exact name of a collection we want to use (back-end-specific, see references [at the top](#openeo-cookbook)). We assign the spatial and temporal extent to variables, so that we can re-use them on other collections we might want to load. Let's look for a Sentinel 2 (preprocessed level 2A preferably) collection and load the RGB (bands 2-4) and the first near-infrared band (band 8). Check with the back-end (refer to collection description) for the correct naming of bands (`B08` vs `B8`).
+Before loading a collection, we need to find out the exact name of a collection we want to use (back-end-specific, see references [at the top](#openeo-cookbook)). We assign the spatial and temporal extent to variables, so that we can re-use them on other collections we might want to load. Let's look for a Sentinel 2 (preprocessed level 2A preferably) collection and load the green, red and a near-infrared band (bands 3, 4 and 8). Also check with the back-end (refer to collection description) for the correct naming of bands (`B08` vs `B8`).
+
+We'll name our collection very explicitly `cube_s2_b348` as to not get confused later on.
 
 <CodeSwitcher>
 <template v-slot:py>
 
 ```python
 # make dictionary, containing bounding box
-brussels = {"west":4.2369, "south":50.7816, "east":4.5277, "north":50.9305}
+urk = {"west": 5.5661, "south": 52.6457, "east": 5.7298, "north": 52.7335}
 # make list, containing the temporal interval
-t = ["2020-06-01", "2020-06-15"]
+t = ["2021-04-26", "2020-04-30"]
 
 # load first datacube
-cube_s2_b8 = con.load_collection(
+cube_s2_b348 = con.load_collection(
     "SENTINEL2_L2A_SENTINELHUB",
-    spatial_extent = brussels,
+    spatial_extent = urk,
     temporal_extent = t,
-    bands = ["B2", "B3", "B4", "B8"]
+    bands = ["B3", "B4", "B8"]
 )
 ```
 
@@ -101,15 +103,16 @@ cube_s2_b8 = con.load_collection(
 
 ```r
 # create variables for loading collection
-brussels <- list(west=4.2369, south=50.7816, east=4.5277, north=50.9305)
-t <- c("2020-06-01", "2020-06-15")
+urk <- list(west = 5.5661, south = 52.6457, east = 5.7298, north = 52.7335)
+
+t <- c("2021-04-26", "2020-04-30")
 
 # load first datacube
-cube_s2_b8 <- p$load_collection(
+cube_s2_b348 <- p$load_collection(
   id = "SENTINEL2_L2A_SENTINELHUB",
-  spatial_extent = brussels,
+  spatial_extent = urk,
   temporal_extent = t,
-  bands=c("B2", "B3", "B4", "B8")
+  bands=c("B3", "B4", "B8")
 )
 ```
 
@@ -118,15 +121,16 @@ cube_s2_b8 <- p$load_collection(
 
 ```js
 // make spatial and temporal extent
-let brussels = {"west":4.2369, "south":50.7816, "east":4.5277, "north":50.9305};
-let t = ["2020-06-01", "2020-06-15"];   
+let urk = {"west": 5.5661, "south": 52.6457, "east": 5.7298, "north": 52.7335};
+
+let t = ["2021-04-26", "2020-04-30"];   
 
 // load first cube
-var cube_s2_b8 = builder.load_collection(
+var cube_s2_b348 = builder.load_collection(
     "SENTINEL2_L2A_SENTINELHUB",
-    spatial_extent = brussels,
+    spatial_extent = urk,
     temporal_extent = t,
-    bands = ["B2", "B3", "B4", "B8"]
+    bands = ["B3", "B4", "B8"]
 );
 ```
 
@@ -135,7 +139,9 @@ var cube_s2_b8 = builder.load_collection(
 
 ## Filter Bands: `filter_bands`
 
-To go through the desired output formats, we'll need one collection with three bands, and one collection with only one band. Here we use `filter_bands`, when of course we could also just define two separate collections with the corresponding bands. After this, we have two collections spanning the same spatial and temporal extent, but with different bands.
+To go through the desired output formats, we'll need one collection with three bands, and one collection with only one band. Here we use `filter_bands`, when of course we could also just define a separate collection via `load_collection`. As our input datacube already has the required three bands, we filter it for a single band to create an additional datacube with the same spatial and temporal extent, but with only one band (band 8). 
+
+We'll name this one `cube_s2_b8` to distinguish it from the original `cube_s2_b348`.
 
 <CodeSwitcher>
 <template v-slot:py>
@@ -143,9 +149,6 @@ To go through the desired output formats, we'll need one collection with three b
 ```python
 # filter for band 8
 cube_s2_b8 = cube_s2.filter_bands(bands = ["B8"])
-
-# filter for bands 2, 3, 4  
-cube_s2_b234 = cube_s2.filter_bands(bands = ["B2", "B3", "B4"])
 ```
 
 </template>
@@ -154,9 +157,6 @@ cube_s2_b234 = cube_s2.filter_bands(bands = ["B2", "B3", "B4"])
 ```r
 # filter for band 8
 cube_s2_b8 <- p$filter_bands(data = cube_s2, bands = c("B8"))
-
-# filter for bands 2, 3, 4
-cube_s2_b234 <- p$filter_bands(data = cube_s2, bands = c("B2", "B3", "B4"))
 ```
 
 </template>
@@ -165,9 +165,6 @@ cube_s2_b234 <- p$filter_bands(data = cube_s2, bands = c("B2", "B3", "B4"))
 ```js
 // filter for band 8
 var cube_s2_b8 = builder.filter_bands(data = cube_s2, bands = ["B8"])
-
-// filter bands 2, 3, 4
-var cube_s2_b234 = builder.filter_bands(data = cube_s2, bands = ["B2", "B3", "B4"]);
 ```
 
 </template>
@@ -197,7 +194,7 @@ cube_s2_b8_red = cube_s2_b8.mean_time()
 cube_s2_b8_red = cube_s2_b8.reduce_dimension(dimension="t", reducer="mean")
 
 # additionally, reduce second collection
-cube_s2_b234_red = cube_s2_b234.mean_time()
+cube_s2_b348_red = cube_s2_b348.mean_time()
 ```
 
 **Note:** In python, the child process can be a string.
@@ -210,7 +207,7 @@ cube_s2_b234_red = cube_s2_b234.mean_time()
 cube_s2_b8_red <- p$reduce_dimension(data = cube_s2_b8, reducer = function(data, context) { p$mean(data) }, dimension = "t")
 
 # reduce, second collection
-cube_s2_b234_red <- p$reduce_dimension(data = cube_s2_rgb, reducer = function(data, context) { p$mean(data) }, dimension = "t")
+cube_s2_b348_red <- p$reduce_dimension(data = cube_s2_b348, reducer = function(data, context) { p$mean(data) }, dimension = "t")
 ```
 
 **Note:** In R, we can select a child process from the `p` helper object.
@@ -223,7 +220,7 @@ cube_s2_b234_red <- p$reduce_dimension(data = cube_s2_rgb, reducer = function(da
 var cube_s2_b8_red = builder.reduce_dimension(data = cube_s2_b8, reducer = (data, _, child) => child.mean(data), dimension = "t");
 
 // second collection
-var cube_s2_b234_red = builder.reduce_dimension(data = cube_s2_b234, reducer = (data, _, child) => child.mean(data), dimension = "t");
+var cube_s2_b348_red = builder.reduce_dimension(data = cube_s2_b348, reducer = (data, _, child) => child.mean(data), dimension = "t");
 ```
 
 **Note:** In Javascript, arrow functions can be used as child processes.
@@ -248,7 +245,7 @@ def scale_(x: ProcessBuilder):
     return x.linear_scale_range(0, 6000, 0, 255)
 
 # apply scale_ to all pixels
-cube_s2_b234_red_lin = cube_s2_b234_red.apply(scale_)
+cube_s2_b348_red_lin = cube_s2_b348_red.apply(scale_)
 ```
 
 **Resource:** Refer to the [Python client documentation](https://open-eo.github.io/openeo-python-client/processes.html#processes-with-child-callbacks) to learn more about child processes in Python.
@@ -263,7 +260,7 @@ scale_ <- function(x, context) {
 }
 
 # apply scale range to all pixels
-cube_s2_b234_red_lin <- p$apply(data = cube_s2_b234_red, process = scale_)
+cube_s2_b348_red_lin <- p$apply(data = cube_s2_b348_red, process = scale_)
 ```
 
 </template>
@@ -279,7 +276,7 @@ var scale_ = function(x, context) {
 // var scale_ = (x, context, child) => child.linear_scale_range(x, 0, 6000, 0, 255)
 
 // apply child process to all pixels
-var cube_s2_b234_red_lin = builder.apply(data = cube_s2_rgb_red, scale_);
+var cube_s2_b348_red_lin = builder.apply(data = cube_s2_b348_red, scale_);
 ```
 
 **Note:** Given the two ways of defining a child process above, we can see that in the long way, the builder is available as `this`, while in arrow functions, it has to be passed as the last argument (here called `child`).
@@ -301,7 +298,7 @@ To aggregate over certain geometries, we use the process `aggregate_spatial`. It
 from shapely.geometry import Polygon
 
 # make polygon with shapely
-p1 = Polygon([(4.358139, 50.851149), (4.342517, 50.853479), (4.345178, 50.847518), (4.358139, 50.851149)])
+p1 = Polygon([(5.645427, 52.702368), (5.656800, 52.702446), (5.645728, 52.716356), (5.645427, 52.702368)])
 
 # aggregate spatially with polygon and reducer
 cube_s2_b8_agg = cube_s2_b8.aggregate_spatial(p1, reducer = "mean")
@@ -315,8 +312,8 @@ cube_s2_b8_agg = cube_s2_b8.aggregate_spatial(p1, reducer = "mean")
 library(sf)
 
 # make sf polygon feature
-p1 <- st_polygon(x = list(matrix(c( 4.358139,  4.342517,  4.345178,  4.358139,
-                                   50.851149, 50.853479, 50.847518, 50.851149), ncol = 2)))
+p1 <- st_polygon(x = list(matrix(c( 5.645427,  5.656800,  5.645728,  5.645427,
+                                   52.702368, 52.702446, 52.716356, 52.702368), ncol = 2)))
 
 # aggregate spatially
 cube_s2_b8_agg <- p$aggregate_spatial(data = cube_s2_b8, reducer = function(data, context) { p$mean(data) }, geometries = p1)
@@ -328,34 +325,36 @@ cube_s2_b8_agg <- p$aggregate_spatial(data = cube_s2_b8, reducer = function(data
 ```js
 // define polygon as geojson
 var p1 = {
-    "type": "FeatureCollection",
-    "features": [{
-        "type": "Feature",
-        "properties": {},
-        "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-                [
-                    [
-                        4.363503456115723,
-                        50.83242375662908
-                    ],
-                    [
-                        4.3399858474731445,
-                        50.82705667183455
-                    ],
-                    [
-                        4.369468688964844,
-                        50.81493780212673
-                    ],
-                    [
-                        4.363503456115723,
-                        50.83242375662908
-                    ]
-                ]
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              5.645427703857422,
+              52.70236859806736
+            ],
+            [
+              5.656800270080566,
+              52.70244661236617
+            ],
+            [
+              5.645728111267089,
+              52.71635693250797
+            ],
+            [
+              5.645427703857422,
+              52.70236859806736
             ]
-        }
-    }]
+          ]
+        ]
+      }
+    }
+  ]
 }
 
 // aggregate spatial
@@ -418,17 +417,21 @@ var job = await con.createJob(result, "temporal_mean_as_GTiff_js");
 
 ### Raster Formats: PNG
 
-For a PNG output, we'll use the datacube with the bands 2, 3 and 4 (blue, green and red) that we've been working on simultaneously with the datacube used above. As we have scaled the data down to 8bit using a [linear scale](#scale-all-pixels-linearly-apply-linear_scale_range), nothing stands in the way of downloading the data as PNG. Check with the back-end for available options.
+For a PNG output, we'll use the datacube with the bands 3, 4 and 8 (green, red and near-infrared) that we've been working on simultaneously with the datacube used above. As we have scaled the data down to 8bit using a [linear scale](#scale-all-pixels-linearly-apply-linear_scale_range), nothing stands in the way of downloading the data as PNG.
+
+We want to produce a false-color composite highlighting the vegetation in red (as seen below the code). For that, we want to assign the infrared band (`B8`) to the red channel, the red band (`B4`) to the green channel and the green band (`B3`) to the blue channel. Some back-ends may offer to pass along this desired band order as it is shown below. Check with the back-end for available options.
+
+If no options can be passed, handling of the bands for PNG output is internal and should be documented by the back-end. You might also be able to tell how this is done by how your PNG looks: As explained in the [datacube guide](../datacubes.md#dimensions), the order of the `bands` dimension is defined when the values are loaded or altered (in our example: `filter_bands`). As we filter bands in the order `"B3", "B4", "B8"` vegetation might be highlighted in blue, given that the backend uses the input order for the RGB channels.
 
 <CodeSwitcher>
 <template v-slot:py>
 
 ```python
 # save result cube as PNG
-res = cube_s2_b234_red_lin.save_result(format = "PNG", options = {
-        "red": "B4",
-        "green": "B3",
-        "blue": "B2"
+res = cube_s2_b348_red_lin.save_result(format = "PNG", options = {
+        "red": "B8",
+        "green": "B4",
+        "blue": "B3"
       })
 
 # send job to backend
@@ -446,7 +449,7 @@ formats <- list_file_formats()
 
 # save result as PNG
 res <- p$save_result(data = cube2_lin, format = formats$output$PNG, 
-                      options = list(red="B4", green="B3", blue="B2"))
+                      options = list(red="B8", green="B4", blue="B3"))
 
 # send job to backend
 job <- create_job(graph = res, title = "temporal_mean_as_PNG_r")
@@ -459,10 +462,10 @@ In R, options are passed as a list.
 
 ```js
 // save result as PNG
-result = builder.save_result(data = cube_s2_b234_red_lin, format = "PNG", options = {
-    red: "B4",
-    green: "B3",
-    blue: "B2"
+result = builder.save_result(data = cube_s2_b348_red_lin, format = "PNG", options = {
+    red: "B8",
+    green: "B4",
+    blue: "B3"
 });
     
 // send job to backend
@@ -473,6 +476,10 @@ In JavaScript, options are passed as objects.
 
 </template>
 </CodeSwitcher>
+
+![Example PNG: false color composite highlighting vegetation in red.](../cookbook/urk.png)
+Image above: Example PNG output with the vegetation highlighted in red.
+
 
 ### Text Formats: *JSON, CSV
 

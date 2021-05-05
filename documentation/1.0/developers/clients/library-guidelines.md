@@ -205,7 +205,7 @@ The `Service` scope internally knows the `service_id`.
 | -------------------------------------------------- | --------------------------------- | ------------- |
 | Get all information about a secondary web service. | `GET /services/{service_id}`      | `describeService()` |
 | Get the log files for a web service.               | `GET /services/{service_id}/logs` | `debugService()` |
-| Modify a secondary web service at the back-end.    | `PATCH /services/{service_id}`    | `updateService(?process, ?title, ?description, ?enabled, ?parameters, ?plan, ?budget, ?additional)` |
+| Modify a secondary web service at the back-end.    | `PATCH /services/{service_id}`    | `updateService(?process, ?title, ?description, ?enabled, ?configuration, ?plan, ?budget, ?additional)` |
 | Delete a secondary web service.                    | `DELETE /services/{service_id}`   | `deleteService()` |
 
 ## Processes

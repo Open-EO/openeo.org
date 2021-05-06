@@ -152,7 +152,7 @@ We'll name this one `cube_s2_b8` to distinguish it from the original `cube_s2_b3
 
 ```python
 # filter for band 8
-cube_s2_b8 = cube_s2.filter_bands(bands = ["B8"])
+cube_s2_b8 = cube_s2_b348.filter_bands(bands = ["B8"])
 ```
 
 </template>
@@ -160,7 +160,7 @@ cube_s2_b8 = cube_s2.filter_bands(bands = ["B8"])
 
 ```r
 # filter for band 8
-cube_s2_b8 <- p$filter_bands(data = cube_s2, bands = c("B8"))
+cube_s2_b8 <- p$filter_bands(data = cube_s2_b348, bands = c("B8"))
 ```
 
 </template>
@@ -455,7 +455,7 @@ In python, options are passed as a dictionary
 formats <- list_file_formats()
 
 # save result as PNG
-res <- p$save_result(data = cube2_lin, format = formats$output$PNG, 
+res <- p$save_result(data = cube_s2_b348_red_lin, format = formats$output$PNG, 
                       options = list(red="B8", green="B4", blue="B3"))
 
 # send job to backend

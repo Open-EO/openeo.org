@@ -8,6 +8,8 @@ Please refer to the getting started guides for [JavaScript](../javascript/index.
 * [openEO processes documentation](../processes.md)
 * [openEO Hub](https://hub.openeo.org) to discover back-ends with available data and processes
 * [openEO Web Editor](https://editor.openeo.org) to visually build and execute processing workflows
+_____________________
+* [Python client documentation](https://open-eo.github.io/openeo-python-client/index.html)
 :::
 
 In this example, we want to explore the different output formats that are possible with openEO. For that, we load and filter a collection (a datacube) of satellite data and calculate the temporal mean of that data. Different steps (e.g. a linear scaling) are done to prepare for the data to be output in one of the formats: Raster or text data.
@@ -87,7 +89,7 @@ We'll name our collection very explicitly `cube_s2_b348` as to not get confused 
 # make dictionary, containing bounding box
 urk = {"west": 5.5661, "south": 52.6457, "east": 5.7298, "north": 52.7335}
 # make list, containing the temporal interval
-t = ["2021-04-26", "2020-04-30"]
+t = ["2021-04-26", "2021-04-30"]
 
 # load first datacube
 cube_s2_b348 = con.load_collection(
@@ -105,7 +107,7 @@ cube_s2_b348 = con.load_collection(
 # create variables for loading collection
 urk <- list(west = 5.5661, south = 52.6457, east = 5.7298, north = 52.7335)
 
-t <- c("2021-04-26", "2020-04-30")
+t <- c("2021-04-26", "2021-04-30")
 
 # load first datacube
 cube_s2_b348 <- p$load_collection(
@@ -123,16 +125,18 @@ cube_s2_b348 <- p$load_collection(
 // make spatial and temporal extent
 let urk = {"west": 5.5661, "south": 52.6457, "east": 5.7298, "north": 52.7335};
 
-let t = ["2021-04-26", "2020-04-30"];   
+let t = ["2021-04-26", "2021-04-30"];   
 
 // load first cube
 var cube_s2_b348 = builder.load_collection(
     "SENTINEL2_L2A_SENTINELHUB",
-    spatial_extent = urk,
-    temporal_extent = t,
-    bands = ["B3", "B4", "B8"]
+    urk,
+    t,
+    ["B3", "B4", "B8"]
 );
 ```
+
+**Note:** Javascript doesn't use parameter names (like Python and R), so the parameters need to be in the order that they are defined in the [openEO processes documentation](../processes.md).
 
 </template>
 </CodeSwitcher>
@@ -164,7 +168,7 @@ cube_s2_b8 <- p$filter_bands(data = cube_s2, bands = c("B8"))
 
 ```js
 // filter for band 8
-var cube_s2_b8 = builder.filter_bands(data = cube_s2, bands = ["B8"])
+var cube_s2_b8 = builder.filter_bands(cube_s2, ["B8"])
 ```
 
 </template>
@@ -172,7 +176,7 @@ var cube_s2_b8 = builder.filter_bands(data = cube_s2, bands = ["B8"])
 
 ## Temporal Mean: `reduce_dimension`
 
-As we don't want to download the raw collection of satellite data, we need to reduce that data somehow. That means, we want to get rid of one dimension. Let's say we calculate a `mean` over all timesteps, and then drop the temporal dimension (as it's empty then anyway). This can be done via `reduce_dimension()`. The function requires a reducer, in our case a `mean` process, and the dimension over which to reduce, given as a string (`"t"`). 
+As we don't want to download the raw collection of satellite data, we need to reduce that data somehow. That means, we want to get rid of one dimension. Let's say we calculate a `mean` over all timesteps, and then drop the temporal dimension (as it's empty then anyway, see explanation in the [datacube guide](../datacubes.md#reduce)). This can be done via `reduce_dimension()`. The function requires a reducer, in our case a `mean` process, and the dimension over which to reduce, given as a string (`"t"`). 
 
 :::tip Child Processes
 Here, we need to define a child process: A function that is called by (or passed to) another function, and then works on a subset of the datacube (somewhat similar to the concept of callbacks in Javascript). In this case: We want `reduce_dimension` to use the `mean` function to average all timesteps of each pixel. Not any function can be used like this, it must be defined by openEO, of course.
@@ -217,10 +221,10 @@ cube_s2_b348_red <- p$reduce_dimension(data = cube_s2_b348, reducer = function(d
 
 ```js
 // reduce dimension
-var cube_s2_b8_red = builder.reduce_dimension(data = cube_s2_b8, reducer = (data, _, child) => child.mean(data), dimension = "t");
+var cube_s2_b8_red = builder.reduce_dimension(cube_s2_b8, (data, _, child) => child.mean(data), "t");
 
 // second collection
-var cube_s2_b348_red = builder.reduce_dimension(data = cube_s2_b348, reducer = (data, _, child) => child.mean(data), dimension = "t");
+var cube_s2_b348_red = builder.reduce_dimension(cube_s2_b348, (data, _, child) => child.mean(data), "t");
 ```
 
 **Note:** In Javascript, arrow functions can be used as child processes.
@@ -276,7 +280,7 @@ var scale_ = function(x, context) {
 // var scale_ = (x, context, child) => child.linear_scale_range(x, 0, 6000, 0, 255)
 
 // apply child process to all pixels
-var cube_s2_b348_red_lin = builder.apply(data = cube_s2_b348_red, scale_);
+var cube_s2_b348_red_lin = builder.apply(cube_s2_b348_red, scale_);
 ```
 
 **Note:** Given the two ways of defining a child process above, we can see that in the long way, the builder is available as `this`, while in arrow functions, it has to be passed as the last argument (here called `child`).
@@ -301,7 +305,10 @@ from shapely.geometry import Polygon
 p1 = Polygon([(5.645427, 52.702368), (5.656800, 52.702446), (5.645728, 52.716356), (5.645427, 52.702368)])
 
 # aggregate spatially with polygon and reducer
-cube_s2_b8_agg = cube_s2_b8.aggregate_spatial(p1, reducer = "mean")
+cube_s2_b8_agg = cube_s2_b8.aggregate_spatial(geometries = p1, reducer = "mean")
+
+# the python client has again a shortcut function for this
+cube_s2_b8_agg = cube_s2_b8.polygonal_mean_timeseries(polygon = p1)
 ```
 
 </template>
@@ -358,7 +365,7 @@ var p1 = {
 }
 
 // aggregate spatial
-var cube_s2_b8_agg = builder.aggregate_spatial(data = cube_s2_b8, geometries = p1, reducer = (data, _, child) => child.mean(data))
+var cube_s2_b8_agg = builder.aggregate_spatial(cube_s2_b8, p1, (data, _, child) => child.mean(data))
 ```
 
 </template>
@@ -406,9 +413,9 @@ job <- create_job(graph = res, title = "temporal_mean_as_GTiff_r")
 
 ```js
 // save using save_result, give fomat as string
-result = builder.save_result(data = cube_s2_b8_red, format = "GTiff");
+result = builder.save_result(cube_s2_b8_red, "GTiff");
 
-// send job to back-end, but don't execute yet
+// send job to back-end, but don't execute yet; set title
 var job = await con.createJob(result, "temporal_mean_as_GTiff_js");
 ```
 
@@ -462,7 +469,7 @@ In R, options are passed as a list.
 
 ```js
 // save result as PNG
-result = builder.save_result(data = cube_s2_b348_red_lin, format = "PNG", options = {
+result = builder.save_result(cube_s2_b348_red_lin, "PNG", {
     red: "B8",
     green: "B4",
     blue: "B3"
@@ -515,7 +522,7 @@ job <- create_job(graph = res, title = "timeseries_as_CSV_r")
 
 ```js
 // save as CSV
-result = builder.save_result(data = cube_s2_b8_agg, format = "CSV");
+result = builder.save_result(cube_s2_b8_agg, "CSV");
 
 // send job to backend
 var job = await con.createJob(result, "timeseries_as_CSV_js");

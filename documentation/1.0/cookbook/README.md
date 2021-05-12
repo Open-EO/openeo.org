@@ -10,6 +10,7 @@ Please refer to the getting started guides for [JavaScript](../javascript/index.
 * [openEO Web Editor](https://editor.openeo.org) to visually build and execute processing workflows
 _____________________
 * [Python client documentation](https://open-eo.github.io/openeo-python-client/index.html)
+* [JavaScript client documentation](https://open-eo.github.io/openeo-js-client/1.3.1/index.html)
 :::
 
 In this example, we want to explore the different output formats that are possible with openEO. For that, we load and filter a collection (a datacube) of satellite data and calculate the temporal mean of that data. Different steps (e.g. a linear scaling) are done to prepare for the data to be output in one of the formats: Raster or text data.
@@ -136,7 +137,7 @@ var cube_s2_b348 = builder.load_collection(
 );
 ```
 
-**Note:** Javascript doesn't use parameter names (like Python and R), so the parameters need to be in the order that they are defined in the [openEO processes documentation](../processes.md).
+**Note:** JavaScript doesn't use parameter names (like Python and R), so the parameters need to be in the order that they are defined in the [openEO processes documentation](../processes.md).
 
 </template>
 </CodeSwitcher>
@@ -179,7 +180,7 @@ var cube_s2_b8 = builder.filter_bands(cube_s2, ["B8"])
 As we don't want to download the raw collection of satellite data, we need to reduce that data somehow. That means, we want to get rid of one dimension. Let's say we calculate a `mean` over all timesteps, and then drop the temporal dimension (as it's empty then anyway, see explanation in the [datacube guide](../datacubes.md#reduce)). This can be done via `reduce_dimension()`. The function requires a reducer, in our case a `mean` process, and the dimension over which to reduce, given as a string (`"t"`). 
 
 :::tip Child Processes
-Here, we need to define a child process: A function that is called by (or passed to) another function, and then works on a subset of the datacube (somewhat similar to the concept of callbacks in Javascript). In this case: We want `reduce_dimension` to use the `mean` function to average all timesteps of each pixel. Not any function can be used like this, it must be defined by openEO, of course.
+Here, we need to define a child process: A function that is called by (or passed to) another function, and then works on a subset of the datacube (somewhat similar to the concept of callbacks in JavaScript). In this case: We want `reduce_dimension` to use the `mean` function to average all timesteps of each pixel. Not any function can be used like this, it must be defined by openEO, of course.
 
 All clients have more or less different specifics when defining a child process. As you can observe directly below, one way to define one is to define the function directly inside the parent process.
 
@@ -227,7 +228,7 @@ var cube_s2_b8_red = builder.reduce_dimension(cube_s2_b8, (data, _, child) => ch
 var cube_s2_b348_red = builder.reduce_dimension(cube_s2_b348, (data, _, child) => child.mean(data), "t");
 ```
 
-**Note:** In Javascript, arrow functions can be used as child processes.
+**Note:** In JavaScript, arrow functions can be used as child processes.
 
 </template>
 </CodeSwitcher>
@@ -292,7 +293,7 @@ var cube_s2_b348_red_lin = builder.apply(cube_s2_b348_red, scale_);
 
 To look at text output formats we first need to "de-spatialize" our data. Or put another way: If we're interested in e.g. timeseries of various geometries, text output might be very interesting for us.
 
-To aggregate over certain geometries, we use the process `aggregate_spatial`. It takes valid GeoJSON as input, therefore we introduce two libraries to handle that data in Python and R (JSON is native to Javascript).
+To aggregate over certain geometries, we use the process `aggregate_spatial`. It takes valid GeoJSON as input, therefore we introduce two libraries to handle that data in Python and R (JSON is native to JavaScript).
 
 <CodeSwitcher>
 <template v-slot:py>

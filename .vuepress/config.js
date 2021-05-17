@@ -1,15 +1,16 @@
-const apiVersion = '1.0.1';
+const apiVersion = '1.1.0';
 const defaultVersion = 0;
 const versions = [
   {
     folder: '1.0',
     path: '/documentation/1.0/',
-    title: 'v1.0',
-    apiTag: '1.0.1',
+    title: '1.x',
+    apiTag: '1.1.0',
     processesTag: '1.0.0',
     apiVersions: [
       '1.0.0',
-      '1.0.1'
+      '1.0.1',
+      '1.1.0'
     ],
     userNav: [
       {text: 'Intoduction', link: 'index.html'},
@@ -47,7 +48,7 @@ const versions = [
   {
     folder: '0.4',
     path: '/documentation/0.4/',
-    title: 'v0.4',
+    title: '0.4',
     apiTag: '0.4.2',
     apiFormat: 'json',
     processesTag: '0.4.2',

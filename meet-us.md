@@ -6,7 +6,10 @@ sidebar: false
 
 We are always happy to present and discuss the current state of the project. You can **meet us at the following events**:
 
-* [H2020 Workshop on Big Data and Artificial Intelligence for Earth Observation (19/20 November 2020, 9:00 - 13:00 CET)](https://ec.europa.eu/info/events/workshop-big-data-and-artificial-intelligence-earth-observation-2020-nov-19_en)
+* EODC Forum 2021 (June 8-10, openEO Platform talks)
+* OpenDataCube conference (June 23, openEO talk)
+* 12th International Symposium on Digital Earth (ISDE12) (July 5, openEO Platform workshop)
+* ESA PhiWeek (October 11-15, openEO Platform public launch event, including keynote and workshop)
 
 Due to the COVID-19 situation there are no in-person meetings planned. We'll post further information here once available.
 

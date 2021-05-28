@@ -70,7 +70,7 @@ Sept 2020.
 8. [Accademia Europea di Bolzano (EURAC Research)](http://www.eurac.edu/en/research/mountains/remsen/Pages/default.aspx), IT
 9. [Solenix Schweiz GmbH](https://www.solenix.ch/), CH
 10. [Joint Research Centre of the European Commission](https://ec.europa.eu/jrc/en), IT
-10. [Google Earth Engine, US/CH](https://earthengine.google.com/) - consortium member receiving **no** H2020 funding
+11. [Google Earth Engine, US/CH](https://earthengine.google.com/) - consortium member receiving **no** H2020 funding
 
 ## More information
 

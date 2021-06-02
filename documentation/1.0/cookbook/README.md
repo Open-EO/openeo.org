@@ -169,7 +169,7 @@ cube_s2_b8 <- p$filter_bands(data = cube_s2_b348, bands = c("B8"))
 
 ```js
 // filter for band 8
-var cube_s2_b8 = builder.filter_bands(cube_s2, ["B8"])
+var cube_s2_b8 = builder.filter_bands(cube_s2_b348, ["B08"])
 ```
 
 </template>
@@ -293,46 +293,50 @@ var cube_s2_b348_red_lin = builder.apply(cube_s2_b348_red, scale_);
 
 To look at text output formats we first need to "de-spatialize" our data. Or put another way: If we're interested in e.g. timeseries of various geometries, text output might be very interesting for us.
 
-To aggregate over certain geometries, we use the process `aggregate_spatial`. It takes valid GeoJSON as input, therefore we introduce two libraries to handle that data in Python and R (JSON is native to JavaScript).
+To aggregate over certain geometries, we use the process `aggregate_spatial`. It takes valid GeoJSON as input. We can pass a GeoJSON `FeatureCollection` in Python and JavaScript, but we need to introduce two packages in R, `sf` and `geojsonsf`, to convert the `FeatureCollection` `string` to a `simple feature collection`.
 
 <CodeSwitcher>
 <template v-slot:py>
 
 ```python
-# import shapely library to construct Polygons
-from shapely.geometry import Polygon
+# polygons as (geojson) dict
+pols = { "type": "FeatureCollection", "features": [ { "type": "Feature", "properties": {}, "geometry": { "type": "Polygon", "coordinates": [ [ [ 5.636715888977051, 52.6807532675943 ], [ 5.629441738128662, 52.68157281641395 ], [ 5.633561611175536, 52.67787822078012 ], [ 5.636715888977051, 52.6807532675943 ] ] ] } }, { "type": "Feature", "properties": {}, "geometry": { "type": "Polygon", "coordinates": [ [ [ 5.622982978820801, 52.68595649102906 ], [ 5.6201934814453125, 52.68429152697491 ], [ 5.628776550292969, 52.683719180920846 ], [ 5.622982978820801, 52.68595649102906 ] ] ] } } ]}
 
-# make polygon with shapely
-p1 = Polygon([(5.645427, 52.702368), (5.656800, 52.702446), (5.645728, 52.716356), (5.645427, 52.702368)])
+# aggregate spatial
+cube_s2_b8_agg = cube_s2_b8.aggregate_spatial(geometries = pols, reducer = "mean")
 
-# aggregate spatially with polygon and reducer
-cube_s2_b8_agg = cube_s2_b8.aggregate_spatial(geometries = p1, reducer = "mean")
-
-# the python client has again a shortcut function for this
-cube_s2_b8_agg = cube_s2_b8.polygonal_mean_timeseries(polygon = p1)
+# alternatively, the python client has a shortcut function for this special case
+# cube_s2_b8_agg = cube_s2_b8.polygonal_mean_timeseries(polygon = pols)
 ```
 
 </template>
 <template v-slot:r>
 
 ```r
-# load sf
+# load sf and geojsonsf
 library(sf)
+library(geojsonsf)
 
-# make sf polygon feature
-p1 <- st_polygon(x = list(matrix(c( 5.645427,  5.656800,  5.645728,  5.645427,
-                                   52.702368, 52.702446, 52.716356, 52.702368), ncol = 2)))
+# create string containing the geojson FeatureCollection
+pol_string <- '{ "type": "FeatureCollection", "features": [ { "type": "Feature", "properties": {}, "geometry": { "type": "Polygon", "coordinates": [ [ [ 5.636715888977051, 52.6807532675943 ], [ 5.629441738128662, 52.68157281641395 ], [ 5.633561611175536, 52.67787822078012 ], [ 5.636715888977051, 52.6807532675943 ] ] ] } }, { "type": "Feature", "properties": {}, "geometry": { "type": "Polygon", "coordinates": [ [ [ 5.622982978820801, 52.68595649102906 ], [ 5.6201934814453125, 52.68429152697491 ], [ 5.628776550292969, 52.683719180920846 ], [ 5.622982978820801, 52.68595649102906 ] ] ] } } ]}'
+# convert to sf object
+pols <- geojson_sf(pol_string)
+
+# add any attribute as a workaround, empty simple features are not accepted
+pols$anAttribute <- c(4,5)
 
 # aggregate spatially
-cube_s2_b8_agg <- p$aggregate_spatial(data = cube_s2_b8, reducer = function(data, context) { p$mean(data) }, geometries = p1)
+cube_s2_b8_agg <- p$aggregate_spatial(data = cube_s2_b8, reducer = function(data, context) { p$mean(data) }, geometries = pols)
 ```
+
+**Note:** At the time of writing this, empty simple features are not accepted and produce an error. To work around this issue, simply add a random attribute to the `sf` object. Above we are assigning the (randomly chosen) values `4` and `5` to the two polygons in the collection.
 
 </template>
 <template v-slot:js>
 
 ```js
-// define polygon as geojson
-var p1 = {
+// define polygons as geojson
+var pols = {
   "type": "FeatureCollection",
   "features": [
     {
@@ -343,20 +347,47 @@ var p1 = {
         "coordinates": [
           [
             [
-              5.645427703857422,
-              52.70236859806736
+              5.636715888977051,
+              52.6807532675943
             ],
             [
-              5.656800270080566,
-              52.70244661236617
+              5.629441738128662,
+              52.68157281641395
             ],
             [
-              5.645728111267089,
-              52.71635693250797
+              5.633561611175536,
+              52.67787822078012
             ],
             [
-              5.645427703857422,
-              52.70236859806736
+              5.636715888977051,
+              52.6807532675943
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              5.622982978820801,
+              52.68595649102906
+            ],
+            [
+              5.6201934814453125,
+              52.68429152697491
+            ],
+            [
+              5.628776550292969,
+              52.683719180920846
+            ],
+            [
+              5.622982978820801,
+              52.68595649102906
             ]
           ]
         ]
@@ -364,9 +395,9 @@ var p1 = {
     }
   ]
 }
-
+   
 // aggregate spatial
-var cube_s2_b8_agg = builder.aggregate_spatial(cube_s2_b8, p1, (data, _, child) => child.mean(data))
+var cube_s2_b8_agg = builder.aggregate_spatial(cube_s2_b8, pols, (data, _, child) => child.mean(data))
 ```
 
 </template>
@@ -429,7 +460,7 @@ For a PNG output, we'll use the datacube with the bands 3, 4 and 8 (green, red a
 
 We want to produce a false-color composite highlighting the vegetation in red (as seen below the code). For that, we want to assign the infrared band (`B8`) to the red channel, the red band (`B4`) to the green channel and the green band (`B3`) to the blue channel. Some back-ends may offer to pass along this desired band order as it is shown below. Check with the back-end for available options.
 
-If no options can be passed, handling of the bands for PNG output is internal and should be documented by the back-end. You might also be able to tell how this is done by how your PNG looks: As explained in the [datacube guide](../datacubes.md#dimensions), the order of the `bands` dimension is defined when the values are loaded or altered (in our example: `filter_bands`). As we filter bands in the order `"B3", "B4", "B8"` vegetation might be highlighted in blue, given that the backend uses the input order for the RGB channels.
+If no options can be passed, handling of the bands for PNG output is internal and should be documented by the back-end. You might also be able to tell how this is done by how your PNG looks: As explained in the [datacube guide](../datacubes.md#dimensions), the order of the `bands` dimension is defined when the values are loaded or altered (in our example: `filter_bands`). As we filter bands in the order `"B3", "B4", "B8"` vegetation might be highlighted in blue, given that the back-end uses the input order for the RGB channels.
 
 <CodeSwitcher>
 <template v-slot:py>
@@ -442,7 +473,7 @@ res = cube_s2_b348_red_lin.save_result(format = "PNG", options = {
         "blue": "B3"
       })
 
-# send job to backend
+# send job to back-end
 job = res.send_job(title = "temporal_mean_as_PNG_py")
 ```
 
@@ -459,7 +490,7 @@ formats <- list_file_formats()
 res <- p$save_result(data = cube_s2_b348_red_lin, format = formats$output$PNG, 
                       options = list(red="B8", green="B4", blue="B3"))
 
-# send job to backend
+# send job to back-end
 job <- create_job(graph = res, title = "temporal_mean_as_PNG_r")
 ```
 
@@ -476,7 +507,7 @@ result = builder.save_result(cube_s2_b348_red_lin, "PNG", {
     blue: "B3"
 });
     
-// send job to backend
+// send job to back-end
 var job = await con.createJob(result, "temporal_mean_as_PNG_js");
 ```
 
@@ -489,19 +520,19 @@ In JavaScript, options are passed as objects.
 Image above: Example PNG output with the vegetation highlighted in red.
 
 
-### Text Formats: *JSON, CSV
+### Text Formats: JSON, CSV
 
-We can now save the timeseries in the [aggregated](#spatial-aggregation-aggregate_spatial) datacube as e.g. CSV.
+We can now save the timeseries in the [aggregated](#spatial-aggregation-aggregate_spatial) datacube as e.g. JSON.
 
 <CodeSwitcher>
 <template v-slot:py>
 
 ```python
-# save result cube as CSV
-res = cube_s2_b8_agg.save_result(format = "CSV")
+# save result cube as JSON
+res = cube_s2_b8_agg.save_result(format = "JSON")
 
-# send job to backend
-job = res.send_job(title = "timeseries_as_CSV_py")
+# send job to back-end
+job = res.send_job(title = "timeseries_as_JSON_py")
 ```
 
 </template>
@@ -511,22 +542,24 @@ job = res.send_job(title = "timeseries_as_CSV_py")
 # use list_file_formats() to be able to choose from a list
 formats <- list_file_formats()
 
-# save result as CSV
-res <- p$save_result(data = cube_s2_b8_agg, format = formats$output$CSV)
+# save result as JSON
+res <- p$save_result(data = cube_s2_b8_agg, format = formats$output$JSON)
 
-# send job to backend
-job <- create_job(graph = res, title = "timeseries_as_CSV_r")
+# send job to back-end
+job <- create_job(graph = res, title = "timeseries_as_JSON_r")
 ```
+
+**Note:** Because the R client rounds coordinates to four digits, slightly different results are received in comparison to the other clients.
 
 </template>
 <template v-slot:js>
 
 ```js
 // save as CSV
-result = builder.save_result(cube_s2_b8_agg, "CSV");
+result = builder.save_result(cube_s2_b8_agg, "JSON");
 
-// send job to backend
-var job = await con.createJob(result, "timeseries_as_CSV_js");
+// send job to back-end
+var job = await con.createJob(result, "timeseries_as_JSON_js");
 ```
 
 </template>

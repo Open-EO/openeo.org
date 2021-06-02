@@ -300,13 +300,13 @@ To aggregate over certain geometries, we use the process `aggregate_spatial`. It
 
 ```python
 # polygons as (geojson) dict
-pols = { "type": "FeatureCollection", "features": [ { "type": "Feature", "properties": {}, "geometry": { "type": "Polygon", "coordinates": [ [ [ 5.636715888977051, 52.6807532675943 ], [ 5.629441738128662, 52.68157281641395 ], [ 5.633561611175536, 52.67787822078012 ], [ 5.636715888977051, 52.6807532675943 ] ] ] } }, { "type": "Feature", "properties": {}, "geometry": { "type": "Polygon", "coordinates": [ [ [ 5.622982978820801, 52.68595649102906 ], [ 5.6201934814453125, 52.68429152697491 ], [ 5.628776550292969, 52.683719180920846 ], [ 5.622982978820801, 52.68595649102906 ] ] ] } } ]}
+polygons = { "type": "FeatureCollection", "features": [ { "type": "Feature", "properties": {}, "geometry": { "type": "Polygon", "coordinates": [ [ [ 5.636715888977051, 52.6807532675943 ], [ 5.629441738128662, 52.68157281641395 ], [ 5.633561611175536, 52.67787822078012 ], [ 5.636715888977051, 52.6807532675943 ] ] ] } }, { "type": "Feature", "properties": {}, "geometry": { "type": "Polygon", "coordinates": [ [ [ 5.622982978820801, 52.68595649102906 ], [ 5.6201934814453125, 52.68429152697491 ], [ 5.628776550292969, 52.683719180920846 ], [ 5.622982978820801, 52.68595649102906 ] ] ] } } ]}
 
 # aggregate spatial
-cube_s2_b8_agg = cube_s2_b8.aggregate_spatial(geometries = pols, reducer = "mean")
+cube_s2_b8_agg = cube_s2_b8.aggregate_spatial(geometries = polygons, reducer = "mean")
 
 # alternatively, the python client has a shortcut function for this special case
-# cube_s2_b8_agg = cube_s2_b8.polygonal_mean_timeseries(polygon = pols)
+# cube_s2_b8_agg = cube_s2_b8.polygonal_mean_timeseries(polygon = polygons)
 ```
 
 </template>
@@ -318,15 +318,15 @@ library(sf)
 library(geojsonsf)
 
 # create string containing the geojson FeatureCollection
-pol_string <- '{ "type": "FeatureCollection", "features": [ { "type": "Feature", "properties": {}, "geometry": { "type": "Polygon", "coordinates": [ [ [ 5.636715888977051, 52.6807532675943 ], [ 5.629441738128662, 52.68157281641395 ], [ 5.633561611175536, 52.67787822078012 ], [ 5.636715888977051, 52.6807532675943 ] ] ] } }, { "type": "Feature", "properties": {}, "geometry": { "type": "Polygon", "coordinates": [ [ [ 5.622982978820801, 52.68595649102906 ], [ 5.6201934814453125, 52.68429152697491 ], [ 5.628776550292969, 52.683719180920846 ], [ 5.622982978820801, 52.68595649102906 ] ] ] } } ]}'
+polygons_string <- '{ "type": "FeatureCollection", "features": [ { "type": "Feature", "properties": {}, "geometry": { "type": "Polygon", "coordinates": [ [ [ 5.636715888977051, 52.6807532675943 ], [ 5.629441738128662, 52.68157281641395 ], [ 5.633561611175536, 52.67787822078012 ], [ 5.636715888977051, 52.6807532675943 ] ] ] } }, { "type": "Feature", "properties": {}, "geometry": { "type": "Polygon", "coordinates": [ [ [ 5.622982978820801, 52.68595649102906 ], [ 5.6201934814453125, 52.68429152697491 ], [ 5.628776550292969, 52.683719180920846 ], [ 5.622982978820801, 52.68595649102906 ] ] ] } } ]}'
 # convert to sf object
-pols <- geojson_sf(pol_string)
+polygons <- geojson_sf(polygons_string)
 
 # add any attribute as a workaround, empty simple features are not accepted
-pols$anAttribute <- c(4,5)
+polygons$anAttribute <- c(4,5)
 
 # aggregate spatially
-cube_s2_b8_agg <- p$aggregate_spatial(data = cube_s2_b8, reducer = function(data, context) { p$mean(data) }, geometries = pols)
+cube_s2_b8_agg <- p$aggregate_spatial(data = cube_s2_b8, reducer = function(data, context) { p$mean(data) }, geometries = polygons)
 ```
 
 **Note:** At the time of writing this, empty simple features are not accepted and produce an error. To work around this issue, simply add a random attribute to the `sf` object. Above we are assigning the (randomly chosen) values `4` and `5` to the two polygons in the collection.
@@ -336,7 +336,7 @@ cube_s2_b8_agg <- p$aggregate_spatial(data = cube_s2_b8, reducer = function(data
 
 ```js
 // define polygons as geojson
-var pols = {
+var polygons = {
   "type": "FeatureCollection",
   "features": [
     {
@@ -397,7 +397,7 @@ var pols = {
 }
    
 // aggregate spatial
-var cube_s2_b8_agg = builder.aggregate_spatial(cube_s2_b8, pols, (data, _, child) => child.mean(data))
+var cube_s2_b8_agg = builder.aggregate_spatial(cube_s2_b8, polygons, (data, _, child) => child.mean(data))
 ```
 
 </template>

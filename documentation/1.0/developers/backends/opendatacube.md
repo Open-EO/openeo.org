@@ -6,10 +6,12 @@ standardized interface you may want to implement a driver for openEO.
 First of all, you should read carefully the [getting started guide for service providers](./getting-started.md).
 
 Please note: OpenDataCube is not an openEO back-end, but can be part of the infrastructure for the data management part.
+In detail it can be used as data source for [EO-Data-Discovery](https://api.openeo.org/#tag/EO-Data-Discovery) and e.g.
+in combination with a dask cluster as processing backend for [Data-Processing](https://api.openeo.org/#tag/Data-Processing).
+In any case a REST interface must be available in front of ODC to properly answer OpenEO requests.
+Currently the EODC back-end uses ODC.
 
-Currently the EODC back-end uses ODC....
-
-There are three main repositories involved with ODC:
+There are three main repositories involved with ODC / OpenEO:
 1. Python process graph parser [openeo-pg-parser-python](https://github.com/openeo-pg-parser-python)
 2. openEO process mapper [openeo-odc](https://github.com/openeo-odc)
 3. Python implementation of openEO processes [openeo-processes-python](https://github.com/openeo-processes-python)
@@ -26,8 +28,8 @@ can be found here: [processes.openeo.org](https://processes.openeo.org/)).
 
 This package includes implementations based on numbers, numpy and xarray. Based on the type of your input data the
 algorithm automatically chooses the right implementation. E.g. if your input is an `xarray.Dataarray` it will use the
-xarray implementation of the called process. Within the  context of OpenDataCube the most important implementations are
-the xarray ones. Independent of the input data type a process can therefore simply be called by:
+xarray implementation of the called process. Independent of the input data type a process can therefore simply be
+called by:
 
 ```python
 import openeo_processes as oeop
@@ -37,6 +39,9 @@ oeop.subtract(**{'x': 3,'y': 5})
 which in this case would use the number implementation and substract 5 from 3. The exact same function could also be
 called with two `xarray.Dataarray`s as input.
 
+From a technical perspective each process is implemented as a function and a corresponding class with up to four static
+functions `exec_num`, `exec_np`, `exec_xar`, and `exec_da`. Within the  context of OpenDataCube the most important
+one is `exec_xar` - the xarray implementation.
 *Note: The different data type implementations of a single process are completely independent. So one can easily add the
 xarray implementation without editing the implementations for the other data types.*
 
@@ -251,9 +256,31 @@ save_13 = oeop.save_result(**{'data': mintime_11, 'format': 'netCDF'})
 
 ## How to add a new process which can be used with ODC/Xarray/Dask?
 
-Link to openeo processes defintion
-Sample of implemented process taking care of the openEO parameters.
-Common mistakes: not reinstalling the repo after modifying the code and so on
+### [openeo-processes-python](https://github.com/openeo-processes-python):
+1. Select a process from [processes.openeo.org](https://processes.openeo.org/) which does not yet have a xarray
+   implementation in [openeo-processes-python](https://github.com/openeo-processes-python).
+1. Clone [openeo-processes-python](https://github.com/openeo-processes-python), checkout a new branch, and start
+   implementing the missing process. If a function and class already exists for this process just implement the
+   `exec_xar` method, if not you also need to implement the function and class itself. Make sure you properly handle
+   all parameters defined for this process. Add a test for your process with xarray data as input (in the `conftest.py`
+   the `test_data`-fixture is available).
+   **TODO: Sample of implemented process taking care of the openEO parameters.**
+1. Push your code and open a PR.
+### [openeo-odc](https://github.com/openeo-odc):
+1. Clone [openeo-odc](https://github.com/openeo-odc) and checkout a new branch.
+1. Ensure that there is a mapper available for your newly implemented process. Currently the mapping is done based
+   on the input parameters, so some processes may automatically be supported, for some others an additional
+   mapper function must be implemented.
+1. Check your mapping works by adding a test for the new process which correctly translates its dict representation
+   to the oeop function call.
+1. Push your code and open a PR.
+### [openeo-pg-parser-python](https://github.com/openeo-pg-parser-python): no changes are required
+
+### Common mistakes
+
+* Make sure you always have the latest version of [openeo-processes-python](https://github.com/openeo-processes-python)
+  installed when you test your code.
+* **TODO ...**
 
 ## How to test if everything works?
 You need an instance of ODC running. The collection name used in openEO is the product name in ODC.

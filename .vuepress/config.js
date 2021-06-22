@@ -32,7 +32,8 @@ const versions = [
       {text: 'Glossary', link: 'glossary.html'},
       {text: 'Architecture', link: 'developers/arch.html'},
       {text: 'Service Providers', items: [
-          {text: 'Getting Started', link: 'developers/backends/getting-started.html'}
+          {text: 'Getting Started', link: 'developers/backends/getting-started.html'},
+          {text: 'Open Data Cube', link: 'developers/backends/opendatacube.html'}
       ]},
       {text: 'Client Developers', items: [
           {text: 'Getting Started', link: 'developers/clients/getting-started.html'},

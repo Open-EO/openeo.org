@@ -7,7 +7,7 @@ sidebar: false
 We are always happy to present and discuss the current state of the project. You can **meet us at the following events**:
 
 * EODC Forum 2021 (June 8-10, openEO Platform talks)
-* OpenDataCube conference (June 23, openEO talk)
+* Open Data Cube conference (June 23, openEO talk)
 * IGARRS [Hands on openEO](https://www.igarss2021.com/tutorials.php#tut9) (July 11)
 * 12th International Symposium on Digital Earth (ISDE12) (July 5, openEO Platform workshop)
 * ESA PhiWeek (October 11-15, openEO Platform public launch event, including keynote and workshop)

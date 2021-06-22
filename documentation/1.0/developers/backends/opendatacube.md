@@ -180,7 +180,7 @@ from openeo_odc.map_to_odc import map_to_odc
 from openeo_pg_parser.translate import translate_process_graph
 
 process_graph_json = 'your_test_process_graph.json'
-odc_url = 'tcp://10.8.244.123:8786'
+odc_url = 'tcp://xxx.yyy.zzz.kkk:8786'
 graph = translate_process_graph(process_graph_json,
                                 process_defs).sort(by='result')
 nodes = map_to_odc(graph, None, odc_url)

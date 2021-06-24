@@ -1,5 +1,12 @@
 # OpenEO Cookbook - Chapter 2
 
+TODO
+* load S1 collection
+* decide on study area (clouds, interesting)
+* decide on time span
+* add result images
+* move apply down, have complete apply* section?
+
 In this second part of the cookbook, things are a bit less linear. We'll mostly explore bandmath, masking and `apply_*` functionality, only that processes are less interconnected than in the first tutorial. As before, you can change your preferred client language in the top right corner of all code examples. 
 
 Of course we'll load a collection to work with (Sentinel 2, bands 2, 4 and 8). let's call it `cube_s2`.
@@ -53,10 +60,73 @@ var cube_s2 = builder.load_collection(
 </CodeSwitcher>
 
 ## `apply`ing unary Processes
-As we remember from the [datacube guide](../datacubes.md#apply), unary processes take only the pixel itself into account when calculating new pixel values. We can implement that with the `apply` function.
+As we remember from the [datacube guide](../datacubes.md#apply), unary processes take only the pixel itself into account when calculating new pixel values. We can implement that with the `apply` function, and a child process that is in charge of modifying the pixel values. In our first example, that will be the square root. The openEO function is called `sqrt`. In the following we'll see how to pass it to the `apply` process.
 
-- sqrt
-- log
+<CodeSwitcher>
+<template v-slot:py>
+
+```python
+# pass unary child process as string
+cube_s2_sqrt = cube_s2.apply("sqrt")
+```
+
+</template>
+<template v-slot:r>
+
+```r
+# pass unary child process as a function, call "sqrt" from openEO processes "p"
+cube_s2_sqrt <- p$apply(cube_s2, function(x, context) { return(sqrt(x)) })
+```
+
+</template>
+<template v-slot:js>
+
+```js
+// pass unary child process via arrow function
+var cube_s2_sqrt = builder.apply(cube_s2, (data, _, child) => child.sqrt(data))
+```
+
+</template>
+</CodeSwitcher>
+
+Let's say we're not looking at optical but SAR imagery and want to `log` transform our data. This unary process needs another input, the base of the logarithm.
+
+<CodeSwitcher>
+<template v-slot:py>
+
+```python
+# import the defined openEO process
+from openeo.processes import log
+
+# define a child process function
+def log_(x):
+  return log(x, 10)
+
+# supply that function to the "apply" call
+cube_s1_log10 = cube_s2.apply(log_)
+```
+
+</template>
+<template v-slot:r>
+
+```r
+# call the log function from "p"
+cube_s1_log10 <- p$apply(cube_s1, function(x, context) { return(p$log(x, 10)) })
+```
+
+</template>
+<template v-slot:js>
+
+```js
+// use openEO "log" via arrow function
+cube_s1_log10 = builder.apply(cube_s1, (x, _, child) => child.log(x, 10))
+```
+
+</template>
+</CodeSwitcher>
+
+Results:
+<--- S Q R T   I M A G E --------- L O G 1 0    I M A G E --->
 
 ## Calculations involving bands, aka Bandmath
 More elaborate bandmath usually includes multiple bands and various mathematical operations. In openEO, this goes along with using `reduce_dimension` over the `bands` dimension, replacing multiple pixel values with the calculated value, to then eliminate the `bands` dimension altogether.
@@ -160,14 +230,14 @@ What we see above:
 * access specific bands inside the child process by using array subset: `data[index]` or `data["bandname"]`
 * call openEO defined functions inside the child process by calling it via `this`
 
-We note that Javascript doesn't support just typing out math functions as R and Python do. But the JS client has another, even simpler way of defining quick bandmath: using `New Formula`.
+We note that Javascript doesn't support just typing out math functions as R and Python do. But the JS client has another, even simpler way of defining quick bandmath: using `new Formula`.
 
 ```js
 // using "New Formula()", both $index and $label are valid as seen here
 cube_s2_ndvi = builder.reduce_dimension(cube_s2, new Formula("($B08 - $1) / ($B08 + $1)"), "bands")
 ```
 
-We see that using `New Formula("")` is much faster than defining a whole child process. We use `$` to access bands. If we want to use openEO defined processes, there's also the arrow function to still be able to do that in-line.
+We see that using `new Formula("")` is much faster than defining a whole child process. We use `$` to access bands. If we want to use openEO defined processes, there's also the arrow function to still be able to do that in-line.
 
 ```js
 // using an arrow function to call openeo process "normalized_difference"
@@ -175,6 +245,8 @@ cube_s2_ndvi = builder.reduce_dimension(cube_s2, (data, _, child) => child.norma
 ```
 
 In an arrow function, we have array subsets again.
+
+To sum up: Although `new Formula` is probably the most straightforward way of calculating an NDVI, it is up to you to decide on a method that suits your use-case.
 
 </template>
 </CodeSwitcher>
@@ -236,7 +308,7 @@ In the following, we're building a mask using some logical operations to apply i
 # get classification band
 SCL = cube.band("SCL")
 
-# we wanna mask all other values, so NOT (4 OR 5)
+# we want to mask all other values, so NOT (4 OR 5)
 mask = ~ ((SCL == 4) | (SCL == 5))
 
 # masking
@@ -252,7 +324,7 @@ filter_ <- function(data, context) {
   SCL <- data[4] # select SCL band
   vegetation <- p$eq(SCL, 4) # vegetation is 4
   non_vegetation <- p$eq(SCL, 5) # non-vegetation is 5
-  # we wanna mask all other values, so NOT (4 OR 5)
+  # we want to mask all other values, so NOT (4 OR 5)
   return(p$not(p$or(vegetation, non_vegetation)))
 }
 
@@ -269,9 +341,10 @@ cube_s2_masked <- p$mask(cube_s2_ndvi, cube_s2_mask)
 ```js
 // filter classification layer
 var filter_ = function(data, context) {
-  SCL = data[3]
-  vegetation = this.eq(SCL, 4)
-  non_vegetation = this.eq(SCL, 5)
+  SCL = data[3] // select SCL band
+  vegetation = this.eq(SCL, 4) // vegetation is 4
+  non_vegetation = this.eq(SCL, 5) // non-vegetation is 5
+  // we want to mask all other values, so NOT (4 OR 5)
   return this.not(this.or(vegetation, non_vegetation))
 }
 

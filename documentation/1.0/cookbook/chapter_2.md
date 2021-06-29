@@ -5,22 +5,23 @@ TODO
 * decide on study area (clouds, interesting)
 * decide on time span
 * add result images
-* move apply down, have complete apply* section?
+* mask: NDVI or whole collection?
+* other apply_*
 
 In this second part of the cookbook, things are a bit less linear. We'll mostly explore bandmath, masking and `apply_*` functionality, only that processes are less interconnected than in the first tutorial. As before, you can change your preferred client language in the top right corner of all code examples. 
 
-Of course we'll load a collection to work with (Sentinel 2, bands 2, 4 and 8). let's call it `cube_s2`.
+Of course we'll load a collection to work with (Sentinel 2, bands 2, 4 and 8). let's call it `cube_s2`. This time we'll look at a city called Arica, where the river San José flows into the Pacific ocean. We pre-select a time frame of which we know it only contains one Sentinel 2 scene, so that we're not bothered with multiple timesteps (but collection still contains a time dimension upon loading, of course).
 
 <CodeSwitcher>
 <template v-slot:py>
 
 ```python
-urk = {"west": 5.5661, "south": 52.6457, "east": 5.7298, "north": 52.7335}
-t = ["2021-04-26", "2021-04-29"]
+arica = {"west": -70.3382, "south": -18.5179, "east": -70.2067, "north": -18.4625}
+t = ["2021-06-05", "2021-06-05"]
 
 cube_s2 = con.load_collection(
     "SENTINEL2_L2A_SENTINELHUB",
-    spatial_extent = urk,
+    spatial_extent = arica,
     temporal_extent = t,
     bands = ["B02", "B04", "B08", "SCL"]
 )
@@ -30,12 +31,12 @@ cube_s2 = con.load_collection(
 <template v-slot:r>
 
 ```r
-urk <- list(west = 5.5661, south = 52.6457, east = 5.7298, north = 52.7335)
-t <- c("2021-04-26", "2021-04-29")
+arica <- list(west = -70.3382, south = -18.5179, east = -70.2067, north = -18.4625)
+t <- c("2021-06-05", "2021-06-05")
 
 cube_s2 <- p$load_collection(
   id = "SENTINEL2_L2A_SENTINELHUB",
-  spatial_extent = urk,
+  spatial_extent = arica,
   temporal_extent = t,
   bands=c("B02", "B04", "B08", "SCL")
 )
@@ -45,12 +46,12 @@ cube_s2 <- p$load_collection(
 <template v-slot:js>
 
 ```js
-let urk = {"west": 5.6061, "south": 52.6957, "east": 5.7298, "north": 52.7335};
-let t = ["2021-04-26", "2021-04-29"];   
+let arica = {"west": -70.3382, "south": -18.5179, "east": -70.2067, "north": -18.4625};
+let t = ["2021-06-05", "2021-06-05"];
 
 var cube_s2 = builder.load_collection(
     "SENTINEL2_L2A_SENTINELHUB",
-    urk,
+    arica,
     t,
     ["B02", "B04", "B08", "SCL"]
 );
@@ -59,79 +60,10 @@ var cube_s2 = builder.load_collection(
 </template>
 </CodeSwitcher>
 
-## `apply`ing unary Processes
-As we remember from the [datacube guide](../datacubes.md#apply), unary processes take only the pixel itself into account when calculating new pixel values. We can implement that with the `apply` function, and a child process that is in charge of modifying the pixel values. In our first example, that will be the square root. The openEO function is called `sqrt`. In the following we'll see how to pass it to the `apply` process.
-
-<CodeSwitcher>
-<template v-slot:py>
-
-```python
-# pass unary child process as string
-cube_s2_sqrt = cube_s2.apply("sqrt")
-```
-
-</template>
-<template v-slot:r>
-
-```r
-# pass unary child process as a function, call "sqrt" from openEO processes "p"
-cube_s2_sqrt <- p$apply(cube_s2, function(x, context) { return(sqrt(x)) })
-```
-
-</template>
-<template v-slot:js>
-
-```js
-// pass unary child process via arrow function
-var cube_s2_sqrt = builder.apply(cube_s2, (data, _, child) => child.sqrt(data))
-```
-
-</template>
-</CodeSwitcher>
-
-Let's say we're not looking at optical but SAR imagery and want to `log` transform our data. This unary process needs another input, the base of the logarithm.
-
-<CodeSwitcher>
-<template v-slot:py>
-
-```python
-# import the defined openEO process
-from openeo.processes import log
-
-# define a child process function
-def log_(x):
-  return log(x, 10)
-
-# supply that function to the "apply" call
-cube_s1_log10 = cube_s2.apply(log_)
-```
-
-</template>
-<template v-slot:r>
-
-```r
-# call the log function from "p"
-cube_s1_log10 <- p$apply(cube_s1, function(x, context) { return(p$log(x, 10)) })
-```
-
-</template>
-<template v-slot:js>
-
-```js
-// use openEO "log" via arrow function
-cube_s1_log10 = builder.apply(cube_s1, (x, _, child) => child.log(x, 10))
-```
-
-</template>
-</CodeSwitcher>
-
-Results:
-<--- S Q R T   I M A G E --------- L O G 1 0    I M A G E --->
-
-## Calculations involving bands, aka Bandmath
+## Bandmath
 More elaborate bandmath usually includes multiple bands and various mathematical operations. In openEO, this goes along with using `reduce_dimension` over the `bands` dimension, replacing multiple pixel values with the calculated value, to then eliminate the `bands` dimension altogether.
 
-### NDVI
+### Example 1: NDVI
 
 In [chapter one](), we already saw different ways of defining a child process: a) pass a simple `mean` to [reduce the time dimension](../cookbook/#temporal-mean-reduce-dimension), and b) to access and use the openEO defined `linear_scale_range` function [to scale all pixels](../cookbook/#scale-all-pixels-linearly-apply-linear-scale-range). In this chapter, we'll see even more ways to define a child process. It is up to you to choose one that's easiest for you.
 
@@ -251,7 +183,7 @@ To sum up: Although `new Formula` is probably the most straightforward way of ca
 </template>
 </CodeSwitcher>
 
-### EVI
+### Example 2: EVI
 
 The formula for EVI is a bit more complicated than the NDVI one, but we also don't necessarily need need a openEO defined function, but can concentrate on implementing a more complex formula. Here's the most efficient way to do this, per client.
 
@@ -265,7 +197,7 @@ B04 = cube_s2.band("B04")
 B08 = cube_s2.band("B08")
 
 # write formula
-evi_cube = (2.5 * (B08 - B04)) / ((B08 + 6.0 * B04 - 7.5 * B02) + 1.0)
+cube_s2_evi = (2.5 * (B08 - B04)) / ((B08 + 6.0 * B04 - 7.5 * B02) + 1.0)
 ```
 
 </template>
@@ -281,7 +213,7 @@ evi_ <- function(x, context) {
 }
 
 # reduce_dimension bands with the defined formula
-evi_cube <- p$reduce_dimension(data = cube_s2_b348, reducer = evi_, dimension = "bands")
+cube_s2_evi <- p$reduce_dimension(data = cube_s2, reducer = evi_, dimension = "bands")
 ```
 
 </template>
@@ -289,13 +221,17 @@ evi_cube <- p$reduce_dimension(data = cube_s2_b348, reducer = evi_, dimension = 
 
 ```js
 // "new Formula" is the quickest way to provide a bandmath formula
-evi_cube = builder.reduce_dimension(cube_s2, new Formula("(2.5 * ($2 - $1)) / (($2 + 6 * $1 - 7.5 * $0) + 1)"), "bands")
+cube_s2_evi = builder.reduce_dimension(cube_s2, new Formula("(2.5 * ($2 - $1)) / (($2 + 6 * $1 - 7.5 * $0) + 1)"), "bands")
 ```
 
 </template>
 </CodeSwitcher>
 
-## Mask
+## Masks: `mask`
+
+**Check with backend which cubes can be masked dimension-wise (x,y,t,b)**
+
+### Mask Out Specific Values
 
 In some cases we want to mask our data with other data. A common example is to mask out clouds, which optical satellites can not see through. Many Sentinel 2 collections also provide the `SCL` classification band (see class table [at the bottom here](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/level-2a/algorithm)). In this classification, vegetation is coded as `4` and non-vegetation as `5`, while e.g. clouds are coded as `8` t0 `10`.
 
@@ -309,10 +245,10 @@ In the following, we're building a mask using some logical operations to apply i
 SCL = cube.band("SCL")
 
 # we want to mask all other values, so NOT (4 OR 5)
-mask = ~ ((SCL == 4) | (SCL == 5))
+classification_mask = ~ ((SCL == 4) | (SCL == 5))
 
 # masking
-masked_ndvi = ndvi.mask(mask)
+cube_s2_masked = cube_s2.mask(classification_mask)
 ```
 
 </template>
@@ -358,12 +294,214 @@ cube_s2_masked = builder.mask(cube_s2_ndvi, cube_s2_mask)
 </template>
 </CodeSwitcher>
 
-## Calculations Involving Other Neighbourhoods
+### Thresholds
 
+In this scenario we want an image that contains all NDVI values above 0.3, and has `NA` values otherwise. This could be useful to have a look at the vegetation in the area, without being distracted by all other NDVI values. For this example we reuse the NDVI cube `cube_s2_ndvi` that was calculated under the [NDVI bandmath-example](#example-1-ndvi), thus for this to work you must include said code into your script.
 
+If you look closely, you'll notice that this time we're not using `reduce_dimension` to construct our masking cube (in contrast to [# Mask out Specific Values](#mask-out-specific-values)). In R and Javascript we use `apply` instead, and in the python client no `.band()` is necessary anymore. This is because when we were masking using specific values of the band `SCL`, we were using the `cube_s2` (with the bands `B02`, `B04`, `B08` and `SCL`) as input. We then reduced the `bands` dimension with the function `filter_`, which returned a cube that had no `bands` dimension anymore but `1`s and `0`s according to what we wanted to mask. 
 
-## `apply_kernel`
+Here, we are making a mask out of the `cube_s2_ndvi`, a cube that had its `band` dimension already reduced when the NDVI was calculated. To turn its values into `1`s and `0`s, we only need to `apply` a threshold function.
 
+<CodeSwitcher>
+<template v-slot:py>
 
+```python
+# create mask that is TRUE for NDVI < 0.3
+ndvi_threshold = cube_s2_ndvi < 0.3
 
-## `apply_dimension`
+# apply mask to NDVI
+cube_s2_ndvi_masked = cube_s2_ndvi.mask(ndvi_threshold)
+```
+
+</template>
+<template v-slot:r>
+
+```r
+threshold_ <- function(data, context) {
+  # create mask that is TRUE for NDVI < 0.3
+  threshold <- p$lt(data[1], 0.3)
+  return(threshold)
+}
+
+# apply the threshold to the NDVI cube
+ndvi_threshold <- p$apply(data = cube_s2_ndvi, process = threshold_)
+
+# mask the NDVI cube with the calculated mask
+s2_ndvi_masked <- p$mask(cube_s2_ndvi, s2_ndvi_mask)
+```
+
+</template>
+<template v-slot:js>
+
+```js
+// create mask that is TRUE for NDVI < 0.3 via an arrow function
+ndvi_threshold = builder.apply(cube_s2_ndvi, (data, _, child) => child.lt(data[0], 0.3))
+
+// apply mask to NDVI cube
+cube_s2_ndvi_masked = builder.mask(cube_s2_ndvi, ndvi_threshold)
+```
+
+</template>
+</CodeSwitcher>
+
+## Pixel Operations: `apply`
+As we remember from the [datacube guide](../datacubes.md#apply), unary processes take only the pixel itself into account when calculating new pixel values. We can implement that with the `apply` function, and a child process that is in charge of modifying the pixel values. In our first example, that will be the square root. The openEO function is called `sqrt`. In the following we'll see how to pass it to the `apply` process.
+
+<CodeSwitcher>
+<template v-slot:py>
+
+```python
+# pass unary child process as string
+cube_s2_sqrt = cube_s2.apply("sqrt")
+```
+
+</template>
+<template v-slot:r>
+
+```r
+# pass unary child process as a function, call "sqrt" from openEO processes "p"
+cube_s2_sqrt <- p$apply(cube_s2, function(x, context) { return(sqrt(x)) })
+```
+
+</template>
+<template v-slot:js>
+
+```js
+// pass unary child process via arrow function
+var cube_s2_sqrt = builder.apply(cube_s2, (data, _, child) => child.sqrt(data))
+```
+
+</template>
+</CodeSwitcher>
+
+Let's say we're not looking at optical but SAR imagery. Depending on the collection held by the backend, this data could already be log-scaled. In case it isn't, we want to `log` transform our data. This unary process needs another input: the `base` of the logarithm.
+
+<CodeSwitcher>
+<template v-slot:py>
+
+```python
+# import the defined openEO process
+from openeo.processes import log
+
+# define a child process function
+def log_(x):
+  return log(x, 10)
+
+# supply that function to the "apply" call
+cube_s1_log10 = cube_s2.apply(log_)
+```
+
+</template>
+<template v-slot:r>
+
+```r
+# call the log function from "p"
+cube_s1_log10 <- p$apply(cube_s1, function(x, context) { return(p$log(x, 10)) })
+```
+
+</template>
+<template v-slot:js>
+
+```js
+// use openEO "log" via arrow function
+cube_s1_log10 = builder.apply(cube_s1, (x, _, child) => child.log(x, 10))
+```
+
+</template>
+</CodeSwitcher>
+
+Results:
+<--- S Q R T   I M A G E --------- L O G 1 0    I M A G E --->
+
+## Image Kernels: `apply_kernel`
+
+The process `apply_kernel` takes an array of weights that is used as a moving window to calculate new pixel values. That could be e.g. a lowpass, highpass, or edge detection kernel.
+
+We'll filter for band 8 to shorten computation time.
+
+<CodeSwitcher>
+<template v-slot:py>
+
+```python
+cube_s2_b8 = cube_s2.filter_bands(["B08"])
+```
+
+</template>
+<template v-slot:r>
+
+```r
+cube_s2_b8 <- p$filter_bands(cube_s2, c("B08"))
+```
+
+</template>
+<template v-slot:js>
+
+```js
+cube_s2_b8 = builder.filter_bands(cube_s2, ["B08"])
+```
+
+</template>
+</CodeSwitcher>
+
+<CodeSwitcher>
+<template v-slot:py>
+
+```python
+# we can pass a kernel as an array of arrays
+sobel_vertical = [[1, 2, 1], [0, 0, 0], [-1, -2, -1]] # e.g. 3x3 edge detection
+sobel_horizontal = [[1, 0, -1], [2, 0, -2], [1, 0, -1]]
+
+highpass = [ # or 5x5 highpass filter
+  [-1, -1, -1, -1, -1],
+  [-1, -1, -1, -1, -1],
+  [-1, -1, 24, -1, -1],
+  [-1, -1, -1, -1, -1],
+  [-1, -1, -1, -1, -1]
+]
+
+# apply to cube
+cube_s2_highpass = cube_s2_b8.apply_kernel(highpass)
+```
+
+</template>
+<template v-slot:r>
+
+```r
+# we can pass a kernel as an array of arrays
+sobel_vertical <- matrix(c(1, 2, 1, 0, 0, 0, -1, -2, -1), nrow = 3, byrow = TRUE) 
+sobel_horizontal <- matrix(c(1, 2, 1, 0, 0, 0, -1, -2, -1), nrow = 3) # e.g. 3x3 edge detection
+
+highpass_vector <- c(rep(-1, 12), 24, rep(-1, 12))
+highpass <- matrix(highpass_vector, nrow = 5) # or 5x5 highpass filter
+
+# apply to cube
+cube_s2_b8_highpass <- p$apply_kernel(cube_s2_b8, highpass)
+```
+
+</template>
+<template v-slot:js>
+
+```js
+// we can pass a kernel as an array of arrays
+let sobel_vertical = [[1, 2, 1], [0, 0, 0], [-1, -2, -1]] // e.g. 3x3 edge detection
+let sobel_horizontal = [[1, 0, -1], [2, 0, -2], [1, 0, -1]]
+
+let highpass = [ // or 5x5 highpass filter
+  [-1, -1, -1, -1, -1],
+  [-1, -1, -1, -1, -1],
+  [-1, -1, 24, -1, -1],
+  [-1, -1, -1, -1, -1],
+  [-1, -1, -1, -1, -1]
+]
+
+// apply to cube
+var cube_s2_highpass = builder.apply_kernel(cube_s2_b8, highpass)
+```
+
+</template>
+</CodeSwitcher>
+
+Results:
+<--- H I G H P A S S   I M A G E --------- E D G E  D E T E C T I O N    I M A G E --->
+
+When we apply the above mentioned kernels to 

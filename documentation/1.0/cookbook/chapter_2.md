@@ -1,9 +1,6 @@
 # OpenEO Cookbook - Chapter 2
 
 TODO
-* load S1 collection
-* decide on study area (clouds, interesting)
-* decide on time span
 * add result images
 * mask: NDVI or whole collection?
 * other apply_*
@@ -12,16 +9,18 @@ In this second part of the cookbook, things are a bit less linear. We'll mostly 
 
 Of course we'll load a collection to work with (Sentinel 2, bands 2, 4 and 8). let's call it `cube_s2`. This time we'll look at a city called Arica, where the river San José flows into the Pacific ocean. We pre-select a time frame of which we know it only contains one Sentinel 2 scene, so that we're not bothered with multiple timesteps (but collection still contains a time dimension upon loading, of course).
 
+To be able to download and look at the results, refer to [chapter 1](../cookbook/#raster-formats-gtiff-netcdf).
+
 <CodeSwitcher>
 <template v-slot:py>
 
 ```python
-arica = {"west": -70.3382, "south": -18.5179, "east": -70.2067, "north": -18.4625}
-t = ["2021-06-05", "2021-06-05"]
+pellworm = {"west": 8.5464, "south": 54.4473, "east": 9.0724, "north": 54.5685}
+t = ["2021-03-05", "2021-03-05"]
 
 cube_s2 = con.load_collection(
     "SENTINEL2_L2A_SENTINELHUB",
-    spatial_extent = arica,
+    spatial_extent = pellworm,
     temporal_extent = t,
     bands = ["B02", "B04", "B08", "SCL"]
 )
@@ -31,12 +30,12 @@ cube_s2 = con.load_collection(
 <template v-slot:r>
 
 ```r
-arica <- list(west = -70.3382, south = -18.5179, east = -70.2067, north = -18.4625)
-t <- c("2021-06-05", "2021-06-05")
+pellworm <- list(west = 8.5464, south = 54.4473, east = 9.0724, north = 54.5685)
+t <- c("2021-03-05", "2021-03-05")
 
 cube_s2 <- p$load_collection(
   id = "SENTINEL2_L2A_SENTINELHUB",
-  spatial_extent = arica,
+  spatial_extent = pellworm,
   temporal_extent = t,
   bands=c("B02", "B04", "B08", "SCL")
 )
@@ -46,12 +45,12 @@ cube_s2 <- p$load_collection(
 <template v-slot:js>
 
 ```js
-let arica = {"west": -70.3382, "south": -18.5179, "east": -70.2067, "north": -18.4625};
-let t = ["2021-06-05", "2021-06-05"];
+let pellworm = {"west": 8.5464, "south": 54.4473, "east": 9.0724, "north": 54.5685};
+let t = ["2021-03-05", "2021-03-05"];
 
 var cube_s2 = builder.load_collection(
     "SENTINEL2_L2A_SENTINELHUB",
-    arica,
+    pellworm,
     t,
     ["B02", "B04", "B08", "SCL"]
 );
@@ -59,6 +58,9 @@ var cube_s2 = builder.load_collection(
 
 </template>
 </CodeSwitcher>
+
+![Pellworm](../cookbook/pellworm_248.png)
+This is a false color image of our area of interest for this chapter. The bands `4`, `8` and `2` have been assigned to the RGB channels without any further processing.
 
 ## Bandmath
 More elaborate bandmath usually includes multiple bands and various mathematical operations. In openEO, this goes along with using `reduce_dimension` over the `bands` dimension, replacing multiple pixel values with the calculated value, to then eliminate the `bands` dimension altogether.
@@ -182,6 +184,9 @@ To sum up: Although `new Formula` is probably the most straightforward way of ca
 
 </template>
 </CodeSwitcher>
+
+![NDVI image of the AOI](../cookbook/pellworm_ndvi.png)
+A correctly calculated NDVI would look as displayed here.
 
 ### Example 2: EVI
 
@@ -344,6 +349,9 @@ cube_s2_ndvi_masked = builder.mask(cube_s2_ndvi, ndvi_threshold)
 </template>
 </CodeSwitcher>
 
+![The NDVI with a 0.3 threshold applied](../cookbook/pellworm_threshold.png)
+Applying the above described treshold to the NDVI yields the above result.
+
 ## Pixel Operations: `apply`
 As we remember from the [datacube guide](../datacubes.md#apply), unary processes take only the pixel itself into account when calculating new pixel values. We can implement that with the `apply` function, and a child process that is in charge of modifying the pixel values. In our first example, that will be the square root. The openEO function is called `sqrt`. In the following we'll see how to pass it to the `apply` process.
 
@@ -503,5 +511,8 @@ var cube_s2_highpass = builder.apply_kernel(cube_s2_b8, highpass)
 
 Results:
 <--- H I G H P A S S   I M A G E --------- E D G E  D E T E C T I O N    I M A G E --->
+
+![A combined edge detection RGB. Sobel vertical and horizontal are displayed as red and green, a 5x5 highpass filter is displayed as blue](../cookbook/pellworm_kernels.png)
+Above a combined edge detection RGB can be seen. Sobel 3x3 vertical and horizontal edge detections are displayed as red and green, a 5x5 highpass filter is displayed as blue.
 
 When we apply the above mentioned kernels to 

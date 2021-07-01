@@ -499,6 +499,9 @@ highpass <- matrix(highpass_vector, nrow = 5) # or 5x5 highpass filter
 cube_s2_b8_highpass <- p$apply_kernel(cube_s2_b8, highpass)
 ```
 
+**Note:** As of now, there seems to be the bug that the parameter `border` is wrongfully set as a string by the R client (see [issue on github](https://github.com/Open-EO/openeo-r-client/issues/65)). If you're executing this job via the [Web Editor](https://editor.openeo.org/), you can change this in the process graph itself: Change `"border": "0",` to `"border": 0,`.
+
+
 </template>
 <template v-slot:js>
 

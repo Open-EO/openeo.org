@@ -516,7 +516,7 @@ In JavaScript, options are passed as objects.
 </template>
 </CodeSwitcher>
 
-![Example PNG: false color composite highlighting vegetation in red.](../cookbook/urk.png)
+![Example PNG: false color composite highlighting vegetation in red.](../cookbook/urk.jpg)
 Image above: Example PNG output with the vegetation highlighted in red.
 
 

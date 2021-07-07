@@ -462,7 +462,7 @@ cube_s2_b8 = builder.filter_bands(cube_s2, ["B08"])
 
 Throughout all clients we can define the kernel as an array of arrays, of which the inner arrays represent lines (`x`) and the outer arrays columns (`y`). This means that by adding a line break after each inner array, a true representation of the kernel can be created (see `highpass` in Python or JavaScript tab).
 
-The parameters `factor` and `border` are not needed here and are left out to fall back to default. `Factor` (default `1`) is multiplied with each pixel after the focal operation, while `border` (default `0`) defines how overlaps between the kernel and the image borders are handled (should pixel values be mirrored, replicated or simply set to 0?, see [`apply_kernel`](../processes.html#apply_kernel)).
+The parameters `factor` and `border` are not needed here and are left out to fall back to default. `factor` (default `1`) is multiplied with each pixel after the focal operation, while `border` (default `0`) defines how overlaps between the kernel and the image borders are handled (should pixel values be mirrored, replicated or simply set to 0?, see [`apply_kernel`](../processes.html#apply_kernel)).
 
 <CodeSwitcher>
 <template v-slot:py>

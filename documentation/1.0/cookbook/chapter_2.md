@@ -54,15 +54,15 @@ var cube_s2 = builder.load_collection(
 </template>
 </CodeSwitcher>
 
-![Pellworm](../cookbook/pellworm_248.png)
+![Pellworm](../cookbook/pellworm_248.jpg)
 This is a false color image of our area of interest for this chapter. The bands `4`, `8` and `2` have been assigned to the RGB channels without any further processing. The surrounding area of the island Pellworm is shown at low tide.
 
 ## Bandmath
 Bandmath refers to computations that involve multiple bands, like indices (Normalized Difference Vegetation Index, Normalized Burn Ratio etc.). 
 
-In openEO, this goes along with using `reduce_dimension` over the `bands` dimension. In this process, a new pixel value is calculated from the values of different bands using a given formula (the actual bandmath), to then eliminate the `bands` dimension alltogether. If e.g. a cube contains a `red` and a `nir` band in its `bands` dimension and we reduce said dimension with a formula for the NDVI, that cube afterwards contains NDVI values, but no `bands` dimension anymore.
+In openEO, this goes along with using for example `reduce_dimension` over the `bands` dimension. In this process, a new pixel value is calculated from the values of different bands using a given formula (the actual bandmath), to then eliminate the `bands` dimension alltogether. If e.g. a cube contains a `red` and a `nir` band in its `bands` dimension and we reduce said dimension with a formula for the NDVI, that cube afterwards contains NDVI values, but no `bands` dimension anymore.
 
-In the following we'll observe a thorough explanation of how to calculate an NDVI. That section covers different ways (depending on client) to set up such a process in openEO. Afterwards, we'll see how an EVI is computed in a quicker, less thorough example.
+In the following we'll observe a thorough explanation of how to calculate an NDVI. That section covers different ways (depending on the client) to set up such a process in openEO. Afterwards, we'll see how an EVI is computed in a quicker, less thorough example.
 
 ### Example 1: NDVI
 
@@ -84,7 +84,7 @@ Be careful when handling the names or array indices of bands. While names differ
 from openeo.processes import array_element, normalized_difference
 
 # define an NDVI function
-def ndvi_fun(data):
+def ndvi_function(data):
     B04 = array_element(data, index = 0) # array_element takes either an index ..
     B08 = array_element(data, label = "B08") # or a label
 
@@ -94,7 +94,7 @@ def ndvi_fun(data):
     return ndvi
 
 # supply the defined function to a reduce_dimension process, set dimension = "bands"
-cube_s2_ndvi = cube_s2.reduce_dimension(reducer = ndvi_fun, dimension = "bands")
+cube_s2_ndvi = cube_s2.reduce_dimension(reducer = ndvi_function, dimension = "bands")
 ```
 
 What we see above:
@@ -105,7 +105,6 @@ What we see above:
 The python client also holds a second possibility to do the above. It has a **function `band`** that does `array_element` and `reduce_dimension(dimension = "bands")` for us. When using it, we can type out the NDVI formula right in the script (since `.band` reduced the cube for us).
 
 ```python
-# use "band()"
 B04 = cube_s2.band("B04")
 B08 = cube_s2.band("B08")
 
@@ -117,7 +116,7 @@ cube_s2_ndvi = (B08 - B04) / (B08 + B04) # type math formula
 
 ```r
 # define an NDVI function
-ndvi_fun <- function(data, context) {
+ndvi_function <- function(data, context) {
   B04 <- data[2] # we can supply an index (1-based in R) ..
   B08 <- data["B08"] # or a label
   
@@ -129,7 +128,7 @@ ndvi_fun <- function(data, context) {
 }
 
 # supply the defined function to a reduce_dimension process, set dimension = "bands"
-cube_s2_ndvi <- p$reduce_dimension(data = cube_s2, reducer = ndvi_fun, dimension = "bands")
+cube_s2_ndvi <- p$reduce_dimension(data = cube_s2, reducer = ndvi_function, dimension = "bands")
 ```
 
 What we see above:
@@ -144,25 +143,19 @@ In R, there are no other ways to define a child process than through defining a 
 
 ```js
 // define NDVI function
-var ndvi_fun = function(data, context) {
+var ndvi_function = function(data, context) {
     B04 = data[0] // use array operator to extract bands
     B08 = data["B08"] // or supply label
 
-    // Either approach down below works:
+    ndvi = this.normalized_difference(B08, B04) // use "this" to access openEO processes inside this function
 
-    // dif = this.subtract(B08, B04) // use "this" to access openEO processes inside this function
-    // sum = this.sum(B08, B04)
-    // ndvi = this.divide(dif, sum)
-
-    ndvi = this.normalized_difference(B08, B04) // or use predefined "normalized_difference" instead of math
-
-    // ndvi = this.normalized_difference(data[1], data[0]) // or shorten it all into one line
+    // ndvi = this.normalized_difference(data["B08"], data["B04"]) // or shorten it all into one line
     
     return ndvi
 }
 
 // supply the defined function to a reduce_dimension process, set dimension = "bands"
-cube_s2_ndvi = builder.reduce_dimension(cube_s2, ndvi_fun, "bands")
+cube_s2_ndvi = builder.reduce_dimension(cube_s2, ndvi_function, "bands")
 ```
 
 What we see above:
@@ -172,7 +165,7 @@ What we see above:
 We note that JavaScript doesn't support just typing out math functions as R and Python do. But the JS client has another, even simpler way of defining quick bandmath: **using `new Formula`**.
 
 ```js
-// using "New Formula()", both $index and $label are valid as seen here
+// using "New Formula()", both $index and $label are valid as seen here, $1 refers to B04
 cube_s2_ndvi = builder.reduce_dimension(cube_s2, new Formula("($B08 - $1) / ($B08 + $1)"), "bands")
 ```
 
@@ -190,7 +183,7 @@ To sum up: Although `new Formula` is probably the most straightforward way of ca
 </template>
 </CodeSwitcher>
 
-![NDVI image of the AOI](../cookbook/pellworm_ndvi.png)
+![NDVI image of the AOI](../cookbook/pellworm_ndvi.jpg)
 A correctly calculated NDVI would look as displayed here.
 
 ### Example 2: EVI
@@ -231,7 +224,7 @@ cube_s2_evi <- p$reduce_dimension(data = cube_s2, reducer = evi_, dimension = "b
 
 ```js
 // "new Formula" is the quickest way to provide a bandmath formula
-cube_s2_evi = builder.reduce_dimension(cube_s2, new Formula("(2.5 * ($2 - $1)) / (($2 + 6 * $1 - 7.5 * $0) + 1)"), "bands")
+cube_s2_evi = builder.reduce_dimension(cube_s2, new Formula("(2.5 * ($B08 - $B04)) / (($B08 + 6 * $B04 - 7.5 * $B02) + 1)"), "bands")
 ```
 
 </template>
@@ -266,16 +259,15 @@ cube_s2_masked = cube_s2.mask(classification_mask)
 
 ```r
 # define filter function to create mask
-filter_ <- function(data, context) {
-  SCL <- data[4] # select SCL band
-  vegetation <- p$eq(SCL, 4) # vegetation is 4
-  non_vegetation <- p$eq(SCL, 5) # non-vegetation is 5
+filter_function <- function(data, context) {
+  vegetation <- p$eq(data["SCL"], 4) # vegetation is 4
+  non_vegetation <- p$eq(data["SCL"], 5) # non-vegetation is 5
   # we want to mask all other values, so NOT (4 OR 5)
   return(p$not(p$or(vegetation, non_vegetation)))
 }
 
 # create mask by reducing bands with our defined formula
-cube_s2_mask <- p$reduce_dimension(data = cube_s2, reducer = filter_, dimension = "bands")
+cube_s2_mask <- p$reduce_dimension(data = cube_s2, reducer = filter_function, dimension = "bands")
 
 # mask the NDVI data
 cube_s2_masked <- p$mask(cube_s2, cube_s2_mask)
@@ -286,16 +278,15 @@ cube_s2_masked <- p$mask(cube_s2, cube_s2_mask)
 
 ```js
 // filter classification layer
-var filter_ = function(data, context) {
-  SCL = data[3] // select SCL band
-  vegetation = this.eq(SCL, 4) // vegetation is 4
-  non_vegetation = this.eq(SCL, 5) // non-vegetation is 5
+var filter_function = function(data, context) {
+  vegetation = this.eq(data["SCL"], 4) // vegetation is 4
+  non_vegetation = this.eq(data["SCL"], 5) // non-vegetation is 5
   // we want to mask all other values, so NOT (4 OR 5)
   return this.not(this.or(vegetation, non_vegetation))
 }
 
 // create mask by reducing bands
-cube_s2_mask = builder.reduce_dimension(cube_s2, filter_, "bands")
+cube_s2_mask = builder.reduce_dimension(cube_s2, filter_function, "bands")
 
 // mask
 cube_s2_masked = builder.mask(cube_s2, cube_s2_mask)
@@ -308,7 +299,7 @@ As with all functionality there are differences between back-ends. If this first
 
 ### Thresholds
 
-In this scenario we want an image that contains all NDVI values above 0.3, and holds `NA` values otherwise. This could be useful to have a look at the vegetation in the area, without being distracted by all other NDVI values. For this example we reuse the NDVI cube `cube_s2_ndvi` that was calculated in the [NDVI bandmath-example](#example-1-ndvi), thus for this to work you must include said code into your script.
+In this scenario we want an image that contains all NDVI values above 0.3, and holds no-data values otherwise. This could be useful to have a look at the vegetation in the area, without being distracted by all other NDVI values. For this example we reuse the NDVI cube `cube_s2_ndvi` that was calculated in the [NDVI bandmath-example](#example-1-ndvi), thus for this to work you must include said code into your script.
 
 If you look closely, you'll notice that this time we're not using `reduce_dimension` to construct our masking cube (in contrast to [Mask out Specific Values](#mask-out-specific-values)). In R and JavaScript we use `apply` instead, and in the python client no `.band()` is necessary anymore. This is because when we were masking using specific values of the band `SCL`, we were using the `cube_s2` (with the bands `B02`, `B04`, `B08` and `SCL`) as input. We then reduced the `bands` dimension by writing and passing the function `filter_`, which returned a cube that had no `bands` dimension anymore but `1`s and `0`s according to what we wanted to mask. 
 
@@ -356,7 +347,7 @@ cube_s2_ndvi_masked = builder.mask(cube_s2_ndvi, ndvi_threshold)
 </template>
 </CodeSwitcher>
 
-![The NDVI with a 0.3 threshold applied](../cookbook/pellworm_threshold.png)
+![The NDVI with a 0.3 threshold applied](../cookbook/pellworm_threshold.jpg)
 Applying the above described treshold to the NDVI yields this result. Water and artificial surfaces are mostly masked from the image.
 
 ## Pixel Operations: `apply`
@@ -427,7 +418,7 @@ cube_s1_log = builder.apply(cube_s1, (data, _, child) => child.multiply(10, chil
 </template>
 </CodeSwitcher>
 
-![The AOI image is split into two parts: The upper part depicts SAR data with some very bright and many very dark pixels, the lower part is more balanced.](../cookbook/pellworm_s1.png)
+![The AOI image is split into two parts: The upper part depicts SAR data with some very bright and many very dark pixels, the lower part is more balanced.](../cookbook/pellworm_s1.jpg)
 Above we see the effect of transforming intensity data to db: Both parts of the image are linearly scaled, but only the lower part has been `log`-transformed. It makes the interpretation much easier because image pixels are much less extreme.
 
 ## Image Kernels: `apply_kernel`
@@ -525,7 +516,7 @@ var cube_s2_highpass = builder.apply_kernel(cube_s2_b8, highpass)
 </template>
 </CodeSwitcher>
 
-![A combined edge detection RGB. Sobel vertical and horizontal are displayed as red and green, a 5x5 highpass filter is displayed as blue](../cookbook/pellworm_kernels.png)
+![A combined edge detection RGB. Sobel vertical and horizontal are displayed as red and green, a 5x5 highpass filter is displayed as blue](../cookbook/pellworm_kernels.jpg)
 Above a combined edge detection RGB can be seen. Sobel 3x3 vertical and horizontal edge detections are displayed as red and green, a 5x5 highpass filter is displayed as blue. For this, all kernels in the code block above were applied and the sucessive cubes were merged afterwards.
 
 Pre-defined processes (`median`, `max`, `sd` etc.) can be applied to spatial, temporal or even spatio-temporal neighbourhoods with **`apply_neighborhood`**. Due to lack of implementation by back-ends, this is not covered at this point.

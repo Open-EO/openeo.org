@@ -579,11 +579,11 @@ var job = await con.createJob(result, "timeseries_as_JSON_js");
 
 ## Chapter 2
 
-In this second part of the cookbook, things are a bit less linear. We'll explore bandmath, masking and `apply_*` functionality, only that these steps are less interconnected than in the first tutorial. As before, you can change your preferred client language in the top right corner of all code examples. 
+In this second part of the cookbook, things are a bit less linear. We'll explore bandmath, masking and `apply_*` functionality, only that these steps are less interconnected than in the first chapter.
 
 As usual we'll load a collection to work with (Sentinel 2, bands `2`, `4`, `8` and `SCL`). Let's call it `cube_s2`. We pre-select a time frame of which we know it only contains one Sentinel 2 scene, so that we're not bothered with multiple timesteps (the collection still contains a time dimension, but with only one timestep in it, so that it can be ignored). The extent has been chosen to provide results that are suitable to show the effect of the processes used, while being considerably small and thus fast to compute. If you want to minimize processing time you are of course free to use much smaller AOIs.
 
-To be able to download and look at the results, refer to [chapter 1 - output](#raster-formats-gtiff-netcdf). The images in this tutorial were all downloaded as GTiff and plotted with R.
+To be able to download and look at the results, refer to the [output section of chapter 1](#raster-formats-gtiff-netcdf). Most of the images in this tutorial were all downloaded as GTiff and plotted with R.
 
 <CodeSwitcher>
 <template v-slot:py>
@@ -1144,7 +1144,7 @@ var cube_s2_highpass = builder.apply_kernel(cube_s2_b8, highpass)
     <figcaption>Above a combined edge detection RGB can be seen. Sobel 3x3 vertical and horizontal edge detections are displayed as red and green, and a 5x5 highpass filter is displayed as blue. For this, all kernels in the code block above were applied and the sucessive cubes were merged afterwards.</figcaption>
 </figure>
 
-Pre-defined processes (`median`, `max`, `sd` etc.) can be applied to spatial, temporal or even spatio-temporal neighbourhoods with **`apply_neighborhood`**. Due to lack of implementation by back-ends, this is not covered at this point.
+Pre-defined processes (`median`, `max`, `sd` etc.) can be applied to spatial, temporal or even spatio-temporal neighbourhoods with `apply_neighborhood`. Due to lack of implementation by back-ends, this is not covered at this point. Some notes on the process `apply_dimension` will follow soon.
 
 ## Endnote
 

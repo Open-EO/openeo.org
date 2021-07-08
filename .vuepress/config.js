@@ -6,7 +6,7 @@ const versions = [
     path: '/documentation/1.0/',
     title: '1.x',
     apiTag: '1.1.0',
-    processesTag: '1.0.0',
+    processesTag: '1.1.0',
     apiVersions: [
       '1.0.0',
       '1.0.1',

@@ -309,7 +309,7 @@ job.start_and_wait().download_results()
 
 Now the resulting GTiff file of the RGB backscatter composite is in your current directory. 
 
-![RGB composite](../getting-started-result-example.png "RGB composite")
+![RGB composite](../getting-started-result-example.jpg "RGB composite")
 
 The [source code](https://github.com/Open-EO/openeo-python-client/blob/c21b928ab5f4b4561bb07b7c4a934f0ea9b4f0b8/examples/gee_uc1_temp.py) of this example can be found on GitHub.
 

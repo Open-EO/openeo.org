@@ -12,7 +12,7 @@
 
       <p class="action">
         <NavLink class="action-button" :item="{link: '/about/', text: 'Why?'}"/>
-        <NavLink class="action-button" :item="{link: this.$site.themeConfig.docPath + 'getting-started.html', text: 'Get Started!'}"/>
+        <NavLink class="action-button" :item="{link: this.$site.themeConfig.docPath, text: 'Get Started!'}"/>
       </p>
     </header>
 

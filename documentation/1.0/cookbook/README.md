@@ -10,7 +10,7 @@ Please refer to the getting started guides for [JavaScript](../javascript/index.
 * [openEO Web Editor](https://editor.openeo.org) to visually build and execute processing workflows
 _____________________
 * [Python client documentation](https://open-eo.github.io/openeo-python-client/index.html)
-* [JavaScript client documentation](https://open-eo.github.io/openeo-js-client/1.3.1/index.html)
+* [JavaScript client documentation](https://open-eo.github.io/openeo-js-client/2.0.0/index.html)
 :::
 
 ## Chapter 1

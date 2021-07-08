@@ -12,7 +12,7 @@ Let's start with the easiest authentication method, based on the HTTP Basic auth
 With these security related caveats out of the way, you authenticate using your username and password. The clients usually have a `authenticate_basic` method for this or graphical clients (e.g. QGIS and the Web Editor) will ask for your username and password directly.
 
 ::: tip Further Information
-* [JS Client Documentation](https://open-eo.github.io/openeo-js-client/1.0.1/BasicProvider.html)
+* [JS Client Documentation](https://open-eo.github.io/openeo-js-client/2.0.0/BasicProvider.html)
 * [Python Client Documentation](https://open-eo.github.io/openeo-python-client/auth.html#basic-http-auth)
 * [R Client Documentation](https://open-eo.github.io/openeo-r-client/reference/BasicAuth.html)
 
@@ -50,7 +50,7 @@ OpenID Connect (OIDC) is an identity layer on top of the OAuth 2.0 protocol. It 
 OpenID Connect is clearly more complex than HTTP Basic Authentication. In the sections below we will discuss the practical details of each flow.
 
 ::: tip Further Information
-* [JS Client Documentation](https://open-eo.github.io/openeo-js-client/1.0.1/OidcProvider.html)
+* [JS Client Documentation](https://open-eo.github.io/openeo-js-client/2.0.0/OidcProvider.html)
 * [Python Client Documentation](https://open-eo.github.io/openeo-python-client/auth.html#openid-connect-based-authentication)
 * [R Client Documentation](https://open-eo.github.io/openeo-r-client/reference/OIDCAuth.html)
 

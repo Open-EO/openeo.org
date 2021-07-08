@@ -652,36 +652,36 @@ As mentioned above, bandmath is about reducing the `bands` dimension with a chil
 
 In this chapter, we'll reiterate these techniques and discuss some subtleties and alternatives. It is up to you to choose one that works best. Special to the NDVI is, given that it is _the_ most common use case, that openEO has predefined processes that cover the math for us and only need to be given the correct input. There even is a function `ndvi` that masks all details and only takes a datacube and the bandnames as input. Further down we'll dig into what this `ndvi` process actually masks, how we can reproduce that manually, and thus how we could formulate other bandmath functions, apart from an NDVI.
 
-By using the openEO defined **`ndvi` function**, calculating an NDVI becomes pretty straightforward. The process can detect the red and near-infrared band based on metadata and doesn't need bandname input. For the sake of defining other normalized differences it is shown here with an explicit definition. Also, by supplying the optional parameter `target_band` we can decide if we want to get a reduced cube with NDVI values and no `bands` dimension as result, or if we want to append the new NDVI band to the existing bands of our input cube. If we choose the latter, we only need to supply a name for that new NDVI band.
+By using the openEO defined **`ndvi` function**, calculating an NDVI becomes pretty straightforward. The process can detect the red and near-infrared band based on metadata and doesn't need bandname input (but band names can be passed to calculate other normalized differences). Also, by supplying the optional parameter `target_band` we can decide if we want to get a reduced cube with NDVI values and no `bands` dimension as result, or if we want to append the new NDVI band to the existing bands of our input cube. If we choose the latter, we only need to supply a name for that new NDVI band.
 
 <CodeSwitcher>
 <template v-slot:py>
 
 ```python
-cube_s2_ndvi = cube_s2.ndvi(nir = "B08", red = "B04")
+cube_s2_ndvi = cube_s2.ndvi()
 
-# or append the result band to the existing cube
-# cube_s2_ndvi = cube_s2.ndvi(nir = "B08", red = "B04", target_band = "NDVI")
+# or name bands explicitly + append the result band to the existing cube
+# cube_s2_ndvi_bands = cube_s2.ndvi(nir = "B08", red = "B04", target_band = "NDVI")
 ```
 
 </template>
 <template v-slot:r>
 
 ```r
-cube_s2_nvdi <- p$ndvi(data = cube_s2, nir = "B08", red = "B04")
+cube_s2_ndvi <- p$ndvi(cube_s2)
 
-# or append the result band to the existing cube
-cube_s2_nvdi <- p$ndvi(data = cube_s2, nir = "B08", red = "B04", target_band = "NDVI")
+# or name bands explicitly + append the result band to the existing cube
+# cube_s2_nvdi_bands <- p$ndvi(data = cube_s2, nir = "B08", red = "B04", target_band = "NDVI")
 ```
 
 </template>
 <template v-slot:js>
 
 ```js
-cube_s2_ndvi = builder.ndvi(cube_s2, "B08", "B04")
+cube_s2_ndvi = builder.ndvi(cube_s2)
 
-// or append the result band to the existing cube
-cube_s2_ndvi = builder.ndvi(cube_s2, "B08", "B04", "NDVI")
+// or name bands explicitly + append the result band to the existing cube
+// cube_s2_ndvi_bands = builder.ndvi(cube_s2, "B08", "B04", "NDVI")
 ```
 
 </template>
@@ -702,7 +702,7 @@ from openeo.processes import array_element, normalized_difference
 
 # define an NDVI function
 def ndvi_function(data):
-    B04 = array_element(data, index = 0) # array_element takes either an index ..
+    B04 = array_element(data, index = 1) # array_element takes either an index ..
     B08 = array_element(data, label = "B08") # or a label
 
     # ndvi = (B08 - B04) / (B08 + B04) # implement NDVI as formula ..
@@ -761,7 +761,7 @@ In R, there are no other ways to define a child process than through defining a 
 ```js
 // define NDVI function
 var ndvi_function = function(data, context) {
-    B04 = data[0] // use array operator to extract bands
+    B04 = data[1] // use array operator to extract bands
     B08 = data["B08"] // or supply label
 
     ndvi = this.normalized_difference(B08, B04) // use "this" to access openEO processes inside this function
@@ -864,13 +864,13 @@ In the following, we're building a mask using some logical operations as a child
 
 ```python
 # get classification band
-SCL = cube.band("SCL")
+SCL = cube_s2.band("SCL")
 
 # we want to mask all other values, so NOT (4 OR 5)
-classification_mask = ~ ((SCL == 4) | (SCL == 5))
+cube_s2_mask = ~ ((SCL == 4) | (SCL == 5))
 
 # masking
-cube_s2_masked = cube_s2.mask(classification_mask)
+cube_s2_masked = cube_s2.mask(cube_s2_mask)
 ```
 
 </template>
@@ -914,7 +914,7 @@ cube_s2_masked = builder.mask(cube_s2, cube_s2_mask)
 </template>
 </CodeSwitcher>
 
-As with all functionality there are differences between back-ends. If this first example "Mask Out Specific Values" doesn't work for you, that could be because we are trying to apply a mask (a cube with dimensions `x`, `y`, `t`) to the input data (a cube with dimensions `x`, `y`, `t`, `bands`) and thus, cubes with different dimensionality. If you encounter such a problem, try applying the first mask to the NDVI cube as it is shown in the second example "Thresholds".
+As with all functionality there are differences between back-ends. If this first example "Mask Out Specific Values" doesn't work for you, that could be because we are trying to apply a mask (a cube with dimensions `x`, `y`, `t`) to the input data (a cube with dimensions `x`, `y`, `t`, `bands`) and thus, cubes with different dimensionality. If you encounter such a problem, try applying the first mask to the NDVI cube (with dimensions `x`, `y`, `t`) as it is shown in the second example "Thresholds".
 
 #### Thresholds
 
@@ -949,7 +949,7 @@ threshold_ <- function(data, context) {
 ndvi_threshold <- p$apply(data = cube_s2_ndvi, process = threshold_)
 
 # mask the NDVI cube with the calculated mask
-s2_ndvi_masked <- p$mask(cube_s2_ndvi, s2_ndvi_mask)
+cube_s2_ndvi_masked <- p$mask(cube_s2_ndvi, ndvi_threshold)
 ```
 
 </template>
@@ -1017,7 +1017,7 @@ def log_(x):
   return 10 * log(x, 10)
 
 # supply that function to the "apply" call
-cube_s1_log10 = cube_s2.apply(log_)
+cube_s1_log10 = cube_s1.apply(log_)
 ```
 
 </template>
@@ -1033,7 +1033,7 @@ cube_s1_log10 <- p$apply(cube_s1, function(x, context) {p$multiply(10, p$log(x, 
 
 ```js
 // use openEO "log", "multiply" via arrow function
-cube_s1_log = builder.apply(cube_s1, (data, _, child) => child.multiply(10, child.log(data, 10)))
+cube_s1_log10 = builder.apply(cube_s1, (data, _, child) => child.multiply(10, child.log(data, 10)))
 ```
 
 </template>
@@ -1110,7 +1110,7 @@ highpass_vector <- c(rep(-1, 12), 24, rep(-1, 12))
 highpass <- matrix(highpass_vector, nrow = 5) # or 5x5 highpass filter
 
 # apply to cube
-cube_s2_b8_highpass <- p$apply_kernel(cube_s2_b8, highpass)
+cube_s2_b8_highpass <- p$apply_kernel(data = cube_s2_b8, kernel = highpass)
 ```
 
 **Note:** As of now, there seems to be the bug that the parameter `border` is wrongfully set as a string by the R client (see [issue on github](https://github.com/Open-EO/openeo-r-client/issues/65)). If you're executing this job via the [Web Editor](https://editor.openeo.org/), you can change this in the process graph itself: Change `"border": "0",` to `"border": 0,`.

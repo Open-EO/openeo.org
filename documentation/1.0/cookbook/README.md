@@ -606,7 +606,14 @@ cat(graphToJSON(graph),file = "./process_graph.json")
 <template v-slot:js>
 
 ```js
+// set last node as result = true so it is recognized as the result node
+res.result = true
 
+graph = JSON.stringify(builder.toJSON(), null, 2)
+
+// if needed, write graph to file, e.g.:
+var fs = require('fs');
+fs.writeFile ("./process_graph.json", graph, function(err) {if (err) throw err;});
 ```
 
 </template>

@@ -577,6 +577,41 @@ var job = await con.createJob(result, "timeseries_as_JSON_js");
 </template>
 </CodeSwitcher>
 
+### Output as JSON Process Graph
+
+In some cases we want to export the JSON representation of a process we created. If you followed one of the examples above, then your end node is called `res`. If not, replace that with whatever you called your process end node.
+
+<CodeSwitcher>
+<template v-slot:py>
+
+```python
+graph = res.to_json()
+
+# if needed, write graph to file, e.g.:
+with open("./process_graph.json", "w") as tfile:
+    tfile.write(graph)
+```
+
+</template>
+<template v-slot:r>
+
+```r
+graph <- as(res, "Graph")
+
+# if needed, write graph to file, e.g.:
+cat(graphToJSON(graph),file = "./process_graph.json")
+```
+
+</template>
+<template v-slot:js>
+
+```js
+
+```
+
+</template>
+</CodeSwitcher>
+
 ## Chapter 2
 
 In this second part of the cookbook, things are a bit less linear. We'll explore bandmath, masking and `apply_*` functionality, only that these steps are less interconnected than in the first chapter.

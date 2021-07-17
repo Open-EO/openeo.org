@@ -577,6 +577,53 @@ var job = await con.createJob(result, "timeseries_as_JSON_js");
 </template>
 </CodeSwitcher>
 
+### Output: Process as JSON
+
+In some cases we want to export the JSON representation of a process we created. If you followed one of the examples above, then your end node is called `res`. If not, replace that with whatever you called your process end node.
+
+<CodeSwitcher>
+<template v-slot:py>
+
+```python
+process = res.to_json()
+
+# if needed, write JSON to file, e.g.:
+with open("./process.json", "w") as tfile:
+    tfile.write(process)
+```
+
+</template>
+<template v-slot:r>
+
+```r
+process <- create_user_process(res, id = "-Title-", submit = FALSE)
+
+# convert list to JSON
+process <- jsonlite::toJSON(process, force = TRUE)
+
+# if needed, write JSON to file, e.g.:
+cat(process, file = "./process.json")
+```
+
+</template>
+<template v-slot:js>
+
+```js
+// set last node as result = true so it is recognized as the result node
+res.result = true
+
+process = JSON.stringify(builder.toJSON())
+
+// if needed, write JSON to file, e.g.:
+var fs = require('fs');
+fs.writeFileSync("./process.json", process);
+```
+
+**Note:** The code to store a file only works with NodeJS. Browsers can't write files to disk.
+
+</template>
+</CodeSwitcher>
+
 ## Chapter 2
 
 In this second part of the cookbook, things are a bit less linear. We'll explore bandmath, masking and `apply_*` functionality, only that these steps are less interconnected than in the first chapter.

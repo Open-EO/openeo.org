@@ -577,7 +577,7 @@ var job = await con.createJob(result, "timeseries_as_JSON_js");
 </template>
 </CodeSwitcher>
 
-### Output as JSON Process Graph
+### Output: Process as JSON
 
 In some cases we want to export the JSON representation of a process we created. If you followed one of the examples above, then your end node is called `res`. If not, replace that with whatever you called your process end node.
 
@@ -587,7 +587,7 @@ In some cases we want to export the JSON representation of a process we created.
 ```python
 process = res.to_json()
 
-# if needed, write graph to file, e.g.:
+# if needed, write JSON to file, e.g.:
 with open("./process.json", "w") as tfile:
     tfile.write(process)
 ```
@@ -596,10 +596,13 @@ with open("./process.json", "w") as tfile:
 <template v-slot:r>
 
 ```r
-graph <- as(res, "Graph")
+process <- create_user_process(res, id = "-Title-", submit = FALSE)
 
-# if needed, write graph to file, e.g.:
-cat(graphToJSON(graph),file = "./process_graph.json")
+# convert list to JSON
+process <- jsonlite::toJSON(process, force = TRUE)
+
+# if needed, write JSON to file, e.g.:
+cat(process, file = "./process.json")
 ```
 
 </template>
@@ -611,10 +614,12 @@ res.result = true
 
 process = JSON.stringify(builder.toJSON())
 
-// if needed, write graph to file, e.g.:
+// if needed, write JSON to file, e.g.:
 var fs = require('fs');
 fs.writeFileSync("./process.json", process);
 ```
+
+**Note:** The above description only works with NodeJS. To do the same in a browser, methodology must be adjusted.
 
 </template>
 </CodeSwitcher>

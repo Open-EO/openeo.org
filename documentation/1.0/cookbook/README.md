@@ -619,7 +619,7 @@ var fs = require('fs');
 fs.writeFileSync("./process.json", process);
 ```
 
-**Note:** The above description only works with NodeJS. To do the same in a browser, methodology must be adjusted.
+**Note:** The code to store a file only works with NodeJS. Browsers can't write files to disk.
 
 </template>
 </CodeSwitcher>

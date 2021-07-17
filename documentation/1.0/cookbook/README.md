@@ -585,11 +585,11 @@ In some cases we want to export the JSON representation of a process we created.
 <template v-slot:py>
 
 ```python
-graph = res.to_json()
+process = res.to_json()
 
 # if needed, write graph to file, e.g.:
-with open("./process_graph.json", "w") as tfile:
-    tfile.write(graph)
+with open("./process.json", "w") as tfile:
+    tfile.write(process)
 ```
 
 </template>
@@ -609,11 +609,11 @@ cat(graphToJSON(graph),file = "./process_graph.json")
 // set last node as result = true so it is recognized as the result node
 res.result = true
 
-graph = JSON.stringify(builder.toJSON(), null, 2)
+process = JSON.stringify(builder.toJSON())
 
 // if needed, write graph to file, e.g.:
 var fs = require('fs');
-fs.writeFile ("./process_graph.json", graph, function(err) {if (err) throw err;});
+fs.writeFileSync("./process.json", process);
 ```
 
 </template>

@@ -105,11 +105,11 @@ module.exports = {
       { text: 'Meet us', link: '/meet-us.html' },
       { text: 'Software', link: '/software.html' },
       { text: 'Hub', link: 'https://hub.openeo.org' },
-      { text: 'Platform', link: '/platform/' },
       { text: 'User Documentation', userNav: true, items: [] },
       { text: 'Developers', devNav: true, items: [] },
       { text: 'PSC', link: '/psc.html' },
-      { text: 'Contact', link: '/contact.html' }
+      { text: 'Contact', link: '/contact.html' },
+      { text: 'Platform', link: 'https://openeo.cloud' }
     ],
     sidebar: 'auto'
   },

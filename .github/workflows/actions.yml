@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - master
+  schedule:
+    - cron: "0 0 * * 1" # Weekly run to refresh external resources
 jobs:
   deploy:
     runs-on: ubuntu-latest

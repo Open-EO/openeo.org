@@ -17,10 +17,9 @@ Please make sure to have the package 'devtools' installed. If it is not installe
 If you want to install the development version, please use the `ref="develop"` in the prior installation command.
 It may contain more features, but may also be unstable.
 
-If this gives you the following output, something went wrong with the installation, please check again the requirements. 
+If this gives you an error, something went wrong with the installation, please check again the requirements. 
 
 If you have still troubles installing the package, feel free to [contact us](../../../contact.md) or leave an issue at the [GitHub project](https://github.com/Open-EO/openeo-r-client/issues).
-
 
 Now that the installation was successfully finished, we can load the package and connect to openEO compliant back-ends. 
 In the following chapters we quickly walk through the main features of the R client. 
@@ -39,8 +38,7 @@ library(openeo)
 gee = connect(host = "https://earthengine.openeo.org")
 ```
 
-The object stored as variable `gee` is a connection and resembles the OpenEOClient - an object, that bundles all information and functions to interact with the openEO back-end. It can be used explicitly in all of the functions to determine which connection has to be used (usually parameter `con`). If only one connection is active, then you can omit the parameter, because the last active connection is always stored in a package environment and used if no specific connection was present (see `?active_connection` in the package documentation).
-
+The object stored as variable `gee` is a connection and resembles the `OpenEOClient` - an object, that bundles all information and functions to interact with the openEO back-end. It can be used explicitly in all of the functions to determine which connection has to be used (usually parameter `con`). If only one connection is active, then you can omit the parameter, because the last active connection is always stored in a package environment and used if no specific connection was present (see `?active_connection` in the package documentation).
 
 The capabilities of the back-end and the collections are generally publicly available, unless the data collections are proprietary and licensing issues prevent the back-end provider from publishing the collection. For the publicly available information you do not need to have an account on the back-end for reading them.
 
@@ -169,7 +167,7 @@ datacube = p$load_collection(
 )
 ```
 
-This results in a process node that represents a [`datacube`](../glossary.md#spatial-data-cubes) and contains the "COPERNICUS/S1_GRD" data restricted to the given spatial extent, the given temporal extent and the given bands .
+This results in a process node that represents a [`datacube`](../glossary.md#spatial-datacubes) and contains the "COPERNICUS/S1_GRD" data restricted to the given spatial extent, the given temporal extent and the given bands .
 
 ::: tip
 You can also filter the datacube at a later stage by using the following filter methods:

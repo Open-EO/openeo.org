@@ -1,7 +1,7 @@
 # Python Client
 
-This How-To page will give you just a simple overview of the capabilities of the Python client.
-For a more detailed introduction or if you are already certain that you want to use the Python 
+This Getting Started guide will give you just a simple overview of the capabilities of the Python client.
+For a more detailed introduction or if you are pretty confident in Python 
 client we recommend to visit directly the [official documentation](https://open-eo.github.io/openeo-python-client/).
 
 ## Installation
@@ -73,7 +73,7 @@ The execution of the code above results in:
 Available Collections
 [{'id': 'AAFC/ACI', 'title': 'Canada AAFC Annual Crop Inventory', ...}, { 'id': 'COPERNICUS/S2', ...}]
 Describe COPERNICUS/S2
-{'id': 'COPERNICUS/S2', 'title': ..., 'description': ..., 'bands': ..., ...}
+{'id': 'COPERNICUS/S2', 'title': ..., 'description': ..., 'summaries': ..., ...}
 ```
 
 By calling [`list_collections`](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.list_collections), a list of collection dictionaries is returned. 

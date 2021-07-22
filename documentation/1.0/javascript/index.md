@@ -117,7 +117,7 @@ response.collections.forEach(collection => {
 });
 ```
 
-To get detailed information about a single collection, you can pass any of the collection IDs requested earlier to `describeCollection` and get a full object of [STAC compliant Collection metadata](https://github.com/radiantearth/stac-spec/tree/v0.9.0/collection-spec/collection-spec.md) back.
+To get detailed information about a single collection, you can pass any of the collection IDs requested earlier to `describeCollection` and get a full object of [STAC compliant Collection metadata](https://github.com/radiantearth/stac-spec/tree/v1.0.0/collection-spec/collection-spec.md) back.
 In this example we request information about the Sentinel-2 Level 1C data from Google:
 
 ```js
@@ -166,7 +166,7 @@ For Google Earth Engine, only [Basic Authentication](#basic-authentication) is s
 
 The OIDC ([OpenID Connect](https://openid.net/connect/)) authentication can be used to authenticate via an external service given a client ID.
 
-::: tip Important
+::: warning Important
 If you have included the library using HTML `script` tags, then you need to include the following OIDC client before the openEO client:
 
 ```html
@@ -207,7 +207,7 @@ First we need to create a user-defined process and for that a process builder is
 var builder = await con.buildProcess();
 ```
 
-With the builder, a data cube can be initialized by selecting a collection from the back-end with the process `load_collection`:
+With the builder, a [datacube](../glossary.md#spatial-datacubes) can be initialized by selecting a collection from the back-end with the process `load_collection`:
 
 ```js
 var datacube = builder.load_collection(
@@ -218,7 +218,7 @@ var datacube = builder.load_collection(
 );
 ```
 
-This results in a [datacube](../glossary.md#spatial-data-cubes) containing the "COPERNICUS/S1_GRD" data restricted to the given spatial extent, the given temporal extend and the given bands .
+This results in a datacube containing the "COPERNICUS/S1_GRD" data restricted to the given spatial extent, the given temporal extend and the given bands .
 
 ::: tip
 You can also filter the datacube at a later stage by using the following filter methods:
@@ -252,7 +252,7 @@ How this can be done is the topic of the next chapter.
 After applying all processes you want to execute, we need to tell the back-end to export the datacube, for example as GeoTiff:
 
 ```js
-var result = builder.save_result(datacube, "GeoTiff");
+var result = builder.save_result(datacube, "GTiff");
 ```
 
 ## Batch Job Management
@@ -311,7 +311,7 @@ let stopFn = job.monitorJob(async (job, logs) => {
 ::: tip Note
 There's also the method `downloadResults` to download the results directly.
 Unfortunately, you can only download files from a Node.js environment where file access to your local drive is possible. 
-In a Browser environment, it is also an option to download the STAC Item for the results using the `getResultsAsItem` method and point a STAC client to it for downloading.
+In a Browser environment, it is also an option to download the STAC Item or Collection for the results using the `getResultsAsStac` method and point a [STAC client](https://stacindex.org/ecosystem?category=Client) to it for downloading.
 :::
 
 Now you know the general workflow of job executions.

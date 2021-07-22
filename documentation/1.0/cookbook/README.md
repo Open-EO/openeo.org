@@ -11,6 +11,7 @@ Please refer to the getting started guides for [JavaScript](../javascript/index.
 _____________________
 * [Python client documentation](https://open-eo.github.io/openeo-python-client/index.html)
 * [JavaScript client documentation](https://open-eo.github.io/openeo-js-client/2.0.0/index.html)
+* [R client documentation](https://open-eo.github.io/openeo-r-client/index.html)
 :::
 
 ## Chapter 1

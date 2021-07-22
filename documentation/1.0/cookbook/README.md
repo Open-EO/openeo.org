@@ -1,4 +1,4 @@
-# OpenEO Cookbook
+# openEO Cookbook
 
 This is the openEO cookbook that you can refer to to get a first idea on how to solve problems with openEO in the three client languages Python, R and JavaScript. It describes how to implement simple use cases in a pragmatic way.
 

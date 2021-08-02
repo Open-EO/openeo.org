@@ -6,17 +6,14 @@ sidebar: false
 
 We are always happy to present and discuss the current state of the project. You can **meet us at the following events**:
 
-* EODC Forum 2021 (June 8-10, openEO Platform talks)
-* Open Data Cube conference (June 23, openEO talk)
-* [IGARRS Hands on openEO](events/igarrs2021.md) (July 11)
-* 12th International Symposium on Digital Earth (ISDE12) (July 5, openEO Platform workshop)
 * ESA PhiWeek (October 11-15, openEO Platform public launch event, including keynote and workshop)
 
 Due to the COVID-19 situation there are no in-person meetings planned. We'll post further information here once available.
 
 Interesting resources from **past events**:
 
-* [openEO User Workshop Materials](https://openeo.org/news/2020-09-02-openeo-user-workshop.html)
+* [IGARRS Hands on openEO - Materials](events/igarrs2021.md) (July 11)
+* [openEO User Workshop - Materials](https://openeo.org/news/2020-09-02-openeo-user-workshop.html)
 * [OpenGeoHub Summer School: Plenary on openEO](https://www.youtube.com/watch?v=UdjysZ-IvV0&list=PLXUoTpMa_9s1npXD6S9M0_2pUgnTd6cqV&index=26)
 * [FOSS4G 2019: Talk on openEO Earth Observation data cubes](https://media.ccc.de/v/bucharest-286-openeo-earth-observation-data-cubes)
 * [Scene From Above: Podcast about openEO and how to facilitate EO processing for new communities](http://scenefromabove.org/podcasts.html)

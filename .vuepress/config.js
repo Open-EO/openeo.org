@@ -98,6 +98,10 @@ module.exports = {
     logo: '/images/openeo_navbar_logo.png',
     editLinks: true,
     docsRepo: 'Open-EO/openeo.org',
+    algolia: {
+      apiKey: '574fa32a7e50ec21dc6c2152b80ee775',
+      indexName: 'openeo'
+    },
     nav: [
       { text: 'Home', link: '/' },
       { text: 'About', link: '/about.html' },

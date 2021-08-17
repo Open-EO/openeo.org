@@ -17,7 +17,7 @@ Please make sure to have the package 'devtools' installed. If it is not installe
 If you want to install the development version, please use the `ref="develop"` in the prior installation command.
 It may contain more features, but may also be unstable.
 
-If this gives you an error, something went wrong with the installation, please check again the requirements. 
+If this gives you an error, something went wrong with the installation so please check the requirements again. 
 
 If you have still troubles installing the package, feel free to [contact us](../../../contact.md) or leave an issue at the [GitHub project](https://github.com/Open-EO/openeo-r-client/issues).
 
@@ -44,7 +44,7 @@ The capabilities of the back-end and the collections are generally publicly avai
 
 ### Collections
 
-Collections represent the basic data the back-end provides (e.g. Sentinel 2 collection) and are therefore often used as input data for job executions ([more info on collections](../glossary.md#eo-data-collections)).
+Collections represent the basic data the back-end provides (e.g. Sentinel 1 collection) and are therefore often used as input data for job executions ([more info on collections](../glossary.md#eo-data-collections)).
 With the following code snippet you can get all available collection names and their description. The collection list and its entries have their own implementations of the `print` function. The collection list object is coerced into a `data.frame` only for printing purposes and the collection for the collection some key information are printed. 
 
 To get the collection list can be indexed by the collections ID to get the more details about the overview information. With the `describe_collection` function you can get an even more detailed information about the collection.
@@ -72,7 +72,7 @@ If the package is used with RStudio the metadata can also be nicely rendered as 
 
 ### Processes
 
-Processes in openEO are tasks that can be applied on (EO) data.
+Processes in openEO are tasks that can be applied to (EO) data.
 The input of a process might be the output of another process, so that several connected processes form a new (user-defined) process itself.
 Therefore, a process resembles the smallest unit of task descriptions in openEO ([more details on processes](../glossary.md#processes)).
 The following code snippet shows how to get the available processes.
@@ -186,19 +186,19 @@ Having the input data ready, we want to apply a process on the datacube.
 Therefore, we can call the process directly on the datacube object, which then returns a datacube with the process applied. 
 
 ```r
-max_reducer = function(data,context) { 
-  return(p$max(data = data))
+min_reducer = function(data,context) { 
+  return(p$min(data = data))
 }
 
-reduced = p$reduce_dimension(data = datacube, reducer = max_reducer, dimension="t")
+reduced = p$reduce_dimension(data = datacube, reducer = min_reducer, dimension="t")
 ```
 
-The datacube is now reduced by the time dimension named `t`, by taking the maximum value of the timeseries values. Now the datacube has no time dimension left. Other so called "reducer" processes exist, e.g. for computing minimum and mean values.
+The datacube is now reduced by the time dimension named `t`, by taking the minimum value of the timeseries values. Now the datacube has no time dimension left. Other so called "reducer" processes exist, e.g. for computing maximum and mean values.
 
 
 ::: tip Note
 Everything applied to the datacube at this point is neither executed locally on your machine nor executed on the back-end.
-It just defines the input data and process chain the back-end needs to apply, when sending and executing the datacube at the back-end.
+It just defines the input data and process chain the back-end needs to apply when it sends the datacube to the back-end and executes it there.
 How this can be done is the topic of the next chapter. 
 :::
 

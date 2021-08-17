@@ -239,13 +239,13 @@ var min = function(data) { return this.min(data); };
 datacube = builder.reduce_dimension(datacube, min, "t");
 ```
 
-The datacube is now reduced by the time dimension named `t`, by taking the maximum value of the timeseries values.
+The datacube is now reduced by the time dimension named `t`, by taking the minimum value of the timeseries values.
 Now the datacube has no time dimension left.
-Other so called "reducer" processes exist, e.g. for computing minimum and mean values.
+Other so called "reducer" processes exist, e.g. for computing maximum and mean values.
 
 ::: tip Note
 Everything applied to the datacube at this point is neither executed locally on your machine nor executed on the back-end.
-It just defines the input data and process chain the back-end needs to apply, when sending and executing the datacube at the back-end.
+It just defines the input data and process chain the back-end needs to apply when it sends the datacube to the back-end and executes it there.
 How this can be done is the topic of the next chapter. 
 :::
 
@@ -257,7 +257,7 @@ var result = builder.save_result(datacube, "GTiff");
 
 ## Batch Job Management
 
-After you gave finished working on your (user-defined) process, we can now send it to the back-end and start the execution. 
+After you finished working on your (user-defined) process, we can now send it to the back-end and start the execution. 
 In openEO, an execution of a (user-defined) process (here defined using the process builder) is called a [(batch) job](../glossary.md#data-processing-modes).
 Therefore, we need to create a job at the back-end using our datacube, giving it the title `Example Title`.
 

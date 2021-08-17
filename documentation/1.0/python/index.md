@@ -1,8 +1,7 @@
 # Python Client
 
 This Getting Started guide will give you just a simple overview of the capabilities of the Python client.
-For a more detailed introduction or if you are pretty confident in Python 
-client we recommend to visit directly the [official documentation](https://open-eo.github.io/openeo-python-client/).
+For a more detailed introduction or if you are pretty confident in Python we recommend to visit the [official documentation](https://open-eo.github.io/openeo-python-client/).
 
 ## Installation
 
@@ -22,8 +21,7 @@ You can check the installation by trying to import the openeo module in the Pyth
 ```python
 import openeo
 ```
-If this gives you the following output, something went wrong with the installation, please check again the requirements. 
-If you have still troubles installing the Python module, feel free to [contact us](../../../contact.md) or leave an issue at the [GitHub project](https://github.com/Open-EO/openeo-python-client/issues).
+If this gives you the following output, something went wrong with the installation. In that case, please check the requirements again. If you have still troubles installing the Python module, feel free to [contact us](../../../contact.md) or leave an issue at the [GitHub project](https://github.com/Open-EO/openeo-python-client/issues).
 
 ```shell script
 >>> import openeo
@@ -32,7 +30,7 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'openeo'
 ```
 
-Now that the installation was successfully finished, we can now connect to openEO compliant back-ends. 
+Now that the installation was successfully finished, we can connect to openEO compliant back-ends. 
 In the following chapters we quickly walk through the main features of the Python client. 
 
 ## Exploring a back-end
@@ -55,7 +53,7 @@ The capabilities of the back-end is publicly available and therefore you do not 
 
 ### Collections
 
-Collections represent the basic data the back-end provides (e.g. Sentinel 2 collection).
+Collections represent the basic data the back-end provides (e.g. Sentinel 1 collection).
 Collections are used as input data for job executions ([more info on collections](../glossary.md#eo-data-collections)).
 With the following code snippet you can get all available collection names and their description.
 
@@ -83,7 +81,7 @@ The collections in the list have a general description, but to get the full coll
 ### Processes
 
 Processes in openEO are tasks that can be applied on (EO) data.
-The input of a process might be the output of another process, so that several connected processes form a new (user-defined) process itself.
+The input of a process might be the output of another process, so that several connected processes themselves form a new (user-defined) process.
 Therefore, a process resembles the smallest unit of task descriptions in openEO ([more details on processes](../glossary.md#processes)).
 The following code snippet shows how to get the available processes.
 
@@ -131,7 +129,7 @@ connection.authenticate_OIDC("Client ID")
 
 Calling this method opens your system web browser, with which you can authenticate yourself on the back-end authentication system. 
 After that the website will give you the instructions to go back to the python client, where your connection has logged your account in. 
-This means, that every call that comes after that via the connection variable is executed by your user account.
+This means that every call that comes after that via the connection variable is executed by your user account.
 
 ### Basic Authentication
 
@@ -184,11 +182,11 @@ Having the input data ready, we want to apply a process on the datacube.
 Therefore, we can call the process directly on the datacube object, which then returns a datacube with the process applied. 
 
 ```python
-datacube = datacube.max_time()
+datacube = datacube.min_time()
 ```
-The datacube is now reduced by the time dimension, by taking the maximum value of the timeseries values.
+The datacube is now reduced by the time dimension, by taking the minimum value of the timeseries values.
 Now the datacube has no time dimension left.
-Other so called "reducer" processes exist, e.g. for computing minimum and mean values.
+Other so called "reducer" processes exist, e.g. for computing maximum and mean values.
 A list of supported processes using the Python client datacube can be found on the [official documentation](https://open-eo.github.io/openeo-python-client/).
 
 Applying a process not supported by the Python client can be added to the datacube manually:
@@ -206,22 +204,28 @@ The "data" argument defines the input of the process and we chose latest added p
 
 ::: tip Note
 Everything applied to the datacube at this point is neither executed locally on your machine nor executed on the back-end.
-It just defines the input data and process chain the back-end needs to apply, when sending and executing the datacube at the back-end.
+It just defines the input data and process chain the back-end needs to apply when it sends the datacube to the back-end and executes it there.
 How this can be done is the topic of the next chapter. 
 :::
 ::: tip Note
 Still unsure on how to make use of processes with the Python client? Visit the [official documentation](https://open-eo.github.io/openeo-python-client/processes.html#working-with-processes).
 :::
 
+After applying all processes you want to execute, we need to tell the back-end to export the datacube, for example as GeoTiff:
+
+```python
+result = datacube.save_result("GTiff")
+```
+
 ## Batch Job Management
 
 Assuming that the definition of the datacube object and all related processes is finished, we can now send it to the back-end and start the execution. 
 In openEO, an execution of a (user-defined) process (here defined in the datacube object) is called a [(batch) job](../glossary.md#data-processing-modes).
-Therefore, we need to create a job at the back-end using our datacube.
+Therefore, we need to create a job at the back-end using our datacube, giving it the title `Example Title`.
 
 ```python
 # Creating a new job at the back-end by sending the datacube information.
-job = datacube.send_job()
+job = result.send_job(title = "Example Title")
 ```
 
 The [`send_job`](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.datacube.DataCube.send_job) method sends all necessary information to the back-end and creates a new job, which gets returned.

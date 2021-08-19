@@ -9,7 +9,7 @@ First of all, you should read carefully the [getting started guide for service p
 The Open Data Cube implementation for openEO is not a full-fledged out-of-the-box openEO back-end,
 but can be part of the infrastructure for the data management part.
 In detail it can be used as data source for [EO Data Discovery](apireference.md#tag/EO-Data-Discovery) and e.g.
-in combination with a dask cluster as processing backend for [Data Processing](apireference.md#tag/Data-Processing).
+in combination with a dask cluster as processing back-end for [Data Processing](apireference.md#tag/Data-Processing).
 In any case, a [HTTP REST interface must be available in front of ODC to properly answer openEO requests](#http-rest-interface).
 :::
 
@@ -23,7 +23,7 @@ There are three main components involved with ODC and openEO:
 * Repository: [openeo-pg-parser-python](https://github.com/Open-EO/openeo-pg-parser-python)
 
 The process graph parser translates a process graph in json / dict format into a traversable python object. It
-automatically validates that only collections and processes are used which are available at the backend.
+automatically validates that only collections and processes are used which are available at the back-end.
 
 For example, this [EVI process graph](https://github.com/Open-EO/openeo-odc/blob/master/tests/process_graphs/evi.json) can be
 translated using the openEO Process Graph Parser in the following way:

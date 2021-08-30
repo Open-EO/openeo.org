@@ -302,7 +302,7 @@ We recommend to use `listResults` in combination with `monitorJob`, for example 
 let stopFn = job.monitorJob(async (job, logs) => {
   if (job.status === "finished") {
     var urls = await job.listResults();
-    urls.forEach(url => console.log(`Download result from: ${url}`));
+    urls.forEach(url => console.log(`Download result from: ${url.href}`));
   }
 });
 ```

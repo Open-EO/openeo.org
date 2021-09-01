@@ -429,7 +429,7 @@ We then proceed to send that job to the back-end, _without executing it_. Refer 
 
 In the example, GeoTiff files are produced. Refer to the back-end for the available formats, options, and their correct naming. Check the [PNG section](#raster-formats-png) for passing options. 
 
-Different from the creation of a PNG image, the raster format doesn't need scaling and the original datacube can be downloaded as is. However, we need to be careful with the dimensionality of the datacube: How a 4+ - dimensional datacube is handled when converted to a raster format is back-end dependent. That is why we [made sure](#temporal-mean-reduce_dimension) that our cube would only contain one additional dimension, apart from the spatial `x` and `y`.
+Different from the creation of a PNG image, the raster format doesn't need scaling and the original datacube can be downloaded as is. However, we need to be careful with the dimensionality of the datacube: How a 4+ - dimensional datacube is handled when converted to a raster format is back-end dependent. That is why we [made sure](#temporal-mean-reduce-dimension) that our cube would only contain one additional dimension, apart from the spatial `x` and `y`.
 
 <CodeSwitcher>
 <template v-slot:py>
@@ -472,7 +472,7 @@ var job = await con.createJob(result, "temporal_mean_as_GTiff_js");
 
 #### Raster Formats: PNG
 
-For a PNG output, we'll use the datacube with the bands 3, 4 and 8 (green, red and near-infrared) that we've been working on simultaneously with the datacube used above. As we have scaled the data down to 8bit using a [linear scale](#scale-all-pixels-linearly-apply-linear_scale_range), nothing stands in the way of downloading the data as PNG.
+For a PNG output, we'll use the datacube with the bands 3, 4 and 8 (green, red and near-infrared) that we've been working on simultaneously with the datacube used above. As we have scaled the data down to 8bit using a [linear scale](#scale-all-pixels-linearly-apply-linear-scale-range), nothing stands in the way of downloading the data as PNG.
 
 We want to produce a false-color composite highlighting the vegetation in red (as seen below the code). For that, we want to assign the infrared band (`B8`) to the red channel, the red band (`B4`) to the green channel and the green band (`B3`) to the blue channel. Some back-ends may offer to pass along this desired band order as it is shown below. Check with the back-end for available options.
 
@@ -539,7 +539,7 @@ In JavaScript, options are passed as objects.
 
 #### Text Formats: JSON, CSV
 
-We can now save the timeseries in the [aggregated](#spatial-aggregation-aggregate_spatial) datacube as e.g. JSON.
+We can now save the timeseries in the [aggregated](#spatial-aggregation-aggregate-spatial) datacube as e.g. JSON.
 
 <CodeSwitcher>
 <template v-slot:py>
@@ -1128,7 +1128,7 @@ cube_s2_b8 = builder.filter_bands(cube_s2, ["B08"])
 
 Throughout all clients we can define the kernel as an array of arrays, of which the inner arrays represent lines (`x`) and the outer arrays columns (`y`). This means that by adding a line break after each inner array, a true representation of the kernel can be created (see `highpass` in Python or JavaScript tab).
 
-The parameters `factor` and `border` are not needed here and are left out to fall back to default. `factor` (default `1`) is multiplied with each pixel after the focal operation, while `border` (default `0`) defines how overlaps between the kernel and the image borders are handled (should pixel values be mirrored, replicated or simply set to 0?, see [`apply_kernel`](../processes.html#apply_kernel)).
+The parameters `factor` and `border` are not needed here and are left out to fall back to default. `factor` (default `1`) is multiplied with each pixel after the focal operation, while `border` (default `0`) defines how overlaps between the kernel and the image borders are handled (should pixel values be mirrored, replicated or simply set to 0?, see [`apply_kernel`](../processes.md#apply_kernel)).
 
 <CodeSwitcher>
 <template v-slot:py>

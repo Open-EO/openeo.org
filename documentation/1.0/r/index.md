@@ -376,7 +376,8 @@ start_job(job = job, log = TRUE)
 
 Now the resulting PNG file of the RGB backscatter composite is stored as a PNG file in the current working directory. It looks like this:
 
-![RGB composite](../getting-started-result-example.jpg "RGB composite")
+
+![RGB composite](../getting-started-result-example.jpg)
 
 ::: tip
 The [source code](https://github.com/Open-EO/openeo-r-client/blob/master/examples/S1-example.R) of the example can also be found on the R client repository on Github.

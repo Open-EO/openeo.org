@@ -22,7 +22,7 @@ the plugin manager.
 
 After successfully installing and activating the plugin, the openEO logo should be part of the toolbar:
 
-![QGIS Plugin Icon](./images/qgis_button.png "Button to start the plugin")
+![QGIS Plugin Icon](./images/qgis_button.png)
 
 Simply click on the icon to start the plugin.
 
@@ -35,7 +35,7 @@ selected provider. If you want to connect to a specific version of a backend, yo
 the checkbox labeled "Only Latest versions". You can also manually type a backend url into the selection 
 field, in case it is not registered at our hub yet.
  
-![QGIS Login Dialog](./images/login_dialog.png "Login Dialog")
+![QGIS Login Dialog](./images/login_dialog.png)
 
 Now that you have chosen a backend, you can log in with your username and password provided by the backend.
 Note that the QGIS plugin only supports Basic authentication and not [OpenID Connect](https://openid.net/connect/) yet. 
@@ -50,7 +50,7 @@ The first tab shows information about the backend and the available collections 
 On the top, there is a basic description about the backend you are connected to.
 Next, you can choose a collection in the drop down menu to see a description of that dataset.
 
-![QGIS Backend Info](./images/backend_info.png "Backend Info tab")
+![QGIS Backend Info](./images/backend_info.png)
 
 On the bottom, you can use the drop down menu to choose one of the available processes from the backend. 
 After selection, the parameters of the process are listed in the table below. The first column contains the 
@@ -69,7 +69,7 @@ at the backend. In openEO a job describes what the backend needs to process
 additional meta-information (e.g. title, creation date). The first two columns show the title and the creation date of 
 the job. The other elements of the table are numbered in the screenshot and described in the following. 
 
-![QGIS Jobs](./images/jobs.png "Jobs tab")
+![QGIS Jobs](./images/jobs.png)
 
 1. **Status** - Shows the current lifecycle state of the job. The first status of a job is "created", 
 if it got created at the backend, but not executed yet. After the job gets executed it will be 
@@ -124,7 +124,7 @@ adding a few processes to the original one. To do so, you need to click on the e
 In this section you'll get an overview of the job adaption workflow using the job adaption window. 
 How you get there was described in the previous section.
 
-![QGIS Adapting Job](./images/adapt_job.png "Adapting job window")
+![QGIS Adapting Job](./images/adapt_job.png)
 
 1. **Job Title** - Here you can write the title of the job. It is recommended to choose it in a way that 
 makes you identify the job in a list more easily.
@@ -187,7 +187,7 @@ arguments value.
 * **Spatial Extent** - Edit buttons of arguments which expect a spatial extent (e.g. geojson, bounding-box) open a
 spatial extent dialog:
 
-![QGIS Edit spatial](./images/edit_spatial.png "Editing spatial extent")
+![QGIS Edit spatial extent](./images/edit_spatial.png)
 
 On the bottom you can edit the spatial extent manually in the text box. In the drop down menu on the top you can choose 
 how to select the spatial extent. You can get the extent of the current layer, the extent of a shape file, the extent of 
@@ -197,14 +197,14 @@ the map. After pressing the "OK" button, the extent string in the text field is 
 window closes. 
 * **Temporal Extent** - If an argument expects a start and end date, the edit button opens a calendar dialog:
 
-![QGIS Edit temporal](./images/edit_temporal.png "Editing temporal extent")
+![QGIS Edit temporal extent](./images/edit_temporal.png)
 
 The left calendar sets the start date and the right calendar the end date.
 * **Band selection** - If an argument expects a selection of bands, the edit button opens the following dialog to choose 
 from the bands available at the selected collection. Note that it always lists all bands of the collection even if some 
 bands are filtered by previous processes and therefore not available in the datacube anymore. 
 
-![QGIS Edit band selection](./images/edit_bands.png "Editing band selection")
+![QGIS Edit band selection](./images/edit_bands.png)
 
 * **Process Graph Node** - If an argument expects a raster data cube, a drop down menu will appear on the edit column. 
 There you can choose from existing process graph nodes (e.g. "loadcollection1") It uses the output of the given node 
@@ -213,7 +213,7 @@ identifier as input of the process argument.
 processes). When clicking on the edit button, the plugin opens a new adaption window, which looks similar to the job 
 adaption window, but shows the sub process graph:
 
-![QGIS Edit sub process graph](./images/edit_subpg.png "Editing sub process graph")
+![QGIS Edit sub process graph](./images/edit_subpg.png)
 
 In this window you can adapt the sub process graph in the same way as the original process graph. After pressing on 
 "Adapt", the changes are written to the original job. Process arguments, which do not have special editing fields,
@@ -228,7 +228,7 @@ possible for the user to change the viewing extent dynamically. The first two co
 and the date and time it got created at the backend. 
 The other elements of this window are numbered at the screenshot below and described in the following. 
 
-![QGIS Services](./images/services.png "Services")
+![QGIS Services](./images/services.png)
 
 1. **Display** - When clicking on the "Eye", the secondary service gets loaded into a new QGIS layer, named after the 
 service. QGIS now fetches the result of the processing into the current extent of the QGIS map canvas. Note that it will 
@@ -242,7 +242,7 @@ that they are optional. Nevertheless, you have to select a job and choose a type
 menu of the service types contains only the ones supported by your backend. By clicking on "Create Service" the 
 plugin creates the service on the backend, so you should be able to see it on the table. Note that the list of jobs 
 contains only successfully executed jobs (e.g. with "finished" status). By clicking on "Raw Graph" 
-![QGIS Create Services from job](./images/services_create.png "Create Services from job window")
+![QGIS Create Services from job](./images/services_create.png)
 5. **Create from web editor** - Similarly to the job table overview, this button opens your web browser with 
 the [openEO web editor](https://editor.openeo.org/). There you can create new services via the editor or from your jobs.
 6. **Refresh Table** - Similar to the jobs table, this button refreshes the list of services manually, in general the list will refresh every few 

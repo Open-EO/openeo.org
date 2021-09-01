@@ -397,7 +397,7 @@ example().catch(error => console.error(error));
 
 Now the resulting PNG file of the RGB backscatter composite is stored as `result.png` in the node.JS working directory and should look as follows:
 
-![RGB composite](../getting-started-result-example.jpg "RGB composite")
+![RGB composite](../getting-started-result-example.jpg)
 
 ## User Defined Functions
 

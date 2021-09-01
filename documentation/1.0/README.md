@@ -15,9 +15,9 @@ If you are **familiar** with programming, you could choose a client library for 
 
 Follow the links above to find usage instructions for each of the client libraries.
 
-For details about available processes, see the **[list of openEO processes](processes.md)**. The **[openEO Cookbook](cookbook/index.md)** describes common use-cases with code examples in all three languages.
+For details about available processes, see the **[list of openEO processes](processes.md)**. The **[openEO Cookbook](./cookbook/README.md)** describes common use-cases with code examples in all three languages.
 
-The more advanced topic to run your own code on back-ends, is explained in the introduction to [openEO UDFs (user-defined functions)](udfs.md).
+The more advanced topic to run your own code on back-ends, is explained in the introduction to [openEO UDFs (user-defined functions)](./udfs.md).
 
 ::: tip Note
 This is the documentation for the **openEO API version 1.0**. If you are looking for other versions of openEO, please use the version switch at the top right of this page.

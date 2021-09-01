@@ -8,8 +8,8 @@ First of all, you should read carefully the [getting started guide for service p
 ::: tip Note
 The Open Data Cube implementation for openEO is not a full-fledged out-of-the-box openEO back-end,
 but can be part of the infrastructure for the data management part.
-In detail it can be used as data source for [EO Data Discovery](apireference.md#tag/EO-Data-Discovery) and e.g.
-in combination with a dask cluster as processing back-end for [Data Processing](apireference.md#tag/Data-Processing).
+In detail it can be used as data source for [EO Data Discovery](../api/reference.md#tag/EO-Data-Discovery) and e.g.
+in combination with a dask cluster as processing back-end for [Data Processing](../api/reference.md#tag/Data-Processing).
 In any case, a [HTTP REST interface must be available in front of ODC to properly answer openEO requests](#http-rest-interface).
 :::
 

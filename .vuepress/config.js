@@ -122,7 +122,9 @@ module.exports = {
   },
   plugins: [
     '@vuepress/register-components',
-    'check-md',
+    ['check-md', {
+      pattern: '**/!(reference|processes).md'
+    }],
     '@vuepress/active-header-links',
     '@vuepress/last-updated',
     [

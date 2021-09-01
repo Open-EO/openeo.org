@@ -117,6 +117,9 @@ module.exports = {
     ],
     sidebar: 'auto'
   },
+  markdown: {
+    extractHeaders: [ 'h2', 'h3', 'h4' ]
+  },
   plugins: [
     '@vuepress/register-components',
     'check-md',

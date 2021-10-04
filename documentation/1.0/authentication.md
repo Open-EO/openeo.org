@@ -1,6 +1,6 @@
 # Authentication
 
-While a couple of openEO operations can be done anonymously, most of the interesting parts of the API require you to identify as a registered user. openEO specifies two ways to authenticate as a user:
+While a couple of openEO operations can be done anonymously, most of the interesting parts of the API require you to identify as a registered user. OpenEO specifies two ways to authenticate as a user:
 
 - [OpenID Connect](https://en.wikipedia.org/wiki/OpenID_Connect) (recommended, but not always straightforward to use)
 - [HTTP Basic](https://en.wikipedia.org/wiki/Basic_access_authentication) (not recommended, but practically easier in some situations)

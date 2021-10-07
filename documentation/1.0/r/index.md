@@ -124,7 +124,7 @@ login(login_type="oidc",
 ```
 
 Calling this method opens your system web browser, with which you can authenticate yourself on the back-end authentication system. 
-After that the website will give you the instructions to go back to the python client, where your connection has logged your account in. 
+After that the website will give you the instructions to go back to the R client, where your connection has logged your account in. 
 This means, that every call that comes after that via the connection variable is executed by your user account.
 
 ### Basic Authentication
@@ -395,4 +395,4 @@ Find out more about UDFs in the respective [Python UDF](https://github.com/Open-
 
 * [Examples](https://github.com/Open-EO/openeo-r-client/tree/master/examples)
 * [Repository](https://github.com/Open-EO/openeo-r-client)
-* for function documentation, use R's `?` function
+* for function documentation, use R's `?` function or see the [online documentation](https://open-eo.github.io/openeo-r-client/index.html)

@@ -65,7 +65,7 @@ This is the most popular and widely supported OpenID Connect flow in the general
 - The web browser has (network) access
 - A URL must be whitelisted in the OpenID client's "redirect URL" configuration at the OpenID Connect provider's side.
 
-For authentication, the client forwards a user to the log-in page of the OpenID Connect provider. There. the user can log in there with an existing account (or create a new one) and then generally has to explicitly grant access to basic profile information (e.g. email address) that the back-end will use to identify the user. 
+For authentication, the client forwards a user to the log-in page of the OpenID Connect provider. There the user can log in with an existing account (or create a new one) and then generally has to explicitly grant access to basic profile information (e.g. email address) that the back-end will use to identify the user. 
 
 ### Device Flow
 

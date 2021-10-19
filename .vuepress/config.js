@@ -5,7 +5,7 @@ const versions = [
     folder: '1.0',
     path: '/documentation/1.0/',
     title: '1.x',
-    apiTag: '1.1.0',
+    apiTag: '1.1.0', // Don't forget to update the submodules in .vuepress/public/assets/documentation/...
     processesTag: '1.1.0',
     apiVersions: [
       '1.0.0',

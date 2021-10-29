@@ -476,7 +476,11 @@ For a PNG output, we'll use the datacube with the bands 3, 4 and 8 (green, red a
 
 We want to produce a false-color composite highlighting the vegetation in red (as seen below the code). For that, we want to assign the infrared band (`B8`) to the red channel, the red band (`B4`) to the green channel and the green band (`B3`) to the blue channel. Some back-ends may offer to pass along this desired band order as it is shown below. Check with the back-end for available options.
 
+::: tip Note
 If no options can be passed, handling of the bands for PNG output is internal and should be documented by the back-end. You might also be able to tell how this is done by how your PNG looks: As explained in the [datacube guide](../datacubes.md#dimensions), the order of the `bands` dimension is defined when the values are loaded or altered (in our example: `filter_bands`). As we filter bands in the order `"B3", "B4", "B8"` vegetation might be highlighted in blue, given that the back-end uses the input order for the RGB channels.
+
+**The example below uses the `PNG` file format as defined by the Google Earth Engine back-end so the parameters `red`, `green` and `blue` may not be available on another back-end.** Make sure to check the file format documentation for your back-end.
+:::
 
 <CodeSwitcher>
 <template v-slot:py>

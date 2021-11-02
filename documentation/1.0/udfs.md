@@ -26,7 +26,7 @@ The following chapters have further information on UDF usage in the openEO clien
 
 ### JavaScript
 
-The easiest way to run UDFs in the JavaScript client is to use the [process builder](https://open-eo.github.io/openeo-js-client/2.0.0/Builder.html). You can use the builder to execute the `run_udf` process. A simple example:
+The easiest way to run UDFs in the JavaScript client is to use the [process builder](https://open-eo.github.io/openeo-js-client/latest/Builder.html). You can use the builder to execute the `run_udf` process. A simple example:
 
 ```javascript
 // Connect to the back-end first and store the connection in the variable `con`...

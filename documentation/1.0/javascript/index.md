@@ -81,12 +81,12 @@ try {
 To simplify the code here, we use async/await in all examples and don't catch errors. So we assume you run the code in an async function and also in a try/catch block.
 :::
 
-After establishing the connection to the back-end, it can be explored using the [Connection object](https://open-eo.github.io/openeo-js-client/2.0.0/Connection.html) returned. The basic service's metadata (capabilities) can be accessed via 
+After establishing the connection to the back-end, it can be explored using the [Connection object](https://open-eo.github.io/openeo-js-client/latest/Connection.html) returned. The basic service's metadata (capabilities) can be accessed via 
 ```js
 var info = con.capabilities();
 ```
 
-This allows to request a couple of [different information](https://open-eo.github.io/openeo-js-client/2.0.0/Capabilities.html), like API version, description, related links or the billing plans. You can print some of these information to the console as follows:
+This allows to request a couple of [different information](https://open-eo.github.io/openeo-js-client/latest/Capabilities.html), like API version, description, related links or the billing plans. You can print some of these information to the console as follows:
 
 ```js
 console.log("API Version: ", info.apiVersion());
@@ -176,7 +176,7 @@ If you have included the library using HTML `script` tags, then you need to incl
 No further action is required, if you have installed the client via npm.
 ::: 
 
-As OpenID Connect authentication is a bit more complex and depends on the environment your are using it in, please refer to the [JavaScript client documentation](https://open-eo.github.io/openeo-js-client/2.0.0/OidcProvider.html) for more information.
+As OpenID Connect authentication is a bit more complex and depends on the environment your are using it in, please refer to the [JavaScript client documentation](https://open-eo.github.io/openeo-js-client/latest/OidcProvider.html) for more information.
 
 
 ### Basic Authentication
@@ -408,6 +408,6 @@ For more information check out the Python or R tutorials on UDFs.
 
 ## Additional Information
 
-* [Examples](https://github.com/Open-EO/openeo-js-client/tree/v2.0.0/examples)
-* [Documentation](https://open-eo.github.io/openeo-js-client/2.0.0/)
+* [Examples](https://github.com/Open-EO/openeo-js-client/tree/master/examples)
+* [Documentation](https://open-eo.github.io/openeo-js-client/latest/)
 * [Repository](https://github.com/Open-EO/openeo-js-client)

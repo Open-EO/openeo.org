@@ -10,7 +10,7 @@
     </ul>
     <ul v-if="code" class="code">
       <li><a v-if="github" href="https://github.com/Open-EO" target="_blank" class="github"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/github.svg" alt="GitHub: Open-EO" title="GitHub: Open-EO" /> GitHub</a></li>
-      <li><a v-if="cran" href="https://github.com/Open-EO/openeo-r-client" target="_blank" class="r"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/r.svg" alt="CRAN" title="CRAN" /> CRAN / R</a></li>
+      <li><a v-if="cran" href="https://cran.r-project.org/package=openeo" target="_blank" class="r"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/r.svg" alt="CRAN" title="CRAN" /> CRAN / R</a></li>
       <li><a v-if="npm" href="https://www.npmjs.com/search?q=%40openeo%2F" target="_blank" class="npm"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/npm.svg" alt="npm: @openeo" title="npm: @openeo" /> npm / JS</a></li>
       <li><a v-if="pypi" href="https://pypi.org/project/openeo/" target="_blank" class="pypi"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/pypi.svg" alt="PyPI" title="PyPI" /> PyPI / Python</a></li>
       <li><a v-if="qgis" href="https://plugins.qgis.org/plugins/openeo-qgis-plugin-master/" target="_blank" class="qgis"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/qgis.svg" alt="QGIS" title="QGIS" /> QGIS</a></li>

@@ -40,7 +40,7 @@ export default {
   },
 
   methods: {
-    initialize (userOptions, lang) {
+    initialize (userOptions) {
       Promise.all([
         import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.js'),
         import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.css')
@@ -54,22 +54,27 @@ export default {
             inputSelector: '#algolia-search-input',
             // #697 Make docsearch work well at i18n mode.
             algoliaOptions: Object.assign({
-              'facetFilters': [`lang:${lang}`].concat(algoliaOptions.facetFilters || [])
+              'facetFilters': algoliaOptions.facetFilters || []
             }, algoliaOptions),
             handleSelected: (input, event, suggestion) => {
               const { pathname, hash } = new URL(suggestion.url)
-              const routepath = pathname.replace(this.$site.base, '/')
-              const _hash = decodeURIComponent(hash)
-              this.$router.push(`${routepath}${_hash}`)
+              if (suggestion.url.includes('://openeo.org')) {
+                const routepath = pathname.replace(this.$site.base, '/')
+                const _hash = decodeURIComponent(hash)
+                this.$router.push(`${routepath}${_hash}`)
+              }
+              else  {
+                window.location.href = suggestion.url;
+              }
             }
           }
         ))
       })
     },
 
-    update (options, lang) {
+    update (options) {
       this.$el.innerHTML = '<input id="algolia-search-input" class="search-query">'
-      this.initialize(options, lang)
+      this.initialize(options)
     }
   }
 }

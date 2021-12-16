@@ -163,7 +163,7 @@ An aggregation of a datacube can be thought of as a grouped reduce. That means i
 1. Grouping via a grouping variable, i.e. spatial geometries or temporal intervals
 2. Reducing these groups along the grouped dimension with a certain reducer function, e.g. calculating the mean pixel value per polygon or the maximum pixel values per month
 
-While the layout of the reduced dimension is changed, other dimensions keep their resolution and geometry. But in contrast to pure `reduce`, the dimension along which the reducer function is applied still exists after the operation.
+While the layout of the reduced dimension is changed, other dimensions keep their resolution and geometry. But in contrast to pure `reduce`, the dimensions along which the reducer function is applied still exist after the operation.
 
 ::: tip Simplified
 <span title="Aggregating different family representations with 3, 2 and 4 members with the function 'countFamilyMembers' returns [3, 2, 4].">`aggregate(👪 👩‍👦 👨‍👩‍👦‍👦, countFamilyMembers) => [3️⃣, 2️⃣, 4️⃣]`</span>
@@ -171,9 +171,9 @@ While the layout of the reduced dimension is changed, other dimensions keep thei
 
 A temporal aggregation (e.g. [`aggregate_temporal`](https://processes.openeo.org/#aggregate_temporal)) is similar to the downsampling process, as it can be seen in the according image above. Intervals for grouping can either be set manually, or periods can be chosen: monthly, yearly, etc. All timesteps in an interval are then collapsed via a reducer function (`mean`, `max`, etc.) and assigned to the given new labels.
 
-A spatial agregation (e.g. [`aggregate_spatial`](https://processes.openeo.org/#aggregate_spatial)) works in a similar manner. Polygons, lines and points can be selected for grouping. Their spatial dimension is then reduced by a given process and thus, a vector cube is returned. The vector cube then has dimensions containing features, attributes and time. In the graphic below, the grouping is only shown for the first timestep. 
+A spatial aggregation (e.g. [`aggregate_spatial`](https://processes.openeo.org/#aggregate_spatial)) works in a similar manner. Polygons, lines and points can be selected for grouping. Their spatial dimension is then reduced by a given process and thus, a vector cube is returned. The vector cube then has dimensions containing features, attributes and time. In the graphic below, the grouping is only shown for the first timestep. 
 
 <figure>
     <img src="./datacubes/dc_aggregate_space.png" alt="Datacube spatial aggregation: A line and a polygon are selected from the original example tiles. The pixels covered by these geometries are aggregated and the result consists no longer of imagery tiles but of an array with values for 2 geometries by 4 bands by 3 timesteps.">
-    <figcaption>When aggregating spatially, pixels are grouped (cut out) based on geometries, and then collapsed with a reducer function. A vector datacube is returned (as shown with dimensions names and labels).</figcaption>
+  <figcaption>When aggregating spatially, pixels are grouped (cut out) based on geometries, and then collapsed with a reducer function. A vector datacube is returned (as shown with dimensions names and labels). Please note that this visualization shows aggregation on a data cube with four dimensions, but <code>aggregate_spatial</code> specifically can only handle data cubes with three dimensions as of now.</figcaption>
 </figure>

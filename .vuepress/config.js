@@ -99,6 +99,7 @@ module.exports = {
     editLinks: true,
     docsRepo: 'Open-EO/openeo.org',
     algolia: {
+      appId: '3J2STFK847',
       apiKey: 'b12d6cb143c2ddadfa8989c962d1a049',
       indexName: 'openeo'
     },

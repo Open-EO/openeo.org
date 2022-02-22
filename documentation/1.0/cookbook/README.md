@@ -610,7 +610,7 @@ process <- as(res, "Process")
 process_serial <- process$serialize()
 
 # convert list to JSON
-process_json <- rjson::toJSON(process_serial$process_graph)
+process_json <- jsonlite::toJSON(process$serialize(), auto_unbox=TRUE)
 
 # if needed, write JSON to file, e.g.:
 cat(process_json, file = "./process.json")

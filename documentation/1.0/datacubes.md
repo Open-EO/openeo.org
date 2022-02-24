@@ -2,19 +2,28 @@
 
 ## What are Datacubes?
 
-Datacubes are multidimensional arrays with one or more spatial or temporal dimension(s). They are the way in which data is represented in OpenEO. They provide a nice and tidy interface for spatiotemporal data as well as the operations you may want to execute on it. As they are arrays, it might be easiest to look at raster data as an example, even though datacubes can hold vector data as well. Our example data however consists of a 6x7 raster with 4 bands [`blue`, `green`, `red`, `near-infrared`] and 3 timesteps [`2020-10-01`, `2020-10-13`, `2020-10-25`], displayed here in an orderly, timeseries-like manner:
+Datacubes are basically just multidimensional arrays. They are the way in which data is represented in OpenEO. They can provide a nice and tidy interface for spatiotemporal data as well as the operations you may want to execute on it. As they are arrays, it might be easiest to look at raster data as an example, even though datacubes can hold vector data as well. Our example data however consists of a 6x7 raster with 4 bands [`blue`, `green`, `red`, `near-infrared`] and 3 timesteps [`2020-10-01`, `2020-10-13`, `2020-10-25`], displayed here in an orderly, timeseries-like manner:
 
 <figure>
-    <img src="./datacubes/dc_timeseries.png" alt="Datacube timeseries: 12 imagery tiles are depicted, grouped by 3 dates along a timeline (time dimension). Each date has a blue, green, red and near-infrared band (bands dimension). Each single tile has the dimensions x and y (spatial dimensions).">
-    <figcaption>An examplary datacube with 4 dimensions: x, y, bands and time.</figcaption>
+    <img src="./datacubes/dc_timeseries.png" alt="Raster datacube timeseries: 12 imagery tiles are depicted, grouped by 3 dates along a timeline (time dimension). Each date has a blue, green, red and near-infrared band (bands dimension). Each single tile has the dimensions x and y (spatial dimensions).">
+    <figcaption>An examplary raster datacube with 4 dimensions: x, y, bands and time.</figcaption>
 </figure>
 
 It is important to understand that datacubes are designed to make things easier for us, and are not literally a cube, meaning that the above plot is just as good a representation as any other. That is why we can switch the dimensions around and display them in whatever way we want, including the view below:
 
 <figure>
-    <img src="./datacubes/dc_flat.png" alt="Datacube flat representation: The 12 imagery tiles are now laid out flat as a 4 by 3 grid (bands by timesteps). All dimension labels are depicted (The timestamps, the band names and the x, y coordinates).">
+    <img src="./datacubes/dc_flat.png" alt="Raster datacube flat representation: The 12 imagery tiles are now laid out flat as a 4 by 3 grid (bands by timesteps). All dimension labels are depicted (The timestamps, the band names and the x, y coordinates).">
     <figcaption>This is the 'raw' data collection that is our example datacube. The grayscale images are colored for understandability, and dimension labels are displayed.</figcaption>
 </figure>
+
+A vector cube on the other hand could look like this:
+
+<figure>
+    <img src="./datacubes/vector.png" alt="Vector datacube: 2 geometries are depicted for the vector dimension, along with 3 timesteps along the time dimension and 4 bands.">
+    <figcaption>An examplary vector datacube with 3 dimensions: 2 geometries are given for the vector dimension, along with 3 timesteps for the time dimension and 4 bands.</figcaption>
+</figure>
+
+Vector data cubes and raster data cubes are special cases of data cubes. A raster data cube has at least two spatial dimensions (x and y) and a vector data cube has at least a vector dimension.
 
 ## Dimensions
 A dimension refers to a certain axis of a datacube. This includes all variables (e.g. bands), which are represented as dimensions. Our exemplary raster datacube has the spatial dimensions `x` and `y`, and the temporal dimension `t`. Furthermore, it has a `bands` dimension, extending into the realm of _what kind of information_ is contained in the cube.
@@ -22,22 +31,23 @@ A dimension refers to a certain axis of a datacube. This includes all variables 
 The following properties are usually available for dimensions:
 
 * name
+* type (spatial/temporal/bands/vector/other)
 * axis / number
-* type (spatial/temporal/bands/other)
-* extents _or_ nominal dimension labels
-* reference system / projections
-* resolution
+* labels (usually exposed in metadata as nominal values _or_ extents)
+* reference system / projection
+* resolution / step size
+* unit (either explicitly specified or implicitly given by the reference system)
 
-Here is an overview of the dimensions contained in our example datacube above:
+Here is an overview of the dimensions contained in our example raster datacube above:
 
 | # | dimension name | dimension labels | resolution |
 |---|----------------|------------------| ---------- |
-| 1 | `x`              | `466380`, `466580`, `466780`, `466980`, `467180`, `467380` | 10m |
-| 2 | `y`             | `7167130`, `7166930`, `7166730`, `7166530`, `7166330`, `7166130`, `7165930` | 10m |
-| 3 | `bands`          | `blue`, `green`, `red`, `nir` | 4 bands |
-| 4 | `t`              | `2020-10-01`, `2020-10-13`, `2020-10-25` | 12 days |
+| 1 | `x`            | `466380`, `466580`, `466780`, `466980`, `467180`, `467380` | 10m |
+| 2 | `y`            | `7167130`, `7166930`, `7166730`, `7166530`, `7166330`, `7166130`, `7165930` | 10m |
+| 3 | `bands`        | `blue`, `green`, `red`, `nir` | 4 bands |
+| 4 | `t`            | `2020-10-01`, `2020-10-13`, `2020-10-25` | 12 days |
 
-Dimension labels are either numerical or text (also known as "strings"), which also includes textual representations of timestamps for example. Dimensions with a natural/inherent order are always sorted. These are usually all spatial and temporal dimensions. Dimensions without inherent order, `bands` in openEO for example, retain the order in which they have been defined in metadata or processes (e.g. through [`filter_bands`](https://processes.openeo.org/#filter_bands)), with new labels simply being appended to the existing labels.
+Dimension labels are usually either numerical or text (also known as "strings"), which also includes textual representations of timestamps or vectors for example. Dimensions with a natural/inherent order are always sorted. These are usually all spatial and temporal dimensions. Dimensions without inherent order, `bands` in openEO for example, retain the order in which they have been defined in metadata or processes (e.g. through [`filter_bands`](https://processes.openeo.org/#filter_bands)), with new labels simply being appended to the existing labels.
 
 OpenEO datacubes contain scalar values (e.g. strings, numbers or boolean values), with all other associated attributes stored in dimensions (e.g. coordinates or timestamps). Attributes such as the CRS or the sensor can also be turned into dimensions. Be advised that in such a case, the uniqueness of pixel coordinates may be affected. When usually, `(x, y)` refers to a unique location, that changes to `(x, y, CRS)` when `(x, y)` values are reused in other coordinate reference systems (e.g. two neighboring UTM zones).
 

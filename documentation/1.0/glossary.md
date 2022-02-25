@@ -35,6 +35,25 @@ In openEO, a back-end offers a set of collections to be processed. All collectio
 
 A spatiotemporal datacube is a multidimensional array with one or more spatial or temporal dimensions. In the EO domain, it is common to be implicit about the temporal dimension and just refer to them as spatial datacubes in short. Special cases are raster and vector datacubes. Learn more about datacubes in the [datacube documentation](https://openeo.org/documentation/1.0/datacubes.html).
 
+## Vector data
+
+In general, **vector data** represent specific things (also called "features") in a space, e.g. on the surface of the Earth.
+
+A **coordinate** represents a specific point in space.
+
+A **feature** is usually a geometry and it may have additional properties assigned, e.g. a name, a color or a temperature (at a certain time).
+
+**Geometries** consist of one or more coordinates that may be connected and then form a specific type of geometry, e.g. two points can be connected to a straight line and four straight lines can be connected to rectangle.
+
+Commonly used types of geometries are:
+- Points
+- Lines / LineStrings
+- Polygons (e.g. a Traingle or Rectangle)
+
+Multiple geometries of the same type can be combined to a group of geometries, e.g. to a so called "Multi Point" or a "Multi Polygon".
+
+Features and geometries are specified by the OGC in the [Simple Feature Access specification](https://www.ogc.org/standards/sfa) (and ISO 19125). See the specification for more details.
+
 ## User-defined function (UDF)
 
 The abbreviation **UDF** stands for **user-defined function**. With this concept, users are able to upload custom code and have it executed e.g. for every pixel of a scene, or applied to a particular dimension or set of dimensions, allowing custom server-side calculations. See the section on [UDFs](./udfs.md) for more information.

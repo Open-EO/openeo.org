@@ -26,6 +26,7 @@ A vector cube on the other hand could look like this:
 Vector data cubes and raster data cubes are special cases of data cubes. A raster data cube has at least two spatial dimensions (x and y) and a vector data cube has at least a vector dimension.
 
 ## Dimensions
+
 A dimension refers to a certain axis of a datacube. This includes all variables (e.g. bands), which are represented as dimensions. Our exemplary raster datacube has the spatial dimensions `x` and `y`, and the temporal dimension `t`. Furthermore, it has a `bands` dimension, extending into the realm of _what kind of information_ is contained in the cube.
 
 The following properties are usually available for dimensions:
@@ -40,14 +41,20 @@ The following properties are usually available for dimensions:
 
 Here is an overview of the dimensions contained in our example raster datacube above:
 
-| # | dimension name | dimension labels | resolution |
-|---|----------------|------------------| ---------- |
-| 1 | `x`            | `466380`, `466580`, `466780`, `466980`, `467180`, `467380` | 10m |
-| 2 | `y`            | `7167130`, `7166930`, `7166730`, `7166530`, `7166330`, `7166130`, `7165930` | 10m |
-| 3 | `bands`        | `blue`, `green`, `red`, `nir` | 4 bands |
-| 4 | `t`            | `2020-10-01`, `2020-10-13`, `2020-10-25` | 12 days |
+| # | name    | type     | labels                                                                      | resolution | reference system                    |
+| - | ------- | -------- | --------------------------------------------------------------------------- | ---------- | ----------------------------------- |
+| 1 | `x`     | spatial  | `466380`, `466580`, `466780`, `466980`, `467180`, `467380`                  | 10m        | [EPSG:32627](https://epsg.io/32627) |
+| 2 | `y`     | spatial  | `7167130`, `7166930`, `7166730`, `7166530`, `7166330`, `7166130`, `7165930` | 10m        | [EPSG:32627](https://epsg.io/32627) |
+| 3 | `bands` | bands    | `blue`, `green`, `red`, `nir`                                               | 4 bands    | -                                   |
+| 4 | `t`     | temporal | `2020-10-01`, `2020-10-13`, `2020-10-25`                                    | 12 days    | Gregorian calendar / UTC            |
 
 Dimension labels are usually either numerical or text (also known as "strings"), which also includes textual representations of timestamps or vectors for example. Dimensions with a natural/inherent order are always sorted. These are usually all spatial and temporal dimensions. Dimensions without inherent order, `bands` in openEO for example, retain the order in which they have been defined in metadata or processes (e.g. through [`filter_bands`](https://processes.openeo.org/#filter_bands)), with new labels simply being appended to the existing labels.
+
+A vector dimension is not included in the example raster datacube above and it is not used in the following examples, but to show how a vector dimension with two polygons could look like:
+
+| name     | type   | labels | reference system |
+| -------- | ------ | ------ | ---------------- | 
+| `vector` | vector | `POLYGON((-122.4 37.6,-122.35 37.6,-122.35 37.64,-122.4 37.64,-122.4 37.6))`, `POLYGON((-122.51 37.5,-122.48 37.5,-122.48 37.52,-122.51 37.52,-122.51 37.5))` | [EPSG:4326](https://epsg.io/4326) |
 
 OpenEO datacubes contain scalar values (e.g. strings, numbers or boolean values), with all other associated attributes stored in dimensions (e.g. coordinates or timestamps). Attributes such as the CRS or the sensor can also be turned into dimensions. Be advised that in such a case, the uniqueness of pixel coordinates may be affected. When usually, `(x, y)` refers to a unique location, that changes to `(x, y, CRS)` when `(x, y)` values are reused in other coordinate reference systems (e.g. two neighboring UTM zones).
 
@@ -56,9 +63,11 @@ As stated above, datacubes only contain scalar values. However, implementations 
 :::
 
 ### Applying Processes on Dimensions
+
 Some processes are typically applied "along a dimension". You can imagine said dimension as an arrow and whatever is happening as a parallel process to that arrow. It simply means: "we focus on _this_ dimension right now".
 
 ### Resolution
+
 The resolution of a dimension gives information about what interval lies between observations. This is most obvious with the temporal resolution, where the intervals depict how often observations were made. Spatial resolution gives information about the pixel spacing, meaning how many 'real world meters' are contained in a pixel. The number of bands and their wavelength intervals give information about the spectral resolution.
 
 ### Coordinate Reference System as a Dimension

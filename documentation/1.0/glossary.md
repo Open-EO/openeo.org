@@ -48,7 +48,7 @@ A **feature** is usually a geometry and it may have additional properties assign
 Commonly used types of geometries are:
 - Points
 - Lines / LineStrings
-- Polygons (e.g. a Traingle or Rectangle)
+- Polygons (e.g., a Triangle or Rectangle)
 
 Multiple geometries of the same type can be combined to a group of geometries, e.g. to a so called "Multi Point" or a "Multi Polygon".
 

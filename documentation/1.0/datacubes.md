@@ -23,7 +23,9 @@ A vector cube on the other hand could look like this:
     <figcaption>An examplary vector datacube with 3 dimensions: 2 geometries are given for the vector dimension, along with 3 timesteps for the time dimension and 4 bands.</figcaption>
 </figure>
 
-Vector data cubes and raster data cubes are special cases of data cubes. A raster data cube has at least two spatial dimensions (x and y) and a vector data cube has at least a vector dimension.
+Vector data cubes and raster data cubes are special cases of data cubes. A raster data cube has at least two spatial dimensions (x and y) and a vector data cube has at least a dimension of type vector. Unfortunately, due to historical reasons, in openEO we currently **can not distinguish between a data cube and a raster data cube**. Therefore, we only distinguish between:
+* *vector data cubes* (i.e., a data cube **with** a dimension of type vector), and
+* non-vector data cubes (i.e., a data cube **without** a dimension of type vector), which we will simply refer to as a *raster data cubes* in the documentation.
 
 ## Dimensions
 
@@ -52,9 +54,9 @@ Dimension labels are usually either numerical or text (also known as "strings"),
 
 A vector dimension is not included in the example raster datacube above and it is not used in the following examples, but to show how a vector dimension with two polygons could look like:
 
-| name     | type   | labels | reference system |
-| -------- | ------ | ------ | ---------------- | 
-| `vector` | vector | `POLYGON((-122.4 37.6,-122.35 37.6,-122.35 37.64,-122.4 37.64,-122.4 37.6))`, `POLYGON((-122.51 37.5,-122.48 37.5,-122.48 37.52,-122.51 37.52,-122.51 37.5))` | [EPSG:4326](https://epsg.io/4326) |
+| name       | type   | labels | reference system |
+| ---------- | ------ | ------ | ---------------- | 
+| `geometry` | vector | `POLYGON((-122.4 37.6,-122.35 37.6,-122.35 37.64,-122.4 37.64,-122.4 37.6))`, `POLYGON((-122.51 37.5,-122.48 37.5,-122.48 37.52,-122.51 37.52,-122.51 37.5))` | [EPSG:4326](https://epsg.io/4326) |
 
 OpenEO datacubes contain scalar values (e.g. strings, numbers or boolean values), with all other associated attributes stored in dimensions (e.g. coordinates or timestamps). Attributes such as the CRS or the sensor can also be turned into dimensions. Be advised that in such a case, the uniqueness of pixel coordinates may be affected. When usually, `(x, y)` refers to a unique location, that changes to `(x, y, CRS)` when `(x, y)` values are reused in other coordinate reference systems (e.g. two neighboring UTM zones).
 

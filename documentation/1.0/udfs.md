@@ -9,7 +9,7 @@ All openEO clients allow to run UDFs via the pre-defined process [`run_udf`](pro
 
 As data cubes can be very large, the back-end may only be able to run your code on a smaller chunk of the whole cube. So you need to help the server a bit, by designing your code to work on smaller piece of data. This can be done by using data cube processes that run the UDF on smaller chunks of the data. There are a number of pre-defined processes that can run UDFs on such chunks, for example:
 
-* [`aggregate_spatial`](processes.md#aggregate_spatial): Reduces pixels withing geometries to a single value using an UDF
+* [`aggregate_spatial`](processes.md#aggregate_spatial): Reduces pixels within geometries to a single value using an UDF
 * [`apply`](processes.md#apply): Applies an UDF to each pixel (it might also be slow to make the chunks too small though)
 * [`apply_dimension`](processes.md#apply_dimension): Applies an UDF to all pixels along a dimension, without changing the number of values
 * [`apply_neighborhood`](processes.md#apply_neighborhood): Applies an UDF to all pixels in a multidimensional neighborhood

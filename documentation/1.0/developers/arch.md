@@ -1,6 +1,6 @@
 # Architecture
 
-The openEO API defines a language how clients communicate to back-ends in order to analyze large Earth observation datasets. The API will be implemented by drivers for specific back-ends. Some first architecture considerations are listed below.
+The openEO API defines a language for how clients communicate to back-ends in order to analyze large Earth observation datasets. The API will be implemented by drivers for specific back-ends. Some first architecture considerations are listed below.
 
 1. The openEO API is a contract between clients and back-ends that describes the communication only
 2. Each back-end runs its own API instance including the specific back-end driver. There is no API instance that runs more than one driver.

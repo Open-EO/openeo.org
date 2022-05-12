@@ -16,7 +16,7 @@ the processing that is to be executed, and the dataset that is to be read.
 
 A popular example of such a case, is infrastructures that store the data on the same machines that do the processing. 
 In such a case, an openEO backend can choose to load and process the data directly on the machine that has the data stored.
-Another example is adjusting and aligning the data chunks for the processing to internal layout of the file format that 
+Another example is adjusting and aligning the data chunks for the processing to the internal layout of the file format that 
 stores the EO data. IO performance optimizations like this are only possible if the processing engine has deep knowledge 
 of the data organization from storage system over networks to file formats.
 
@@ -37,14 +37,14 @@ Here it is important to note that openEO does not enforce or define how the data
 datacube can be a set of files, or arrays in memory distributed over a cluster. These choices are left to the 
 backend implementor, this guide only tries to highlight the possibilities.
 
-For scalability, the openEO processes clearly define along which set of dimension labels of the datacube they operate. When
+For scalability, the openEO processes clearly define along which set of dimensions of the datacube they operate. When
 a user writes a process graph, it should never instruct the backend to apply a black box algorithm or function on the 
 entire datacube. For most algorithms, this is not necessary, and loading the complete datacube of a Copernicus mission at once
-is simply not possible. Hence, users run 'callbacks' over a 1-dimensional array, or even multidimensional arrays or 'chunks'
+is simply not possible. Hence, users run '[https://open-eo.github.io/openeo-python-client/processes.html#processes-with-child-callbacks](callbacks)' over a 1-dimensional array, or even multidimensional arrays or 'chunks'
 of the datacube. Based on this information, the backend is able to define both a data access and processing strategy that is
 optimal for the given process graph.
 
-## Process graph evaluation
+## Process graph execution
 
 Here we go a bit more into detail about how a backend evaluates a process graph. Again, this is not normative or
 mandated by the specification, but rather an explanation of one way to achieve optimal performance.

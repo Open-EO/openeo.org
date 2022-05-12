@@ -605,11 +605,8 @@ with open("./process.json", "w") as tfile:
 <template v-slot:r>
 
 ```r
-# create a process object and serialize
-process <- as(res, "Process")
-
-# convert list to JSON
-process_json <- jsonlite::toJSON(process$serialize(), auto_unbox = TRUE, force = TRUE)
+# convert process to JSON
+process_json <- toJSON(as(res, "Process"))
 
 # if needed, write JSON to file, e.g.:
 cat(process_json, file = "./process.json")

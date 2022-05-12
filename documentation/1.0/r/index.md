@@ -113,15 +113,20 @@ You can also have a look at the [openEO Hub](https://hub.openeo.org/) to see the
 For Google Earth Engine, only [Basic Authentication](#basic-authentication) is supported at the moment.
 
 ### OpenID Connect Authentication
-The OIDC ([OpenID Connect](https://openid.net/connect/)) authentication can be used to authenticate via an external service given a client ID.
-The following code snippet shows how to log in via OIDC authentication:
+The OIDC ([OpenID Connect](https://openid.net/connect/)) authentication can be used to authenticate via an external service.
+
+The following code snippet shows how to log in via OIDC authentication if the back-end supports the simplified authentication method:
+```r
+login()
+```
+
+The following code snippet shows how to log in via OIDC authentication if the simplified authentication method doesn't work and you need to provide a client ID and secret:
 
 ```r
 # get supported OIDC providers which the back-end supports
 oidc_providers = list_oidc_providers()
 
-login(login_type="oidc",
-      provider = oidc_providers$some_provider,
+login(provider = oidc_providers$some_provider,
       config = list(
         client_id= "...",
         secret = "..."))

@@ -40,7 +40,7 @@ backend implementor, this guide only tries to highlight the possibilities.
 For scalability, the openEO processes clearly define along which set of dimensions of the datacube they operate. When
 a user writes a process graph, it should never instruct the backend to apply a black box algorithm or function on the 
 entire datacube. For most algorithms, this is not necessary, and loading the complete datacube of a Copernicus mission at once
-is simply not possible. Hence, users run '[https://open-eo.github.io/openeo-python-client/processes.html#processes-with-child-callbacks](callbacks)' over a 1-dimensional array, or even multidimensional arrays or 'chunks'
+is simply not possible. Hence, users run '[user-defined (child) processes](https://openeo.org/documentation/1.0/developers/api/reference.html#section/Processes/Process-Graphs)' over a 1-dimensional array, or even multidimensional arrays or 'chunks'
 of the datacube. Based on this information, the backend is able to define both a data access and processing strategy that is
 optimal for the given process graph.
 

@@ -178,17 +178,10 @@ datacube = p$load_collection(
 
 This results in a process node that represents a [`datacube`](../glossary.md#spatial-datacubes) and contains the "COPERNICUS/S1_GRD" data restricted to the given spatial extent, the given temporal extent and the given bands .
 
-::: tip
-You can also filter the datacube at a later stage by using the following filter methods:
-
-```r
-datacube = p$load_collection(id = "COPERNICUS/S1_GRD")
-datacube = p$filter_bbox(data = datacube, extent=list(west=16.06, south=48.06, east=16.65, north=48.35))
-datacube = p$filter_temporal(data=datacube,extent=c("2017-03-01","2017-04-01"))
-datacube = p$filter_bands(data = datacube, bands=c("VV", "VH"))
-```
-
-Still, it is recommended to always use the filters in `load_collection` to avoid loading too much data upfront.
+::: tip Sample Data Retrieval
+In order to get a better understanding about the processing mechanisms and the data structures used in openEO Platform, it helps to check the actual data from time to time.
+The function [`get_sample`](https://open-eo.github.io/openeo-r-client/reference/get_sample.html) aids the user in downloading data for a very small spatial extent. It is automatically loaded into R so that you can directly inspect it with `stars`.
+Read the vignette on "[Sample Data Retrieval](https://open-eo.github.io/openeo-r-client/articles/sample_data.html)" for more details.
 :::
 
 Having the input data ready, we want to apply a process on the datacube.

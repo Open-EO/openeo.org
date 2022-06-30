@@ -1,5 +1,12 @@
 # R Client
 
+## Useful links
+
+* [Documentation](https://open-eo.github.io/openeo-r-client/index.html)
+* [Vignettes](https://open-eo.github.io/openeo-r-client/articles/)
+* [Code Repository](https://github.com/Open-EO/openeo-r-client)
+* for function documentation, use R's `?` function or see the [online documentation](https://open-eo.github.io/openeo-r-client/index.html)
+
 ## Installation
 
 Before you install the R client module into your R environment, please make sure that you have at least R version 3.6. Older versions might also work, but were not tested.
@@ -392,9 +399,3 @@ If your use case can not be accomplished with the [default processes](../process
 In general the processing workflow works by uploading the Python or R script into the users file directory on the back-end and reference the script via its URL or by its relational name (e.g. `/scripts/script1.R`) in the function `run_udf`. The latter function is a predefined openEO process that the back-end might provide, if UDFs are supported.
 
 Find out more about UDFs in the respective [Python UDF](https://github.com/Open-EO/openeo-udf) and [R UDF](https://github.com/Open-EO/openeo-r-udf) repositories with their documentation and examples.
-
-## Additional Information
-
-* [Examples](https://github.com/Open-EO/openeo-r-client/tree/master/examples)
-* [Repository](https://github.com/Open-EO/openeo-r-client)
-* for function documentation, use R's `?` function or see the [online documentation](https://open-eo.github.io/openeo-r-client/index.html)

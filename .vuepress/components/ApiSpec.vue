@@ -31,7 +31,7 @@ export default {
 		this.yOffset = Math.round(document.querySelector('header').getBoundingClientRect().bottom);
 
 		var scriptTag = document.createElement('script');
-		scriptTag.src = "https://cdn.jsdelivr.net/npm/redoc/bundles/redoc.standalone.js";
+		scriptTag.src = "https://cdn.jsdelivr.net/npm/redoc@2.0.0-rc.66/bundles/redoc.standalone.js";
     	document.getElementsByTagName('head')[0].appendChild(scriptTag);
 	}
 };

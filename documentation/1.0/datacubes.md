@@ -2,7 +2,7 @@
 
 ## What are Datacubes?
 
-Datacubes are basically just multidimensional arrays. They are the way in which data is represented in OpenEO. They can provide a nice and tidy interface for spatiotemporal data as well as the operations you may want to execute on it. As they are arrays, it might be easiest to look at raster data as an example, even though datacubes can hold vector data as well. Our example data however consists of a 6x7 raster with 4 bands [`blue`, `green`, `red`, `near-infrared`] and 3 timesteps [`2020-10-01`, `2020-10-13`, `2020-10-25`], displayed here in an orderly, timeseries-like manner:
+Data is represented as datacubes in openEO, which are multi-dimensional arrays with additional information about their dimensionality. Datacubes can provide a nice and tidy interface for spatiotemporal data as well as for the operations you may want to execute on them. As they are arrays, it might be easiest to look at raster data as an example, even though datacubes can hold vector data as well. Our example data however consists of a 6x7 raster with 4 bands [`blue`, `green`, `red`, `near-infrared`] and 3 timesteps [`2020-10-01`, `2020-10-13`, `2020-10-25`], displayed here in an orderly, timeseries-like manner:
 
 <figure>
     <img src="./datacubes/dc_timeseries.png" alt="Raster datacube timeseries: 12 imagery tiles are depicted, grouped by 3 dates along a timeline (time dimension). Each date has a blue, green, red and near-infrared band (bands dimension). Each single tile has the dimensions x and y (spatial dimensions).">
@@ -23,7 +23,7 @@ A vector cube on the other hand could look like this:
     <figcaption>An examplary vector datacube with 3 dimensions: 2 geometries are given for the vector dimension, along with 3 timesteps for the time dimension and 4 bands.</figcaption>
 </figure>
 
-Vector data cubes and raster data cubes are special cases of data cubes. A raster data cube has at least two spatial dimensions (x and y) and a vector data cube has at least a dimension of type vector. Unfortunately, due to historical reasons, in openEO we currently **can not distinguish between a data cube and a raster data cube**. Therefore, we only distinguish between:
+Vector data cubes and raster data cubes are common cases of data cubes in the EO domain. A raster data cube has at least two spatial dimensions (x and y) and a vector data cube has at least a dimension of type vector. Unfortunately, due to historical reasons, in openEO, we **can not distinguish between a data cube and a raster data cube** currently. Therefore, we only distinguish between:
 * *vector data cubes* (i.e., a data cube **with** a dimension of type vector), and
 * non-vector data cubes (i.e., a data cube **without** a dimension of type vector), which we will simply refer to as a *raster data cubes* in the documentation.
 

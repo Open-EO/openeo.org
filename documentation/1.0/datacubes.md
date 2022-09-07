@@ -76,7 +76,7 @@ The resolution of a dimension gives information about what interval lies between
 
 In the example above, _x_ and _y_ dimension values have a _unique_ relationship to world coordinates through their coordinate reference system (CRS). This implies that a single coordinate reference system is associated with these _x_ and _y_ dimensions. If we want to create a data cube from multiple tiles spanning different coordinate reference systems (e.g. Sentinel-2: different UTM zones), we would _have_ to resample/warp those to a single coordinate reference system. In many cases, this is wanted because we want to be able to _look_ at the result, meaning it is available in a single coordinate reference system.
 
-Resampling is however costly, involves (some) data loss, and is in general not reversible. Suppose that we want to work only on the spectral and temporal dimensions of a data cube, and do not want to do any resampling. In that case, one could create one data cube for each coordinate reference system. An alternative would be to create one _single_ data cube containing all tiles that has an _additional dimension_ with the coordinate reference system. In that data cube, _x_ and _y_ no longer point to a unique world coordinate, because identical _x_ and _y_ coordinate pairs occur in each UTM zone. Now, only the combination (_x_, _y_, _crs_) has a uniqe relationship to the world coordinates.
+Resampling is however costly, involves (some) data loss, and is in general not reversible. Suppose that we want to work only on the spectral and temporal dimensions of a data cube, and do not want to do any resampling. In that case, one could create one data cube for each coordinate reference system. An alternative would be to create one _single_ data cube containing all tiles that has an _additional dimension_ with the coordinate reference system. In that data cube, _x_ and _y_ no longer point to a unique world coordinate, because identical _x_ and _y_ coordinate pairs occur in each UTM zone. Now, only the combination (_x_, _y_, _crs_) has a unique relationship to the world coordinates.
 
 On such a _crs-dimensioned data cube_, several operations make perfect sense, such as `apply` or `reduce_dimension` on spectral and/or temporal dimensions. A simple reduction over the `crs` dimension, using _sum_ or _mean_ would typically not make sense. The "reduction" (removal) of the `crs` dimension that is meaningful involves the resampling/warping of all sub-cubes for the `crs` dimension to a single, common target coordinate reference system.
 
@@ -135,7 +135,7 @@ Alternatively, a process can also be applied along a dimension of the datacube, 
 
 <figure>
     <img src="./datacubes/dc_apply_dim_ts.png" alt="Datacube apply dimension time: The mean of all 5 timesteps is calculated for every single pixel. The resulting 5 tiles look exaclty the same, as they have been averaged.">
-    <figcaption>Appling a mean to the temporal dimension.</figcaption>
+    <figcaption>Applying a mean to the temporal dimension.</figcaption>
 </figure>
 
 ### Resample

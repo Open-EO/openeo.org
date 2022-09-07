@@ -1,5 +1,12 @@
 # R Client
 
+## Useful links
+
+* [Documentation](https://open-eo.github.io/openeo-r-client/index.html)
+* [Vignettes](https://open-eo.github.io/openeo-r-client/articles/)
+* [Code Repository](https://github.com/Open-EO/openeo-r-client)
+* for function documentation, use R's `?` function or see the [online documentation](https://open-eo.github.io/openeo-r-client/index.html)
+
 ## Installation
 
 Before you install the R client module into your R environment, please make sure that you have at least R version 3.6. Older versions might also work, but were not tested.
@@ -113,15 +120,20 @@ You can also have a look at the [openEO Hub](https://hub.openeo.org/) to see the
 For Google Earth Engine, only [Basic Authentication](#basic-authentication) is supported at the moment.
 
 ### OpenID Connect Authentication
-The OIDC ([OpenID Connect](https://openid.net/connect/)) authentication can be used to authenticate via an external service given a client ID.
-The following code snippet shows how to log in via OIDC authentication:
+The OIDC ([OpenID Connect](https://openid.net/connect/)) authentication can be used to authenticate via an external service.
+
+The following code snippet shows how to log in via OIDC authentication if the back-end supports the simplified authentication method:
+```r
+login()
+```
+
+The following code snippet shows how to log in via OIDC authentication if the simplified authentication method doesn't work and you need to provide a client ID and secret:
 
 ```r
 # get supported OIDC providers which the back-end supports
 oidc_providers = list_oidc_providers()
 
-login(login_type="oidc",
-      provider = oidc_providers$some_provider,
+login(provider = oidc_providers$some_provider,
       config = list(
         client_id= "...",
         secret = "..."))
@@ -173,17 +185,10 @@ datacube = p$load_collection(
 
 This results in a process node that represents a [`datacube`](../glossary.md#spatial-datacubes) and contains the "COPERNICUS/S1_GRD" data restricted to the given spatial extent, the given temporal extent and the given bands .
 
-::: tip
-You can also filter the datacube at a later stage by using the following filter methods:
-
-```r
-datacube = p$load_collection(id = "COPERNICUS/S1_GRD")
-datacube = p$filter_bbox(data = datacube, extent=list(west=16.06, south=48.06, east=16.65, north=48.35))
-datacube = p$filter_temporal(data=datacube,extent=c("2017-03-01","2017-04-01"))
-datacube = p$filter_bands(data = datacube, bands=c("VV", "VH"))
-```
-
-Still, it is recommended to always use the filters in `load_collection` to avoid loading too much data upfront.
+::: tip Sample Data Retrieval
+In order to get a better understanding about the processing mechanisms and the data structures used in openEO Platform, it helps to check the actual data from time to time.
+The function [`get_sample`](https://open-eo.github.io/openeo-r-client/reference/get_sample.html) aids the user in downloading data for a very small spatial extent. It is automatically loaded into R so that you can directly inspect it with `stars`.
+Read the vignette on "[Sample Data Retrieval](https://open-eo.github.io/openeo-r-client/articles/sample_data.html)" for more details.
 :::
 
 Having the input data ready, we want to apply a process on the datacube.
@@ -394,9 +399,3 @@ If your use case can not be accomplished with the [default processes](../process
 In general the processing workflow works by uploading the Python or R script into the users file directory on the back-end and reference the script via its URL or by its relational name (e.g. `/scripts/script1.R`) in the function `run_udf`. The latter function is a predefined openEO process that the back-end might provide, if UDFs are supported.
 
 Find out more about UDFs in the respective [Python UDF](https://github.com/Open-EO/openeo-udf) and [R UDF](https://github.com/Open-EO/openeo-r-udf) repositories with their documentation and examples.
-
-## Additional Information
-
-* [Examples](https://github.com/Open-EO/openeo-r-client/tree/master/examples)
-* [Repository](https://github.com/Open-EO/openeo-r-client)
-* for function documentation, use R's `?` function or see the [online documentation](https://open-eo.github.io/openeo-r-client/index.html)

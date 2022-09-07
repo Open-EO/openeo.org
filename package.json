@@ -13,7 +13,7 @@
 		"url": "https://github.com/Open-EO/openeo.org.git"
 	},
 	"devDependencies": {
-		"@openeo/processes-docgen": "^1.2.0",
+		"@openeo/processes-docgen": "^1.4.0",
 		"@vuepress/plugin-active-header-links": "^1.5.2",
 		"dayjs": "^1.8.30",
 		"sass": "^1.35.2",

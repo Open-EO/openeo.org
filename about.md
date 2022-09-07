@@ -41,37 +41,6 @@ However, existing back-ends need to be taught to work with the new API, and clie
 
 The task of the openEO project is to design, develop, and evaluate an API for cloud-based Earth Observation data processing.
 
-
-
-## Funding and Disclaimer
-
-This project has received funding from the European Union's Horizon
-2020 research and innovation programme under grant agreement No 776242.
-The contents of this website reflects only the authors' view; the
-European Commission is not responsible for any use that may be made
-of the information it provides.
-
-*openEO - A Common, Open Source Interface between Earth
-Observation Data Infrastructures and Front-End Applications*
-is an H2020 project funded under call [EO-2-2017: EO Big Data
-Shift](https://ec.europa.eu/research/participants/portal/desktop/en/opportunities/h2020/topics/eo-2-2017.html),
-under grant number 776242. The project runs from Oct 2017 to
-Sept 2020.
-
-## Partners
-
-1. [Technische Universität Wien](https://www.tuwien.ac.at) (Coordinator), AT
-2. [Westfälische Wilhelms-Universität Münster](https://www.uni-muenster.de/Geoinformatics/), DE
-3. [Wageningen University](https://www.wur.nl/en/expertise-services/Chair-groups/Environmental-Sciences/Laboratory-of-Geoinformation-Science-and-Remote-Sensing.htm), NL
-4. [Vlaamse Instelling Voor Technologisch Onderzoek N.V.](https://remotesensing.vito.be/), BE
-5. [Earth Observation Data Centre for Water Resources Monitoring GmbH](https://www.eodc.eu/), AT
-6. [Mundialis GmbH and Co. KG](https://www.mundialis.de/), DE
-7. [Sinergise Laboratorij Za Geografske Informacijske Sisteme Doo](http://www.sinergise.com/en/), SI
-8. [Accademia Europea di Bolzano (EURAC Research)](http://www.eurac.edu/en/research/mountains/remsen/Pages/default.aspx), IT
-9. [Solenix Schweiz GmbH](https://www.solenix.ch/), CH
-10. [Joint Research Centre of the European Commission](https://ec.europa.eu/jrc/en), IT
-11. [Google Earth Engine, US/CH](https://earthengine.google.com/) - consortium member receiving **no** H2020 funding
-
 ## More information
 
 * The [project proposal](https://zenodo.org/record/1065474)

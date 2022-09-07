@@ -1,7 +1,7 @@
 # Software Development Guidelines
 
 This document describes guidelines for software developers, written for the [openEO](http://openeo.org) project.
-Since the openEO infrastructure will encompasses several programming languages and software environments, this document does not prescribe particular tools or platforms but rather focuses on general principles and methods behind them.
+Since the openEO infrastructure encompasses several programming languages and software environments, this document does not prescribe particular tools or platforms but rather focuses on general principles and methods behind them.
 
 1. License: all software developed in the openEO project and published on the [openEO GitHub](http://github.com/open-eo/) organisation shall be licensed under the [Apache 2.0 license](https://opensource.org/licenses/Apache-2.0). If software repositories deviate from this, or contain code or other artifacts that deviates from this, this shall be described in the `README.md` file.
 2. Location: Official openEO software is developed under the [openEO GitHub organisation](https://github.com/open-EO/).

@@ -6,9 +6,7 @@ sidebar: false
 
 We are always happy to present and discuss the current state of the project. You can **meet us at the following events**:
 
-* ESA PhiWeek (October 11-15, openEO Platform public launch event, including keynote and workshop)
-
-Due to the COVID-19 situation there are no in-person meetings planned. We'll post further information here once available.
+* [FOSS4G 2022 (August 25, 14:45–15:15)](https://talks.osgeo.org/foss4g-2022/talk/ELXNEB/)
 
 Interesting resources from **past events**:
 

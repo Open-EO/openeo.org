@@ -19,20 +19,11 @@
     <div class="features">
       <div class="feature">
         <h2>Latest News</h2>
-        <News :limit="2" />
+        <News :limit="3" />
       </div>
       <div class="feature">
         <h2>Other Channels</h2>
         <Channels />
-      </div>
-      <div class="feature">
-        <h2>
-          <img align="right" src="https://openeo.org/images/eu.jpg" alt="EU flag" style="height: 1.8rem" />
-          Funding
-        </h2>
-        <p>
-          openEO is an H2020 project funded under call EO-2-2017: EO Big Data Shift, under grant number <a href="http://cordis.europa.eu/projects/776242" target="_blank">776242</a>. The project runs from Oct 2017 to Sept 2020.
-        </p>
       </div>
     </div>
 

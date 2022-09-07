@@ -23,9 +23,7 @@ A vector cube on the other hand could look like this:
     <figcaption>An examplary vector datacube with 3 dimensions: 2 geometries are given for the vector dimension, along with 3 timesteps for the time dimension and 4 bands.</figcaption>
 </figure>
 
-Vector data cubes and raster data cubes are common cases of data cubes in the EO domain. A raster data cube has at least two spatial dimensions (x and y) and a vector data cube has at least a dimension of type vector. Unfortunately, due to historical reasons, in openEO, we **can not distinguish between a data cube and a raster data cube** currently. Therefore, we only distinguish between:
-* *vector data cubes* (i.e., a data cube **with** a dimension of type vector), and
-* non-vector data cubes (i.e., a data cube **without** a dimension of type vector), which we will simply refer to as a *raster data cubes* in the documentation.
+Vector data cubes and raster data cubes are common cases of data cubes in the EO domain. A raster data cube has at least two spatial dimensions (e.g. `x` and `y`) and a vector data cube has at least a vector dimension (e.g. `geometry`). These distinctions are just made so that it is easier to describe "special" cases of data cubes, but you can also define other types such as a temporal data cube that has at least a temporal dimension (e.g. `t`).
 
 ## Dimensions
 
@@ -34,7 +32,7 @@ A dimension refers to a certain axis of a datacube. This includes all variables 
 The following properties are usually available for dimensions:
 
 * name
-* type (spatial/temporal/bands/vector/other)
+* type (`spatial`, `temporal`, `bands`, `vector` or `other`)
 * axis / number
 * labels (usually exposed in metadata as nominal values _or_ extents)
 * reference system / projection
@@ -50,7 +48,10 @@ Here is an overview of the dimensions contained in our example raster datacube a
 | 3 | `bands` | bands    | `blue`, `green`, `red`, `nir`                                               | 4 bands    | -                                   |
 | 4 | `t`     | temporal | `2020-10-01`, `2020-10-13`, `2020-10-25`                                    | 12 days    | Gregorian calendar / UTC            |
 
-Dimension labels are usually either numerical or text (also known as "strings"), which also includes textual representations of timestamps or vectors for example. Dimensions with a natural/inherent order are always sorted. These are usually all spatial and temporal dimensions. Dimensions without inherent order, `bands` in openEO for example, retain the order in which they have been defined in metadata or processes (e.g. through [`filter_bands`](https://processes.openeo.org/#filter_bands)), with new labels simply being appended to the existing labels.
+Dimension labels are usually either numerical or text (also known as "strings"), which also includes textual representations of timestamps or vectors for example.
+Usually, vector labels (geometries) are encoded as [Well-known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) and temporal labels are encoded as [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) compatible dates and/or times.
+
+Dimensions with a natural/inherent order are always sorted. These are usually all spatial and temporal dimensions. Dimensions without inherent order, in openEO `bands` for example, retain the order in which they have been defined in metadata or processes (e.g. through [`filter_bands`](https://processes.openeo.org/#filter_bands)), with new labels simply being appended to the existing labels.
 
 A vector dimension is not included in the example raster datacube above and it is not used in the following examples, but to show how a vector dimension with two polygons could look like:
 
@@ -58,7 +59,9 @@ A vector dimension is not included in the example raster datacube above and it i
 | ---------- | ------ | ------ | ---------------- | 
 | `geometry` | vector | `POLYGON((-122.4 37.6,-122.35 37.6,-122.35 37.64,-122.4 37.64,-122.4 37.6))`, `POLYGON((-122.51 37.5,-122.48 37.5,-122.48 37.52,-122.51 37.52,-122.51 37.5))` | [EPSG:4326](https://epsg.io/4326) |
 
-OpenEO datacubes contain scalar values (e.g. strings, numbers or boolean values), with all other associated attributes stored in dimensions (e.g. coordinates or timestamps). Attributes such as the CRS or the sensor can also be turned into dimensions. Be advised that in such a case, the uniqueness of pixel coordinates may be affected. When usually, `(x, y)` refers to a unique location, that changes to `(x, y, CRS)` when `(x, y)` values are reused in other coordinate reference systems (e.g. two neighboring UTM zones).
+Vector dimensions can consist of point, linestrings, polygons, multi points, multi linestringd and multi polygons or a mixture of those. So called "null" geometries are not allowed.
+
+openEO datacubes contain scalar values (e.g. strings, numbers or boolean values), with all other associated attributes stored in dimensions (e.g. coordinates or timestamps). Attributes such as the CRS or the sensor can also be turned into dimensions. Be advised that in such a case, the uniqueness of pixel coordinates may be affected. When usually, `(x, y)` refers to a unique location, that changes to `(x, y, CRS)` when `(x, y)` values are reused in other coordinate reference systems (e.g. two neighboring UTM zones).
 
 ::: tip Be Careful with Data Types
 As stated above, datacubes only contain scalar values. However, implementations may differ in their ability to handle or convert them. Implementations may also not allow mixing data types in a datacube. For example, returning a boolean value for a reducer on a numerical datacube may result in an error on some back-ends. The recommendation is to not change the data type of values in a datacube unless the back-end supports it explicitly.

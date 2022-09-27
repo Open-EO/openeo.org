@@ -23,7 +23,9 @@ A vector cube on the other hand could look like this:
     <figcaption>An examplary vector datacube with 3 dimensions: 2 geometries are given for the vector dimension, along with 3 timesteps for the time dimension and 4 bands.</figcaption>
 </figure>
 
-Vector data cubes and raster data cubes are common cases of data cubes in the EO domain. A raster data cube has at least two spatial dimensions (e.g. `x` and `y`) and a vector data cube has at least a vector dimension (e.g. `geometry`). These distinctions are just made so that it is easier to describe "special" cases of data cubes, but you can also define other types such as a temporal data cube that has at least a temporal dimension (e.g. `t`).
+[Vector data cubes](https://r-spatial.org/r/2022/09/12/vdc.html) and raster data cubes are common cases of data cubes in the EO domain.
+A raster data cube has at least two spatial dimensions (e.g. `x` and `y`) and a vector data cube has at least a vector dimension (e.g. `geometry`).
+These distinctions are just made so that it is easier to describe "special" cases of data cubes, but you can also define other types such as a temporal data cube that has at least a temporal dimension (e.g. `t`).
 
 ## Dimensions
 

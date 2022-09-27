@@ -1022,7 +1022,7 @@ cube_s2_ndvi_masked = builder.mask(cube_s2_ndvi, ndvi_threshold)
 
 <figure>
     <img src="../cookbook/pellworm_threshold.jpg" alt="The NDVI with a threshold of 0.3 applied">
-    <figcaption>Applying the above described treshold to the NDVI yields this result. Water and artificial surfaces are mostly masked from the image.</figcaption>
+    <figcaption>Applying the above described threshold to the NDVI yields this result. Water and artificial surfaces are mostly masked from the image.</figcaption>
 </figure>
 
 ### Pixel Operations: `apply`

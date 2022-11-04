@@ -137,7 +137,7 @@ The following code snippet shows how to log in via OIDC authentication:
 
 ```python
 print("Authenticate with OIDC authentication")
-connection.authenticate_OIDC("Client ID")
+connection.authenticate_oidc()
 ```
 
 Calling this method opens your system web browser, with which you can authenticate yourself on the back-end authentication system. 

@@ -137,7 +137,7 @@ The following code snippet shows how to log in via OIDC authentication:
 
 ```python
 print("Authenticate with OIDC authentication")
-connection.authenticate_OIDC("Client ID")
+connection.authenticate_oidc()
 ```
 
 Calling this method opens your system web browser, with which you can authenticate yourself on the back-end authentication system. 
@@ -355,8 +355,8 @@ R_band = mean_march.rename_labels(dimension="bands", target=["R"])
 G_band = mean_april.rename_labels(dimension="bands", target=["G"])
 B_band = mean_may.rename_labels(dimension="bands", target=["B"])
 
-RG = R_band.merge(G_band)
-RGB = RG.merge(B_band)
+RG = R_band.merge_cubes(G_band)
+RGB = RG.merge_cubes(B_band)
 
 
 # Last but not least, we add the process to save the result of the processing. There we define that 

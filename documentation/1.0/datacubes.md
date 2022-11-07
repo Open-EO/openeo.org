@@ -45,8 +45,8 @@ Here is an overview of the dimensions contained in our example raster datacube a
 
 | # | name    | type     | labels                                                                      | resolution | reference system                    |
 | - | ------- | -------- | --------------------------------------------------------------------------- | ---------- | ----------------------------------- |
-| 1 | `x`     | spatial  | `466380`, `466580`, `466780`, `466980`, `467180`, `467380`                  | 10m        | [EPSG:32627](https://epsg.io/32627) |
-| 2 | `y`     | spatial  | `7167130`, `7166930`, `7166730`, `7166530`, `7166330`, `7166130`, `7165930` | 10m        | [EPSG:32627](https://epsg.io/32627) |
+| 1 | `x`     | spatial  | `466380`, `466580`, `466780`, `466980`, `467180`, `467380`                  | 200m       | [EPSG:32627](https://epsg.io/32627) |
+| 2 | `y`     | spatial  | `7167130`, `7166930`, `7166730`, `7166530`, `7166330`, `7166130`, `7165930` | 200m       | [EPSG:32627](https://epsg.io/32627) |
 | 3 | `bands` | bands    | `blue`, `green`, `red`, `nir`                                               | 4 bands    | -                                   |
 | 4 | `t`     | temporal | `2020-10-01`, `2020-10-13`, `2020-10-25`                                    | 12 days    | Gregorian calendar / UTC            |
 

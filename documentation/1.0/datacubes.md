@@ -61,7 +61,7 @@ A vector dimension is not included in the example raster datacube above and it i
 | ---------- | ------ | ------ | ---------------- | 
 | `geometry` | vector | `POLYGON((-122.4 37.6,-122.35 37.6,-122.35 37.64,-122.4 37.64,-122.4 37.6))`, `POLYGON((-122.51 37.5,-122.48 37.5,-122.48 37.52,-122.51 37.52,-122.51 37.5))` | [EPSG:4326](https://epsg.io/4326) |
 
-Vector dimensions can consist of point, linestrings, polygons, multi points, multi linestringd and multi polygons or a mixture of those. So called "null" geometries are not allowed.
+Vector dimensions can consist of points, linestrings, polygons, multi points, multi linestrings and multi polygons or a mixture of those. Empty geometries (includes GeoJSON `null` geometries) are not allowed.
 
 openEO datacubes contain scalar values (e.g. strings, numbers or boolean values), with all other associated attributes stored in dimensions (e.g. coordinates or timestamps). Attributes such as the CRS or the sensor can also be turned into dimensions. Be advised that in such a case, the uniqueness of pixel coordinates may be affected. When usually, `(x, y)` refers to a unique location, that changes to `(x, y, CRS)` when `(x, y)` values are reused in other coordinate reference systems (e.g. two neighboring UTM zones).
 

@@ -24,8 +24,8 @@ A vector datacube on the other hand could look like this:
 </figure>
 
 [Vector datacubes](https://r-spatial.org/r/2022/09/12/vdc.html) and raster datacubes are common cases of datacubes in the EO domain.
-A raster datacube has at least two spatial dimensions (usually named `x` and `y`) and a vector datacube has at least a geometries dimension (usually named `geometries`).
-These distinctions are just made so that it is easier to describe "special" cases of datacubes, but you can also define other types such as a temporal datacube that has at least a temporal dimension (usually named `t`).
+A raster datacube has at least two spatial dimensions (usually named `x` and `y`) and a vector datacube has at least one geometries dimension (usually named `geometries`).
+The purpose of these distinctions is simply to make it easier to describe "special" cases of datacubes, but you can also define other types such as a temporal datacube that has at least one temporal dimension (usually named `t`).
 
 ## Dimensions
 
@@ -54,7 +54,7 @@ Here is an overview of the dimensions contained in our example raster datacube a
 Dimension labels are usually either numerical or text (also known as "strings"), which also includes textual representations of timestamps or geometries for example.
 For example, temporal labels are usually encoded as [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) compatible dates and/or times and similarly geometries can be encoded as [Well-known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) or be represented by their IDs.
 
-Dimensions with a natural/inherent order are always sorted. These are usually all spatial and temporal dimensions. Dimensions without inherent order, in openEO `bands` for example, retain the order in which they have been defined in metadata or processes (e.g. through [`filter_bands`](https://processes.openeo.org/#filter_bands)), with new labels simply being appended to the existing labels.
+Dimensions with a natural/inherent order (usually all temporal and spatial raster dimensions) are always sorted. Dimensions without inherent order (usually `bands`), retain the order in which they have been defined in metadata or processes (e.g. through [`filter_bands`](https://processes.openeo.org/#filter_bands)), with new labels simply being appended to the existing labels.
 
 A geometries dimension is not included in the example raster datacube above and it is not used in the following examples, but to show how a vector dimension with two polygons could look like:
 
@@ -62,7 +62,7 @@ A geometries dimension is not included in the example raster datacube above and 
 | ---------- | ------ | ------ | ---------------- | 
 | `geometry` | vector | `POLYGON((-122.4 37.6,-122.35 37.6,-122.35 37.64,-122.4 37.64,-122.4 37.6))`, `POLYGON((-122.51 37.5,-122.48 37.5,-122.48 37.52,-122.51 37.52,-122.51 37.5))` | [EPSG:4326](https://epsg.io/4326) |
 
-A dimensions with geometries can consist of points, linestrings, polygons, multi points, multi linestrings, or multi polygons.
+A dimension with geometries can consist of points, linestrings, polygons, multi points, multi linestrings, or multi polygons.
 It is not possible to mix geometry types, but the single geometry type with their corresponding multi type can be combined in a dimension (e.g. points and multi points).
 Empty geometries (includes GeoJSON `null` geometries) are not allowed.
 

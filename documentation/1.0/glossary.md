@@ -53,7 +53,7 @@ Commonly used types of geometries are:
 - LineString (connected straight line pieces)
 - Polygon (connected straight line pieces forming a closed ring, possibly with holes - for example a triangle or rectangle)
 
-Multiple geometries of the same type can be combined to a group of geometries, e.g. a Multi Point or a Multi Polygon.
+Multiple geometries of the same type can be combined into a group of geometries, e.g. a so-called "multi point" or  "multi polygon".
 
 Features and geometries are specified by the OGC in the [Simple Feature Access specification](https://www.ogc.org/standards/sfa) (and ISO 19125). See the specification for more details.
 

@@ -33,7 +33,29 @@ In openEO, a back-end offers a set of collections to be processed. All collectio
 
 ## Spatial datacubes
 
-A spatiotemporal datacube is a multidimensional array with one or more spatial or temporal dimensions. In the EO domain, it is common to be implicit about the temporal dimension and just refer to them as spatial datacubes in short. Special cases are raster and vector datacubes. Learn more about datacubes in the [datacube documentation](https://openeo.org/documentation/1.0/datacubes.html).
+A spatiotemporal datacube is a multidimensional array with one or more spatial or temporal dimensions.
+In the EO domain, it is common to be implicit about the temporal dimension and just refer to them as spatial datacubes in short.
+Special cases are raster and [vector datacubes](https://r-spatial.org/r/2022/09/12/vdc.html).
+Learn more about datacubes in the [datacube documentation](https://openeo.org/documentation/1.0/datacubes.html).
+
+## Vector data
+
+In general, **vector data** represent specific things (also called "features") in a space, e.g. on the surface of the Earth.
+
+A **coordinate** represents a specific point in space.
+
+A **feature** is a thing that has a geometry (e.g. the outline of an agricultural field, a forest or an urban area) and it may have additional properties assigned (e.g. a name, a color or a population).
+
+**Geometries** consist of one or more coordinates that may be connected and then form a specific type of geometry, e.g. two points can be connected to a straight line and four straight lines can be connected to rectangle.
+
+Commonly used types of geometries are:
+- Point
+- LineString (connected straight line pieces)
+- Polygon (connected straight line pieces forming a closed ring, possibly with holes - for example a triangle or rectangle)
+
+Multiple geometries of the same type can be combined into a group of geometries, e.g. a so-called "multi point" or  "multi polygon".
+
+Features and geometries are specified by the OGC in the [Simple Feature Access specification](https://www.ogc.org/standards/sfa) (and ISO 19125). See the specification for more details.
 
 ## User-defined function (UDF)
 

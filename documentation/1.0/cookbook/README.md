@@ -439,7 +439,7 @@ Different from the creation of a PNG image, the raster format doesn't need scali
 res = cube_s2_b8_red.save_result(format = "GTiff")
 
 # send job to back-end, do not execute
-job = res.send_job(title = "temporal_mean_as_GTiff_py")
+job = res.create_job(title = "temporal_mean_as_GTiff_py")
 ```
 
 </template>
@@ -494,7 +494,7 @@ res = cube_s2_b348_red_lin.save_result(format = "PNG", options = {
       })
 
 # send job to back-end
-job = res.send_job(title = "temporal_mean_as_PNG_py")
+job = res.create_job(title = "temporal_mean_as_PNG_py")
 ```
 
 In python, options are passed as a dictionary
@@ -553,7 +553,7 @@ We can now save the timeseries in the [aggregated](#spatial-aggregation-aggregat
 res = cube_s2_b8_agg.save_result(format = "JSON")
 
 # send job to back-end
-job = res.send_job(title = "timeseries_as_JSON_py")
+job = res.create_job(title = "timeseries_as_JSON_py")
 ```
 
 </template>

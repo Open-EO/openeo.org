@@ -94,8 +94,8 @@ export default {
     justify-content space-between
   .feature
     flex-grow 1
-    flex-basis 30%
-    max-width 30%
+    flex-basis 49%
+    max-width 49%
     h2
       font-size 1.4rem
       font-weight 500

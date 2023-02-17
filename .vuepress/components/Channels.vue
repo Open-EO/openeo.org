@@ -13,6 +13,7 @@
       <li><a v-if="cran" href="https://cran.r-project.org/package=openeo" target="_blank" class="r"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/r.svg" alt="CRAN" title="CRAN" /> CRAN / R</a></li>
       <li><a v-if="npm" href="https://www.npmjs.com/search?q=%40openeo%2F" target="_blank" class="npm"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/npm.svg" alt="npm: @openeo" title="npm: @openeo" /> npm / JS</a></li>
       <li><a v-if="pypi" href="https://pypi.org/project/openeo/" target="_blank" class="pypi"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/pypi.svg" alt="PyPI" title="PyPI" /> PyPI / Python</a></li>
+      <li><a v-if="conda" href="https://anaconda.org/conda-forge/openeo" target="_blank" class="conda"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/anaconda.svg" alt="Conda Forge" title="Conda Forge" /> Conda Forge / Python</a></li>
       <li><a v-if="qgis" href="https://plugins.qgis.org/plugins/openeo-qgis-plugin-master/" target="_blank" class="qgis"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/qgis.svg" alt="QGIS" title="QGIS" /> QGIS</a></li>
     </ul>
   </div>
@@ -59,6 +60,10 @@ export default {
       default: true
     },
     pypi: {
+      type: Boolean,
+      default: true
+    },
+    conda: {
       type: Boolean,
       default: true
     },
@@ -123,6 +128,9 @@ export default {
 
 .channels .pypi img 
   background-color #C88A56
+
+.channels .conda img 
+  background-color #BB57CC
 
 .channels .npm img 
   background-color #34C7C8

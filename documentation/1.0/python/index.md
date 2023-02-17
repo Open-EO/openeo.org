@@ -12,6 +12,8 @@ and can easily be installed with a tool like `pip`, for example:
 pip install openeo
 ```
 
+The client library is also available on [Conda Forge](https://anaconda.org/conda-forge/openeo).
+
 It's recommended to work in a virtual environment of some kind (`venv`, `conda`, ...),
 containing Python 3.6 or higher.
 

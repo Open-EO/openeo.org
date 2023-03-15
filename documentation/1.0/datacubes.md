@@ -19,12 +19,12 @@ It is important to understand that datacubes are designed to make things easier 
 A vector datacube on the other hand could look like this:
 
 <figure>
-    <img src="./datacubes/vector.png" alt="An examplary vector datacube with 3 dimensions: 2 geometries are given for the `Geometries` dimension, along with 3 timesteps for the temporal dimension `time` and 4 bands in the `Bands` dimension.">
-    <figcaption>An examplary vector datacube with 3 dimensions: 2 geometries are given for the <code>Geometries</code> dimension, along with 3 timesteps for the temporal dimension <code>time</code> and 4 bands in the <code>Bands</code> dimension.</figcaption>
+    <img src="./datacubes/vector.png" alt="An examplary vector datacube with 3 dimensions: 2 geometries are given for the `geometries` dimension, along with 3 timesteps for the temporal dimension `time` and 4 bands in the `bands` dimension.">
+    <figcaption>An examplary vector datacube with 3 dimensions: 2 geometries are given for the <code>geometries</code> dimension, along with 3 timesteps for the temporal dimension <code>time</code> and 4 bands in the <code>bands</code> dimension.</figcaption>
 </figure>
 
 [Vector datacubes](https://r-spatial.org/r/2022/09/12/vdc.html) and raster datacubes are common cases of datacubes in the EO domain.
-A raster datacube has at least two spatial dimensions (usually named `x` and `y`) and a vector datacube has at least one geometries dimension (usually named `geometries`).
+A raster datacube has at least two spatial dimensions (usually named `x` and `y`) and a vector datacube has at least one geometry dimension (usually named `geometry`).
 The purpose of these distinctions is simply to make it easier to describe "special" cases of datacubes, but you can also define other types such as a temporal datacube that has at least one temporal dimension (usually named `t`).
 
 ## Dimensions
@@ -56,7 +56,7 @@ For example, temporal labels are usually encoded as [ISO 8601](https://en.wikipe
 
 Dimensions with a natural/inherent order (usually all temporal and spatial raster dimensions) are always sorted. Dimensions without inherent order (usually `bands`), retain the order in which they have been defined in metadata or processes (e.g. through [`filter_bands`](https://processes.openeo.org/#filter_bands)), with new labels simply being appended to the existing labels.
 
-A geometries dimension is not included in the example raster datacube above and it is not used in the following examples, but to show how a vector dimension with two polygons could look like:
+A geometry dimension is not included in the example raster datacube above and it is not used in the following examples, but to show how a vector dimension with two polygons could look like:
 
 | name       | type   | labels | reference system |
 | ---------- | ------ | ------ | ---------------- | 
@@ -64,7 +64,7 @@ A geometries dimension is not included in the example raster datacube above and 
 
 A dimension with geometries can consist of points, linestrings, polygons, multi points, multi linestrings, or multi polygons.
 It is not possible to mix geometry types, but the single geometry type with their corresponding multi type can be combined in a dimension (e.g. points and multi points).
-Empty geometries (includes GeoJSON `null` geometries) are not allowed.
+Empty geometries (includes GeoJSON `null` geometries) are allowed and can sometimes also be the result of certain vector operations such as a negative buffer.
 
 openEO datacubes contain scalar values (e.g. strings, numbers or boolean values), with all other associated attributes stored in dimensions (e.g. coordinates or timestamps). Attributes such as the CRS or the sensor can also be turned into dimensions. Be advised that in such a case, the uniqueness of pixel coordinates may be affected. When usually, `(x, y)` refers to a unique location, that changes to `(x, y, CRS)` when `(x, y)` values are reused in other coordinate reference systems (e.g. two neighboring UTM zones).
 

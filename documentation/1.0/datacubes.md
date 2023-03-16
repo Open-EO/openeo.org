@@ -64,7 +64,7 @@ A geometry dimension is not included in the example raster datacube above and it
 
 A dimension with geometries can consist of points, linestrings, polygons, multi points, multi linestrings, or multi polygons.
 It is not possible to mix geometry types, but the single geometry type with their corresponding multi type can be combined in a dimension (e.g. points and multi points).
-Empty geometries (includes GeoJSON `null` geometries) are allowed and can sometimes also be the result of certain vector operations such as a negative buffer.
+Empty geometries (such as GeoJSON features with a `null` geometry or GeoJSON geometries with an empty coordinates array) are allowed and can sometimes also be the result of certain vector operations such as a negative buffer.
 
 openEO datacubes contain scalar values (e.g. strings, numbers or boolean values), with all other associated attributes stored in dimensions (e.g. coordinates or timestamps). Attributes such as the CRS or the sensor can also be turned into dimensions. Be advised that in such a case, the uniqueness of pixel coordinates may be affected. When usually, `(x, y)` refers to a unique location, that changes to `(x, y, CRS)` when `(x, y)` values are reused in other coordinate reference systems (e.g. two neighboring UTM zones).
 

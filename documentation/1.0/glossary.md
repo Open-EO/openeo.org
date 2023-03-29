@@ -44,7 +44,8 @@ In general, **vector data** represent specific things (also called "features") i
 
 A **coordinate** represents a specific point in space.
 
-A **feature** is a thing that has a geometry (e.g. the outline of an agricultural field, a forest or an urban area) and it may have additional properties assigned (e.g. a name, a color or a population).
+A **feature** is a thing that usually has a geometry (e.g. the outline of an agricultural field, a forest or an urban area) and it may have additional properties assigned (e.g. a name, a color or a population).
+In rare cases features may not have a geometry, which is often referred to as an "empty geometry".
 
 **Geometries** consist of one or more coordinates that may be connected and then form a specific type of geometry, e.g. two points can be connected to a straight line and four straight lines can be connected to rectangle.
 

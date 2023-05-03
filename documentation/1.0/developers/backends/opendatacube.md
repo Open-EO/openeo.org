@@ -1,4 +1,4 @@
-# Getting started with openEO and Open Data Cube
+# Getting started with openEO and xarray
 
 As a back-end provider who wants to provide its datasets, processes and infrastructure to a broader audience through a
 standardized interface you may want to implement a driver for openEO.
@@ -6,14 +6,14 @@ standardized interface you may want to implement a driver for openEO.
 First of all, you should read carefully the [getting started guide for service providers](./getting-started.md).
 
 ::: tip Note
-The Open Data Cube implementation for openEO is not a full-fledged out-of-the-box openEO back-end,
+The xarray implementation for openEO is not a full-fledged out-of-the-box openEO back-end,
 but can be part of the infrastructure for the data management part.
 In detail it can be used as data source for [EO Data Discovery](../api/reference.md#tag/EO-Data-Discovery) and e.g.
 in combination with a dask cluster as processing back-end for [Data Processing](../api/reference.md#tag/Data-Processing).
-In any case, a [HTTP REST interface must be available in front of ODC to properly answer openEO requests](#http-rest-interface).
+In any case, a [HTTP REST interface must be available in front of process implementations to properly answer openEO requests](#http-rest-interface).
 :::
 
-There are two main components involved with ODC and openEO:
+There are two main components involved with openEO and xarray:
 1. [Process Graph Parser for Python](#process-graph-parser-for-python)
 2. [Python Processes for openEO](#python-processes-for-openeo)
 
@@ -41,6 +41,20 @@ This package includes the implementations of openEO processes, using xarray and 
 
 The `specs` can be found in the `openeo-processes-dask` as a submodule. That way, the specification and the implementation are stored close to each other. 
 
+## The load_collection and save_result process
+
+As mentioned before, the `load_collection` and `save_result` processes are back-end-specific and therefore not included in [openeo-processes-dask](https://github.com/Open-EO/openeo-processes-dask). The [load_collection](https://processes.openeo.org/#load_collection) process should return a `raster-cube` object - to be compliant with the `openeo-processes-dask` implementations, this should be realized by a `xarray DataArray` loaded with `dask`. 
+
+### Connection to ODC and STAC
+
+For testing purposes with `DataArrays` - which can be loaded from one file - the `xarray.open_dataarray()` function can be used to implement a basic version of `load_collection`. 
+
+Large data sets can be organised as `opendatacube Products` or as `STAC Collections`.
+
+* `opendatacube Products`: The implementation of `load_collection` can include the `opendatacube` function `datacube.Datacube.load()`. It is recommended to use the `dask_chunks` parameter, when loading the data. The function returns a `xarray DataSet`, in order to be compliant with `openeo-processes-dask`, it can be converted to a `DataArray` using the `Dataset.to_array(dim='variable', name=None)` function. 
+
+* `STAC Collections`: Alternatively, the `load_collection` process can be implemented using the `odc.stac.load()` function. To make use of `dask`, the `chunks` parameter must be set. Just as in the previous case, the resulting `xarray DataSet` can be converted to a `DataArray` with `Dataset.to_array(dim='variable', name=None)`.
+
 ## openEO client side processing
 
 
@@ -66,9 +80,9 @@ Currently, [openeo-processes-dask](https://github.com/Open-EO/openeo-processes-d
 
 ## HTTP REST Interface
 
-The next step would be to set up a HTTP REST interface (i.e. an implementation of the openEO HTTP API) for the new openEO ODC environment.
-It must be available in front of ODC to properly answer openEO client requests.
-Currently, the [EODC](https://openeo.eodc.eu/v1.0) and [EURAC](https://openeo.eurac.edu/) back-ends use ODC and thus
+The next step would be to set up a HTTP REST interface (i.e. an implementation of the openEO HTTP API) for the new openEO environment.
+It must be available in front of the process implementations to properly answer openEO client requests.
+Currently, the [EODC](https://openeo.eodc.eu/v1.0) and [EURAC](https://openeo.eurac.edu/) back-ends use xarray and dask and thus
 are the first implementations of back-ends to look at.
 
 If you have any questions, please [contact us](../../../../contact.md).

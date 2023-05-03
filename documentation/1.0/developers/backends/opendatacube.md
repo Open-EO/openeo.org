@@ -51,9 +51,9 @@ For testing purposes with `DataArrays` - which can be loaded from one file - the
 
 Large data sets can be organised as `opendatacube Products` or as `STAC Collections`.
 
-* `opendatacube Products`: The implementation of `load_collection` can include the `opendatacube` function `datacube.Datacube.load()`. It is recommended to use the `dask_chunks` parameter, when loading the data. The function returns a `xarray DataSet`, in order to be compliant with `openeo-processes-dask`, it can be converted to a `DataArray` using the `Dataset.to_array(dim='variable', name=None)` function. 
+* `opendatacube Products`: The implementation of `load_collection` can include the `opendatacube` function `datacube.Datacube.load()`. It is recommended to use the `dask_chunks` parameter, when loading the data. The function returns a `xarray DataSet`, in order to be compliant with `openeo-processes-dask`, it can be converted to a `DataArray` using the `Dataset.to_array(dim='bands')` function. 
 
-* `STAC Collections`: Alternatively, the `load_collection` process can be implemented using the `odc.stac.load()` function. To make use of `dask`, the `chunks` parameter must be set. Just as in the previous case, the resulting `xarray DataSet` can be converted to a `DataArray` with `Dataset.to_array(dim='variable', name=None)`.
+* `STAC Collections`: Alternatively, the `load_collection` process can be implemented using the `odc.stac.load()` function. To make use of `dask`, the `chunks` parameter must be set. Just as in the previous case, the resulting `xarray DataSet` can be converted to a `DataArray` with `Dataset.to_array(dim='bands')`.
 
 ## openEO client side processing
 

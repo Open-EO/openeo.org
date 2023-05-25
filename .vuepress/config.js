@@ -1,16 +1,17 @@
-const apiVersion = '1.1.0';
+const apiVersion = '1.2.0';
 const defaultVersion = 0;
 const versions = [
   {
     folder: '1.0',
     path: '/documentation/1.0/',
     title: '1.x',
-    apiTag: '1.1.0', // Don't forget to update the submodules in .vuepress/public/assets/documentation/...
-    processesTag: '1.2.0',
+    apiTag: '1.2.0', // Don't forget to update the submodules in .vuepress/public/assets/documentation/...
+    processesTag: '2.0.0-rc.1',
     apiVersions: [
       '1.0.0',
       '1.0.1',
-      '1.1.0'
+      '1.1.0',
+      '1.2.0'
     ],
     userNav: [
       {text: 'Introduction', link: 'index.html'},

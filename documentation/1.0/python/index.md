@@ -130,15 +130,13 @@ You can also have a look at the [openEO Hub](https://hub.openeo.org/) to see the
 
 A detailed description of why and how to use the authentication methods is on the [official documentation](https://open-eo.github.io/openeo-python-client/auth.html#authentication-and-account-management).
 
+::: tip Recommendation
+The Google Earth Engine implementation for openEO only supports Basic authentication, but generally the preferred authentication method is [OpenID Connect](#openid-connect-authentication) due to better security mechanisms implemented in the OpenID Connect protocol.
+::: 
+
 ### Basic Authentication
 
 The Basic authentication method is a common way of authenticate HTTP requests given username and password.
-
-::: warning
-The preferred authentication method is OpenID Connect due to better security mechanisms implemented in the OpenID Connect protocol.
-If possible, use OpenID Connect instead of HTTP Basic authentication. 
-The Google Earth Engine doesn't support OpenID Connect yet.
-::: 
 
 The following code snippet shows how to log in via Basic authentication:
 ```python

@@ -10,8 +10,9 @@ As an overview, the openEO API specifies how to
 - download (intermediate) results, and
 - manage user content including billing.
 
-
 The API is defined as an [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md) YAML file.
+
+The API and processes are grouped into [compliance profiles](./profiles/README.md).
 
 ## Additional information
 

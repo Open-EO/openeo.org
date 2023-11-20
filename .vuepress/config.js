@@ -35,17 +35,24 @@ const versions = [
       {text: 'Service Providers', items: [
           {text: 'Getting Started', link: 'developers/backends/getting-started.html'},
           {text: 'Performance Guide', link: 'developers/backends/performance.html'},
-          {text: 'Open Data Cube', link: 'developers/backends/opendatacube.html'}
+          {text: 'Open Data Cube', link: 'developers/backends/opendatacube.html'},
+          {text: 'Profiles', link: 'developers/profiles/index.html'}
       ]},
       {text: 'Client Developers', items: [
           {text: 'Getting Started', link: 'developers/clients/getting-started.html'},
           {text: 'Library Guidelines', link: 'developers/clients/library-guidelines.html'}
       ]},
-      {text: 'API', link: 'developers/api/reference.html'},
-      {text: 'Processes', link: 'processes.html'},
+      {text: 'API', items: [
+          {text: 'Reference', link: 'developers/api/reference.html'},
+          {text: 'Profiles', link: 'developers/profiles/api.html'}
+      ]},
+      {text: 'Processes', items: [
+          {text: 'Reference', link: 'processes.html'},
+          {text: 'Profiles', link: 'developers/profiles/processes.html'}
+      ]},
       {text: 'Error Codes', link: 'developers/api/errors.html'},
       {text: 'Authentication', link: 'authentication.html'},
-      {text: 'UDFs', link: 'udfs.html'}
+      {text: 'UDFs', link: 'udfs.html'},
     ]
   },
   {

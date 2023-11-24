@@ -11,7 +11,7 @@ Heisenbergstraße 2<br />
 48149 Münster<br />
 Germany<br />
 
-::: tip
+::: tip Note
 
 The email address below is meant for general topics around the openEO project, openEO PSC, openEO API specification, or openEO process specification.
 The email address below is **NOT** meant for technical support regarding specific service providers or client implementations.

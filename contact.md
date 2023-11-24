@@ -6,7 +6,7 @@ sidebar: false
 
 University of Münster<br />
 Institute for Geoinformatics<br />
-c/o Matthias Mohr<br />
+c/o Edzer Pebesma<br />
 Heisenbergstraße 2<br />
 48149 Münster<br />
 Germany<br />

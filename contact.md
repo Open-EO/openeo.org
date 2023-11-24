@@ -11,7 +11,8 @@ Heisenbergstraße 2<br />
 48149 Münster<br />
 Germany<br />
 
-::: note
+::: tip
+
 The email address below is meant for general topics around the openEO project, openEO PSC, openEO API specification, or openEO process specification.
 The email address below is **NOT** meant for technical support regarding specific service providers or client implementations.
 
@@ -24,6 +25,7 @@ The email address below is **NOT** meant for technical support regarding specifi
   - [Javascript Client](https://github.com/Open-EO/openeo-js-client/issues)
   - [Web Editor](https://github.com/Open-EO/openeo-web-editor/issues)
 - If you have general questions or want to get in touch with the community, we recommend to join the chat (see below) and/or [join the monthly community calls](news/2022-07-07-monthly-dev-calls.md).
+
 :::
 
 <Channels :youtube="false" :code="false" />

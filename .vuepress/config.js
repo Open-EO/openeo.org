@@ -109,14 +109,12 @@ module.exports = {
       { text: 'Home', link: '/' },
       { text: 'About', link: '/about.html' },
       { text: 'News', link: '/news/' },
-      { text: 'Meet us', link: '/meet-us.html' },
       { text: 'Software', link: '/software.html' },
-      { text: 'Hub', link: 'https://hub.openeo.org' },
+      { text: 'Services / Hub', link: 'https://hub.openeo.org' },
       { text: 'User Documentation', userNav: true, items: [] },
       { text: 'Developers', devNav: true, items: [] },
       { text: 'PSC', link: '/psc.html' },
-      { text: 'Contact', link: '/contact.html' },
-      { text: 'Platform', link: 'https://openeo.cloud' }
+      { text: 'Contact', link: '/contact.html' }
     ],
     sidebar: 'auto'
   },

@@ -14,7 +14,6 @@ export default ({ router, Vue }) => {
 		{ path: '/documentation', redirect: defaultVersion.path },
 		// Redirect from old openeo.org links to new links
 		{ path: '/about', redirect: 'about.html' },
-		{ path: '/meet-us', redirect: 'meet-us.html' },
 		{ path: '/software', redirect: 'software.html' },
 		{ path: '/contact', redirect: 'contact.html' },
 		{ path: '/glossary', redirect: defaultVersion.path + 'glossary.html' }

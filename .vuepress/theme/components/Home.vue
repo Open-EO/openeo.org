@@ -14,9 +14,9 @@
         The project maintains the API and process specifications, and an open-source ecosystem with clients and server implementations.
       </p>
 
-      <p class="description"><small>
+      <p class="description small">
         openEO is not to be confused with independant services that implement the specifications such as <a href="https://openeo.cloud" target="_blank">openEO Platform</a> or <a href="https://dataspace.copernicus.eu/" title="Copernicus Data Space Ecosystem" target="_blank">CDSE</a>.<br />For a list of services built on top of openEO, please visit the <a href="https://hub.openeo.org" target="_blank">openEO Hub</a>.
-      </small></p>
+      </p>
 
       <p class="action">
         <NavLink class="action-button" :item="{link: '/about/', text: 'Why?'}"/>
@@ -79,8 +79,8 @@ export default {
       font-size 1.4rem
       line-height 1.3
       color lighten($textColor, 40%)
-      small
-        font-size 1.2rem
+      &.small
+        font-size 1.1rem
       a
         text-decoration: underline
     .action-button

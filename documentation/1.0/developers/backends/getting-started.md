@@ -24,6 +24,8 @@ For example, you could start by implementing the following endpoints in the firs
 * Data processing: `POST /result`
 * Authentication (if required): `GET /credentials/basic`
 
+A more detailed recommendation about the endpoints and processes to implement can be found in the [API and Processes profiles](../profiles/README.md).
+
 Afterwards you can already start experimenting with your first process graphs and process EO data with our client libraries on your back-end.
 
 *More information will follow soon, for example about back-end compliance testing.*

@@ -29,9 +29,7 @@ Missing experimental processes should (by default) lead to a "warning", but not 
 - **`add`**
 - **`and`**
 - **`apply`**
-  - Parameter `context`: is supported and passed to the callback
 - **`apply_dimension`**
-  - Parameter `process`: Supports access to labels in the callback
   - All dimensions that your datacubes can include are supported - x and y can usually be excluded
 - **`arccos`**
 - **`arcsin`**
@@ -102,6 +100,8 @@ Missing experimental processes should (by default) lead to a "warning", but not 
   - Parameter `period`: `enum` reflects implemention (all values are supported)
 - **`all`**
 - **`any`**
+- **`apply_dimension`**
+  - Parameter `process`: Supports access to labels in the callback
 - **`arcosh`**
 - **`arctan2`**
 - **`array_element`**
@@ -190,6 +190,7 @@ Missing experimental processes should (by default) lead to a "warning", but not 
   - Parameter `context`: is supported and passed to the callback
 - **`apply`**
   - Parameter `process`: At least all processes (up to the level of this requirement) in the categories `comparison`, `logic` and `math` can be used (also in a chain of processes).
+  - Parameter `context`: is supported and passed to the callback
 - **`apply_dimension`**
   - Parameter `process`: At least all processes (up to the level of this requirement) in the categories `array`, `comparison`, `logic` and `math` can be used (also in a chain of processes).
   - Parameter `context`: is supported and passed to the callback

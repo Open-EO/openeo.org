@@ -22,5 +22,6 @@ We are glad that the following OGC members confirmed to support the OCG submmiss
 * Telespazio VEGA UK Ltd
 * Planet Labs PBC
 * German Aerospace Center – DLR
+* Matthias Mohr - Softwareentwicklung
 
 We'll keep you updated about the progress. The next step is likely a public request for comments.

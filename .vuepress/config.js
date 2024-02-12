@@ -16,12 +16,13 @@ const versions = [
     userNav: [
       {text: 'Introduction', link: 'index.html'},
       {text: 'Glossary', link: 'glossary.html'},
+      {text: 'Datacubes', link: 'datacubes.html'},
       {text: 'Getting Started', items: [
-        {text: 'Datacubes', link: 'datacubes.html'},
         {text: 'JavaScript', link: 'javascript/index.html'},
         {text: 'Python', link: 'python/index.html'},
         {text: 'QGIS', link: 'qgis/index.html'},
-        {text: 'R', link: 'r/index.html'}
+        {text: 'R', link: 'r/index.html'},
+        {text: 'Client-Side Processing (Python)', link: 'python/client-side-processing.html'},
       ]},
       {text: 'Processes', link: 'processes.html'},
       {text: 'Cookbook', link: 'cookbook/index.html'},

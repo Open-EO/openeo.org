@@ -5,7 +5,6 @@ date:   2024-03-22
 author: Peter Zellner
 ---
 
-**MOOC Cubes and Clouds**
 
 :cloud: Dive into the world of data cubes, cloud platforms, and open science with our latest EO college course “Cubes and Clouds” 
 

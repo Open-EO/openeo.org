@@ -1,6 +1,6 @@
 ---
 news:   true
-title:  MOOC Cubes and Clouds open for registration
+title:  MOOC Cubes and Clouds - open for registration
 date:   2024-03-22
 author: Peter Zellner
 ---

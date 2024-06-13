@@ -160,9 +160,33 @@ To run your own jobs at the back-end or to access job results, you need to authe
 Depending on the back-end, there might be two different approaches to authenticate. 
 You need to inform yourself at your back-end provider of choice, which authentication approach you have to carry out. 
 You can also have a look at the [openEO Hub](https://hub.openeo.org/) to see the available authentication types of the back-ends.
-For Google Earth Engine, only [Basic Authentication](#basic-authentication) is supported at the moment.
+
+::: tip Recommendation
+The Google Earth Engine implementation for openEO only supports Basic authentication, but generally the preferred authentication method is [OpenID Connect](#openid-connect-authentication) due to better security mechanisms implemented in the OpenID Connect protocol.
+::: 
+
+### Basic Authentication
+
+The Basic authentication method is a common way of authenticate HTTP requests given username and password.
+
+The following code snippet shows how to log in via Basic authentication:
+
+```js
+await con.authenticateBasic("username", "password");
+```
+
+::: tip
+You can get username and password here: <https://github.com/Open-EO/openeo-earthengine-driver#demo>
+:::
+
+After successfully calling the `authenticateBasic` method, you are logged into the back-end with your account. 
+This means, that every call that comes after that via the `con` variable is executed by your user account.
 
 ### OpenID Connect Authentication
+
+::: warning
+For Google Earth Engine, only [Basic Authentication](#basic-authentication) is supported at the moment.
+:::
 
 The OIDC ([OpenID Connect](https://openid.net/connect/)) authentication can be used to authenticate via an external service given a client ID.
 
@@ -177,25 +201,6 @@ No further action is required, if you have installed the client via npm.
 ::: 
 
 As OpenID Connect authentication is a bit more complex and depends on the environment your are using it in, please refer to the [JavaScript client documentation](https://open-eo.github.io/openeo-js-client/latest/OidcProvider.html) for more information.
-
-
-### Basic Authentication
-
-The Basic authentication method is a common way of authenticate HTTP requests given username and password.
-
-::: warning
-The preferred authentication method is OpenID Connect due to better security mechanisms implemented in the OpenID Connect protocol.
-If possible, use OpenID Connect instead of HTTP Basic authentication. 
-::: 
-
-The following code snippet shows how to log in via Basic authentication:
-
-```js
-await con.authenticateBasic("username", "password");
-```
-
-After successfully calling the `authenticateBasic` method, you are logged into the back-end with your account. 
-This means, that every call that comes after that via the `con` variable is executed by your user account.
 
 
 ## Creating a (user-defined) process

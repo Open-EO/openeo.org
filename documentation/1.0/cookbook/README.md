@@ -1195,7 +1195,6 @@ var cube_s2_highpass = builder.apply_kernel(cube_s2_b8, highpass)
     <figcaption>Above a combined edge detection RGB can be seen. Sobel 3x3 vertical and horizontal edge detections are displayed as red and green, and a 5x5 highpass filter is displayed as blue. For this, all kernels in the code block above were applied and the sucessive cubes were merged afterwards.</figcaption>
 </figure>
 
-Pre-defined processes (`median`, `max`, `sd` etc.) can be applied to spatial, temporal or even spatio-temporal neighbourhoods with `apply_neighborhood`. Due to lack of implementation by back-ends, this is not covered at this point. Some notes on the process `apply_dimension` will follow soon.
 
 ## Endnote
 

@@ -7,7 +7,15 @@
       <img src="/images/openeo_logo.png" alt="openEO">
 
       <p class="description">
-        openEO develops an open API to connect R, Python, JavaScript and other clients to big Earth observation cloud back-ends in a simple and unified way.
+        openEO develops an API that allows users to connect to Earth observation cloud back-ends in a simple and unified way.
+      </p>
+
+      <p class="description">
+        The project maintains the API and process specifications, and an open-source ecosystem with clients and server implementations.
+      </p>
+
+      <p class="description small">
+        openEO is not to be confused with independant services that implement the specifications such as <a href="https://openeo.cloud" target="_blank">openEO Platform</a> or <a href="https://dataspace.copernicus.eu/" title="Copernicus Data Space Ecosystem" target="_blank">CDSE</a>.<br />For a list of services built on top of openEO, please visit the <a href="https://hub.openeo.org" target="_blank">openEO Hub</a>.
       </p>
 
       <p class="action">
@@ -59,18 +67,22 @@ export default {
     text-align center
     img
       max-width: 100%
-      max-height 280px
+      max-height 179px
       display block
-      margin 3rem auto 1.5rem
+      margin 1.5rem auto
     h1
       font-size 3rem
     h1, .description, .action
       margin 1.8rem auto
     .description
-      max-width 40rem
-      font-size 1.6rem
+      max-width 42rem
+      font-size 1.4rem
       line-height 1.3
       color lighten($textColor, 40%)
+      &.small
+        font-size 1.1rem
+      a
+        text-decoration: underline
     .action-button
       display inline-block
       font-size 1.2rem

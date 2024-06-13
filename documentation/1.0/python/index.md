@@ -117,8 +117,6 @@ which returns a list of dictionaries describing the process (including expected 
 Like with collections, instead of programmatic exploration you'll probably prefer a web-based overview such as the [openEO Hub](https://hub.openeo.org/) for back-end specific process descriptions
 or browse the [reference specifications of openEO processes](https://processes.openeo.org/).
 
-
-
 ## Authentication 
 
 In the code snippets above we did not need to log in
@@ -129,11 +127,37 @@ so that permissions, resource usage, etc. can be managed properly.
 Depending on the back-end, there might be two different approaches to authenticate. 
 You need to inform yourself at your back-end provider of choice, which authentication approach you have to carry out. 
 You can also have a look at the [openEO Hub](https://hub.openeo.org/) to see the available authentication types of the back-ends.
-For Google Earth Engine, only [Basic Authentication](#basic-authentication) is supported at the moment.
 
 A detailed description of why and how to use the authentication methods is on the [official documentation](https://open-eo.github.io/openeo-python-client/auth.html#authentication-and-account-management).
 
+::: tip Recommendation
+The Google Earth Engine implementation for openEO only supports Basic authentication, but generally the preferred authentication method is [OpenID Connect](#openid-connect-authentication) due to better security mechanisms implemented in the OpenID Connect protocol.
+::: 
+
+### Basic Authentication
+
+The Basic authentication method is a common way of authenticate HTTP requests given username and password.
+
+The following code snippet shows how to log in via Basic authentication:
+```python
+print("Authenticate with Basic authentication")
+connection.authenticate_basic("username", "password")
+```
+
+::: tip
+You can get username and password here: <https://github.com/Open-EO/openeo-earthengine-driver#demo>
+:::
+
+After successfully calling the [`authenticate_basic`](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.authenticate_basic) method, you are logged into the back-end with your account. 
+
+This means, that every call that comes after that via the connection variable is executed by your user account.
+
 ### OpenID Connect Authentication
+
+::: warning
+For Google Earth Engine, only [Basic Authentication](#basic-authentication) is supported at the moment.
+:::
+
 The OIDC ([OpenID Connect](https://openid.net/connect/)) authentication can be used to authenticate via an external service given a client ID.
 The following code snippet shows how to log in via OIDC authentication:
 
@@ -145,24 +169,6 @@ connection.authenticate_oidc()
 Calling this method opens your system web browser, with which you can authenticate yourself on the back-end authentication system. 
 After that the website will give you the instructions to go back to the python client, where your connection has logged your account in. 
 This means that every call that comes after that via the connection variable is executed by your user account.
-
-### Basic Authentication
-
-The Basic authentication method is a common way of authenticate HTTP requests given username and password.
-
-::: warning
-The preferred authentication method is OpenID Connect due to better security mechanisms implemented in the OpenID Connect protocol.
-If possible, use OpenID Connect instead of HTTP Basic authentication. 
-::: 
-
-The following code snippet shows how to log in via Basic authentication:
-```python
-print("Authenticate with Basic authentication")
-connection.authenticate_basic("username", "password")
-```
-After successfully calling the [`authenticate_basic`](https://open-eo.github.io/openeo-python-client/api.html#openeo.rest.connection.Connection.authenticate_basic) method, you are logged into the back-end with your account. 
-
-This means, that every call that comes after that via the connection variable is executed by your user account.
 
 
 ## Working with Datacube

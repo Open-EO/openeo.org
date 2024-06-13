@@ -1,26 +1,28 @@
-const apiVersion = '1.1.0';
+const apiVersion = '1.2.0';
 const defaultVersion = 0;
 const versions = [
   {
     folder: '1.0',
     path: '/documentation/1.0/',
     title: '1.x',
-    apiTag: '1.1.0', // Don't forget to update the submodules in .vuepress/public/assets/documentation/...
-    processesTag: '1.2.0',
+    apiTag: '1.2.0', // Don't forget to update the submodules in .vuepress/public/assets/documentation/...
+    processesTag: '2.0.0-rc.1',
     apiVersions: [
       '1.0.0',
       '1.0.1',
-      '1.1.0'
+      '1.1.0',
+      '1.2.0'
     ],
     userNav: [
       {text: 'Introduction', link: 'index.html'},
       {text: 'Glossary', link: 'glossary.html'},
+      {text: 'Datacubes', link: 'datacubes.html'},
       {text: 'Getting Started', items: [
-        {text: 'Datacubes', link: 'datacubes.html'},
         {text: 'JavaScript', link: 'javascript/index.html'},
         {text: 'Python', link: 'python/index.html'},
         {text: 'QGIS', link: 'qgis/index.html'},
-        {text: 'R', link: 'r/index.html'}
+        {text: 'R', link: 'r/index.html'},
+        {text: 'Client-Side Processing (Python)', link: 'python/client-side-processing.html'},
       ]},
       {text: 'Processes', link: 'processes.html'},
       {text: 'Cookbook', link: 'cookbook/index.html'},
@@ -34,17 +36,24 @@ const versions = [
       {text: 'Service Providers', items: [
           {text: 'Getting Started', link: 'developers/backends/getting-started.html'},
           {text: 'Performance Guide', link: 'developers/backends/performance.html'},
-          {text: 'Open Data Cube', link: 'developers/backends/opendatacube.html'}
+          {text: 'Open Data Cube', link: 'developers/backends/opendatacube.html'},
+          {text: 'Profiles', link: 'developers/profiles/index.html'}
       ]},
       {text: 'Client Developers', items: [
           {text: 'Getting Started', link: 'developers/clients/getting-started.html'},
           {text: 'Library Guidelines', link: 'developers/clients/library-guidelines.html'}
       ]},
-      {text: 'API', link: 'developers/api/reference.html'},
-      {text: 'Processes', link: 'processes.html'},
+      {text: 'API', items: [
+          {text: 'Reference', link: 'developers/api/reference.html'},
+          {text: 'Profiles', link: 'developers/profiles/api.html'}
+      ]},
+      {text: 'Processes', items: [
+          {text: 'Reference', link: 'processes.html'},
+          {text: 'Profiles', link: 'developers/profiles/processes.html'}
+      ]},
       {text: 'Error Codes', link: 'developers/api/errors.html'},
       {text: 'Authentication', link: 'authentication.html'},
-      {text: 'UDFs', link: 'udfs.html'}
+      {text: 'UDFs', link: 'udfs.html'},
     ]
   },
   {
@@ -108,14 +117,12 @@ module.exports = {
       { text: 'Home', link: '/' },
       { text: 'About', link: '/about.html' },
       { text: 'News', link: '/news/' },
-      { text: 'Meet us', link: '/meet-us.html' },
       { text: 'Software', link: '/software.html' },
-      { text: 'Hub', link: 'https://hub.openeo.org' },
+      { text: 'Services / Hub', link: 'https://hub.openeo.org' },
       { text: 'User Documentation', userNav: true, items: [] },
       { text: 'Developers', devNav: true, items: [] },
       { text: 'PSC', link: '/psc.html' },
-      { text: 'Contact', link: '/contact.html' },
-      { text: 'Platform', link: 'https://openeo.cloud' }
+      { text: 'Contact', link: '/contact.html' }
     ],
     sidebar: 'auto'
   },

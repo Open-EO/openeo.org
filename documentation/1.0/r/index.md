@@ -119,7 +119,34 @@ You need to inform yourself at your back-end provider of choice, which authentic
 You can also have a look at the [openEO Hub](https://hub.openeo.org/) to see the available authentication types of the back-ends.
 For Google Earth Engine, only [Basic Authentication](#basic-authentication) is supported at the moment.
 
+::: tip Recommendation
+The Google Earth Engine implementation for openEO only supports Basic authentication, but generally the preferred authentication method is [OpenID Connect](#openid-connect-authentication) due to better security mechanisms implemented in the OpenID Connect protocol.
+::: 
+
+### Basic Authentication
+
+The Basic authentication method is a common way of authenticate HTTP requests given username and password.
+
+The following code snippet shows how to log in via Basic authentication:
+```r
+login(login_type="basic",
+      user="user",
+      password="password")
+```
+
+::: tip
+You can get username and password here: <https://github.com/Open-EO/openeo-earthengine-driver#demo>
+:::
+
+After successfully calling the `login` method with the "basic" login type, you are logged into the back-end with your account. 
+This means, that every call that comes after that via the connection variable is executed by your user account.
+
 ### OpenID Connect Authentication
+
+::: warning
+For Google Earth Engine, only [Basic Authentication](#basic-authentication) is supported at the moment.
+:::
+
 The OIDC ([OpenID Connect](https://openid.net/connect/)) authentication can be used to authenticate via an external service.
 
 The following code snippet shows how to log in via OIDC authentication if the back-end supports the simplified authentication method:
@@ -142,25 +169,6 @@ login(provider = oidc_providers$some_provider,
 Calling this method opens your system web browser, with which you can authenticate yourself on the back-end authentication system. 
 After that the website will give you the instructions to go back to the R client, where your connection has logged your account in. 
 This means, that every call that comes after that via the connection variable is executed by your user account.
-
-### Basic Authentication
-
-The Basic authentication method is a common way of authenticate HTTP requests given username and password.
-
-::: warning
-The preferred authentication method is OpenID Connect due to better security mechanisms implemented in the OpenID Connect protocol.
-If possible, use OpenID Connect instead of HTTP Basic authentication. 
-:::
-
-The following code snippet shows how to log in via Basic authentication:
-```r
-login(login_type="basic",
-      user="user",
-      password="password")
-```
-After successfully calling the `login` method with the "basic" login type, you are logged into the back-end with your account. 
-This means, that every call that comes after that via the connection variable is executed by your user account.
-
 
 ## Creating a (user-defined) process
 

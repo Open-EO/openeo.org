@@ -2,19 +2,21 @@
   <div class="channels">
     <ul v-if="contact" class="contact">
       <!-- Thankfully provided by https://simpleicons.org/ -->
-      <li><a v-if="email" href="mailto:openeo.psc@uni-muenster.de" target="_blank" class="mail"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/mail-dot-ru.svg" alt="Email the PSC" title="Email the PSC" /> Email</a></li>
-      <li><a v-if="chat" href="https://gitter.im/Open-EO/community" target="_blank" class="chat"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/hipchat.svg" alt="Public chat on Gitter" title="Public chat on Gitter" /> Chat</a></li>
-      <li><a v-if="github && !code" href="https://github.com/Open-EO" target="_blank" class="github"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/github.svg" alt="GitHub: Open-EO" title="GitHub: Open-EO" /> GitHub</a></li>
-      <li><a v-if="twitter" href="https://twitter.com/Open_EO" target="_blank" class="twitter"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/twitter.svg" alt="Twitter: Open_EO" title="Twitter: Open_EO" /> Twitter</a></li>
-      <li><a v-if="youtube" href="https://www.youtube.com/channel/UCMJQil8j9sHBQkcSlSaEsvQ" target="_blank" class="youtube"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/youtube.svg" alt="YouTube: openEO" title="YouTube: openEO" /> YouTube</a></li>
+      <li><a v-if="email" href="mailto:openeo.psc@uni-muenster.de" target="_blank" class="mail"><img src="https://cdn.jsdelivr.net/npm/simple-icons@10.1.0/icons/maildotru.svg" alt="Email the PSC" title="Email the PSC" /> Email</a></li>
+      <li><a v-if="chat" href="https://gitter.im/Open-EO/community" target="_blank" class="chat"><img src="https://cdn.jsdelivr.net/npm/simple-icons@10.1.0/icons/gitter.svg" alt="Public chat on Gitter" title="Public chat on Gitter" /> Chat</a></li>
+      <li><a v-if="github && !code" href="https://github.com/Open-EO" target="_blank" class="github"><img src="https://cdn.jsdelivr.net/npm/simple-icons@10.1.0/icons/github.svg" alt="GitHub: Open-EO" title="GitHub: Open-EO" /> GitHub</a></li>
+      <li><a v-if="linkedin" href="https://www.linkedin.com/company/openeospec/" target="_blank" class="linkedin"><img src="https://cdn.jsdelivr.net/npm/simple-icons@10.1.0/icons/linkedin.svg" alt="LinkedIn" title="LinkedIn" /> LinkedIn</a></li>
+      <li><a v-if="x" href="https://twitter.com/Open_EO" target="_blank" class="x"><img src="https://cdn.jsdelivr.net/npm/simple-icons@10.1.0/icons/x.svg" alt="X / Twitter: Open_EO" title="X / Twitter: Open_EO" /> X / Twitter</a></li>
+      <li><a v-if="youtube" href="https://www.youtube.com/channel/UCMJQil8j9sHBQkcSlSaEsvQ" target="_blank" class="youtube"><img src="https://cdn.jsdelivr.net/npm/simple-icons@10.1.0/icons/youtube.svg" alt="YouTube: openEO" title="YouTube: openEO" /> YouTube</a></li>
     </ul>
     <ul v-if="code" class="code">
-      <li><a v-if="github" href="https://github.com/Open-EO" target="_blank" class="github"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/github.svg" alt="GitHub: Open-EO" title="GitHub: Open-EO" /> GitHub</a></li>
-      <li><a v-if="cran" href="https://cran.r-project.org/package=openeo" target="_blank" class="r"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/r.svg" alt="CRAN" title="CRAN" /> CRAN / R</a></li>
-      <li><a v-if="npm" href="https://www.npmjs.com/search?q=%40openeo%2F" target="_blank" class="npm"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/npm.svg" alt="npm: @openeo" title="npm: @openeo" /> npm / JS</a></li>
-      <li><a v-if="pypi" href="https://pypi.org/project/openeo/" target="_blank" class="pypi"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/pypi.svg" alt="PyPI" title="PyPI" /> PyPI / Python</a></li>
-      <li><a v-if="conda" href="https://anaconda.org/conda-forge/openeo" target="_blank" class="conda"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/anaconda.svg" alt="Conda Forge" title="Conda Forge" /> Conda Forge / Python</a></li>
-      <li><a v-if="qgis" href="https://plugins.qgis.org/plugins/openeo-qgis-plugin-master/" target="_blank" class="qgis"><img src="https://cdn.jsdelivr.net/npm/simple-icons@1.20/icons/qgis.svg" alt="QGIS" title="QGIS" /> QGIS</a></li>
+      <li><a v-if="github" href="https://github.com/Open-EO" target="_blank" class="github"><img src="https://cdn.jsdelivr.net/npm/simple-icons@10.1.0/icons/github.svg" alt="GitHub: Open-EO" title="GitHub: Open-EO" /> GitHub</a></li>
+      <li><a v-if="cran" href="https://cran.r-project.org/package=openeo" target="_blank" class="r"><img src="https://cdn.jsdelivr.net/npm/simple-icons@10.1.0/icons/r.svg" alt="CRAN" title="CRAN" /> CRAN / R</a></li>
+      <li><a v-if="npm" href="https://www.npmjs.com/search?q=%40openeo%2F" target="_blank" class="npm"><img src="https://cdn.jsdelivr.net/npm/simple-icons@10.1.0/icons/npm.svg" alt="npm: @openeo" title="npm: @openeo" /> npm / JS</a></li>
+      <li><a v-if="pypi" href="https://pypi.org/project/openeo/" target="_blank" class="pypi"><img src="https://cdn.jsdelivr.net/npm/simple-icons@10.1.0/icons/pypi.svg" alt="PyPI" title="PyPI" /> PyPI / Python</a></li>
+      <li><a v-if="conda" href="https://anaconda.org/conda-forge/openeo" target="_blank" class="conda"><img src="https://cdn.jsdelivr.net/npm/simple-icons@10.1.0/icons/anaconda.svg" alt="Conda Forge" title="Conda Forge" /> Conda Forge / Python</a></li>
+      <li><a v-if="julia" href="https://github.com/Open-EO/openeo-julia-client" target="_blank" class="julia"><img src="https://cdn.jsdelivr.net/npm/simple-icons@10.1.0/icons/julia.svg" alt="Julia" title="Julia" /> Julia</a></li>
+      <li><a v-if="qgis" href="https://plugins.qgis.org/plugins/openeo-qgis-plugin-master/" target="_blank" class="qgis"><img src="https://cdn.jsdelivr.net/npm/simple-icons@10.1.0/icons/qgis.svg" alt="QGIS" title="QGIS" /> QGIS</a></li>
     </ul>
   </div>
 </template>
@@ -47,7 +49,11 @@ export default {
       type: Boolean,
       default: true
     },
-    twitter: {
+    x: {
+      type: Boolean,
+      default: true
+    },
+    linkedin: {
       type: Boolean,
       default: true
     },
@@ -68,6 +74,10 @@ export default {
       default: true
     },
     npm: {
+      type: Boolean,
+      default: true
+    },
+    julia: {
       type: Boolean,
       default: true
     },
@@ -111,17 +121,23 @@ export default {
   margin-top: -2px
   border-radius 3px
 
+.channels .gitter img
+  background-color #12e69a
+
+.channels .julia img
+  background-color #6aa74d
+
 .channels .github img
   background-color #E7E8E8
 
 .channels .linkedin img
-  background-color #FF884A
+  background-color #ff884a
 
 .channels .youtube img
   background-color #00FFFF
 
-.channels .twitter img
-  background-color #E25E0D
+.channels .x img
+  background-color #ffffff
 
 .channels .r img 
   background-color #D8923C

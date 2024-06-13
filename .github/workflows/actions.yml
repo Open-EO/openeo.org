@@ -8,11 +8,13 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: "--openssl-legacy-provider" # https://github.com/vuejs/vue-cli/issues/6770
     steps:
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '16' # https://github.com/vuejs/vue-cli/issues/6770
-      - uses: actions/checkout@v3
+          node-version: '22.x'
+      - uses: actions/checkout@v4
         with:
           submodules: true
       - run: npm install
@@ -21,7 +23,7 @@ jobs:
       - run: cp -ap redirects/. .vuepress/dist
       - run: cp -ap .vuepress/dist/assets/documentation/. .vuepress/dist/documentation
       - run: rm -r .vuepress/dist/assets/documentation
-      - uses: peaceiris/actions-gh-pages@v3
+      - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .vuepress/dist

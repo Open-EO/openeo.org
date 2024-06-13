@@ -1,4 +1,4 @@
-opconst config = require('./config.js');
+const config = require('./config.js');
 
 const defaultVersion = config.themeConfig.versions[config.themeConfig.defaultVersion];
 

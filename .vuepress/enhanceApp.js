@@ -1,4 +1,4 @@
-const config = require('./config.js');
+opconst config = require('./config.js');
 
 const defaultVersion = config.themeConfig.versions[config.themeConfig.defaultVersion];
 
@@ -16,6 +16,7 @@ export default ({ router, Vue }) => {
 		{ path: '/about', redirect: 'about.html' },
 		{ path: '/software', redirect: 'software.html' },
 		{ path: '/contact', redirect: 'contact.html' },
-		{ path: '/glossary', redirect: defaultVersion.path + 'glossary.html' }
+		{ path: '/glossary', redirect: defaultVersion.path + 'glossary.html' },
+		{ path: '/documentation/1.0/developers/backends/opendatacube.html', redirect: '/documentation/1.0/developers/backends/xarray.html' }
 	]);
 }

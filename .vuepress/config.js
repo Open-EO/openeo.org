@@ -36,7 +36,7 @@ const versions = [
       {text: 'Service Providers', items: [
           {text: 'Getting Started', link: 'developers/backends/getting-started.html'},
           {text: 'Performance Guide', link: 'developers/backends/performance.html'},
-          {text: 'Open Data Cube', link: 'developers/backends/opendatacube.html'},
+          {text: 'Xarray', link: 'developers/backends/xarray.html'},
           {text: 'Profiles', link: 'developers/profiles/index.html'}
       ]},
       {text: 'Client Developers', items: [

@@ -30,6 +30,7 @@ Data and infrastructure providers can host their own instance of the openEO API:
 * [Sentinel Hub](https://github.com/Open-EO/openeo-sentinelhub-python-driver) (by Sinergise)
 * [WCPS (rasdaman)](https://github.com/Open-EO/openeo-wcps-driver) (by EURAC)
 * [R back-end](https://github.com/Open-EO/openeo-r-backend) (by WWU) - discontinued until further notice (last version: 0.3)
+* [TensorLakeHouse](https://github.com/IBM/tensorlakehouse-openeo-driver) (by IBM Research)
 
 See the <a :href="$site.themeConfig.docPath + 'developers/backends/getting-started.html'">**getting started guide for back-end providers**</a> for more information.
 

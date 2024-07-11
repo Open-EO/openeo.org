@@ -27,6 +27,14 @@ A vector datacube on the other hand could look like this:
 A raster datacube has at least two spatial dimensions (usually named `x` and `y`) and a vector datacube has at least one geometry dimension (usually named `geometry`).
 The purpose of these distinctions is simply to make it easier to describe "special" cases of datacubes, but you can also define other types such as a temporal datacube that has at least one temporal dimension (usually named `t`).
 
+The following additional information are usually available for datacubes:
+
+- the dimensions (see [below](#dimensions))
+- a sampling method (see [below](#values-in-a-datacube))
+- a unit for the values
+
+All these information are usually provided through the datacube metadata.
+
 ## Dimensions
 
 A dimension refers to a certain axis of a datacube. This includes all variables (e.g. bands), which are represented as dimensions. Our exemplary raster datacube has the spatial dimensions `x` and `y`, and the temporal dimension `t`. Furthermore, it has a `bands` dimension, extending into the realm of _what kind of information_ is contained in the cube.
@@ -39,8 +47,10 @@ The following properties are usually available for dimensions:
 * labels (usually exposed through textual or numerical representations, in the metadata as nominal values and/or extents)
 * reference system / projection
 * resolution / step size
-* unit (either explicitly specified or implicitly given by the reference system)
+* unit for the labels (either explicitly specified or implicitly provided by the reference system)
 * additional information specific to the dimension type (e.g. the geometry types for a dimension containing geometries)
+
+All these information are usually provided through the datacube metadata.
 
 Here is an overview of the dimensions contained in our example raster datacube above:
 
@@ -66,12 +76,6 @@ A dimension with geometries can consist of points, linestrings, polygons, multi 
 It is not possible to mix geometry types, but the single geometry type with their corresponding multi type can be combined in a dimension (e.g. points and multi points).
 Empty geometries (such as GeoJSON features with a `null` geometry or GeoJSON geometries with an empty coordinates array) are allowed and can sometimes also be the result of certain vector operations such as a negative buffer.
 
-openEO datacubes contain scalar values (e.g. strings, numbers or boolean values), with all other associated attributes stored in dimensions (e.g. coordinates or timestamps). Attributes such as the CRS or the sensor can also be turned into dimensions. Be advised that in such a case, the uniqueness of pixel coordinates may be affected. When usually, `(x, y)` refers to a unique location, that changes to `(x, y, CRS)` when `(x, y)` values are reused in other coordinate reference systems (e.g. two neighboring UTM zones).
-
-::: tip Be Careful with Data Types
-As stated above, datacubes only contain scalar values. However, implementations may differ in their ability to handle or convert them. Implementations may also not allow mixing data types in a datacube. For example, returning a boolean value for a reducer on a numerical datacube may result in an error on some back-ends. The recommendation is to not change the data type of values in a datacube unless the back-end supports it explicitly.
-:::
-
 ### Applying Processes on Dimensions
 
 Some processes are typically applied "along a dimension". You can imagine said dimension as an arrow and whatever is happening as a parallel process to that arrow. It simply means: "we focus on _this_ dimension right now".
@@ -87,6 +91,19 @@ In the example above, _x_ and _y_ dimension values have a _unique_ relationship 
 Resampling is however costly, involves (some) data loss, and is in general not reversible. Suppose that we want to work only on the spectral and temporal dimensions of a data cube, and do not want to do any resampling. In that case, one could create one data cube for each coordinate reference system. An alternative would be to create one _single_ data cube containing all tiles that has an _additional dimension_ with the coordinate reference system. In that data cube, _x_ and _y_ no longer point to a unique world coordinate, because identical _x_ and _y_ coordinate pairs occur in each UTM zone. Now, only the combination (_x_, _y_, _crs_) has a unique relationship to the world coordinates.
 
 On such a _crs-dimensioned data cube_, several operations make perfect sense, such as `apply` or `reduce_dimension` on spectral and/or temporal dimensions. A simple reduction over the `crs` dimension, using _sum_ or _mean_ would typically not make sense. The "reduction" (removal) of the `crs` dimension that is meaningful involves the resampling/warping of all sub-cubes for the `crs` dimension to a single, common target coordinate reference system.
+
+## Values in a datacube
+
+openEO datacubes contain scalar values (e.g. strings, numbers or boolean values), with all other associated attributes stored in dimensions (e.g. coordinates or timestamps). Attributes such as the CRS or the sensor can also be turned into dimensions. Be advised that in such a case, the uniqueness of pixel coordinates may be affected. When usually, `(x, y)` refers to a unique location, that changes to `(x, y, CRS)` when `(x, y)` values are reused in other coordinate reference systems (e.g. two neighboring UTM zones).
+
+::: tip Be Careful with Data Types
+As stated above, datacubes only contain scalar values. However, implementations may differ in their ability to handle or convert them. Implementations may also not allow mixing data types in a datacube. For example, returning a boolean value for a reducer on a numerical datacube may result in an error on some back-ends. The recommendation is to not change the data type of values in a datacube unless the back-end supports it explicitly.
+:::
+
+Data cube values can be sampled in two different ways. The values are either area or point samples.
+
+- Area sampling aggregates measurements over defined regions, i.e. the grid cells for raster data or polygons/lines for vector data.
+- Point sampling collects data at specific locations, providing detailed information for specific points.
 
 ## Processes on Datacubes
 

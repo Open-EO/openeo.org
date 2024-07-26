@@ -8,8 +8,10 @@
         :href="editLink"
         target="_blank"
         rel="noopener noreferrer"
-      >{{ editLinkText }}</a>
-      <OutboundLink />
+      >
+        {{ editLinkText }}
+        <OutboundLink />
+      </a>
     </div>
 
     <div
@@ -19,6 +21,21 @@
       <span class="prefix">{{ lastUpdatedText }}:</span>
       <span class="time">{{ lastUpdated }}</span>
     </div>
+
+    <div
+      class="license"
+    >
+      This documentation is licensed under the
+      <a
+        href="https://github.com/Open-EO/openeo.org/blob/master/LICENSE"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Apache License, Version 2.0
+        <OutboundLink />
+      </a>
+    </div>
+
   </footer>
 </template>
 
@@ -115,15 +132,15 @@ export default {
   padding-top 1rem
   padding-bottom 1rem
   overflow auto
+  font-size 0.9em
 
   .edit-link
     display inline-block
+    margin-right 1rem
     a
       color lighten($textColor, 25%)
-      margin-right 0.25rem
   .last-updated
-    float right
-    font-size 0.9em
+    display inline-block
     .prefix
       font-weight 500
       color lighten($textColor, 25%)
@@ -133,11 +150,10 @@ export default {
 
 @media (max-width: $MQMobile)
   .page-edit
+    font-size 0.8em
     .edit-link
       margin-bottom 0.5rem
     .last-updated
-      font-size 0.8em
-      float none
       text-align left
 
 </style>

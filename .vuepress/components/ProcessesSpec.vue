@@ -1,5 +1,5 @@
 <template>
-	<DocGen :document="documentUrl" :apiVersion="version.apiTag" :notice="notice" />
+	<DocGen :document="documentUrl" :apiVersion="version.apiTag" :notice="notice" showExperimentalByDefault />
 </template>
 
 <script>
@@ -25,3 +25,9 @@ export default {
 	}
 };
 </script>
+
+<style>
+.docgen section.action-bar {
+	display: none !important;
+}
+</style>

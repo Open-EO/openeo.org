@@ -148,6 +148,9 @@ export default {
       font-weight 400
       color #aaa
 
+  .license
+    margin-top 0.5em
+
 @media (max-width: $MQMobile)
   .page-edit
     font-size 0.8em

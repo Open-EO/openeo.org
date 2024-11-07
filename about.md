@@ -45,4 +45,4 @@ The task of the openEO project is to design, develop, and evaluate an API for cl
 
 * The [project proposal](https://zenodo.org/record/1065474)
 * A jointly written [blog entry that motivated the openEO proposal](http://r-spatial.org/2016/11/29/openeo.html)
-* openEO publications indexed by [OpenAIRE](https://www.openaire.eu/search/project?projectId=corda__h2020::40125fb230a91b0fb0b156b12cd90682) and [ResearchGate](https://www.researchgate.net/search.Search.html?type=project&query=openeo)
+* openEO publications indexed by [OpenAIRE](https://explore.openaire.eu/search/advanced/research-outcomes?f0=relprojectid&fv0=corda__h2020%253A%253A40125fb230a91b0fb0b156b12cd90682) and [ResearchGate](https://www.researchgate.net/search.Search.html?type=project&query=openeo)

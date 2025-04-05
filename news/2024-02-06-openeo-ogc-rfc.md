@@ -1,6 +1,6 @@
 ---
 news:   true
-title:  OGC seeks public comment on the adoption of openEO as a Community Standard
+title:  OGC seeks public comment on the adoption of openEO as a Community Standard (phase 1)
 date:   2024-02-06
 author: Matthias Mohr
 ---

@@ -20,7 +20,7 @@ If you'd like to get an invite for your calender, please send an e-mail to [open
 
 | Date / Time (CET/CEST) | Topic | Presented by | Moderator |
 | ---------------------- | ----- | ------------ | --------- |
-| Aug 6, 2025 @ 14:00    | *None*                                | - | MM |
+| Aug 6, 2025 @ 14:00    | openEO Processes - open issues        | Matthias Mohr, moreGeo | MM |
 | September              | Run EO Application Packages in openEO | Juraj Zvolensky, EURAC | AJ |
 | October                | ML in openEO - Status quo             | Brian Pondi, WWU | AJ |
 | November               | openEO processes & API - Status quo   | Matthias Mohr, moreGeo | MM |

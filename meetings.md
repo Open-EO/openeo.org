@@ -10,7 +10,7 @@ We start with specific topics (see table below), often in the form of a presenta
 and haven an open forum for discussions, questions and other topics afterwards.
 
 - **Date:** every first Wednesday of a month at 14:00 CET/CEST
-- **Meeting venue:** [Zoom](https://wwu.zoom.us/j/66698432546?pwd=YVVhbGFLY3RBaWlMcGhza3lPSWQ2dz09)**
+- **Meeting venue:** [Zoom](https://wwu.zoom.us/j/66698432546?pwd=YVVhbGFLY3RBaWlMcGhza3lPSWQ2dz09)
 
 *Note: There's currently a poll running for changing the date and time of the meeting, so dates and times may change starting from September.*
 

@@ -7,6 +7,8 @@ author: Matthias Mohr, Caro Niebl
 
 We’re excited to announce the availability of a **new and fully rewritten openEO QGIS plugin**, now ready for broader testing by the community.
 
+![QGIS plugin overview in QGIS with GeoTiff visualization](../documentation/1.0/qgis/images/qgis-plugin.jpg)
+
 This release represents a major step forward in usability, stability, and feature coverage. The plugin has been redesigned from the ground up and is now **fully integrated into the QGIS Browser**, providing a seamless and intuitive way to access openEO backends and resources directly from QGIS.
 
 - **QGIS plugin repository:**  
@@ -52,8 +54,6 @@ The rewritten plugin introduces a wide range of new features and improvements:
 
 - **Easy data download**
   - Download assets **all at once** or **individually**
-
----
 
 ## Call for Testing & Feedback
 

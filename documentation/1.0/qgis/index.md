@@ -2,9 +2,11 @@
 
 The openEO QGIS plugin enables exploring openEO backends including batch jobs, collections, and web services within QGIS. The plugin can load the results of a job execution or web service to the QGIS map, so that the user can make further analyses and visualisation steps. Furthermore the plugin allows for display of collections, provided they are served as XYZ or WMTS tile map services.
 
+![QGIS plugin overview in QGIS with GeoTiff visualization](./images/qgis-plugin.jpg)
+
 ## Installation
- 
-For installation, the **latest stable version** is accessible in the plugin 
+
+For installation, the **latest stable version** is accessible in the plugin
 manager of QGIS (`"Plugins"` -> `"Manage and Install Plugins"`). You can search for "OpenEO" in the plugin manager, then install and activate the plugin.
 
 This tutorial shows the capabilities of version 2.0. Make sure you have installed at least that version.

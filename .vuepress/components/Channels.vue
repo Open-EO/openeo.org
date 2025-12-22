@@ -14,7 +14,7 @@
       <li><a v-if="pypi" href="https://pypi.org/project/openeo/" target="_blank" class="pypi"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/pypi.svg" alt="PyPI" title="PyPI" /> PyPI / Python</a></li>
       <li><a v-if="conda" href="https://anaconda.org/conda-forge/openeo" target="_blank" class="conda"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/anaconda.svg" alt="Conda Forge" title="Conda Forge" /> Conda Forge / Python</a></li>
       <li><a v-if="julia" href="https://github.com/Open-EO/openeo-julia-client" target="_blank" class="julia"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/julia.svg" alt="Julia" title="Julia" /> Julia</a></li>
-      <li><a v-if="qgis" href="https://plugins.qgis.org/plugins/openeo-qgis-plugin-master/" target="_blank" class="qgis"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/qgis.svg" alt="QGIS" title="QGIS" /> QGIS</a></li>
+      <li><a v-if="qgis" href="https://plugins.qgis.org/plugins/openeo_plugin/" target="_blank" class="qgis"><img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/qgis.svg" alt="QGIS" title="QGIS" /> QGIS</a></li>
     </ul>
   </div>
 </template>

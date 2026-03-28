@@ -21,9 +21,9 @@ If you'd like to get an invite for your calender, please send an e-mail to [open
 | Date              | Topic                                 | Presented by                      | Moderator |
 | ----------------- | ------------------------------------- | --------------------------------- | --------- |
 | 7. January 2026   | Processes & API - Status quo and DGGS | Matthias Mohr, moreGeo            | MM        |
-| 4. February 2026  | The new openEO QGIS plugin            | Caro Niebl, moreGeo               | tbd       |
+| 4. February 2026  | The new openEO QGIS plugin            | Caro Niebl, moreGeo               | CN        |
 | 4. March 2026     | openEO Studio                         | Emmanuel Mathot, Development Seed | MM        |
-| 1. April 2026     | tbd                                   | tbd                               | MM        |
+| 1. April 2026     | *Open Discussion Forum*               | -                                 | CN        |
 | 6. May 2026       | tbd                                   | tbd                               | MM        |
 | 3. June 2026      | tbd                                   | tbd                               | MM        |
 | 1. July 2026      | tbd                                   | tbd                               | MM        |

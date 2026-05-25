@@ -346,7 +346,7 @@ async function example() {
   // Connect to the back-end
   var con = await OpenEO.connect("https://earthengine.openeo.org");
   // Authenticate ourselves via Basic authentication
-  await con.authenticateBasic("group11", "test123");
+  await con.authenticateBasic("demo", "test123");
   // Create a process builder
   var builder = await con.buildProcess();
   // We are now loading the Sentinel-1 data over the Area of Interest

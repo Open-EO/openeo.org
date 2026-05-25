@@ -330,7 +330,7 @@ import openeo
 
 # First, we connect to the back-end and authenticate ourselves via Basic authentication. 
 con = openeo.connect("https://earthengine.openeo.org")
-con.authenticate_basic("group11", "test123")
+con.authenticate_basic("demo", "test123")
 
 # Now that we are connected, we can initialize our datacube object with the area around Vienna 
 # and the time range of interest using Sentinel 1 data.

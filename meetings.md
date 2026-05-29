@@ -24,8 +24,8 @@ If you'd like to get an invite for your calender, please send an e-mail to [open
 | 4. February 2026  | The new openEO QGIS plugin            | Caro Niebl, moreGeo               | CN        |
 | 4. March 2026     | openEO Studio                         | Emmanuel Mathot, Development Seed | MM        |
 | 1. April 2026     | *Open Discussion Forum*               | -                                 | CN        |
-| 6. May 2026       | *Open Discussion Forum*               | -                                 | MM        |
-| 3. June 2026      | tbd                                   | tbd                               | MM        |
+| 6. May 2026       | *Open Discussion Forum*               | Michele Claus                     | MM        |
+| 3. June 2026      | Maintaining openEO Processes Dask     | tbd                               | MM        |
 | 1. July 2026      | tbd                                   | tbd                               | MM        |
 | 5. August 2026    | **No meeting - summer break!**        | -                                 | -         |
 | 2. September 2026 | tbd                                   | tbd                               | tbd       |

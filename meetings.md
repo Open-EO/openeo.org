@@ -28,7 +28,7 @@ If you'd like to get an invite for your calender, please send an e-mail to [open
 | 5. August 2026    | **No meeting - summer break!**        | -                                 | -    |
 | 2. September 2026 | tbd                                   | tbd                               | tbd  |
 | 7. October 2026   | tbd                                   | tbd                               | tbd  |
-| 4. November 2026  | tbd                                   | tbd                               | tbd  |
+| 4. November 2026  | DGGS in openEO                        | Matthias Mohr, moreGeo            | MM   |
 | 2. December 2026  | tbd                                   | tbd                               | MM   |
 
 If you are interested to give a talk or lead a discussion, please send an e-mail to [openeo.psc@uni-muenster.de](mailto:openeo.psc@uni-muenster.de).

@@ -35,10 +35,28 @@ In openEO, a back-end offers a set of collections to be processed. All collectio
 
 A spatiotemporal datacube is a multidimensional array with one or more spatial or temporal dimensions.
 In the EO domain, it is common to be implicit about the temporal dimension and just refer to them as spatial datacubes in short.
-Special cases are raster and [vector datacubes](https://r-spatial.org/r/2022/09/12/vdc.html).
-Learn more about datacubes in the [datacube documentation](https://openeo.org/documentation/1.0/datacubes.html).
+Special cases are raster, [vector](https://r-spatial.org/r/2022/09/12/vdc.html), and DGGS-based datacubes.
+Learn more about datacubes and their spatial partitioning strategies in the [datacube documentation](https://openeo.org/documentation/1.0/datacubes.html).
 
-## Vector data
+### Rasters
+
+**Raster data** is a spatial model based on a regular grid of equally-sized cells (called **pixels**) arranged in rows and columns. Each pixel represents a small area of the Earth's surface and contains one or more values representing observations or measurements for that area (e.g., reflectance, temperature, elevation). All pixels in a raster share the same size and spatial resolution.
+
+A **pixel** is the smallest unit of a raster, representing a discrete cell in the grid. Each pixel is associated with a specific location on Earth through a **coordinate reference system** (CRS), which defines how x/y coordinates map to real-world locations (e.g., latitude/longitude or UTM coordinates). The **resolution** specifies the real-world size of each pixel.
+
+### Discrete Global Grids
+
+A **Discrete Global Grid System (DGGS)** is a spatial partitioning system that divides the Earth's surface into a hierarchical set of discrete, equal-area grid cells called **zones**. Unlike rasters, DGGS systems have no single global coordinate reference system—instead, each zone is identified by a unique **zone identifier** (a string label like `C1A` or `C1B-1`).
+
+A **zone** is a discrete cell in a DGGS grid. Each zone represents a specific area of the Earth's surface and is identified by a unique zone ID. Zones are hierarchically organized into multiple levels, allowing multi-resolution representation: coarser levels have fewer, larger zones, while finer levels have more, smaller zones.
+
+A **zone identifier** is a string label that uniquely identifies a zone within a DGGS. Examples include `C1A`, `C1B`, or `C2A-1` for HEALPix DGGS. Zone IDs encode both location and hierarchy, making it easy to determine parent/child relationships between zones at different refinement levels.
+
+A **DGGRS (Discrete Global Grid Reference System)** specifies which DGGS standard and parameters are used, e.g. [HEALPix](https://healpix.sourceforge.io/).
+
+A **refinement level** (or **resolution**) is a hierarchical level in a DGGS that determines the size and number of zones. Level 0 is the coarsest (fewest, largest zones), and higher levels are progressively finer. Each zone at a coarser level contains multiple zones at finer levels.
+
+### Vectors
 
 In general, **vector data** represent specific things (also called "features") in a space, e.g. on the surface of the Earth.
 
@@ -50,6 +68,7 @@ In rare cases features may not have a geometry, which is often referred to as an
 **Geometries** consist of one or more coordinates that may be connected and then form a specific type of geometry, e.g. two points can be connected to a straight line and four straight lines can be connected to rectangle.
 
 Commonly used types of geometries are:
+
 - Point
 - LineString (connected straight line pieces)
 - Polygon (connected straight line pieces forming a closed ring, possibly with holes - for example a triangle or rectangle)

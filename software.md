@@ -40,7 +40,7 @@ To start developing a new back-end driver, you may start with any of the common 
 * [Python API Commons](https://github.com/Open-EO/openeo-python-driver)
 * [Python Process Graph Parser](https://github.com/Open-EO/openeo-pg-parser-python)
 * [JavaScript Process Graph Parser](https://github.com/Open-EO/openeo-js-processgraphs)
-* [Python Processes](https://github.com/Open-EO/openeo-processes-python) - many openEO processes implemented in Python
+* [Python Processes](https://github.com/Open-EO/openeo-processes-dask) - many openEO processes implemented in Python
 
 Our approach to tackle language-agnostic user-defined functions can be found in the following repositories:
 
@@ -54,7 +54,7 @@ The process definitions are available in the **[openEO processes repository](htt
 
 ## Ecosystem
 
-* [Back-end validator](https://github.com/Open-EO/openeo-backend-validator) - Validation for back-end implementations. [Image-based validation of EO processing results](https://github.com/Open-EO/openeo-result-validation-engine) is also worked on.
+* [Common Test Suite](https://github.com/Open-EO/openeo-test-suite) - Validation for back-end implementations.
 * [openEO Hub](https://hub.openeo.org) ([GitHub](https://github.com/Open-EO/openeo-hub)) - The central platform for openEO services.
 * [Processes DocGen](https://github.com/Open-EO/openeo-processes-docgen) - A tool to generate a visual interface for openEO process definitions.
 * [Vue.js Components](https://github.com/Open-EO/openeo-vue-components) - Common Vue.js 2 components for openEO

@@ -26,8 +26,8 @@ If you'd like to get an invite for your calender, please send an e-mail to [open
 | 3. June 2026      | Maintaining openEO Processes Dask     | Michele Claus, EURAC              | MM   |
 | 1. July 2026      | Documentation updates / DGGS          | Hans Vanrompay, VITO / Matthias Mohr, moreGeo | MM   |
 | 5. August 2026    | **No meeting - summer break!**        | -                                 | -    |
-| 1. July 2026      | tbd                                   | tbd                               | tbd  |
-| 7. October 2026   | Documentation updates (tbc)           | Pratichhya Sharma, VITO           | PS   |
+| 1. September 2026 | MCP for openEO                        | Victor Verhaert, VITO             | HV/JD |
+| 7. October 2026   | Documentation updates                 | Pratichhya Sharma, VITO           | PS   |
 | 4. November 2026  | DGGS in openEO                        | Matthias Mohr, moreGeo            | MM   |
 | 2. December 2026  | tbd                                   | tbd                               | MM   |
 

@@ -29,7 +29,7 @@ If you'd like to get an invite for your calender, please send an e-mail to [open
 | 1. September 2026 | MCP for openEO                        | Victor Verhaert, VITO             | HV/JD |
 | 7. October 2026   | DGGS in openEO                        | Matthias Mohr, moreGeo            | MM   |
 | 4. November 2026  | tbd                                   | tbd                               | MM   |
-| 2. December 2026  | tbd                                   | tbd                               | MM   |
+| 2. December 2026  | ML for embeddings / openEO Slurm      | Jonas Hurst & Peter Zellner       | MM   |
 | 5. January 2027   | Documentation updates                 | Pratichhya Sharma, VITO           | MM   |
 
 If you are interested to give a talk or lead a discussion, please send an e-mail to [openeo.psc@uni-muenster.de](mailto:openeo.psc@uni-muenster.de).

@@ -1,0 +1,138 @@
+:root {
+  --vp-c-brand-1: #267CB9;
+  --vp-c-brand-2: #1E6496;
+  --vp-c-brand-3: #267CB9;
+  --vp-c-brand-soft: rgba(38, 124, 185, 0.14);
+}
+
+/* The nav items don't fit next to each other on smaller screens */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .VPNavBar .content-body .VPNavBarMenu {
+    display: none;
+  }
+
+  .VPNavBar .content-body .VPNavBarHamburger {
+    display: flex;
+  }
+
+  .Layout .VPNav .VPNavScreen {
+    display: block;
+  }
+}
+
+.vp-doc a {
+  text-decoration: none;
+}
+
+/* Links in custom blocks have the text color, so they need to be underlined */
+.vp-doc .custom-block a {
+  text-decoration: underline;
+}
+
+.vp-doc a:hover {
+  color: #8A684F;
+}
+
+/* Figures use the free space next to the text column, keeping 32px to the window border */
+.vp-doc figure {
+  --figure-left: 0px;
+  --figure-right: 0px;
+  margin: 16px calc(-1 * var(--figure-right)) 16px calc(-1 * var(--figure-left));
+  text-align: center;
+}
+
+@media (min-width: 960px) {
+  .vp-doc figure {
+    --figure-left: clamp(0px, calc(50vw - 376px), 200px);
+    --figure-right: var(--figure-left);
+  }
+}
+
+/* With the outline on the right, figures can only grow to the left */
+@media (min-width: 1280px) {
+  .VPDoc.has-aside .vp-doc figure {
+    --figure-left: clamp(0px, calc(50vw - 496px), 400px);
+    --figure-right: 0px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .VPDoc.has-aside .vp-doc figure {
+    --figure-left: clamp(0px, calc(50vw - 504px), 400px);
+  }
+}
+
+.vp-doc figure img {
+  margin: 0 auto;
+  cursor: zoom-in;
+}
+
+.vp-doc figcaption {
+  position: relative;
+  left: calc((var(--figure-left) - var(--figure-right)) / 2);
+  width: fit-content;
+  max-width: calc(100% - var(--figure-left) - var(--figure-right));
+  margin: 0 auto;
+  font-style: italic;
+  text-align: left;
+}
+
+.medium-zoom-overlay,
+.medium-zoom-image--opened {
+  z-index: 100;
+}
+
+.vp-doc figcaption::before {
+  content: 'Figure: ';
+  font-weight: bold;
+}
+
+/* News */
+
+.news-header h1 {
+  margin-bottom: 8px;
+}
+
+.news-meta {
+  margin-bottom: 32px;
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+}
+
+.news .posts {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/* Home page */
+
+.VPHome .home-note {
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+}
+
+.VPHome .home-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.VPHome .home-column {
+  padding: 0 24px 16px;
+  border: 1px solid var(--vp-c-bg-soft);
+  border-radius: 12px;
+  background-color: var(--vp-c-bg-soft);
+}
+
+.VPHome .home-column h2 {
+  margin-top: 24px;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 20px;
+}
+
+@media (max-width: 767px) {
+  .VPHome .home-columns {
+    grid-template-columns: 1fr;
+  }
+}

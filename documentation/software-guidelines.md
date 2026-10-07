@@ -46,4 +46,4 @@ Repositories containing running software shall use an appropriate continuous int
 
 ## Additional guidelines
 
-There is specific guideline for <a :href="$site.themeConfig.docPath + 'developers/clients/library-guidelines.html'">client library development</a>.
+There is specific guideline for [client library development](/documentation/1.0/developers/clients/library-guidelines.md).

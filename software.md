@@ -14,8 +14,8 @@ Software that allows remote sensers and other users to access the openEO back-en
 | R library                     | CRAN: [openeo](https://cran.r-project.org/package=openeo)    | [openeo-r-client](https://github.com/Open-EO/openeo-r-client) |
 | Web Editor                    | [Hosted Version](https://editor.openeo.org)                  | [openeo-web-editor](https://github.com/Open-EO/openeo-web-editor) |
 
-See the <a :href="$site.themeConfig.docPath + 'getting-started.html'">**getting started guide for users**</a> for more information.
-Users considering to implement a new client library should read the <a :href="$site.themeConfig.docPath + 'developers/clients/getting-started.html'">**getting started guide for client developers**</a>.
+See the [**getting started guide for users**](/documentation/1.0/) for more information.
+Users considering to implement a new client library should read the [**getting started guide for client developers**](/documentation/1.0/developers/clients/getting-started.md).
 
 ## Back-ends
 
@@ -32,7 +32,7 @@ Data and infrastructure providers can host their own instance of the openEO API:
 * [R back-end](https://github.com/Open-EO/openeo-r-backend) (by WWU) - discontinued until further notice (last version: 0.3)
 * [TensorLakeHouse](https://github.com/IBM/tensorlakehouse-openeo-driver) (by IBM Research)
 
-See the <a :href="$site.themeConfig.docPath + 'developers/backends/getting-started.html'">**getting started guide for back-end providers**</a> for more information.
+See the [**getting started guide for back-end providers**](/documentation/1.0/developers/backends/getting-started.md) for more information.
 
 To start developing a new back-end driver, you may start with any of the common functionalities implemented in several programming languages:
 

@@ -1,26 +1,33 @@
 <template>
-  <component
-    v-if="versioned"
-    :is="floating ? 'details' : 'div'"
-    class="version-chooser"
-    :class="{ floating, inline }"
-  >
-    <component :is="floating ? 'summary' : 'p'" class="title">Version: {{ version.title }}</component>
-    <p>
-      <span class="label">Applicable API versions:</span>&#32;<em v-if="unreleased">Unreleased</em><template v-else>{{ version.apiVersions.join(', ') }}</template>
+  <div v-if="versioned" class="version-chooser" :class="{ floating, inline }">
+    <component :is="floating ? 'details' : 'div'">
+      <component :is="floating ? 'summary' : 'p'" class="title">Version: {{ version.title }}</component>
+      <p>
+        <span class="label">Applicable API versions:</span>&#32;<em v-if="unreleased">Unreleased</em><template v-else>{{ version.apiVersions.join(', ') }}</template>
+      </p>
+      <p>
+        <span class="label">Applicable processes versions:</span>&#32;{{ processesVersions.join(', ') }}
+      </p>
+      <p>
+        <span class="label">Other page versions:</span>&#32;<template v-if="otherVersions.length">
+          <template v-for="(v, i) in otherVersions" :key="v.link"><template v-if="i">, </template><a :href="withBase(v.link)">{{ v.title }}</a></template>
+        </template>
+        <em v-else>Not available</em>
+      </p>
+    </component>
+    <p v-if="processesSelect && processesVersions.length > 1" class="processes-select">
+      <label>
+        <span class="label">Processes version:</span>&#32;<select :value="processesVersion" @change="selectProcessesVersion($event.target.value)">
+          <option v-for="v in processesVersions" :key="v" :value="v">{{ v }}</option>
+        </select>
+      </label>
     </p>
-    <p>
-      <span class="label">Other page versions:</span>&#32;<template v-if="otherVersions.length">
-        <template v-for="(v, i) in otherVersions" :key="v.link"><template v-if="i">, </template><a :href="withBase(v.link)">{{ v.title }}</a></template>
-      </template>
-      <em v-else>Not available</em>
-    </p>
-  </component>
+  </div>
 </template>
 
 <script setup>
 import { withBase } from 'vitepress';
-import { useVersioning } from '../versioning.js';
+import { useProcessesVersioning, useVersioning } from '../versioning.js';
 
 defineProps({
   floating: {
@@ -30,10 +37,15 @@ defineProps({
   inline: {
     type: Boolean,
     default: false
+  },
+  processesSelect: {
+    type: Boolean,
+    default: false
   }
 });
 
 const { versioned, version, unreleased, otherVersions } = useVersioning();
+const { processesVersions, processesVersion, selectProcessesVersion } = useProcessesVersioning();
 </script>
 
 <style>
@@ -99,8 +111,21 @@ const { versioned, version, unreleased, otherVersions } = useVersioning();
   box-shadow: var(--vp-shadow-2);
 }
 
-.version-chooser.floating[open] {
+.version-chooser.floating details[open] {
   padding-bottom: 8px;
+}
+
+.version-chooser.floating .processes-select {
+  padding-bottom: 6px;
+}
+
+.version-chooser select {
+  padding: 0 4px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 4px;
+  background-color: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  cursor: pointer;
 }
 
 .version-chooser.floating summary {

@@ -1,8 +1,12 @@
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useData, useRoute } from 'vitepress';
 import { data as pages } from './pages.data.js';
 
 const versionPathRE = /\/documentation\/([^/]+)\//;
+const processesQueryParam = 'version';
+
+// Requested processes version, shared by all components
+const requestedProcessesVersion = ref(null);
 
 export function useVersioning() {
   const { theme } = useData();
@@ -30,4 +34,33 @@ export function useVersioning() {
   });
 
   return { versions, versioned, version, unreleased, otherVersions };
+}
+
+export function useProcessesVersioning() {
+  const { version } = useVersioning();
+
+  const processesVersions = computed(() => version.value.processesVersions || [version.value.processesTag]);
+
+  const processesVersion = computed(() => {
+    const requested = requestedProcessesVersion.value;
+    return processesVersions.value.includes(requested) ? requested : version.value.processesTag;
+  });
+
+  function readProcessesVersion() {
+    requestedProcessesVersion.value = new URLSearchParams(window.location.search).get(processesQueryParam);
+  }
+
+  function selectProcessesVersion(processesTag) {
+    requestedProcessesVersion.value = processesTag;
+    const url = new URL(window.location.href);
+    if (processesTag === version.value.processesTag) {
+      url.searchParams.delete(processesQueryParam);
+    }
+    else {
+      url.searchParams.set(processesQueryParam, processesTag);
+    }
+    window.history.replaceState(window.history.state, '', url);
+  }
+
+  return { processesVersions, processesVersion, readProcessesVersion, selectProcessesVersion };
 }

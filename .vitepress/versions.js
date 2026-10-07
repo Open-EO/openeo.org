@@ -1,18 +1,16 @@
+import { execFileSync } from 'node:child_process';
+import fs from 'node:fs';
+import semver from 'semver';
+
 export const defaultVersion = 0;
 export const versions = [
   {
     folder: '1.0',
     path: '/documentation/1.0/',
     title: '1.x',
-    apiTag: '1.3.0', // Don't forget to update the submodules in public/documentation/...
-    processesTag: '1.2.0',
-    apiVersions: [
-      '1.0.0',
-      '1.0.1',
-      '1.1.0',
-      '1.2.0',
-      '1.3.0'
-    ],
+    // The applicable versions are read from the tags of the openeo-api and openeo-processes repositories
+    apiRange: '1.x',
+    processesRange: '>=1.0.0',
     userNav: [
       {text: 'Introduction', link: 'index.html'},
       {text: 'Glossary', link: 'glossary.html'},
@@ -61,14 +59,9 @@ export const versions = [
     folder: '0.4',
     path: '/documentation/0.4/',
     title: '0.4',
-    apiTag: '0.4.2',
     apiFormat: 'json',
-    processesTag: '0.4.2',
-    apiVersions: [
-      '0.4.0',
-      '0.4.1',
-      '0.4.2'
-    ],
+    apiRange: '0.4.x',
+    processesRange: '0.4.2', // 0.4.0 and 0.4.1 are broken on processes.openeo.org
     userNav: [
       {text: 'Getting Started', link: 'getting-started.html'},
       {text: 'Glossary', link: 'glossary.html'},
@@ -97,3 +90,44 @@ export const versions = [
     ]
   }
 ];
+
+function getTags(repo) {
+  const output = execFileSync('git', ['ls-remote', '--tags', '--refs', `https://github.com/Open-EO/${repo}.git`], { encoding: 'utf-8' });
+  return output.split('\n')
+    .map(line => line.split('refs/tags/')[1])
+    .filter(tag => semver.valid(tag));
+}
+
+// All releases in the range, plus pre-releases that are newer than the latest release
+function selectVersions(tags, range) {
+  const matching = tags
+    .filter(tag => semver.satisfies(tag, range, { includePrerelease: true }))
+    .sort(semver.compare);
+  const latestRelease = matching.filter(tag => !semver.prerelease(tag)).at(-1);
+  return matching.filter(tag => !semver.prerelease(tag) || !latestRelease || semver.gt(tag, latestRelease));
+}
+
+function readApiVersion(version) {
+  const format = version.apiFormat || 'yaml';
+  const file = new URL(`../public/documentation/${version.folder}/developers/api/openapi.${format}`, import.meta.url);
+  if (!fs.existsSync(file)) {
+    throw new Error(`API specification for ${version.folder} not found, run: git submodule update --init --recursive`);
+  }
+  const content = fs.readFileSync(file, 'utf-8');
+  if (format === 'json') {
+    return JSON.parse(content).info.version;
+  }
+  return content.match(/^info:\s*\n(?:[ \t]+.*\n)*?[ \t]+version:\s*['"]?([^'"\s]+)/m)[1];
+}
+
+const apiTags = getTags('openeo-api');
+const processesTags = getTags('openeo-processes');
+for (const version of versions) {
+  version.apiTag = readApiVersion(version);
+  version.apiVersions = selectVersions(apiTags, version.apiRange);
+  version.processesVersions = selectVersions(processesTags, version.processesRange);
+  version.processesTag = version.processesVersions.filter(tag => !semver.prerelease(tag)).at(-1) || version.processesVersions.at(-1);
+  if (!version.processesTag) {
+    throw new Error(`No processes version found for ${version.folder} in range ${version.processesRange}`);
+  }
+}

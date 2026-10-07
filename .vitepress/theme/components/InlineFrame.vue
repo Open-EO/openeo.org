@@ -3,17 +3,21 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
-const props = defineProps(['url', 'version']);
-const frameUrl = ref(null);
+const props = defineProps(['url', 'version', 'processesVersion']);
+const hash = ref(null);
+
+const frameUrl = computed(() => {
+	if (hash.value === null) {
+		return null;
+	}
+	const url = props.url.replace('{apiTag}', props.version.apiTag).replace('{processesTag}', props.processesVersion);
+	return url + hash.value;
+});
 
 onMounted(() => {
-	let url = props.url.replace('{apiTag}', props.version.apiTag).replace('{processesTag}', props.version.processesTag);
-	if (window.location.hash) {
-		url += window.location.hash;
-	}
-	frameUrl.value = url;
+	hash.value = window.location.hash;
 });
 </script>
 

@@ -42,13 +42,13 @@ A dimension refers to a certain axis of a datacube. This includes all variables 
 The following properties are usually available for dimensions:
 
 * name
-* type (potential types include: spatial (raster or vector data), temporal and other data such as bands)
+* type (potential types include: spatial (raster, DGGS, vector), temporal, and other data such as bands)
 * axis (for spatial dimensions) / number
-* labels (usually exposed through textual or numerical representations, in the metadata as nominal values and/or extents)
-* reference system / projection
+* labels (usually exposed through textual or numerical representations, in the metadata as nominal values and/or extents with number of steps)
+* reference system / projection (e.g. CRS, TRS, DGGRS)
 * resolution / step size
 * unit for the labels (either explicitly specified or implicitly provided by the reference system)
-* additional information specific to the dimension type (e.g. the geometry types for a dimension containing geometries)
+* additional information specific to the dimension type (e.g. the geometry types for a dimension containing geometries, DGGS-specific information)
 
 All these information are usually provided through the datacube metadata.
 
@@ -61,10 +61,18 @@ Here is an overview of the dimensions contained in our example raster datacube a
 | 3 | `bands` | bands    | `blue`, `green`, `red`, `nir`                                               | 4 bands    | -                                   |
 | 4 | `t`     | temporal | `2020-10-01`, `2020-10-13`, `2020-10-25`                                    | 12 days    | Gregorian calendar / UTC            |
 
-Dimension labels are usually either numerical or text (also known as "strings"), which also includes textual representations of timestamps or geometries for example.
-For example, temporal labels are usually encoded as [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) compatible dates and/or times and similarly geometries can be encoded as [Well-known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) or be represented by their IDs.
+Alternatively, spatial partitioning can be represented using a Discrete Global Grid System (DGGS) dimension instead of x/y coordinates:
 
-Dimensions with a natural/inherent order (usually all temporal and spatial raster dimensions) are always sorted. Dimensions without inherent order (usually `bands`), retain the order in which they have been defined in metadata or processes (e.g. through [`filter_bands`](https://processes.openeo.org/#filter_bands)), with new labels simply being appended to the existing labels.
+| # | name    | type       | labels                          | resolution       | reference system                                         |
+| - | ------- | ---------- | ------------------------------- | ---------------- | -------------------------------------------------------- |
+| 1 | `zone`  | dggs       | `C1A`, `C1B`, `C1C`, `C2A`     | 6 (refinement)   | [OGC HEALPix](https://www.opengis.net/def/dggrs/OGC/1.0/HEALPix) |
+| 2 | `bands` | bands      | `blue`, `green`, `red`, `nir`  | 4 bands          | -                                                        |
+| 3 | `t`     | temporal   | `2020-10-01`, `2020-10-13`, `2020-10-25` | 12 days | Gregorian calendar / UTC     |
+
+Dimension labels are usually either numerical or text (also known as "strings"), which also includes textual representations of timestamps, DGGS zone identifiers, or geometries for example.
+For example, temporal labels are usually encoded as [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) compatible dates and/or times, DGGS zone labels are unique identifiers within a specific DGGS Reference System (e.g., `C1A`, `C1B-1`), and geometries can be encoded as [Well-known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) or be represented by their IDs.
+
+Dimensions with a natural/inherent order (e.g. usually temporal and raster dimensions) are always sorted. Dimensions without inherent order (e.g. usually `bands`), retain the order in which they have been defined in metadata or processes (e.g. through [`filter_bands`](https://processes.openeo.org/#filter_bands)), with new labels simply being appended to the existing labels.
 
 A geometry dimension is not included in the example raster datacube above and it is not used in the following examples, but to show how a vector dimension with two polygons could look like:
 
@@ -86,11 +94,15 @@ The resolution of a dimension gives information about what interval lies between
 
 ### Coordinate Reference System as a Dimension
 
-In the example above, _x_ and _y_ dimension values have a _unique_ relationship to world coordinates through their coordinate reference system (CRS). This implies that a single coordinate reference system is associated with these _x_ and _y_ dimensions. If we want to create a data cube from multiple tiles spanning different coordinate reference systems (e.g. Sentinel-2: different UTM zones), we would _have_ to resample/warp those to a single coordinate reference system. In many cases, this is wanted because we want to be able to _look_ at the result, meaning it is available in a single coordinate reference system.
+In raster datacubes, _x_ and _y_ dimension values have a _unique_ relationship to world coordinates through their coordinate reference system (CRS). This implies that a single coordinate reference system is associated with these _x_ and _y_ dimensions. If we want to create a data cube from multiple tiles spanning different coordinate reference systems (e.g. Sentinel-2: different UTM zones), we would _have_ to resample/warp those to a single coordinate reference system. In many cases, this is wanted because we want to be able to _look_ at the result, meaning it is available in a single coordinate reference system.
 
 Resampling is however costly, involves (some) data loss, and is in general not reversible. Suppose that we want to work only on the spectral and temporal dimensions of a data cube, and do not want to do any resampling. In that case, one could create one data cube for each coordinate reference system. An alternative would be to create one _single_ data cube containing all tiles that has an _additional dimension_ with the coordinate reference system. In that data cube, _x_ and _y_ no longer point to a unique world coordinate, because identical _x_ and _y_ coordinate pairs occur in each UTM zone. Now, only the combination (_x_, _y_, _crs_) has a unique relationship to the world coordinates.
 
 On such a _crs-dimensioned data cube_, several operations make perfect sense, such as `apply` or `reduce_dimension` on spectral and/or temporal dimensions. A simple reduction over the `crs` dimension, using _sum_ or _mean_ would typically not make sense. The "reduction" (removal) of the `crs` dimension that is meaningful involves the resampling/warping of all sub-cubes for the `crs` dimension to a single, common target coordinate reference system.
+
+For global-scale analysis, **DGGS dimensions offer an alternative**: they inherently avoid multi-CRS complexity because equal-area zones are defined globally. A DGGS dimension has a single DGGRS reference and naturally supports hierarchical multi-resolution access without reprojection.
+
+Most DGGS implementations are surface-based (2D). For elevation, depth, pressure level, or altitude, prefer a separate vertical spatial dimension (`z`) instead of encoding vertical information in the DGGS dimension. Only model vertical information directly in DGGS when the selected DGGRS natively defines volumetric zones.
 
 ## Values in a datacube
 

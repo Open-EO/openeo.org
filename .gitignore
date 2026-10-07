@@ -1,4 +1,5 @@
 /node_modules/
-/.vuepress/dist
-/.vuepress/public/assets/documentation/*/processes.json
+/.vitepress/dist
+/.vitepress/cache
+/public/documentation/*/processes.json
 /psc.md

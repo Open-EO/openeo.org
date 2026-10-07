@@ -2,7 +2,7 @@
 	"name": "openeo.org",
 	"version": "1.0.0",
 	"author": "openEO Consortium",
-	"description": "The openEO homepage, powered by VuePress.",
+	"description": "The openEO homepage, powered by VitePress.",
 	"license": "Apache-2.0",
 	"homepage": "http://openeo.org",
 	"bugs": {
@@ -13,20 +13,15 @@
 		"url": "https://github.com/Open-EO/openeo.org.git"
 	},
 	"devDependencies": {
-		"@openeo/processes-docgen": "^1.5.0",
-		"@vuepress/plugin-active-header-links": "^1.5.2",
-		"dayjs": "^1.8.30",
-		"sass": "^1.35.2",
-		"sass-loader": "^10.2.0",
-		"vuepress": "^1.5.2",
-		"vuepress-plugin-check-md": "0.0.2",
-		"vuepress-plugin-code-copy": "^1.0.6",
-		"vuepress-plugin-code-switcher": "^1.1.0"
+		"medium-zoom": "^1.1.0",
+		"vitepress": "^1.6.4"
 	},
 	"scripts": {
-		"prepare": "node .vuepress/prepare.js",
-		"build": "npm run prepare && vuepress build",
-		"start": "npm run prepare && vuepress dev",
-		"test": "npm run prepare && vuepress check-md"
-	}
+		"prepare": "node .vitepress/prepare.js",
+		"build": "npm run prepare && vitepress build",
+		"start": "npm run prepare && vitepress dev",
+		"preview": "vitepress preview",
+		"test": "npm run build"
+	},
+	"type": "module"
 }

@@ -1,5 +1,5 @@
 ---
-fullpage: true
-stripCSS: true
+layout: page
+footer: false
 ---
 <ApiSpec />

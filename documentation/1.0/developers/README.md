@@ -12,7 +12,7 @@ As an overview, the openEO API specifies how to
 
 The API is defined as an [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md) YAML file.
 
-The API and processes are grouped into [compliance profiles](./profiles/README.md).
+The API and processes are grouped into [compliance profiles](./profiles/).
 
 ## Additional information
 

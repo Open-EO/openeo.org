@@ -18,6 +18,27 @@ If you'd like to get an invite for your calender, please send an e-mail to [open
 
 | Date              | Topic                                 | Presented / Moderated by          | Host |
 | ----------------- | ------------------------------------- | --------------------------------- | ---- |
+| 4. November 2026  | openEO Agent                          | Victor Verhaert, VITO             | MM   |
+| 2. December 2026  | ML for embeddings / openEO Slurm      | Jonas Hurst, Uni MS & Peter Zellner, EURAC | MM   |
+| 5. January 2027   | Documentation updates                 | Pratichhya Sharma, VITO           | MM   |
+| 3. February 2027  | tbd                                   | tbd                               | MM   |
+| 3. March 2027     | tbd                                   | tbd                               | MM   |
+| 7. April 2027     | tbd                                   | tbd                               | MM   |
+| 5. May 2027       | tbd                                   | tbd                               | MM   |
+| 2. June 2027      | tbd                                   | tbd                               | MM   |
+| 7. July 2027      | tbd                                   | tbd                               | MM   |
+| 4. August 2027    | **No meeting - summer break!**        | -                                 | -    |
+| 1. September 2027 | tbd                                   | tbd                               | MM   |
+| 6. October 2027   | tbd                                   | tbd                               | MM   |
+
+If you are interested to give a talk or lead a discussion, please send an e-mail to [openeo.psc@uni-muenster.de](mailto:openeo.psc@uni-muenster.de).
+
+## Past Topics
+
+### 2026
+
+| Date              | Topic                                 | Presented / Moderated by          | Host |
+| ----------------- | ------------------------------------- | --------------------------------- | ---- |
 | 7. January 2026   | Processes & API - Status quo and DGGS | Matthias Mohr, moreGeo            | MM   |
 | 4. February 2026  | The new openEO QGIS plugin            | Caro Niebl, moreGeo               | CN   |
 | 4. March 2026     | openEO Studio                         | Emmanuel Mathot, Development Seed | MM   |
@@ -28,13 +49,6 @@ If you'd like to get an invite for your calender, please send an e-mail to [open
 | 5. August 2026    | **No meeting - summer break!**        | -                                 | -    |
 | 1. September 2026 | MCP for openEO                        | Victor Verhaert, VITO             | HV/JD |
 | 7. October 2026   | DGGS in openEO                        | Matthias Mohr, moreGeo            | MM   |
-| 4. November 2026  | openEO Agent                          | Hans Vanrompay, VITO (tbc)        | MM   |
-| 2. December 2026  | ML for embeddings / openEO Slurm      | Jonas Hurst & Peter Zellner       | MM   |
-| 5. January 2027   | Documentation updates                 | Pratichhya Sharma, VITO           | MM   |
-
-If you are interested to give a talk or lead a discussion, please send an e-mail to [openeo.psc@uni-muenster.de](mailto:openeo.psc@uni-muenster.de).
-
-## Past Topics
 
 ### 2025
 

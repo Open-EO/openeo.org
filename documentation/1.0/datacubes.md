@@ -65,12 +65,12 @@ Alternatively, spatial partitioning can be represented using a Discrete Global G
 
 | # | name    | type       | labels                          | resolution       | reference system                                         |
 | - | ------- | ---------- | ------------------------------- | ---------------- | -------------------------------------------------------- |
-| 1 | `zone`  | dggs       | `C1A`, `C1B`, `C1C`, `C2A`     | 6 (refinement)   | [OGC HEALPix](https://www.opengis.net/def/dggrs/OGC/1.0/HEALPix) |
+| 1 | `zone`  | dggs       | `C1-A`, `C1-B`, `C1-C`, `C2-A` | 2 (refinement)   | [OGC HEALPix](https://www.opengis.net/def/dggrs/OGC/1.0/HEALPix) |
 | 2 | `bands` | bands      | `blue`, `green`, `red`, `nir`  | 4 bands          | -                                                        |
 | 3 | `t`     | temporal   | `2020-10-01`, `2020-10-13`, `2020-10-25` | 12 days | Gregorian calendar / UTC     |
 
 Dimension labels are usually either numerical or text (also known as "strings"), which also includes textual representations of timestamps, DGGS zone identifiers, or geometries for example.
-For example, temporal labels are usually encoded as [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) compatible dates and/or times, DGGS zone labels are unique identifiers within a specific DGGS Reference System (e.g., `C1A`, `C1B-1`), and geometries can be encoded as [Well-known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) or be represented by their IDs.
+For example, temporal labels are usually encoded as [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) compatible dates and/or times, DGGS zone labels are unique identifiers within a specific DGGS Reference System (e.g., `C1-A`, `D1-3F`), and geometries can be encoded as [Well-known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) or be represented by their IDs.
 
 Dimensions with a natural/inherent order (e.g. usually temporal and raster dimensions) are always sorted. Dimensions without inherent order (e.g. usually `bands`), retain the order in which they have been defined in metadata or processes (e.g. through [`filter_bands`](https://processes.openeo.org/#filter_bands)), with new labels simply being appended to the existing labels.
 

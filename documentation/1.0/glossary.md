@@ -46,15 +46,15 @@ A **pixel** is the smallest unit of a raster, representing a discrete cell in th
 
 ### Discrete Global Grids
 
-A **Discrete Global Grid System (DGGS)** is a spatial partitioning system that divides the Earth's surface into a hierarchical set of discrete, equal-area grid cells called **zones**. Unlike rasters, DGGS systems have no single global coordinate reference system—instead, each zone is identified by a unique **zone identifier** (a string label like `C1A` or `C1B-1`).
+A **Discrete Global Grid System (DGGS)** is a spatial partitioning system that divides the Earth's surface into a hierarchical set of discrete, often equal-area grid cells called **zones**. Unlike rasters, DGGS systems have no single global coordinate reference system—instead, each zone is identified by a unique **zone identifier** (a string label like `C1-A` or `D1-3F`).
 
 A **zone** is a discrete cell in a DGGS grid. Each zone represents a specific area of the Earth's surface and is identified by a unique zone ID. Zones are hierarchically organized into multiple levels, allowing multi-resolution representation: coarser levels have fewer, larger zones, while finer levels have more, smaller zones.
 
-A **zone identifier** is a string label that uniquely identifies a zone within a DGGS. Examples include `C1A`, `C1B`, or `C2A-1` for HEALPix DGGS. Zone IDs encode both location and hierarchy, making it easy to determine parent/child relationships between zones at different refinement levels.
+A **zone identifier** is a string label that uniquely identifies a zone within a DGGS. Examples include `C1-A`, `C1-B`, or `D1-3F` for the OGC definition of HEALPix. Zone IDs encode both location and hierarchy, making it easy to determine parent/child relationships between zones at different refinement levels.
 
 A **DGGRS (Discrete Global Grid Reference System)** specifies which DGGS standard and parameters are used, e.g. [HEALPix](https://healpix.sourceforge.io/).
 
-A **refinement level** (or **resolution**) is a hierarchical level in a DGGS that determines the size and number of zones. Level 0 is the coarsest (fewest, largest zones), and higher levels are progressively finer. Each zone at a coarser level contains multiple zones at finer levels.
+A **refinement level** (or **resolution**) is a hierarchical level in a DGGS that determines the size and number of zones. Level 0 is the coarsest (fewest, largest zones), and higher levels are progressively finer. Each zone at a coarser level corresponds to multiple zones at finer levels. Depending on the DGGS, these zones are either fully nested within the coarser zone or may partially extend beyond it (e.g., in hexagonal DGGS such as ISEA3H).
 
 ### Vectors
 

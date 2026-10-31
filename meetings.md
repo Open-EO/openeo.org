@@ -21,7 +21,7 @@ If you'd like to get an invite for your calender, please send an e-mail to [open
 | 4. November 2026  | openEO Agent                          | Victor Verhaert, VITO             | MM   |
 | 2. December 2026  | ML for embeddings / openEO Slurm      | Jonas Hurst, Uni MS & Peter Zellner, EURAC | MM   |
 | 5. January 2027   | Documentation updates                 | Pratichhya Sharma, VITO           | MM   |
-| 3. February 2027  | tbd                                   | tbd                               | MM   |
+| 3. February 2027  | openEO Web Engine                     | Matthias Mohr, moreGeo            | MM   |
 | 3. March 2027     | tbd                                   | tbd                               | MM   |
 | 7. April 2027     | tbd                                   | tbd                               | MM   |
 | 5. May 2027       | tbd                                   | tbd                               | MM   |

@@ -63,14 +63,14 @@ Here is an overview of the dimensions contained in our example raster datacube a
 
 Alternatively, spatial partitioning can be represented using a Discrete Global Grid System (DGGS) dimension instead of x/y coordinates:
 
-| # | name    | type       | labels                          | resolution       | reference system                                         |
-| - | ------- | ---------- | ------------------------------- | ---------------- | -------------------------------------------------------- |
-| 1 | `zone`  | dggs       | `C1-A`, `C1-B`, `C1-C`, `C2-A` | 2 (refinement)   | [OGC HEALPix](https://www.opengis.net/def/dggrs/OGC/1.0/HEALPix) |
-| 2 | `bands` | bands      | `blue`, `green`, `red`, `nir`  | 4 bands          | -                                                        |
-| 3 | `t`     | temporal   | `2020-10-01`, `2020-10-13`, `2020-10-25` | 12 days | Gregorian calendar / UTC     |
+| # | name    | type     | labels                                   | resolution             | reference system                                                           |
+| - | ------- | -------- | ---------------------------------------- | ---------------------- | -------------------------------------------------------------------------- |
+| 1 | `zone`  | dggs     | `44360`, `44361`, `44362`, `44363`       | refinement level 8     | [HEALPix](https://www.opengis.net/def/dggrs/OGC/1.0/HEALPix) (nested)      |
+| 2 | `bands` | bands    | `blue`, `green`, `red`, `nir`            | 4 bands                | -                                                                          |
+| 3 | `t`     | temporal | `2020-10-01`, `2020-10-13`, `2020-10-25` | 12 days                | Gregorian calendar / UTC                                                   |
 
 Dimension labels are usually either numerical or text (also known as "strings"), which also includes textual representations of timestamps, DGGS zone identifiers, or geometries for example.
-For example, temporal labels are usually encoded as [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) compatible dates and/or times, DGGS zone labels are unique identifiers within a specific DGGS Reference System (e.g., `C1-A`, `D1-3F`), and geometries can be encoded as [Well-known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) or be represented by their IDs.
+For example, temporal labels are usually encoded as [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) compatible dates and/or times, DGGS zone labels are textual zone identifiers defined by the DGGS reference system (e.g. `44360` for HEALPix with the nested indexing scheme), and geometries can be encoded as [Well-known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry) or be represented by their IDs.
 
 Dimensions with a natural/inherent order (e.g. usually temporal and raster dimensions) are always sorted. Dimensions without inherent order (e.g. usually `bands`), retain the order in which they have been defined in metadata or processes (e.g. through [`filter_bands`](https://processes.openeo.org/#filter_bands)), with new labels simply being appended to the existing labels.
 
@@ -100,7 +100,7 @@ Resampling is however costly, involves (some) data loss, and is in general not r
 
 On such a _crs-dimensioned data cube_, several operations make perfect sense, such as `apply` or `reduce_dimension` on spectral and/or temporal dimensions. A simple reduction over the `crs` dimension, using _sum_ or _mean_ would typically not make sense. The "reduction" (removal) of the `crs` dimension that is meaningful involves the resampling/warping of all sub-cubes for the `crs` dimension to a single, common target coordinate reference system.
 
-For global-scale analysis, **DGGS dimensions offer an alternative**: they inherently avoid multi-CRS complexity because equal-area zones are defined globally. A DGGS dimension has a single DGGRS reference and naturally supports hierarchical multi-resolution access without reprojection.
+For global-scale analysis, **DGGS dimensions offer an alternative**: they inherently avoid multi-CRS complexity because the zones are defined for the whole globe in a single reference system. A DGGS dimension has a single DGGRS reference and naturally supports hierarchical multi-resolution access without reprojection.
 
 Most DGGS implementations are surface-based (2D). For elevation, depth, pressure level, or altitude, prefer a separate vertical spatial dimension (`z`) instead of encoding vertical information in the DGGS dimension. Only model vertical information directly in DGGS when the selected DGGRS natively defines volumetric zones.
 

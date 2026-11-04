@@ -3,3 +3,4 @@
 /.vitepress/cache
 /public/documentation/*/processes.json
 /psc.md
+/.lycheecache

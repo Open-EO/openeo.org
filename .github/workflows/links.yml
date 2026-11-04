@@ -1,0 +1,28 @@
+name: Check links
+on:
+  pull_request:
+  schedule:
+    - cron: "0 6 * * 1" # Weekly check including external links
+  workflow_dispatch:
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - run: npm install
+      - run: npm run build
+      - name: Check internal links, anchors and images
+        if: github.event_name == 'pull_request'
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --config lychee.toml --offline --root-dir ${{ github.workspace }}/.vitepress/dist .vitepress/dist
+      - name: Check all links, including external ones
+        if: github.event_name != 'pull_request'
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --config lychee.toml --root-dir ${{ github.workspace }}/.vitepress/dist .vitepress/dist

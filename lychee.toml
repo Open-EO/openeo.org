@@ -1,0 +1,27 @@
+# Link checks for the built website, see .github/workflows/links.yml
+no_progress = true
+include_fragments = "anchor-only"
+extensions = ["html"]
+index_files = ["index.html"]
+
+# Some websites block automated requests
+accept = ["200..=299", "403", "429"]
+max_retries = 2
+timeout = 20
+
+cache = true
+max_cache_age = "1d"
+
+exclude = [
+  # Anchors on these pages are rendered by JavaScript (iframe and Redoc)
+  '^file://.*/documentation/[^/]+/processes\.html',
+  '^file://.*/developers/api/reference\.html',
+  '^https://processes\.openeo\.org/.*#',
+  '^https://docs\.openeo\.cloud/processes/.*#',
+  '^https://docs\.terrascope\.be/.*#',
+]
+
+exclude_path = [
+  # Outdated documentation from the API repository
+  'documentation[/\\]0\.4[/\\]developers[/\\]api[/\\]docs',
+]

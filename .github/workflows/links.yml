@@ -4,16 +4,20 @@ on:
   schedule:
     - cron: "0 6 * * 1" # Weekly check including external links
   workflow_dispatch:
+permissions:
+  contents: read
 jobs:
   links:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22.x'
-      - uses: actions/checkout@v4
+          node-version: '26.x'
+      - uses: actions/checkout@v7
         with:
           submodules: true
+          # npm install/build runs code from the PR, so the token must not stay in .git/config
+          persist-credentials: false
       - run: npm install
       - run: npm run build
       - name: Check internal links, anchors and images
